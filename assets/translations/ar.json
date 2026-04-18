@@ -1,0 +1,61 @@
+{
+  "welcome_back": "مرحبًا بعودتك",
+  "user_name": "{}",
+
+  "create_request": "إنشاء طلب جديد +",
+
+  "our_services": "خدماتنا",
+
+  "pet_care": "رعاية الحيوانات",
+  "pet_care_desc": "رعاية احترافية لحيواناتك الأليفة أثناء غيابك",
+
+  "elderly_care": "رعاية كبار السن",
+  "elderly_care_desc": "رعاية إنسانية لكبار السن من أفراد عائلتك",
+
+  "child_care": "رعاية الأطفال",
+  "child_care_desc": "خدمات رعاية أطفال آمنة وموثوقة في المنزل",
+
+  "plant_care": "رعاية النباتات",
+  "plant_care_desc": "عناية متخصصة بالنباتات للحفاظ على حديقة منزلك",
+
+  "active_requests": "الطلبات الحالية",
+  "view_all": "عرض الكل",
+
+  "starts": "يبدأ: {}",
+  "provider": "المقدم: {}",
+
+  "pending": "قيد الانتظار",
+  "accepted": "تم القبول",
+
+  "pet_care_short": "كلب • 5 أيام",
+  "elderly_care_short": "3 أيام",
+
+  "why_choose": "لماذا تختار CareConnect",
+
+  "verified_providers": "مقدّمين\nموثوقين",
+  "trusted_care": "رعاية موثوقة",
+  "support_247": "دعم 24/7",
+  "experienced_staff": "فريق\nمحترف",
+
+  "home": "الرئيسية",
+  "requests": "الطلبات",
+  "booking": "الحجوزات",
+  "profile": "الملف الشخصي",
+
+
+  "my_requests": "طلباتي",
+
+  "all": "الكل",
+  "active": "نشط",
+  "completed": "مكتمل",
+
+  "start_date": "تاريخ البدء",
+  "amount": "المبلغ",
+
+  "view_offers": "عرض العروض",
+  "view_details": "عرض التفاصيل",
+  "rate_service": "تقييم الخدمة",
+
+  "received_offers": "تم استلام {} عروض"
+
+}

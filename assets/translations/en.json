@@ -1,0 +1,59 @@
+{
+  "welcome_back": "Welcome back",
+  "user_name": "{}",
+  "Create_request": "+ Create New Request",
+
+  "Our_services": "Our Services",
+
+  "pet_care": "Pet Care",
+  "pet_care_desc": "Professional care for your pets while you're away",
+
+  "elderly_care": "Elderly Care",
+  "elderly_care_desc": "Compassionate care for your elderly loved ones",
+
+  "child_care": "Child Care",
+  "child_care_desc": "Safe and reliable childcare services at home",
+
+  "plant_care": "Plant Care",
+  "plant_care_desc": "Expert plant care and maintenance for your home garden",
+
+  "active_requests": "Active Requests",
+  "view_all": "View All",
+
+  "pending": "Pending",
+  "accepted": "Accepted",
+
+  "pet_care_short": "Dog • 5 days",
+  "elderly_care_short": "3 days",
+
+  "starts": "Starts: {}",
+  "provider": "Provider: {}",
+
+  "why_choose": "Why Choose CareConnect",
+
+  "verified_providers": "verified\nProviders",
+  "trusted_care": "trusted Care",
+  "support_247": "24/7 Support",
+  "experienced_staff": "Experienced\nStaff",
+
+  "home": "Home",
+  "requests": "Requests",
+  "booking": "Booking",
+  "profile": "Profile",
+
+  "my_requests": "My Requests",
+
+  "all": "All",
+  "active": "Active",
+  "completed": "Completed",
+
+  "start_date": "Start Date",
+  "amount": "Amount",
+
+  "view_offers": "View Offers",
+  "view_details": "View Details",
+  "rate_service": "Rate Service",
+
+  "received_offers": "Received Offers {}"
+
+}
