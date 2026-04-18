@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/home_screen/ui/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class BottomNavBar extends StatefulWidget {
@@ -10,6 +11,8 @@ class BottomNavBar extends StatefulWidget {
 class _BottomNavBarState extends State<BottomNavBar> {
   @override
   Widget build(BuildContext context) {
-    return
+    return HomeScreen();
+
+
   }
 }
