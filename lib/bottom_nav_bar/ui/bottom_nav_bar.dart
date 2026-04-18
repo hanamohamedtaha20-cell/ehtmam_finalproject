@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
@@ -13,7 +14,7 @@ class CustomBottomNavBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 93.61,
+      height: 80,
       width: double.infinity,
       decoration: BoxDecoration(
         gradient: LinearGradient(
@@ -29,10 +30,10 @@ class CustomBottomNavBar extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            _navItem(Icons.home, "Home", 0),
-            _navItem(Icons.assignment, "Requests", 1),
-            _navItem(Icons.calendar_today, "Booking", 2),
-            _navItem(Icons.person, "Profile", 3),
+            _navItem(Icons.home, "home".tr(), 0),
+            _navItem(Icons.assignment, "Requests".tr(), 1),
+            _navItem(Icons.calendar_today, "Booking".tr(), 2),
+            _navItem(Icons.person, "Profile".tr(), 3),
           ],
         ),
       ),
@@ -57,7 +58,7 @@ class CustomBottomNavBar extends StatelessWidget {
           ),
           const SizedBox(height: 4),
           Text(
-            label,
+            label.tr(),
             style: TextStyle(
               color: isSelected ? Colors.white : Colors.white70,
               fontSize: 12,

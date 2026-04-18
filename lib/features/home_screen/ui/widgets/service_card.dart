@@ -1,13 +1,12 @@
 import "package:flutter/cupertino.dart";
 import "package:flutter/material.dart";
 
-
 class ServiceCardWidget extends StatelessWidget {
   final Widget icon; // Using Widget to allow for Emojis (Text) or Icons
   final List<Color> gradientColors;
   final String title;
   final String subtitle;
-  final List<Color> gradientBGColors ;
+  final List<Color> gradientBGColors;
 
   const ServiceCardWidget({
     super.key,
@@ -21,8 +20,8 @@ class ServiceCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 8),
+      padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topLeft,
@@ -34,7 +33,7 @@ class ServiceCardWidget extends StatelessWidget {
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
             blurRadius: 10,
-            offset: const Offset(0, 4),
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -62,7 +61,7 @@ class ServiceCardWidget extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Color(0xFF1A1C2E),

@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class WhyChooseCardWidget extends StatelessWidget {
@@ -15,8 +16,8 @@ class WhyChooseCardWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      margin: EdgeInsets.all(8),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
@@ -24,7 +25,7 @@ class WhyChooseCardWidget extends StatelessWidget {
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
             blurRadius: 10,
-            offset: const Offset(0, 4),
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -32,9 +33,9 @@ class WhyChooseCardWidget extends StatelessWidget {
         children: [
           Image.asset(icon),
           Text(
-            title,
+            title.tr(),
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 12),
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
           ),
         ],
       ),
