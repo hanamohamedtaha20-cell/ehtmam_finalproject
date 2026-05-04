@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../login_required_screen/ui/screens/login_requred_screen.dart';
+import '../../data/model/user_model.dart';
 
 
 class HeaderWidget extends StatelessWidget {
-  const HeaderWidget({super.key});
-
+  const HeaderWidget({super.key, required this.user});
+  final UserModel user;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +23,7 @@ class HeaderWidget extends StatelessWidget {
                 children: [
                   Text("welcome back".tr()),
                   Text(
-                    "user_name".tr(args: ["Gena"]),
+                    "user_name".tr(args: [user.name]),
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ],
@@ -36,7 +37,7 @@ class HeaderWidget extends StatelessWidget {
             height: 50,
             child: Container(
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient:  LinearGradient(
                   colors: [Color(0xFF3A8BD7), Color(0xFFD8E3E9)],
                 ),
                 borderRadius: BorderRadius.circular(16),

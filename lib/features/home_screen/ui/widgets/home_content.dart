@@ -1,13 +1,18 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import '../../../requests_screen/ui/screens/requests_screen.dart';
+import '../../data/model/user_model.dart';
 import 'request_card.dart';
 import 'header.dart';
 import 'service_card.dart';
 import 'whyChoose_card.dart';
 
 class HomeContent extends StatelessWidget {
-  const HomeContent({super.key});
+   HomeContent({super.key});
+  final user = UserModel(
+    name: "ahmed",
 
+  );
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -15,7 +20,7 @@ class HomeContent extends StatelessWidget {
       child: ListView(
         children: [
           /// 🔹 HEADER
-          const HeaderWidget(),
+           HeaderWidget(user: user,),
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             height: 1,
@@ -81,7 +86,23 @@ class HomeContent extends StatelessWidget {
                 "Active Requests".tr(),
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
-              Text("View All".tr(), style: TextStyle(color: Color(0xFF6C63FF))),
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RequestsScreen(),
+                    ),
+                  );
+                },
+
+                child: Text(
+                  "View All".tr(),
+                  style: TextStyle(
+                    color: Color(0xFF6C63FF),
+                  ),
+                ),
+              ),
             ],
           ),
 

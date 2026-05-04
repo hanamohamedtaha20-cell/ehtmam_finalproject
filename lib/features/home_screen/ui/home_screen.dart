@@ -1,7 +1,7 @@
 import 'package:ehtemam_final_project/features/home_screen/ui/widgets/language_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/widgets/home_content.dart';
-import '../../../bottom_nav_bar/ui/bottom_nav_bar.dart';
+import '../../bottom_nav_bar/ui/bottom_nav_bar.dart';
 import '../../requests_screen/ui/screens/requests_screen.dart';
 
 class HomeScreen extends StatefulWidget {

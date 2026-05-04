@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/home_screen/ui/home_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../../features/home_screen/ui/home_screen.dart';
 
 class BottomNavBar extends StatefulWidget {
   const BottomNavBar({super.key});
