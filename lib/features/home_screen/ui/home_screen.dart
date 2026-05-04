@@ -1,5 +1,7 @@
+import 'package:ehtemam_final_project/features/bookings/ui/screens/booking_screen.dart';
 import 'package:ehtemam_final_project/features/bottom_nav_bar/ui/bottom_nav_bar.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/widgets/language_switcher.dart';
+import 'package:ehtemam_final_project/features/profile2/ui/screens/profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/widgets/home_content.dart';
 import '../../requests_screen/ui/screens/requests_screen.dart';
@@ -17,8 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _pages = [
     HomeContent(),
     RequestsScreen(),
-    Center(child: Text("Booking Screen")),
-    Center(child: Text("Profile Screen")),
+    BookingScreen(),
+    ProfileScreen(),
   ];
 
   @override

@@ -28,12 +28,11 @@ class AppLayout extends StatelessWidget {
             ),
           ),
 
-          /// 🔥 زرار اللغة ثابت فوق
           Positioned(
             top: 40,
             right: Directionality.of(context) == TextDirection.ltr ? 16 : null,
             left: Directionality.of(context) == TextDirection.rtl ? 16 : null,
-            child: const LanguageSwitcher(),
+            child: LanguageSwitcher(),
           ),
         ],
       ),

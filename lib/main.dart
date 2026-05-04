@@ -7,7 +7,6 @@ import 'package:ehtemam_final_project/features/recharge_wallet/ui/screens/rechar
 import 'package:ehtemam_final_project/features/tasks/ui/screens/task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'package:device_preview/device_preview.dart';
 import 'features/home_screen/ui/home_screen.dart';
 
 void main() async{
@@ -23,8 +22,7 @@ void main() async{
           ],
           path: 'assets/translations',
           fallbackLocale: const Locale('en'),
-          child:DevicePreview(builder: (context)=> MyApp()))
-  );
+          child:MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -38,7 +36,7 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
-      home: TaskScreen(),
+      home: HomeScreen(),
     );
   }
 }

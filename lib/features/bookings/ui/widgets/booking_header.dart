@@ -10,32 +10,13 @@ class BookingHeader extends StatelessWidget {
       children: [
         GestureDetector(
           onTap: () => Navigator.pop(context),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: const [
-                BoxShadow(
-                    color: Color(0x1A000000),
-                    offset: Offset(0, 2),
-                    blurRadius: 4),
-              ],
-            ),
-            child: const Row(
+          child:  const Row(
               children: [
-                Icon(Icons.arrow_back_ios, size: 14, color: AppColors.textDark),
+                Icon(Icons.arrow_back, ),
                 SizedBox(width: 4),
-                Text("Back",
-                    style: TextStyle(
-                        fontFamily: "Arimo",
-                        fontSize: 13,
-                        color: AppColors.textDark)),
               ],
             ),
           ),
-        ),
-        const Spacer(),
         const Text(
           "myBookings",
           style: TextStyle(
