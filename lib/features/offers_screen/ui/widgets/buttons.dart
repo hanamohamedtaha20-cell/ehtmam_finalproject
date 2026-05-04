@@ -1,4 +1,8 @@
+import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
+import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
+import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ActionButtons extends StatelessWidget {
   ActionButtons({super.key});
@@ -41,7 +45,15 @@ class ActionButtons extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: () {
-              print("Process Payment 💸");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BlocProvider(
+                    create: (_) => PaymentCubit(PaymentRepo())..loadData(),
+                    child: const PaymentScreen(),
+                  ),
+                ),
+              );
             },
             child: Container(
               height: 45,

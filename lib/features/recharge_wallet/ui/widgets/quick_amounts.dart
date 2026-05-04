@@ -1,0 +1,52 @@
+import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:flutter/material.dart';
+
+class QuickAmounts extends StatelessWidget {
+  final double selectedAmount;
+  final ValueChanged<double> onSelected;
+
+  const QuickAmounts({
+    super.key,
+    required this.selectedAmount,
+    required this.onSelected,
+  });
+
+  static const List<double> _amounts = [50, 100, 200, 500];
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: _amounts.map((amount) {
+        final isSelected = selectedAmount == amount;
+        return GestureDetector(
+          onTap: () => onSelected(amount),
+          child: Container(
+            width: 70,
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            decoration: BoxDecoration(
+              color: isSelected ? AppColors.blue : Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              border: Border.all(
+                  color: isSelected ? AppColors.blue : Colors.grey.shade300),
+              boxShadow: const [
+                BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
+              ],
+            ),
+            child: Center(
+              child: Text(
+                amount.toInt().toString(),
+                style: TextStyle(
+                  fontFamily: "Arimo",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14,
+                  color: isSelected ? Colors.white : AppColors.textDark,
+                ),
+              ),
+            ),
+          ),
+        );
+      }).toList(),
+    );
+  }
+}
