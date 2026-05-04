@@ -9,36 +9,13 @@ class CustomHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(20),
-              boxShadow: const [
-                BoxShadow(
-                    color: Color(0x1A000000),
-                    offset: Offset(0, 2),
-                    blurRadius: 4),
-              ],
-            ),
-            child: const Row(
-              children: [
-                Icon(Icons.arrow_back_ios, size: 14, color: AppColors.textDark),
-                SizedBox(width: 4),
-                Text("Back",
-                    style: TextStyle(
-                        fontFamily: "Arimo",
-                        fontSize: 13,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.textDark)),
-              ],
-            ),
-          ),
-        ),
+        IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back),),
         const SizedBox(height: 20,),
-        const Spacer(),
+
         
         const Spacer(),
         const LanguageSwitcher(),

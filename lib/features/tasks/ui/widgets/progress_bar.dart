@@ -11,7 +11,8 @@ class TaskProgressBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final progress = total == 0 ? 0.0 : completed / total;
     return Container(
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.all(2),
+      padding:  EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),

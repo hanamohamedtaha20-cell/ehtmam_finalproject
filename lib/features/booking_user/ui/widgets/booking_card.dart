@@ -1,9 +1,9 @@
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
-import 'package:ehtemam_final_project/features/bookings/data/model/booking_model.dart';
-import 'package:ehtemam_final_project/features/bookings/ui/widgets/booking_action_buttons.dart';
-import 'package:ehtemam_final_project/features/bookings/ui/widgets/booking_info_row.dart';
-import 'package:ehtemam_final_project/features/bookings/ui/widgets/booking_status_badge.dart';
+import 'package:ehtemam_final_project/features/booking_user/ui/widgets/booking_status_badge.dart';
 import 'package:flutter/material.dart';
+import '../../data/model/booking_model.dart';
+import 'booking_action_buttons.dart';
+import 'booking_info_row.dart';
 
 class BookingCard extends StatelessWidget {
   final BookingModel booking;
@@ -13,13 +13,16 @@ class BookingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
+      margin: EdgeInsets.all(8),
+
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
+        boxShadow:  [
           BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
           BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+
         ],
       ),
       child: Column(

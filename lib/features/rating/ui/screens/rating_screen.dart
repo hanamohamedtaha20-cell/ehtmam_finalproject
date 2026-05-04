@@ -8,6 +8,8 @@ import 'package:ehtemam_final_project/features/rating/ui/widgets/submit_button.d
 import 'package:ehtemam_final_project/features/rating/ui/widgets/user_card.dart';
 import 'package:flutter/material.dart';
 
+import '../../../home_screen/ui/home_screen.dart';
+
 class RatingScreen extends StatefulWidget {
   const RatingScreen({super.key});
 
@@ -102,7 +104,17 @@ class _RatingScreenState extends State<RatingScreen> {
               const SizedBox(height: 16),
               SectionCard(child: ReviewField(controller: _reviewController)),
               const SizedBox(height: 24),
-              SubmitButton(onSubmit: () {}),
+              SubmitButton(
+                onSubmit: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen(),
+                    ),
+                        (route) => false,
+                  );
+                },
+              ),
               const SizedBox(height: 12),
               const Center(
                 child: Text(

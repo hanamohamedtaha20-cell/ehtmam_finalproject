@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/features/bookings/data/model/booking_model.dart';
+import '../data/model/booking_model.dart';
 
 abstract class BookingState {}
 

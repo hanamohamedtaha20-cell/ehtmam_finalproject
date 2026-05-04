@@ -1,6 +1,8 @@
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 
+import '../../../home_screen/ui/home_screen.dart';
+
 class BookingHeader extends StatelessWidget {
   const BookingHeader({super.key});
 
@@ -9,14 +11,16 @@ class BookingHeader extends StatelessWidget {
     return Row(
       children: [
         GestureDetector(
-          onTap: () => Navigator.pop(context),
-          child:  const Row(
-              children: [
-                Icon(Icons.arrow_back, ),
-                SizedBox(width: 4),
-              ],
-            ),
-          ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomeScreen(),
+                ),
+              );
+            },
+            child: Icon(Icons.arrow_back)),
+
         const Text(
           "myBookings",
           style: TextStyle(

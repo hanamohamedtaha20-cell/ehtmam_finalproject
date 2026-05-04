@@ -1,12 +1,13 @@
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
-import 'package:ehtemam_final_project/features/bookings/data/repo/booking_repo.dart';
-import 'package:ehtemam_final_project/features/bookings/manager/booking_cubit.dart';
-import 'package:ehtemam_final_project/features/bookings/manager/booking_state.dart';
-import 'package:ehtemam_final_project/features/bookings/ui/widgets/booking_card.dart';
-import 'package:ehtemam_final_project/features/bookings/ui/widgets/booking_header.dart';
-import 'package:ehtemam_final_project/features/bookings/ui/widgets/tabs_row.dart';
+import 'package:ehtemam_final_project/features/booking_user/data/repo/booking_repo.dart';
+import 'package:ehtemam_final_project/features/booking_user/manager/booking_cubit.dart';
+import 'package:ehtemam_final_project/features/booking_user/manager/booking_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../widgets/booking_card.dart';
+import '../widgets/booking_header.dart';
+import '../widgets/tabs_row.dart';
 
 class BookingScreen extends StatelessWidget {
   const BookingScreen({super.key});
@@ -38,7 +39,7 @@ class BookingScreen extends StatelessWidget {
                     Expanded(
                       child: state.filtered.isEmpty
                           ? const Center(
-                              child: Text("No bookings found",
+                              child: Text("No booking_user found",
                                   style: TextStyle(
                                       fontFamily: "Arimo",
                                       color: AppColors.textLight)))

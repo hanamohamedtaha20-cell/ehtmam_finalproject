@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/features/bookings/data/model/booking_model.dart';
+import '../model/booking_model.dart';
 
 class BookingRepo {
   List<BookingModel> getBookings() {

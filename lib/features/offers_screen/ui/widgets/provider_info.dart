@@ -1,8 +1,9 @@
+import 'package:ehtemam_final_project/features/offer_details_screen/data/model/provider_data.dart';
 import 'package:flutter/material.dart';
 
 class ProviderInfo extends StatelessWidget {
-  const ProviderInfo({super.key});
-
+  const ProviderInfo({super.key,required this.provider});
+  final ProviderModel provider;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -14,7 +15,7 @@ class ProviderInfo extends StatelessWidget {
           width: 55,
           height: 55,
           decoration: BoxDecoration(
-            color: Color(0xFFEDEBFA), // بنفس اللون البنفسجي الفاتح
+            color: Color(0xFFEDEBFA),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Center(
@@ -31,7 +32,7 @@ class ProviderInfo extends StatelessWidget {
 
             /// Name
             Text(
-              "Sarah Adam",
+             provider.name,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 16,
@@ -42,7 +43,7 @@ class ProviderInfo extends StatelessWidget {
 
             /// Subtitle
             Text(
-              "Paws & Claws Care",
+              provider.service,
               style: TextStyle(
                 color: Colors.grey,
                 fontSize: 12,
@@ -68,7 +69,7 @@ class ProviderInfo extends StatelessWidget {
                           size: 14, color: Colors.blue),
                       SizedBox(width: 4),
                       Text(
-                        "Verified",
+                        provider.isVerified ? "Verified" : "Not Verified" ,
                         style: TextStyle(
                           color: Colors.blue,
                           fontSize: 12,
@@ -93,7 +94,7 @@ class ProviderInfo extends StatelessWidget {
                           size: 14, color: Colors.green),
                       SizedBox(width: 4),
                       Text(
-                        "Certified",
+                        provider.isCertified ?"Certified" : "Not Certified" ,
                         style: TextStyle(
                           color: Colors.green,
                           fontSize: 12,

@@ -1,7 +1,8 @@
-import 'package:ehtemam_final_project/features/bookings/data/model/booking_model.dart';
-import 'package:ehtemam_final_project/features/bookings/data/repo/booking_repo.dart';
-import 'package:ehtemam_final_project/features/bookings/manager/booking_state.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../data/repo/booking_repo.dart';
+import 'booking_state.dart';
 
 class BookingCubit extends Cubit<BookingState> {
   final BookingRepo _repo;
