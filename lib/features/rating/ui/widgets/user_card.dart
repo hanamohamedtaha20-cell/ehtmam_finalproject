@@ -36,6 +36,7 @@ class UserCard extends StatelessWidget {
                   end: Alignment.bottomRight,
                 ),
               ),
+              
               child: const Icon(
                 Icons.person_outline,
                 size: 28,

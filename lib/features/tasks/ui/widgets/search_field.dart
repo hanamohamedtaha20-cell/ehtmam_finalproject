@@ -9,6 +9,7 @@ class TaskSearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),
@@ -48,15 +49,15 @@ class TaskSearchField extends StatelessWidget {
                   width: 90,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                   decoration: const BoxDecoration(
-                    color: AppColors.lightBlue, // 👈 light blue
-                    borderRadius: BorderRadius.horizontal(right: Radius.circular(14)),
+                    color: Color(0xFF97CCFD), // 👈 light blue
+                    borderRadius: BorderRadius.all(Radius.circular(16)),
                   ),
                    child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(Icons.add, color: Colors.white, size: 18),
                       const SizedBox(width: 6),
-                      const Text("Add Task",
+                      const Text("Add \n Task",
                           style: TextStyle(
                               fontFamily: "Arimo",
                               fontWeight: FontWeight.bold,

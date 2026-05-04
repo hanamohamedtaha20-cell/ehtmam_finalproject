@@ -13,7 +13,7 @@ class StatsRow extends StatelessWidget {
       children: [
         Expanded(child: _StatCard(label: "Active", count: activeCount, color: AppColors.blue)),
         const SizedBox(width: 12),
-        Expanded(child: _StatCard(label: "Completed", count: completedCount, color: AppColors.lightBlue, textColor: Colors.white)),      ],
+        Expanded(child: _StatCard(label: "Completed", count: completedCount, color: Color(0xFF97CCFD), textColor: Colors.white)),      ],
     );
   }
 }
