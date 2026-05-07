@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_details_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -34,7 +35,7 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
-      home: HomeScreen(),
+      home: BookingDetailsScreen(),
 
     );
   }

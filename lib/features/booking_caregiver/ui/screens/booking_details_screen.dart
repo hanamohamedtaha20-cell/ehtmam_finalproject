@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/client_info.dart';
+import '../widgets/date_time_card.dart';
 import '../widgets/earnings_button.dart';
 import '../widgets/header_card.dart';
+import '../widgets/service_details_card.dart';
+import '../widgets/special_instructions_card.dart';
 import '../widgets/tabs.dart';
 
 class BookingDetailsScreen extends StatelessWidget {
@@ -35,24 +38,25 @@ class BookingDetailsScreen extends StatelessWidget {
             const BookingTabs(),
             const SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding:  EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
                   ClientInfoCard(),
-                  const SizedBox(height: 16),
+                   SizedBox(height: 16),
                   ServiceDetailsCard(),
-                  const SizedBox(height: 16),
+                   SizedBox(height: 16),
                   DateTimeCard(),
-                  const SizedBox(height: 16),
+                   SizedBox(height: 16),
                   SpecialInstructionsCard(),
                 ],
               ),
             ),
-            const SizedBox(height: 100),
+             SizedBox(height: 100),
           ],
         ),
       ),
-      bottomSheet: const EarningsBottomBar(),
+      bottomSheet:  EarningsBottomBar(),
+
     );
   }
 }
