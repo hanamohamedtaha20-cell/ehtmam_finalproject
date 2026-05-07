@@ -21,7 +21,6 @@ class AppLayout extends StatelessWidget {
 
                 if (header != null) header!,
 
-
                 Expanded(child: body),
               ],
             ),

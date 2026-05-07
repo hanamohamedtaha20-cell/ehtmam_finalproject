@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/client_info.dart';
 import '../widgets/earnings_button.dart';
 import '../widgets/header_card.dart';
@@ -11,16 +10,16 @@ class BookingDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+      backgroundColor: Color(0xFFF8F9FA),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF5E5CFF),
+        backgroundColor: Color(0xFF5E5CFF),
         foregroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
+        title: Text(
           'Booking Details',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
-        actions: const [
+        actions: [
           Padding(
             padding: EdgeInsets.only(right: 16),
             child: Icon(Icons.more_horiz),
@@ -30,29 +29,29 @@ class BookingDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const BookingHeader(),
-            const SizedBox(height: 16),
-            const BookingTabs(),
-            const SizedBox(height: 20),
+             BookingHeader(),
+             SizedBox(height: 16),
+             BookingTabs(),
+             SizedBox(height: 20),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16),
               child: Column(
                 children: [
                   ClientInfoCard(),
-                  const SizedBox(height: 16),
+                   SizedBox(height: 16),
                   ServiceDetailsCard(),
-                  const SizedBox(height: 16),
+                   SizedBox(height: 16),
                   DateTimeCard(),
-                  const SizedBox(height: 16),
+                   SizedBox(height: 16),
                   SpecialInstructionsCard(),
                 ],
               ),
             ),
-            const SizedBox(height: 100),
+             SizedBox(height: 100),
           ],
         ),
       ),
-      bottomSheet: const EarningsBottomBar(),
+      bottomSheet:  EarningsBottomBar(),
     );
   }
 }
