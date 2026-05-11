@@ -1,6 +1,5 @@
-import 'package:ehtemam_final_project/features/login_required_screen/ui/widgets/pirmary.dart';
+import 'package:ehtmam_finalproject/features/login_required_screen/ui/widgets/pirmary.dart';
 import 'package:flutter/material.dart';
-
 import '../../../home_screen/ui/home_screen.dart';
 import 'outline_bottom.dart';
 

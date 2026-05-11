@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:ehtemam_final_project/features/offers_screen/ui/screens/offers_screen.dart';
-import 'package:ehtemam_final_project/features/requests_screen/ui/widgets/status_badge.dart';
+import 'package:ehtmam_finalproject/features/requests_screen/ui/widgets/status_badge.dart';
 import 'package:flutter/material.dart';
+import '../../../offers_screen/ui/screens/offers_screen.dart';
 import '../../data/model.dart';
 import '../../data/request_type.dart';
 import 'action_button.dart';

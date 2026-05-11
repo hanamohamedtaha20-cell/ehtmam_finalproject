@@ -1,7 +1,8 @@
-import 'package:ehtemam_final_project/features/offers_screen/ui/widgets/price_row.dart';
-import 'package:ehtemam_final_project/features/offers_screen/ui/widgets/provider_info.dart';
-import 'package:ehtemam_final_project/features/offers_screen/ui/widgets/rating_row.dart';
-import 'package:ehtemam_final_project/features/offers_screen/ui/widgets/specialization_box.dart';
+
+import 'package:ehtmam_finalproject/features/offers_screen/ui/widgets/price_row.dart';
+import 'package:ehtmam_finalproject/features/offers_screen/ui/widgets/provider_info.dart';
+import 'package:ehtmam_finalproject/features/offers_screen/ui/widgets/rating_row.dart';
+import 'package:ehtmam_finalproject/features/offers_screen/ui/widgets/specialization_box.dart';
 import 'package:flutter/material.dart';
 import 'buttons.dart';
 import 'notes.dart';
