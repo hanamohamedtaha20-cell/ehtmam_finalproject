@@ -22,12 +22,12 @@ class RatingRow extends StatelessWidget {
         color: const Color(0xFFF8FAFC),
         borderRadius: BorderRadius.circular(12),
         border: Border.all(color: const Color(0xFFEEEEEE)),
-        boxShadow: const [
-          BoxShadow(
-              color: Color(0x1A000000),
-              offset: Offset(0, 2),
-              blurRadius: 4),
-        ],
+      //   boxShadow: const [
+      //     BoxShadow(
+      //         color: Color(0x1A000000),
+      //         offset: Offset(0, 2),
+      //         blurRadius: 4),
+      //   ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

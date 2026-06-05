@@ -1,38 +1,19 @@
-import 'package:ehtemam_final_project/features/tasks/data/model/task_model.dart';
+import 'package:ehtemam_final_project/core/network/api_services.dart';
+import '../model/task_model.dart';
 
 class TaskRepo {
-  List<TaskModel> getTasks() {
-    return [
-      const TaskModel(
-        id: '1',
-        description: 'Pick dog food and favorite toys',
-        category: TaskCategory.petCare,
-        status: TaskStatus.active,
-      ),
-      const TaskModel(
-        id: '2',
-        description: 'Write down feeding schedule and special instructions',
-        category: TaskCategory.petCare,
-        status: TaskStatus.active,
-      ),
-      const TaskModel(
-        id: '3',
-        description: 'Prepare medication and vet contact info',
-        category: TaskCategory.petCare,
-        status: TaskStatus.active,
-      ),
-      const TaskModel(
-        id: '4',
-        description: 'Confirm service provider availability',
-        category: TaskCategory.elderCare,
-        status: TaskStatus.active,
-      ),
-      const TaskModel(
-        id: '5',
-        description: 'Prepare list of daily medications',
-        category: TaskCategory.childCare,
-        status: TaskStatus.active,
-      ),
-    ];
+  final ApiService _api = ApiService();
+
+  Future<List<TaskModel>> getTasks() async {
+    final result = await _api.getAllTasks();
+    if (result['status'] == 'success') {
+      final list = result['data'] as List? ?? [];
+      return list.map((t) => TaskModel.fromJson(t)).toList();
+    }
+    return [];
+  }
+
+  Future<void> addTask(String description) async {
+    await _api.createTask(description: description);
   }
 }

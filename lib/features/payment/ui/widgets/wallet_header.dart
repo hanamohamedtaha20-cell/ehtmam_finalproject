@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class WalletHeader extends StatelessWidget {
-  final double balance; // 👈 ضيفي ده
+  final double balance; 
 
   const WalletHeader({super.key, required this.balance}); // 👈 عدلي ده
 

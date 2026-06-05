@@ -13,12 +13,12 @@ class UserCard extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
-        color: const Color(0xFFEFF6FF),
+        color: const Color.fromARGB(55, 211, 225, 239),
         borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
-        ],
+        // boxShadow: const [
+        //   BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
+        //   BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+        // ],
       ),
       child: Row(
         children: [

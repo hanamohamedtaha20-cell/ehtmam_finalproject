@@ -8,6 +8,14 @@ class PaymentModel {
     required this.income,
     required this.expense,
   });
+
+  factory PaymentModel.fromJson(Map<String, dynamic> json) {
+    return PaymentModel(
+      balance: (json['balance'] ?? 0).toDouble(),
+      income:  (json['totalDeposited'] ?? 0).toDouble(),
+      expense: (json['totalSpent'] ?? 0).toDouble(),
+    );
+  }
 }
 
 class TransactionModel {
@@ -15,7 +23,7 @@ class TransactionModel {
   final double amount;
   final DateTime date;
   final String status;
-  final bool isIncome; // true = green +, false = red -
+  final bool isIncome;
 
   const TransactionModel({
     required this.title,
@@ -24,4 +32,14 @@ class TransactionModel {
     required this.status,
     required this.isIncome,
   });
+
+  factory TransactionModel.fromJson(Map<String, dynamic> json) {
+    return TransactionModel(
+      title:    json['type'] ?? '',
+      amount:   (json['amount'] ?? 0).toDouble(),
+      date:     DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
+      status:   json['status'] ?? '',
+      isIncome: json['type'] == 'DEPOSIT',
+    );
+  }
 }

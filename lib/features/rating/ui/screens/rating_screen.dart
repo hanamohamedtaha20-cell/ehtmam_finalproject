@@ -1,4 +1,6 @@
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/features/rating/manager/rating_cubit.dart';
+import 'package:ehtemam_final_project/features/rating/manager/rating_state.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/custom_header.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/rating_row.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/rating_stars.dart';
@@ -7,9 +9,26 @@ import 'package:ehtemam_final_project/features/rating/ui/widgets/section_card.da
 import 'package:ehtemam_final_project/features/rating/ui/widgets/submit_button.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/user_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../home_screen/ui/home_screen.dart';
 
 class RatingScreen extends StatefulWidget {
-  const RatingScreen({super.key});
+  final String caregiverId;
+  final String serviceId;
+  final String requestId;
+  final String caregiverName;  
+  final String caregiverRole;
+
+  const RatingScreen({
+    super.key,
+    required this.caregiverId,
+    required this.serviceId,
+    required this.requestId,
+    required this.caregiverName,  
+    required this.caregiverRole,
+    
+  });
 
   @override
   State<RatingScreen> createState() => _RatingScreenState();
@@ -32,7 +51,23 @@ class _RatingScreenState extends State<RatingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Colors.white,      body: SafeArea(
+        backgroundColor: Colors.white, 
+         body: SafeArea(
+        child: BlocListener<RatingCubit, RatingState>(
+          listener: (context, state) {
+            if (state is RatingSuccess) {
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                (route) => false,
+              );
+            }
+            if (state is RatingError) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text(state.message)),
+              );
+            }
+          },
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
@@ -63,8 +98,11 @@ class _RatingScreenState extends State<RatingScreen> {
               ),
               const SizedBox(height: 10),
 
-              const UserCard(name: "Sarah Adam", role: "Pet Care"),
-              const SizedBox(height: 20),
+                UserCard(
+                  name: widget.caregiverName,
+                  role: widget.caregiverRole,
+                ),              
+                const SizedBox(height: 20),
               SectionCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,7 +140,21 @@ class _RatingScreenState extends State<RatingScreen> {
               const SizedBox(height: 16),
               SectionCard(child: ReviewField(controller: _reviewController)),
               const SizedBox(height: 24),
-              SubmitButton(onSubmit: () {}),
+               BlocBuilder<RatingCubit, RatingState>(
+                  builder: (context, state) {
+                    if (state is RatingLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+              return SubmitButton(
+                      onSubmit: () {
+                        context.read<RatingCubit>().submit(
+                          review:      _reviewController.text,
+                          caregiverId: widget.caregiverId,
+                          serviceId:   widget.serviceId,
+                          requestId:   widget.requestId,
+                  );
+                },
+              );}),
               const SizedBox(height: 12),
               const Center(
                 child: Text(
@@ -114,6 +166,6 @@ class _RatingScreenState extends State<RatingScreen> {
           ),
         ),
       ),
-    );
+    ));
   }
 }

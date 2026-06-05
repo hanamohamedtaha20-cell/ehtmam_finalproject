@@ -1,9 +1,13 @@
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_cubit.dart';
+import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_state.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/ui/widgets/action_buttons.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/ui/widgets/custom_amount_field.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/ui/widgets/payment_methods_list.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/ui/widgets/quick_amounts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RechargeScreen extends StatefulWidget {
   const RechargeScreen({super.key});
@@ -26,7 +30,19 @@ class _RechargeScreenState extends State<RechargeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return BlocListener<RechargeCubit, RechargeState>(
+      listener: (context, state) {
+        if (state is RechargeSuccess) {
+          launchUrl(Uri.parse(state.paymentUrl));
+          Navigator.pop(context);
+        }
+        if (state is RechargeError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.message)),
+          );
+        }
+      },
+      child: Container(
       decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
@@ -92,6 +108,6 @@ class _RechargeScreenState extends State<RechargeScreen> {
           ],
         ),
       ),
-    );
+    ));
   }
 }

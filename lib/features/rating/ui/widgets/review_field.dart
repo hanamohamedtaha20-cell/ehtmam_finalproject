@@ -22,13 +22,13 @@ class ReviewField extends StatelessWidget {
           controller: controller,
           maxLines: 4,
           decoration: InputDecoration(
-            hintText: "Share your thoughts about the service...",
+            hintText: "Share your feedback about the client, The app...",
             hintStyle: const TextStyle(
                 fontFamily: "Arimo",
                 fontSize: 13,
                 color: AppColors.textLight),
             filled: true,
-            fillColor: AppColors.bg2,
+            fillColor: Colors.white,
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide.none,

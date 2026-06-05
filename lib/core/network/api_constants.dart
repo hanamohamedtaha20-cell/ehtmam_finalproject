@@ -1,0 +1,26 @@
+const String baseUrl = 'https://final-graduation-production.up.railway.app';
+
+const String signupEndpoint            = '/userlog/signup';
+const String loginEndpoint             = '/userlog/login';
+const String logoutEndpoint            = '/userlog/logout';
+const String forgotPasswordEndpoint    = '/userlog/forgotpassword';
+const String updatePasswordEndpoint    = '/userlog/updatepassword';
+const String caregiverSignupEndpoint   = '/caregiver/signup';
+const String caregiverEndpoint         = '/caregiver';
+const String servicesEndpoint          = '/services';
+const String requestEndpoint           = '/request';
+const String availableRequestsEndpoint = '/request/available';
+const String bookingFromOfferEndpoint  = '/booking/bookingfromoffer';
+const String bookingEndpoint           = '/booking';
+const String createPaymentEndpoint     = '/payment/create';
+const String payBookingWalletEndpoint  = '/payment/pay-booking-wallet';
+const String walletEndpoint            = '/wallet';
+const String transactionEndpoint       = '/transaction';
+const String tasksEndpoint             = '/tasks';
+const String reviewEndpoint            = '/review';
+const String bundleEndpoint            = '/bundle';
+const String clientBundleEndpoint      = '/clientbundle';
+const String chatMessageEndpoint       = '/chat/message';
+const String chatHistoryEndpoint       = '/chat/history';
+const String chatSessionsEndpoint      = '/chat/sessions';
+const String newChatSessionEndpoint    = '/chat/sessions/new';

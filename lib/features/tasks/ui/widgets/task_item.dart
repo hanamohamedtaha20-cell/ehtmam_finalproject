@@ -29,7 +29,8 @@ class TaskItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final isCompleted = task.status == TaskStatus.completed;
     return Container(
-      padding: const EdgeInsets.all(14),
+      margin: EdgeInsets.all(2),
+      padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),

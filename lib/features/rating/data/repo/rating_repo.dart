@@ -1,10 +1,25 @@
+import 'package:ehtemam_final_project/core/network/api_services.dart';
 import '../model/rating_model.dart';
 
 class RatingRepo {
-  Future<void> submitRating(RatingModel model) async {
-    await Future.delayed(const Duration(seconds: 1));
+  final ApiService _api = ApiService();
 
-    // هنا تحطي API
-    print("Rating Submitted: ${model.overall}");
+  Future<void> submitRating({
+    required RatingModel model,
+    required String caregiverId,
+    required String serviceId,
+    required String requestId,
+  }) async {
+    await _api.createReview(
+      caregiverId: caregiverId,
+      serviceId:   serviceId,
+      requestId:   requestId,
+      rating:      model.overall,
+      review:      model.review,
+      feedback:    'Professionalism: ${model.professionalism}, '
+                   'Service Quality: ${model.serviceQuality}, '
+                   'Punctuality: ${model.punctuality}, '
+                   'Communication: ${model.communication}',
+    );
   }
 }

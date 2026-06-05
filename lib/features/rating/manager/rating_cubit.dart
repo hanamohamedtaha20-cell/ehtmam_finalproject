@@ -8,45 +8,43 @@ class RatingCubit extends Cubit<RatingState> {
 
   RatingCubit(this.repo) : super(RatingInitial());
 
-  int overall = 0;
+  int overall         = 0;
   int professionalism = 0;
-  int serviceQuality = 0;
-  int punctuality = 0;
-  int communication = 0;
+  int serviceQuality  = 0;
+  int punctuality     = 0;
+  int communication   = 0;
 
   void updateRating(String type, int value) {
     switch (type) {
-      case "overall":
-        overall = value;
-        break;
-      case "professionalism":
-        professionalism = value;
-        break;
-      case "serviceQuality":
-        serviceQuality = value;
-        break;
-      case "punctuality":
-        punctuality = value;
-        break;
-      case "communication":
-        communication = value;
-        break;
+      case "overall":        overall        = value; break;
+      case "professionalism": professionalism = value; break;
+      case "serviceQuality": serviceQuality  = value; break;
+      case "punctuality":    punctuality     = value; break;
+      case "communication":  communication   = value; break;
     }
     emit(RatingInitial());
   }
 
-  Future<void> submit(String review) async {
+  Future<void> submit({
+    required String review,
+    required String caregiverId,
+    required String serviceId,
+    required String requestId,
+  }) async {
     emit(RatingLoading());
     try {
       await repo.submitRating(
-        RatingModel(
-          overall: overall,
+        model: RatingModel(
+          overall:        overall,
           professionalism: professionalism,
-          serviceQuality: serviceQuality,
-          punctuality: punctuality,
-          communication: communication,
-          review: review,
+          serviceQuality:  serviceQuality,
+          punctuality:     punctuality,
+          communication:   communication,
+          review:          review,
         ),
+        caregiverId: caregiverId,
+        serviceId:   serviceId,
+        requestId:   requestId,
       );
       emit(RatingSuccess());
     } catch (e) {
