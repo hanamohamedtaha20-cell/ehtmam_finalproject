@@ -1,3 +1,4 @@
+import 'package:ehtmam_finalproject/core/resources/app_fonts.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../manager/splash_cubit.dart';
@@ -15,7 +16,13 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> logoAnim;
+  late Animation<double> textAnim;
+  late Animation<double> dotsAnim;
+
   double scale(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     return (width / 393).clamp(0.85, 1.15);
@@ -25,16 +32,35 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
+    _controller = AnimationController(
+      vsync: this,
+      duration:  Duration(seconds: 5),
+    );
+
+    logoAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.0, 0.55, curve: Curves.easeOutBack),
+    );
+
+    textAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.35, 0.8, curve: Curves.easeOut),
+    );
+
+    dotsAnim = CurvedAnimation(
+      parent: _controller,
+      curve: const Interval(0.65, 1.0, curve: Curves.easeOut),
+    );
+
+    _controller.forward();
+
     Future.microtask(() {
       context.read<SplashCubit>().startSplashTimer();
     });
   }
 
   @override
-  void dispose() {
-    context.read<SplashCubit>().disposeTimer();
-    super.dispose();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -63,83 +89,47 @@ class _SplashScreenState extends State<SplashScreen> {
                 children: [
                   const Spacer(),
 
-                  const SplashLogo(),
+                  FadeTransition(
+                    opacity: logoAnim,
+                    child: ScaleTransition(
+                      scale: logoAnim,
+                      child: const Center(
+                        child: SplashLogo(),
+                      ),
+                    ),
+                  ),
 
-                  SizedBox(height: 42 * s),
+                  SizedBox(height: 45 * s),
 
-                  Text(
-                    'Connecting families with\ntrusted care services',
-                    textAlign: TextAlign.center,
-                    style: AppTextStyle.body16.copyWith(
-                      fontFamily: 'Inter',
-                      fontSize: 16 * s,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF302A68),
-                      height: 1.45,
+                  FadeTransition(
+                    opacity: textAnim,
+                    child: ScaleTransition(
+                      scale: textAnim,
+                      child: Text(
+                        'Connecting families with\ntrusted care services',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyle.body16.copyWith(
+                          fontFamily: AppFonts.inter,
+                          fontSize: 20 * s,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF252E68),
+                          height: 1.45,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.25),
+                              offset: const Offset(0, 4),
+                              blurRadius: 4,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
 
                   SizedBox(height: 26 * s),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      _serviceItem(
-                        context: context,
-                        icon: Icons.pets_outlined,
-                        label: 'Pet Care',
-                        bgColor: const Color(0xFFD3E1EF),
-                      ),
-                      SizedBox(width: 14 * s),
-                      _serviceItem(
-                        context: context,
-                        icon: Icons.elderly_outlined,
-                        label: 'Elderly Care',
-                        bgColor: const Color(0xFF97CCFD),
-                      ),
-                      SizedBox(width: 14 * s),
-                      _serviceItem(
-                        context: context,
-                        icon: Icons.child_care_outlined,
-                        label: 'Child Care',
-                        bgColor: const Color(0xFFE7F8ED),
-                      ),
-                      SizedBox(width: 14 * s),
-                      _serviceItem(
-                        context: context,
-                        label: 'Plant Care',
-                        bgColor: const Color(0xFFE7F8ED),
-                        imagePath: 'assets/images/leaf.png',
-                      ),
-                    ],
-                  ),
-
-                  SizedBox(height: 54 * s),
-
-                  Text(
-                    'Professional pet care, elderly\ncare, and child care services -\nall in one platform',
-                    textAlign: TextAlign.center,
-                    style: AppTextStyle.body16.copyWith(
-                      fontFamily: 'Inter',
-                      fontSize: 16 * s,
-                      fontWeight: FontWeight.w400,
-                      color: const Color(0xFF302A68),
-                      height: 1.45,
-                    ),
-                  ),
 
                   const Spacer(),
-
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const SplashIndicator(),
-                      SizedBox(width: 6 * s),
-                      const SplashIndicator(),
-                      SizedBox(width: 6 * s),
-                      const SplashIndicator(),
-                    ],
-                  ),
 
                   SizedBox(height: 30 * s),
                 ],
@@ -148,68 +138,6 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  Widget _serviceItem({
-    required BuildContext context,
-    IconData? icon,
-    required String label,
-    required Color bgColor,
-    String? imagePath,
-  }) {
-    final s = scale(context);
-
-    return Column(
-      children: [
-        Container(
-          width: 56 * s,
-          height: 56 * s,
-          decoration: BoxDecoration(
-            color: bgColor,
-            borderRadius: BorderRadius.circular(14 * s),
-            boxShadow: const [
-              BoxShadow(
-                color: Color(0x40000000),
-                blurRadius: 4,
-                offset: Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Center(
-            child: imagePath != null
-                ? Image.asset(
-              imagePath,
-              width: 42 * s,
-              height: 42 * s,
-              fit: BoxFit.contain,
-            )
-                : Icon(
-              icon,
-              color: const Color(0xFF302A68),
-              size: 24 * s,
-            ),
-          ),
-        ),
-        SizedBox(height: 6 * s),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 12 * s,
-            fontWeight: FontWeight.w400,
-            color: const Color(0xFF302A68),
-            shadows: const [
-              Shadow(
-                color: Color(0x40000000),
-                offset: Offset(0, 4),
-                blurRadius: 4,
-              ),
-            ],
-          ),
-        ),
-      ],
     );
   }
 }

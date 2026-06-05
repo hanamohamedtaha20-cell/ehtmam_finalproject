@@ -1,8 +1,9 @@
+import '/features/offer_details_screen/data/model/provider_data.dart';
 import 'package:flutter/material.dart';
 
 class RatingRow extends StatelessWidget {
-  const RatingRow({super.key});
-
+  const RatingRow({super.key,required this.provider});
+  final ProviderModel provider;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,14 +23,14 @@ class RatingRow extends StatelessWidget {
                   Icon(Icons.star, color: Colors.amber, size: 18),
                   SizedBox(width: 4),
                   Text(
-                    "4.9",
+                      "${provider.rating}",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
               SizedBox(height: 4),
               Text(
-                "(127)",
+                "(${provider.reviewsCount})",
                 style: TextStyle(color: Colors.grey, fontSize: 12),
               ),
             ],
@@ -75,7 +76,7 @@ class RatingRow extends StatelessWidget {
                   Icon(Icons.people, size: 16, color: Colors.grey),
                   SizedBox(width: 4),
                   Text(
-                    "340",
+                    "${provider.completed}",
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
                 ],

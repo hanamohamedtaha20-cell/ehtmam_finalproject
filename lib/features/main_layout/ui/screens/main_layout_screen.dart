@@ -1,3 +1,5 @@
+import 'package:ehtmam_finalproject/features/home_screen/ui/home_screen.dart';
+import 'package:ehtmam_finalproject/features/requests_screen/ui/screens/requests_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../account_settings/ui/screens/account_settings_screen_user.dart';
@@ -11,10 +13,10 @@ class MainLayoutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> screens = [
-      const Center(child: Text('Home')),
-      const Center(child: Text('Requests')),
+      const HomeScreen(),
+      const RequestsScreen(),
       const Center(child: Text('Bookings')),
-      const AccountSettingsScreen(),
+       AccountSettingsScreen(),
     ];
 
     return BlocBuilder<BottomNavCubit, BottomNavState>(
@@ -22,9 +24,10 @@ class MainLayoutScreen extends StatelessWidget {
         return Scaffold(
           backgroundColor: const Color(0xFFF5F8FC),
           body: screens[state.currentIndex],
-          bottomNavigationBar: CustomBottomNavBar(
+          bottomNavigationBar: UserBottomNavScreen(
             currentIndex: state.currentIndex,
             onTap: (index) {
+              print(index);
               context.read<BottomNavCubit>().changeTab(index);
             },
           ),

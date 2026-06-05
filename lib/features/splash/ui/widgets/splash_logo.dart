@@ -8,8 +8,8 @@ class SplashLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       AppImages.logo,
-      width: 252,
-      height: 245,
+      width: 319,
+      height: 310,
       fit: BoxFit.contain,
     );
   }

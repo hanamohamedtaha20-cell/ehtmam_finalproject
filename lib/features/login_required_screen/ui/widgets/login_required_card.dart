@@ -63,7 +63,7 @@ class LoginRequiredCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Image.asset("images/🔐.png", height: 50),
+                  Image.asset("images/lock2.png", height: 50),
                   SizedBox(height: 10),
                   Text(
                     "As a guest, you can browse the app but cannot create requests",
@@ -97,7 +97,7 @@ class LoginRequiredCard extends StatelessWidget {
             /// 🔹 Back
             TextButton(
               onPressed: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(builder: (context) => HomeScreen()),
                 );

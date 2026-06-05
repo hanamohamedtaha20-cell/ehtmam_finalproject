@@ -6,7 +6,7 @@ import 'features/home_screen/ui/widgets/language_switcher.dart';
 
 class AppLayout extends StatelessWidget {
   final Widget body;
-  final Widget? header; // 👈 optional لكل صفحة
+  final Widget? header;
 
   const AppLayout({super.key, required this.body, this.header});
 
@@ -15,15 +15,18 @@ class AppLayout extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-
           SafeArea(
             child: Column(
               children: [
+
                 if (header != null) header!,
+
+
                 Expanded(child: body),
               ],
             ),
           ),
+
           Positioned(
             top: 40,
             right: Directionality.of(context) == TextDirection.ltr ? 16 : null,

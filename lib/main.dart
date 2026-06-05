@@ -1,21 +1,23 @@
-import 'package:device_preview/device_preview.dart';
-import 'package:ehtmam_finalproject/features/account_settings/ui/screens/account_settings_screen_careprovider.dart';
-import 'package:ehtmam_finalproject/features/account_settings/ui/screens/account_settings_screen_user.dart';
+import 'package:ehtmam_finalproject/features/account_settings/manager/account_settings_cubit.dart';
 import 'package:ehtmam_finalproject/features/auth/ui/screens/login_screen.dart';
-import 'package:ehtmam_finalproject/features/bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
+import 'package:ehtmam_finalproject/features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
+import 'package:ehtmam_finalproject/features/main_layout/ui/screens/main_layout_screen.dart';
+import 'package:ehtmam_finalproject/features/splash/ui/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'features/account_settings/manager/account_settings_cubit.dart';
-import 'features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
-import 'features/onboarding/ui/screens/ob1.dart';
+import 'core/network/api_service.dart';
+import 'features/auth/data/repo/auth_repo.dart';
+import 'features/auth/manager/auth_cubit.dart';
+import 'features/auth/ui/screens/register_screen.dart';
+import 'features/home_screen/ui/home_screen.dart';
 import 'features/splash/manager/splash_cubit.dart';
-import 'features/splash/ui/screens/splash_screen.dart';void main() async {
+
+void main() async{
   WidgetsFlutterBinding.ensureInitialized();
 
   await EasyLocalization.ensureInitialized();
-
   runApp(
     EasyLocalization(
       supportedLocales: const [
@@ -24,45 +26,54 @@ import 'features/splash/ui/screens/splash_screen.dart';void main() async {
       ],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => AccountSettingsCubit(),
-          ),
-          BlocProvider(
-            create: (context) => BottomNavCubit(),
-          ),
-          BlocProvider(
-            create: (_) => SplashCubit(),
-            child: const SplashScreen(),
-          )
-
-        ],
-        child: DevicePreview(
-          builder: (context) => const MyApp(),
-        ),
+      child: DevicePreview(
+        builder: (context) =>  MyApp(),
       ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
 
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Ehtmam',
-      theme: ThemeData(
-        fontFamily: 'Inter',
-        scaffoldBackgroundColor: Colors.white,
+    return  MultiBlocProvider(
+      providers: [
+
+        BlocProvider(
+          create: (context) => SplashCubit(),
+        ),
+
+        BlocProvider(
+          create: (context) => BottomNavCubit(),
+        ),
+
+        BlocProvider(
+          create: (context) => AccountSettingsCubit(),
+        ),
+        BlocProvider(
+          create: (context) => AuthCubit(
+            AuthRepo(
+              ApiService(),
+            ),
+          ),
+        ),
+
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+
+        locale: DevicePreview.locale(context) ?? context.locale,
+        builder: DevicePreview.appBuilder,
+
+        supportedLocales: context.supportedLocales,
+        localizationsDelegates: context.localizationDelegates,
+
+        home:LoginScreen()
+        //RegisterScreen(role: 'user',),
       ),
-      locale: context.locale,
-      supportedLocales: context.supportedLocales,
-      localizationsDelegates: context.localizationDelegates,
-      home: SplashScreen(),
     );
   }
 }

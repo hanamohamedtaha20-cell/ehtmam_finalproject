@@ -1,8 +1,9 @@
+import '/features/offer_details_screen/data/model/provider_data.dart';
 import 'package:flutter/material.dart';
 
 class PriceRow extends StatelessWidget {
-  const PriceRow({super.key});
-
+  const PriceRow({super.key,required this.provider});
+  final ProviderModel provider;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -29,7 +30,7 @@ class PriceRow extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  "\$350",
+                  "\$${provider.oldPrice}",
                   style: TextStyle(
                     color: Colors.grey,
                     decoration: TextDecoration.lineThrough, // 👈 شطب
@@ -37,7 +38,7 @@ class PriceRow extends StatelessWidget {
                 ),
                 SizedBox(width: 6),
                 Text(
-                  "\$280",
+                "\$${provider.price}",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -53,7 +54,7 @@ class PriceRow extends StatelessWidget {
         Container(
           padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
           decoration: BoxDecoration(
-            color: Color(0xFF16A34A), // أخضر
+            color: Color(0xFF16A34A),
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(

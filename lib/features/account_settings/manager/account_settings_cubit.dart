@@ -18,7 +18,12 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
         phone: prefs.getString('user_phone') ?? '',
         role: prefs.getString('user_role') ?? '',
         notifications: prefs.getBool('notifications') ?? false,
+        government: prefs.getString('user_government') ?? '',
+        careField: prefs.getString('care_field') ?? '',
+        specialization: prefs.getString('care_specialization') ?? '',
+        certificateFileName: prefs.getString('certificate_file_name') ?? '',
         isLoading: false,
+
       ),
     );
   }
@@ -65,6 +70,10 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
     required String phone,
     required String password,
     required String role,
+    String government = '',
+    String careField = '',
+    String specialization = '',
+    String certificateFileName = '',
   }) async {
     final prefs = await SharedPreferences.getInstance();
 
@@ -73,6 +82,10 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
     await prefs.setString('user_phone', phone);
     await prefs.setString('user_password', password);
     await prefs.setString('user_role', role);
+    await prefs.setString('user_government', government);
+    await prefs.setString('care_field', careField);
+    await prefs.setString('care_specialization', specialization);
+    await prefs.setString('certificate_file_name', certificateFileName);
   }
   Future<void> pickProfileImage() async {
     final ImagePicker picker = ImagePicker();

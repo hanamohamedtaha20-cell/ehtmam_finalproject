@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:ehtmam_finalproject/features/requests_screen/ui/widgets/status_badge.dart';
+import '/features/offer_details_screen/ui/screens/offer_details_screen.dart';
+import '/features/offers_screen/ui/screens/offers_screen.dart';
+import '/features/requests_screen/ui/widgets/status_badge.dart';
 import 'package:flutter/material.dart';
-import '../../../offers_screen/ui/screens/offers_screen.dart';
 import '../../data/model.dart';
 import '../../data/request_type.dart';
 import 'action_button.dart';
@@ -48,11 +49,11 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
             ],
           ),
 
-          const SizedBox(height: 6),
+           SizedBox(height: 6),
 
           Text(widget.request.subtitle, style: TextStyle(color: Colors.grey)),
 
-          const SizedBox(height: 10),
+           SizedBox(height: 10),
 
           /// 🔹 Info
           _infoRow("startDate:".tr(), widget.request.date),
@@ -62,7 +63,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
 
           _infoRow("amount:".tr(), widget.request.amount),
 
-          const SizedBox(height: 12),
+           SizedBox(height: 12),
 
           /// 🔹 Buttons
           _buildButtons(widget.request.type),
@@ -73,7 +74,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
 
   Widget _infoRow(String title, String value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 4),
+      padding:  EdgeInsets.only(bottom: 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -102,8 +103,8 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                 },
               ),
             ),
-            const SizedBox(width: 10),
-            const Icon(Icons.tune),
+             SizedBox(width: 10),
+             Icon(Icons.tune),
           ],
         );
 
@@ -111,18 +112,47 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
         return Column(
           children: [
             Container(
-              padding:  EdgeInsets.all(10),
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+            vertical: 12,
+              ),
+              alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: Colors.green.withOpacity(0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Text(
-                "Received Offers 3".tr(),
+              child:Text(
+                "Received Offers ${widget.request.offersCount}".tr(),
                 style: TextStyle(color: Colors.green),
               ),
             ),
              SizedBox(height: 10),
-            ActionButton(text: "View Details".tr(), onTap: () {  },),
+            Row(
+              children: [
+
+                Expanded(
+                  child: ActionButton(
+                    text: "View Details".tr(),
+
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OfferDetailsScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                SizedBox(width: 10),
+
+                Icon(
+                  Icons.tune,
+                  color: Colors.black87,
+                ),
+              ],
+            ),
           ],
         );
 

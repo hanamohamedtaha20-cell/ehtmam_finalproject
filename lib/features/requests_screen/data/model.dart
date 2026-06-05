@@ -8,6 +8,7 @@ class RequestModel {
   final String status;
   final String? provider;
   final RequestType type;
+  final int offersCount;
 
   RequestModel({
     required this.title,
@@ -17,6 +18,7 @@ class RequestModel {
     required this.status,
     required this.type,
     this.provider,
+    this.offersCount = 0,
   });
 
   factory RequestModel.fromJson(Map<String, dynamic> json) {
@@ -28,6 +30,7 @@ class RequestModel {
       status: json['status'] ?? '',
       provider: json['provider'],
       type: _mapStringToRequestType(json['type']),
+      offersCount: 3,
     );
   }
 
