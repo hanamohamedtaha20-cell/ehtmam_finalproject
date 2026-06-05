@@ -9,7 +9,7 @@ class DateTimeCard extends StatelessWidget {
     required String value,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+      padding: EdgeInsets.only(bottom: 15),
 
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -18,16 +18,16 @@ class DateTimeCard extends StatelessWidget {
 
           /// ICON
           Padding(
-            padding: const EdgeInsets.only(top: 2),
+            padding: EdgeInsets.only(top: 2),
 
             child: Icon(
               icon,
-              color: const Color(0xff2F80ED),
-              size: 24,
+              color: Color(0xff2F80ED),
+              size: 20,
             ),
           ),
 
-          const SizedBox(width: 14),
+           SizedBox(width: 12),
 
           /// TEXT
           Expanded(
@@ -39,21 +39,21 @@ class DateTimeCard extends StatelessWidget {
                 Text(
                   title,
 
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xff6B7A90),
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
 
-                const SizedBox(height: 4),
+                SizedBox(height: 2),
 
                 Text(
                   value,
 
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xff1F2C44),
-                    fontSize: 15,
+                    fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -70,21 +70,21 @@ class DateTimeCard extends StatelessWidget {
     return Container(
       width: double.infinity,
 
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 20,
+      padding: EdgeInsets.symmetric(
+        horizontal: 18,
+        vertical: 18,
       ),
 
       decoration: BoxDecoration(
-        color: const Color(0xffF8F8F8),
+        color: Color(0xffF8F8F8),
 
         borderRadius: BorderRadius.circular(28),
 
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.06),
-            blurRadius: 14,
-            offset: const Offset(0, 5),
+            color: Colors.black.withOpacity(0.2),
+            offset: Offset(0, 4),
+            blurRadius: 6,
           ),
         ],
       ),
@@ -96,12 +96,12 @@ class DateTimeCard extends StatelessWidget {
 
           /// HEADER
           Row(
-            children: const [
+            children:  [
 
               Icon(
                 Icons.calendar_today_outlined,
                 color: Color(0xff4B5A75),
-                size: 20,
+                size: 18,
               ),
 
               SizedBox(width: 8),
@@ -111,14 +111,14 @@ class DateTimeCard extends StatelessWidget {
 
                 style: TextStyle(
                   color: Color(0xff4B5A75),
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 20),
+           SizedBox(height: 15),
 
           /// DATE
           infoItem(

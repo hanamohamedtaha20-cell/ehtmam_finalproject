@@ -8,7 +8,7 @@ class ServiceDetailsCard extends StatelessWidget {
     required String value,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 18),
+      padding: EdgeInsets.only(bottom: 16),
 
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -21,15 +21,15 @@ class ServiceDetailsCard extends StatelessWidget {
             child: Text(
               title,
 
-              style: const TextStyle(
+              style: TextStyle(
                 color: Color(0xff4B5A75),
-                fontSize: 15,
+                fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
 
-          const SizedBox(width: 12),
+          SizedBox(width: 15),
 
           /// VALUE
           Flexible(
@@ -37,9 +37,9 @@ class ServiceDetailsCard extends StatelessWidget {
               value,
               textAlign: TextAlign.end,
 
-              style: const TextStyle(
+              style: TextStyle(
                 color: Color(0xff1F2C44),
-                fontSize: 16,
+                fontSize: 14,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -54,21 +54,21 @@ class ServiceDetailsCard extends StatelessWidget {
     return Container(
       width: double.infinity,
 
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 22,
+      padding: EdgeInsets.symmetric(
+        horizontal: 18,
+        vertical: 20,
       ),
 
       decoration: BoxDecoration(
-        color: const Color(0xffF8F8F8),
+        color: Color(0xffF8F8F8),
 
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(25),
 
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.06),
-            blurRadius: 14,
-            offset: const Offset(0, 5),
+            color: Colors.black.withOpacity(0.2),
+            offset: Offset(0, 6),
+            blurRadius: 6,
           ),
         ],
       ),
@@ -80,12 +80,12 @@ class ServiceDetailsCard extends StatelessWidget {
 
           /// HEADER
           Row(
-            children: const [
+            children: [
 
               Icon(
                 Icons.inventory_2_outlined,
                 color: Color(0xff4B5A75),
-                size: 20,
+                size: 18,
               ),
 
               SizedBox(width: 8),
@@ -95,14 +95,14 @@ class ServiceDetailsCard extends StatelessWidget {
 
                 style: TextStyle(
                   color: Color(0xff4B5A75),
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 24),
+          SizedBox(height: 15),
 
           /// DETAILS
           detailRow(
@@ -121,7 +121,7 @@ class ServiceDetailsCard extends StatelessWidget {
           ),
 
           Padding(
-            padding: const EdgeInsets.only(bottom: 0),
+            padding: EdgeInsets.only(bottom: 0),
 
             child: detailRow(
               title: "Duration",

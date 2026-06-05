@@ -26,9 +26,8 @@ class PrimaryButton extends StatelessWidget {
               blurRadius: 10,
             ),
           ],
-          gradient: LinearGradient(
-            colors: [Color(0xFF3A8BD7), Color(0xFFD8E3E9)],
-          ),
+          color: Colors.blue,
+
           borderRadius: BorderRadius.circular(14),
         ),
         child: Center(

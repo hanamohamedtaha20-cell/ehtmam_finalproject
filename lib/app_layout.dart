@@ -30,7 +30,7 @@ class AppLayout extends StatelessWidget {
             top: 40,
             right: Directionality.of(context) == TextDirection.ltr ? 16 : null,
             left: Directionality.of(context) == TextDirection.rtl ? 16 : null,
-            child: const LanguageSwitcher(),
+            child: LanguageSwitcher(),
           ),
         ],
       ),

@@ -1,8 +1,10 @@
-import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_details_screen.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
+import 'package:ehtemam_final_project/features/earnings_screen/ui/screens/earnings_screen.dart';
+import 'package:ehtemam_final_project/features/home_screen/ui/screens/chatbot_screen.dart';
+import 'package:ehtemam_final_project/features/request_screen_caregiver/ui/screens/care_requests_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-
-import 'features/home_screen/ui/home_screen.dart';
+import 'features/home_screen/ui/screens/home_screen.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,8 +19,7 @@ void main() async{
           ],
           path: 'assets/translations',
           fallbackLocale: const Locale('en'),
-          child: MyApp())
-  );
+          child:MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
       locale: context.locale,
       supportedLocales: context.supportedLocales,
       localizationsDelegates: context.localizationDelegates,
-      home: BookingDetailsScreen(),
+      home:BookingCgScreenScreen(),
 
     );
   }

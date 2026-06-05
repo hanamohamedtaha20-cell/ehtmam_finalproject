@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:ehtemam_final_project/features/home_screen/ui/screens/crearte_request.dart';
 import 'package:flutter/material.dart';
-import '../../../requests_screen/ui/screens/requests_screen.dart';
+import '../../../requests_screen_user/ui/screens/requests_screen.dart';
 import '../../data/model/user_model.dart';
+import 'bundles_card.dart';
 import 'request_card.dart';
 import 'header.dart';
 import 'service_card.dart';
@@ -16,7 +18,7 @@ class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16),
       child: ListView(
         children: [
           /// 🔹 HEADER
@@ -30,20 +32,20 @@ class HomeContent extends StatelessWidget {
                 BoxShadow(
                   color: Colors.black.withOpacity(0.05),
                   blurRadius: 4,
-                  offset: const Offset(0, 2),
+                  offset: Offset(0, 2),
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
           /// 🔹 SERVICES TITLE
           Text(
-            "ourServices".tr(),
+            "Select a Service".tr(),
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10),
 
           /// 🔹 SERVICES
           ServiceCardWidget(
@@ -52,6 +54,8 @@ class HomeContent extends StatelessWidget {
             title: 'Pet Care'.tr(),
             subtitle: "Professional care for your pets while you're away".tr(),
             gradientBGColors: [Color(0xFFF5F3FF), Color(0xFFFAF5FF)],
+            page:CreateRequestScreen() ,
+
           ),
           ServiceCardWidget(
             icon: Text('👵', style: TextStyle(fontSize: 24)),
@@ -59,6 +63,7 @@ class HomeContent extends StatelessWidget {
             title: 'Elderly Care'.tr(),
             subtitle: 'Compassionate care for your elderly loved ones'.tr(),
             gradientBGColors: [Color(0xFFEEF2FF), Color(0xFFF5F3FF)],
+            page: CreateRequestScreen(),
           ),
           ServiceCardWidget(
             icon: Text('👶', style: TextStyle(fontSize: 24)),
@@ -66,6 +71,7 @@ class HomeContent extends StatelessWidget {
             title: 'Child Care'.tr(),
             subtitle: 'Safe and reliable childcare services at home'.tr(),
             gradientBGColors: [Color(0xFFFAF5FF), Color(0xFFFDF2F8)],
+            page: CreateRequestScreen(),
           ),
           ServiceCardWidget(
             icon: Text('🌿', style: TextStyle(fontSize: 24)),
@@ -74,10 +80,16 @@ class HomeContent extends StatelessWidget {
             subtitle: 'Expert plant care and maintenance for your home garden'
                 .tr(),
             gradientBGColors: [Color(0xFFF1F2FF), Color(0xFFF1F2FF)],
+            page: CreateRequestScreen(),
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
 
+          BundlesCard(
+            onTap: () {},
+          ),
+
+          SizedBox(height: 20),
           /// 🔹 ACTIVE REQUESTS
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -130,7 +142,7 @@ class HomeContent extends StatelessWidget {
 
           /// 🔹 WHY CHOOSE
           Text(
-            "Why Choose CareConnect".tr(),
+            "Why Choose Ehtemam".tr(),
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
           ),
 
@@ -139,31 +151,31 @@ class HomeContent extends StatelessWidget {
           GridView.count(
             crossAxisCount: 2,
             shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
+            physics: NeverScrollableScrollPhysics(),
             crossAxisSpacing: 5,
             mainAxisSpacing: 5,
             childAspectRatio: 0.9,
             // <--- Adjust this value to set the height
             children: [
               WhyChooseCardWidget(
-                icon: 'images/container.png',
+                icon: 'assets/images/Container.png',
                 title: "verified\nProviders".tr(),
               ),
               WhyChooseCardWidget(
-                icon: 'images/Container2.png',
+                icon: 'assets/images/Container2.png',
                 title: "Trusted Care".tr(),
               ),
               WhyChooseCardWidget(
-                icon: 'images/Container3.png',
+                icon: 'assets/images/Container 3.png',
                 title: "24/7 Support".tr(),
               ),
               WhyChooseCardWidget(
-                icon: 'images/container4.png',
+                icon: 'assets/images/Container 4.png',
                 title: "Experienced\nStaff".tr(),
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20),
         ],
       ),
     );

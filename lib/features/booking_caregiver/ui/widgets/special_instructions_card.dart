@@ -8,21 +8,21 @@ class SpecialInstructionsCard extends StatelessWidget {
     return Container(
       width: double.infinity,
 
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 22,
+      padding: EdgeInsets.symmetric(
+        horizontal: 18,
+        vertical: 20,
       ),
 
       decoration: BoxDecoration(
-        color: const Color(0xffF8F8F8),
+        color: Color(0xffF8F8F8),
 
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(25),
 
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.06),
-            blurRadius: 14,
-            offset: const Offset(0, 5),
+            color: Colors.black.withOpacity(0.2),
+            offset: Offset(0, 4),
+            blurRadius: 6,
           ),
         ],
       ),
@@ -34,12 +34,12 @@ class SpecialInstructionsCard extends StatelessWidget {
 
           /// HEADER
           Row(
-            children: const [
+            children:  [
 
               Icon(
                 Icons.description_outlined,
                 color: Color(0xff4B5A75),
-                size: 20,
+                size: 18,
               ),
 
               SizedBox(width: 8),
@@ -49,36 +49,36 @@ class SpecialInstructionsCard extends StatelessWidget {
 
                 style: TextStyle(
                   color: Color(0xff4B5A75),
-                  fontSize: 15,
+                  fontSize: 13,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 18),
+           SizedBox(height: 14),
 
           /// NOTE BOX
           Container(
             width: double.infinity,
 
-            padding: const EdgeInsets.symmetric(
-              horizontal: 18,
-              vertical: 16,
+            padding:  EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
             ),
 
             decoration: BoxDecoration(
-              color: const Color(0xffF4F0E2),
+              color:  Color(0xffF4F0E2),
 
               borderRadius: BorderRadius.circular(20),
             ),
 
-            child: const Text(
+            child:  Text(
               "Max loves to play fetch and needs his medication at 12 PM. Please make sure he has fresh water at all times.",
 
               style: TextStyle(
                 color: Color(0xff31456A),
-                fontSize: 14,
+                fontSize: 13,
                 height: 1.5,
                 fontWeight: FontWeight.w500,
               ),

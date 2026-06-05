@@ -9,28 +9,43 @@ class LoginRequiredScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFF5F6FA),
+      backgroundColor:  Color(0xFFF5F6FA),
 
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
+      body: Container(
+        width: double.infinity,
 
-          /// 🔹 Guest text
-          const Padding(padding: EdgeInsets.symmetric(horizontal: 16)),
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
 
-          const SizedBox(height: 20),
-
-          /// 🔹 Card
-          Expanded(child: Center(child: LoginRequiredCard())),
-
-          Padding(
-            padding: const EdgeInsets.only(bottom: 16),
-            child: Text(
-              "Join CareConnect to access all features".tr(),
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
-            ),
+            colors: [
+              Color(0xFFE8F3FF),
+              Color(0xFFF7FBFF),
+            ],
           ),
-        ],
+        ),
+        child: Column(
+          children: [
+             SizedBox(height: 20),
+
+            /// 🔹 Guest text
+             Padding(padding: EdgeInsets.symmetric(horizontal: 16)),
+
+             SizedBox(height: 20),
+
+            /// 🔹 Card
+            Expanded(child: Center(child: LoginRequiredCard())),
+
+            Padding(
+              padding:  EdgeInsets.only(bottom: 16),
+              child: Text(
+                "Join CareConnect to access all features".tr(),
+                style: const TextStyle(color: Colors.grey, fontSize: 12),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

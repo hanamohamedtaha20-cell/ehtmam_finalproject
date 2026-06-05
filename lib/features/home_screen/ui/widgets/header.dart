@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../login_required_screen/ui/screens/login_requred_screen.dart';
 import '../../data/model/user_model.dart';
+import '../screens/chatbot_screen.dart';
 
 
 class HeaderWidget extends StatelessWidget {
@@ -62,13 +63,29 @@ class HeaderWidget extends StatelessWidget {
                     );
                   },
                   child: Center(
-                    child: Text(
-                      "+ Create New Request".tr(),
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
+                     child:  GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ChatbotScreen(),
+                            ),
+                          );
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
+                          ),
+                          child: Text(
+                            "Ask AI Assistant".tr(),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                      )
                   ),
                 ),
               ),

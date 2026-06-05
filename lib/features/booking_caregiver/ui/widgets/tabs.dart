@@ -1,34 +1,35 @@
 import 'package:flutter/material.dart';
 
-class BookingTabs extends StatefulWidget {
-  const BookingTabs({super.key});
+class BookingTabs extends StatelessWidget {
 
-  @override
-  State<BookingTabs> createState() => _BookingTabsState();
-}
+  final int selectedIndex;
 
-class _BookingTabsState extends State<BookingTabs> {
+  final Function(int) onTabChanged;
 
-  int selectedIndex = 0;
+  const BookingTabs({
+    super.key,
+    required this.selectedIndex,
+    required this.onTabChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16),
 
       child: Container(
-        padding: const EdgeInsets.all(4),
+        padding: EdgeInsets.all(4),
 
         decoration: BoxDecoration(
-          color: const Color(0xffF4F4F4),
+          color: Color(0xffF4F4F4),
 
           borderRadius: BorderRadius.circular(18),
 
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(.06),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
+              color: Colors.black.withOpacity(.08),
+              offset: Offset(0, 4),
+              blurRadius: 6,
             ),
           ],
         ),
@@ -40,22 +41,22 @@ class _BookingTabsState extends State<BookingTabs> {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  setState(() {
-                    selectedIndex = 0;
-                  });
+                  onTabChanged(0);
                 },
 
                 child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
+                  duration: Duration(milliseconds: 300),
 
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 14,
+                  ),
 
                   decoration: BoxDecoration(
                     gradient: selectedIndex == 0
                         ? const LinearGradient(
                       colors: [
                         Color(0xff2F80ED),
-                        Color(0xffD9D9D9),
+                        Color(0xff7EB6FF),
                       ],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
@@ -71,8 +72,11 @@ class _BookingTabsState extends State<BookingTabs> {
                     boxShadow: selectedIndex == 0
                         ? [
                       BoxShadow(
-                        color: Colors.black.withOpacity(.08),
+                        color:
+                        Colors.blue.withOpacity(.18),
+
                         blurRadius: 8,
+
                         offset: const Offset(0, 3),
                       ),
                     ]
@@ -85,11 +89,12 @@ class _BookingTabsState extends State<BookingTabs> {
 
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
+
                         color: selectedIndex == 0
                             ? Colors.white
-                            : const Color(0xff5C667A),
+                            : Color(0xff5C667A),
 
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
                     ),
                   ),
@@ -101,22 +106,22 @@ class _BookingTabsState extends State<BookingTabs> {
             Expanded(
               child: GestureDetector(
                 onTap: () {
-                  setState(() {
-                    selectedIndex = 1;
-                  });
+                  onTabChanged(1);
                 },
 
                 child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 250),
+                  duration: Duration(milliseconds: 250),
 
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  padding: EdgeInsets.symmetric(
+                    vertical: 14,
+                  ),
 
                   decoration: BoxDecoration(
                     gradient: selectedIndex == 1
-                        ? const LinearGradient(
+                        ? LinearGradient(
                       colors: [
                         Color(0xff2F80ED),
-                        Color(0xffD9D9D9),
+                        Color(0xff7EB6FF),
                       ],
                       begin: Alignment.centerLeft,
                       end: Alignment.centerRight,
@@ -132,9 +137,12 @@ class _BookingTabsState extends State<BookingTabs> {
                     boxShadow: selectedIndex == 1
                         ? [
                       BoxShadow(
-                        color: Colors.black.withOpacity(.08),
+                        color:
+                        Colors.blue.withOpacity(.18),
+
                         blurRadius: 8,
-                        offset: const Offset(0, 3),
+
+                        offset: Offset(0, 3),
                       ),
                     ]
                         : [],
@@ -151,7 +159,7 @@ class _BookingTabsState extends State<BookingTabs> {
                             ? Colors.white
                             : const Color(0xff5C667A),
 
-                        fontSize: 14,
+                        fontSize: 12,
                       ),
                     ),
                   ),

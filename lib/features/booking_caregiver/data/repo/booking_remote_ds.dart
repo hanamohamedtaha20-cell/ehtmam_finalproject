@@ -1,4 +1,4 @@
-// import '../model/booking_model.dart';
+// import '../data/booking_model.dart';
 //
 // abstract class BookingRemoteDataSource {
 //   Future<BookingModel> getBookingDetails(String id);

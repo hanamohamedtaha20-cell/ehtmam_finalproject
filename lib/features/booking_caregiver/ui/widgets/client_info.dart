@@ -8,18 +8,18 @@ class ClientInfoCard extends StatelessWidget {
     return Container(
       width: double.infinity,
 
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20),
 
       decoration: BoxDecoration(
-        color: const Color(0xffF8F8F8),
+        color: Color(0xffF8F8F8),
 
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(25),
 
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(.06),
-            blurRadius: 14,
-            offset: const Offset(0, 5),
+            color: Colors.black.withOpacity(0.2),
+            offset: Offset(0, 6),
+            blurRadius: 8,
           ),
         ],
       ),
@@ -31,12 +31,12 @@ class ClientInfoCard extends StatelessWidget {
 
           /// TITLE
           Row(
-            children: const [
+            children: [
 
               Icon(
                 Icons.person_outline,
                 color: Color(0xff44516B),
-                size: 20,
+                size: 18,
               ),
 
               SizedBox(width: 8),
@@ -46,14 +46,14 @@ class ClientInfoCard extends StatelessWidget {
 
                 style: TextStyle(
                   color: Color(0xff44516B),
-                  fontSize: 15,
+                  fontSize: 14,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 15),
 
           /// USER INFO
           Row(
@@ -63,31 +63,31 @@ class ClientInfoCard extends StatelessWidget {
 
               /// AVATAR
               Container(
-                height: 60,
-                width: 60,
+                height: 50,
+                width: 50,
 
                 decoration: BoxDecoration(
-                  color: const Color(0xff169CE8),
+                  color: Color(0xff169CE8),
 
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(14),
 
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.blue.withOpacity(.18),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
+                      color: Colors.black.withOpacity(0.2),
+                      offset: Offset(0, 6),
+                      blurRadius: 8,
                     ),
                   ],
                 ),
 
-                child: const Icon(
+                child: Icon(
                   Icons.person_outline,
                   color: Colors.white,
-                  size: 26,
+                  size: 24,
                 ),
               ),
 
-              const SizedBox(width: 14),
+              SizedBox(width: 14),
 
               /// NAME + RATING
               Expanded(
@@ -96,35 +96,35 @@ class ClientInfoCard extends StatelessWidget {
 
                   children: [
 
-                    const Text(
+                     Text(
                       "Menaa adel",
 
                       style: TextStyle(
-                        fontSize: 15,
+                        fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: Color(0xff1E2A44),
                       ),
                     ),
 
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6),
 
                     Row(
                       children: [
 
-                        const Icon(
+                         Icon(
                           Icons.star,
                           color: Color(0xff3D87D9),
-                          size: 18,
+                          size: 16,
                         ),
 
-                        const SizedBox(width: 4),
+                         SizedBox(width: 4),
 
                         Text(
                           "5.0 rating",
 
                           style: TextStyle(
                             color: Colors.grey[700],
-                            fontSize: 13,
+                            fontSize: 12,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
@@ -136,45 +136,45 @@ class ClientInfoCard extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 20),
+           SizedBox(height: 15),
 
           /// PHONE
           Row(
             children: [
 
-              const Icon(
+               Icon(
                 Icons.call_outlined,
                 color: Color(0xff2F80ED),
-                size: 22,
+                size: 20,
               ),
 
-              const SizedBox(width: 10),
+               SizedBox(width: 10),
 
               Text(
                 "+20100870085",
 
                 style: TextStyle(
                   color: Colors.grey[700],
-                  fontSize: 14,
+                  fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 14),
+           SizedBox(height: 12),
 
           /// EMAIL
           Row(
             children: [
 
-              const Icon(
+               Icon(
                 Icons.mail_outline,
                 color: Color(0xff2F80ED),
-                size: 22,
+                size: 20,
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: 10),
 
               Expanded(
                 child: Text(
@@ -184,7 +184,7 @@ class ClientInfoCard extends StatelessWidget {
 
                   style: TextStyle(
                     color: Colors.grey[700],
-                    fontSize: 14,
+                    fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
                 ),

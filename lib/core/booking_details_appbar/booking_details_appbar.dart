@@ -9,27 +9,35 @@ class BookingDetailsAppBar extends StatelessWidget {
       width: double.infinity,
 
       padding: const EdgeInsets.only(
-        top: 55,
-        left: 20,
-        right: 20,
-        bottom: 24,
+        top: 42,
+        left: 16,
+        right: 16,
+        bottom: 16,
       ),
-
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            Color(0xff2F80ED),
-            Color(0xff5EA3F7),
-          ],
-
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-        ),
 
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(28),
-          bottomRight: Radius.circular(28),
+          colors: [
+             Color(0xff3D8EF5),
+             Color(0xff4E97F2),
+            Colors.white.withOpacity(.5),
+          ],
+
+          stops: [
+            0.0,
+            0.65,
+            1.0,
+          ],
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(.18),
+            blurRadius: 18,
+            offset: const Offset(0, 6),
+          ),
+        ],
       ),
 
       child: Column(
@@ -47,10 +55,10 @@ class BookingDetailsAppBar extends StatelessWidget {
                   Navigator.pop(context);
                 },
 
-                child: const Icon(
+                child:  Icon(
                   Icons.arrow_back_ios_new,
                   color: Colors.white,
-                  size: 20,
+                  size: 18,
                 ),
               ),
 
@@ -60,7 +68,7 @@ class BookingDetailsAppBar extends StatelessWidget {
 
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
+                  fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -68,13 +76,12 @@ class BookingDetailsAppBar extends StatelessWidget {
               /// LANGUAGE BUTTON
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 7,
+                  horizontal: 8,
+                  vertical: 5,
                 ),
 
                 decoration: BoxDecoration(
                   color: Colors.white,
-
                   borderRadius: BorderRadius.circular(30),
                 ),
 
@@ -84,17 +91,17 @@ class BookingDetailsAppBar extends StatelessWidget {
                     Icon(
                       Icons.language,
                       color: Color(0xff44516B),
-                      size: 18,
+                      size: 16,
                     ),
 
-                    SizedBox(width: 5),
+                    SizedBox(width: 4),
 
                     Text(
                       "ع",
 
                       style: TextStyle(
                         color: Color(0xff44516B),
-                        fontSize: 13,
+                        fontSize: 11,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -104,24 +111,24 @@ class BookingDetailsAppBar extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 24),
+          const SizedBox(height: 18),
 
           /// BOOKING INFO CARD
           Container(
             width: double.infinity,
 
             padding: const EdgeInsets.symmetric(
-              horizontal: 18,
-              vertical: 16,
+              horizontal: 14,
+              vertical: 12,
             ),
 
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(.18),
+              color: Colors.white.withOpacity(.16),
 
               borderRadius: BorderRadius.circular(18),
 
               border: Border.all(
-                color: Colors.white.withOpacity(.12),
+                color: Colors.white.withOpacity(.10),
               ),
             ),
 
@@ -141,18 +148,18 @@ class BookingDetailsAppBar extends StatelessWidget {
 
                       style: TextStyle(
                         color: Colors.white70,
-                        fontSize: 12,
+                        fontSize: 10,
                       ),
                     ),
 
-                    SizedBox(height: 4),
+                    SizedBox(height: 3),
 
                     Text(
                       "BK12345",
 
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 22,
+                        fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -162,13 +169,12 @@ class BookingDetailsAppBar extends StatelessWidget {
                 /// STATUS
                 Container(
                   padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 9,
+                    horizontal: 10,
+                    vertical: 6,
                   ),
 
                   decoration: BoxDecoration(
                     color: const Color(0xff25B516),
-
                     borderRadius: BorderRadius.circular(30),
                   ),
 
@@ -178,17 +184,17 @@ class BookingDetailsAppBar extends StatelessWidget {
                       Icon(
                         Icons.check_circle_outline,
                         color: Colors.white,
-                        size: 16,
+                        size: 14,
                       ),
 
-                      SizedBox(width: 5),
+                      SizedBox(width: 4),
 
                       Text(
                         "Confirmed",
 
                         style: TextStyle(
                           color: Colors.white,
-                          fontSize: 13,
+                          fontSize: 11,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
