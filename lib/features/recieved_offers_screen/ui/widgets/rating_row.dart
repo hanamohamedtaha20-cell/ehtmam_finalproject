@@ -1,3 +1,4 @@
+import '/features/offer_details_screen/data/model/provider_data.dart';
 import 'package:flutter/material.dart';
 import '../../data/model/provider_data.dart';
 

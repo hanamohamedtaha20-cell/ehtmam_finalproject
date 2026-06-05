@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BookingTabs extends StatelessWidget {
+<<<<<<< HEAD
 
   final int selectedIndex;
 
@@ -11,10 +12,14 @@ class BookingTabs extends StatelessWidget {
     required this.selectedIndex,
     required this.onTabChanged,
   });
+=======
+  const BookingTabs({super.key});
+>>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408
 
   @override
   Widget build(BuildContext context) {
     return Padding(
+<<<<<<< HEAD
       padding: EdgeInsets.symmetric(horizontal: 16),
 
       child: Container(
@@ -97,10 +102,35 @@ class BookingTabs extends StatelessWidget {
                         fontSize: 12,
                       ),
                     ),
+=======
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 8,
+                  ),
+                ],
+              ),
+              child: const Center(
+                child: Text(
+                  'Details',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF5E5CFF),
+>>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408
                   ),
                 ),
               ),
             ),
+<<<<<<< HEAD
 
             /// TASKS TAB
             Expanded(
@@ -162,12 +192,34 @@ class BookingTabs extends StatelessWidget {
                         fontSize: 12,
                       ),
                     ),
+=======
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 12),
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Center(
+                child: Text(
+                  'Tasks (3/5)',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey,
+>>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408
                   ),
                 ),
               ),
             ),
+<<<<<<< HEAD
           ],
         ),
+=======
+          ),
+        ],
+>>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408
       ),
     );
   }

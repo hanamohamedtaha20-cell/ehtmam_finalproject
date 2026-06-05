@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 // import '../data/booking_model.dart';
+=======
+// import '../model/booking_model.dart';
+>>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408
 //
 // abstract class BookingRemoteDataSource {
 //   Future<BookingModel> getBookingDetails(String id);

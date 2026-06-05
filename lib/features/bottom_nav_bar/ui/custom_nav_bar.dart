@@ -1,11 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class CustomBottomNavBar extends StatelessWidget {
+class UserBottomNavScreen extends StatelessWidget {
   final int currentIndex;
   final Function(int) onTap;
 
-  const CustomBottomNavBar({
+  const UserBottomNavScreen({
     super.key,
     required this.currentIndex,
     required this.onTap,
@@ -13,60 +12,127 @@ class CustomBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final s = (width / 390).clamp(0.85, 1.15);
+
     return Container(
-      height: 80,
-      width: double.infinity,
-      decoration: BoxDecoration(
+      height: 88 * s,
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
           colors: [
             Color(0xFF3A8BD7),
-            Color(0xFFD8E3E9),
+            Color(0xFFEAF4FF),
           ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
         ),
       ),
-      child: SafeArea(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            _navItem(Icons.home, "home".tr(), 0),
-            _navItem(Icons.assignment, "Requests".tr(), 1),
-            _navItem(Icons.calendar_today, "Booking".tr(), 2),
-            _navItem(Icons.person, "Profile".tr(), 3),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          navItem(
+            index: 0,
+            icon: Icons.home_outlined,
+            selectedIcon: Icons.home_rounded,
+            label: 'Home',
+            scale: s,
+          ),
+
+          navItem(
+            index: 1,
+            icon: Icons.description_outlined,
+            selectedIcon: Icons.description_rounded,
+            label: 'Requests',
+            scale: s,
+          ),
+
+          navItem(
+            index: 2,
+            icon: Icons.calendar_month_outlined,
+            selectedIcon: Icons.calendar_month_rounded,
+            label: 'Booking',
+            scale: s,
+          ),
+
+          navItem(
+            index: 3,
+            icon: Icons.person_outline_rounded,
+            selectedIcon: Icons.person_rounded,
+            label: 'Profile',
+            scale: s,
+          ),
+        ],
       ),
     );
   }
 
-  Widget _navItem(IconData icon, String label, int index) {
+  Widget navItem({
+    required int index,
+    required IconData icon,
+    required IconData selectedIcon,
+    required String label,
+    required double scale,
+  }) {
     final bool isSelected = currentIndex == index;
 
     return GestureDetector(
-      onTap: () => onTap(index),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          AnimatedScale(
-            scale: isSelected ? 1.2 : 1.0,
-            duration: const Duration(milliseconds: 200),
-            child: Icon(
-              icon,
-              color: isSelected ? Colors.white : Colors.white70,
+      behavior: HitTestBehavior.opaque,
+
+      onTap: () {
+        onTap(index);
+      },
+
+      child: SizedBox(
+        width: 80 * scale,
+        height: 88 * scale,
+
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              width: isSelected ? 36 * scale : 0,
+              height: 4 * scale,
+              decoration: BoxDecoration(
+                color: const Color(0xFF3A8BD7),
+                borderRadius: BorderRadius.circular(20),
+              ),
             ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label.tr(),
-            style: TextStyle(
-              color: isSelected ? Colors.white : Colors.white70,
-              fontSize: 12,
-              fontWeight:
-              isSelected ? FontWeight.bold : FontWeight.normal,
+
+            SizedBox(height: 8 * scale),
+
+            AnimatedContainer(
+              duration: const Duration(milliseconds: 250),
+              width: isSelected ? 38 * scale : 26 * scale,
+              height: isSelected ? 38 * scale : 26 * scale,
+              decoration: BoxDecoration(
+                color: isSelected
+                    ? Colors.white
+                    : Colors.transparent,
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                isSelected ? selectedIcon : icon,
+                size: isSelected ? 21 * scale : 19 * scale,
+                color: isSelected
+                    ? const Color(0xFF3A8BD7)
+                    : Colors.white,
+              ),
             ),
-          ),
-        ],
+
+            SizedBox(height: 6 * scale),
+
+            Text(
+              label,
+              style: TextStyle(
+                fontFamily: 'Inter',
+                fontSize: 12 * scale,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
