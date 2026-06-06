@@ -21,7 +21,7 @@ class ProfileHeader extends StatelessWidget {
             },
             child: Icon(Icons.arrow_back)),
 
-        const Text("myProfile",
+        const Text("My Profile",
             style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18, color: AppColors.textDark)),
         const Spacer(),
         //localization

@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/core/network/api_services.dart';
+import 'package:ehtemam_final_project/core/network/api_service.dart';
 import '../model/task_model.dart';
 
 class TaskRepo {
@@ -6,11 +6,8 @@ class TaskRepo {
 
   Future<List<TaskModel>> getTasks() async {
     final result = await _api.getAllTasks();
-    if (result['status'] == 'success') {
-      final list = result['data'] as List? ?? [];
-      return list.map((t) => TaskModel.fromJson(t)).toList();
-    }
-    return [];
+    final list = result['data'] as List? ?? [];
+    return list.map((t) => TaskModel.fromJson(t)).toList();
   }
 
   Future<void> addTask(String description) async {

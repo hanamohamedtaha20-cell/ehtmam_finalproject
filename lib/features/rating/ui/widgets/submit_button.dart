@@ -13,11 +13,8 @@ class SubmitButton extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [AppColors.blue, AppColors.lightBlue],
-            begin: Alignment.centerLeft,
-            end: Alignment.centerRight,
-          ),
+         color: AppColors.blue,
+          
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(

@@ -17,7 +17,7 @@ class StatsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(child: _StatCard(label: "totalRequests", value: totalRequests.toString(), color: AppColors.lightBlue, textColor: AppColors.blue)),
+        Expanded(child: _StatCard(label: "totalRequests", value: totalRequests.toString(), color: Color(0xff9DCAF5), textColor: Color(0xff3A8BD7))),
         const SizedBox(width: 10),
         Expanded(child: _StatCard(label: "completed", value: completed.toString(), color: AppColors.lightGreen, textColor: AppColors.green)),
         const SizedBox(width: 10),

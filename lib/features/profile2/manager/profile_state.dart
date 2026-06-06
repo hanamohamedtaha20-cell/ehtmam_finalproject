@@ -4,6 +4,8 @@ abstract class ProfileState {}
 
 class ProfileInitial extends ProfileState {}
 
+class ProfileLoading extends ProfileState {}
+
 class ProfileLoaded extends ProfileState {
   final UserModel user;
   final int totalRequests;
@@ -16,4 +18,9 @@ class ProfileLoaded extends ProfileState {
     required this.completed,
     required this.rating,
   });
+}
+
+class ProfileError extends ProfileState {
+  final String message;
+  ProfileError(this.message);
 }

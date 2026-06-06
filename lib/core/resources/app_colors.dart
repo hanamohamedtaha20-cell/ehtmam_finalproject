@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class AppColors {
   static const primary = Color(0xFF6C63FF);
   static const lightBlue = Color(0xFFE3F2FD);
@@ -23,5 +25,23 @@ static const  yellow = Color(0xFFFAEA3F);
   static const Color bg3 = Color(0xFFFAF5FF);
   static const Color green = Color(0xFF1F9E0E);
   static const Color lightGreen2 = Color(0xFFB8FBAF);
+static const Color primaryBlue = Color(0xFF1F56FF);
+  static const Color darkBlueText = Color(0xFF2F5E96);
+  static const Color mutedText = Color(0xFF7C889C);
+  static const Color languageText = Color(0xFF5C6B82);
+static const Color gradientTopLeft = Color(0xFF72B9F2);
+   static const Color gradientCenter = Color(0xFFF4F8FD);
+  static const Color gradientBottomRight = Color(0xFF78B7F0);
+static const Color titleStroke = Color(0x70000000);
+  static const Color onboardingTitle = Color(0xFF1D293D);
+  static const Color onboardingBody = Color(0xFF314158);
+  static const Color cardBlueStart = Color(0xFF1D4987);
+  static const Color cardBlueEnd = Color(0xFF55C0FF);
+  static const Color cardShadow = Color(0x1A0A0A0A);
+  static const Color white80 = Color(0xCCFFFFFF);
+  static const Color white10 = Color(0x1AFFFFFF);
+ static const Color indicatorInactive = Color(0xFF2D67F6);
+  static const Color textBlue = Color(0xFF2F5E96);
+  static const Color white = Colors.white;
 
 }

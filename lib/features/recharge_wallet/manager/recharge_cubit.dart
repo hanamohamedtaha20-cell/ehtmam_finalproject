@@ -19,12 +19,11 @@ class RechargeCubit extends Cubit<RechargeState> {
   }) async {
     emit(RechargeLoading());
     try {
-      // CARD or MOBILE_WALLET بناءً على الاختيار
       final methodMap = {
-        0: 'MOBILE_WALLET', // Vodafone Cash
-        1: 'MOBILE_WALLET', // InstaPay
-        2: 'CARD',          // Credit/Debit Card
-        3: 'MOBILE_WALLET', // Fawry
+        0: 'MOBILE_WALLET',
+        1: 'MOBILE_WALLET',
+        2: 'CARD',
+        3: 'MOBILE_WALLET',
       };
 
       final paymentMethod = methodMap[selectedMethodIndex] ?? 'CARD';
@@ -34,13 +33,9 @@ class RechargeCubit extends Cubit<RechargeState> {
         paymentMethod: paymentMethod,
       );
 
-      if (result['success'] == true) {
-        emit(RechargeSuccess(result['paymentUrl']));
-      } else {
-        emit(RechargeError(result['message'] ?? 'حدث خطأ'));
-      }
+      emit(RechargeSuccess(result['paymentUrl'] ?? ''));
     } catch (e) {
-      emit(RechargeError('تعذر الاتصال بالسيرفر'));
+      emit(RechargeError('failed to connect to the sevrver'));
     }
   }
 }

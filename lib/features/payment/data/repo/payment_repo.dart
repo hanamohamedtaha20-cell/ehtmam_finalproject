@@ -1,14 +1,15 @@
-import 'package:ehtemam_final_project/core/network/api_services.dart';
+import 'package:ehtemam_final_project/core/network/api_service.dart';
+
 class PaymentRepo {
   final ApiService _api = ApiService();
 
   Future<Map<String, dynamic>> getPaymentData(String walletId) async {
-    final result = await _api.getWalletById(walletId);
-    return result;
+    return await _api.getWalletById(walletId);
   }
+
   Future<Map<String, dynamic>> getBookingData(String bookingId) async {
-  return await _api.getBookingById(bookingId);
-}
+    return await _api.getBookingById(bookingId);
+  }
 
   Future<Map<String, dynamic>> rechargeWallet({
     required double amount,

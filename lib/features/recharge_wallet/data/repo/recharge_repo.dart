@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/core/network/api_services.dart';
+import 'package:ehtemam_final_project/core/network/api_service.dart';
 import '../model/recharge_model.dart';
 
 class RechargeRepo {

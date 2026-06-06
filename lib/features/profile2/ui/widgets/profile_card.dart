@@ -13,7 +13,7 @@ class ProfileCard extends StatelessWidget {
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [AppColors.blue, Colors.white],
+          colors: [Color(0xff3A8BD7), Color(0xff97CCFD)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
