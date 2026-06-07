@@ -2,10 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import '../../../login_required_screen/ui/screens/login_requred_screen.dart';
 import '../../data/model/user_model.dart';
-<<<<<<< HEAD
 import '../screens/chatbot_screen.dart';
-=======
->>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408
+
 
 
 class HeaderWidget extends StatelessWidget {

@@ -1,11 +1,12 @@
+import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/offer_header.dart';
+import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/request_summary_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../offer_details_screen/data/repo/Provider_repo.dart';
 import '../../../offer_details_screen/manager/provider_details_cubit.dart';
 import '../../../offer_details_screen/manager/state/provider_state.dart';
-import '../widgets/offer_header.dart';
 import '../widgets/offers_list.dart';
-import '../widgets/request_summary_card.dart';
+
 
 class OffersScreen extends StatelessWidget {
    OffersScreen({super.key});

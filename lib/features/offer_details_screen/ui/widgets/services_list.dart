@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-// TODO Implement this library.
-=======
 import 'package:flutter/material.dart';
 
 class ServicesList extends StatelessWidget {
@@ -92,4 +89,3 @@ class ServicesList extends StatelessWidget {
     );
   }
 }
->>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408

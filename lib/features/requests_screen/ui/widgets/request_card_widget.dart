@@ -1,11 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:ehtemam_final_project/features/requests_screen_user/ui/widgets/action_button.dart';
+import '../../../requests_screen_user/data/model/request_type.dart';
+import '../../../requests_screen_user/ui/widgets/status_badge.dart';
 import '/features/offer_details_screen/ui/screens/offer_details_screen.dart';
 import '/features/offers_screen/ui/screens/offers_screen.dart';
-import '/features/requests_screen/ui/widgets/status_badge.dart';
 import 'package:flutter/material.dart';
 import '../../data/model.dart';
-import '../../data/request_type.dart';
-import 'action_button.dart';
+
 
 class RequestCardWidget extends StatefulWidget {
   final RequestModel request;

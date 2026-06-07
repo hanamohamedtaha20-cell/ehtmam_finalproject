@@ -1,12 +1,8 @@
-
-import 'package:ehtmam_finalproject/features/offers_screen/ui/widgets/price_row.dart';
-import 'package:ehtmam_finalproject/features/offers_screen/ui/widgets/provider_info.dart';
-import 'package:ehtmam_finalproject/features/offers_screen/ui/widgets/rating_row.dart';
-import 'package:ehtmam_finalproject/features/offers_screen/ui/widgets/specialization_box.dart';
+import 'package:ehtemam_final_project/features/offers_screen/ui/widgets/specialization_box.dart';
+import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/price_row.dart';
 import 'package:flutter/material.dart';
 import '../../../offer_details_screen/data/model/provider_data.dart';
-import 'buttons.dart';
-import 'notes.dart';
+import '../../../recieved_offers_screen/ui/widgets/notes.dart';
 
 
 class OfferCard extends StatelessWidget {

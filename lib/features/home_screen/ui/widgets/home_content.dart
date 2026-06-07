@@ -1,14 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/crearte_request.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-import '../../../requests_screen_user/ui/screens/requests_screen.dart';
 import '../../data/model/user_model.dart';
 import 'bundles_card.dart';
-=======
 import '../../../requests_screen/ui/screens/requests_screen.dart';
-import '../../data/model/user_model.dart';
->>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408
 import 'request_card.dart';
 import 'header.dart';
 import 'service_card.dart';

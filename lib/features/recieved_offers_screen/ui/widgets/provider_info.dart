@@ -1,11 +1,6 @@
-import '/features/offer_details_screen/data/model/provider_data.dart';
 import 'package:flutter/material.dart';
-
-<<<<<<< HEAD:lib/features/recieved_offers_screen/ui/widgets/provider_info.dart
 import '../../data/model/provider_data.dart';
 
-=======
->>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408:lib/features/offers_screen/ui/widgets/provider_info.dart
 class ProviderInfo extends StatelessWidget {
   const ProviderInfo({super.key,required this.provider});
   final ProviderModel provider;

@@ -1,13 +1,9 @@
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/client_budget_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/proposed_price_card.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../core/booking_details_appbar/booking_details_appbar.dart';
 import '../../../../core/widgets/gradient_action_button.dart';
 import '../widgets/client_info.dart';
-import '../widgets/date_time_card.dart';
-import '../widgets/service_details_card.dart';
-import '../widgets/special_instructions_card.dart';
 import '../widgets/tabs.dart';
 
 /// TASKS WIDGETS

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD:lib/features/recieved_offers_screen/ui/widgets/notes.dart
-import '../../data/model/provider_data.dart';
-=======
+
 import '../../../offer_details_screen/data/model/provider_data.dart';
->>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408:lib/features/offers_screen/ui/widgets/notes.dart
+
 
 class NotesBox extends StatelessWidget {
   const NotesBox({

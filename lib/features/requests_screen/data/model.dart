@@ -1,4 +1,4 @@
-import 'package:ehtmam_finalproject/features/requests_screen/data/request_type.dart';
+import '../../requests_screen_user/data/model/request_type.dart';
 
 class RequestModel {
   final String title;

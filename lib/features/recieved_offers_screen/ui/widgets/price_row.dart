@@ -1,11 +1,7 @@
-import '/features/offer_details_screen/data/model/provider_data.dart';
 import 'package:flutter/material.dart';
-
-<<<<<<< HEAD:lib/features/recieved_offers_screen/ui/widgets/price_row.dart
 import '../../data/model/provider_data.dart';
 
-=======
->>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408:lib/features/offers_screen/ui/widgets/price_row.dart
+
 class PriceRow extends StatelessWidget {
   const PriceRow({super.key,required this.provider});
   final ProviderModel provider;

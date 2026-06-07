@@ -1,9 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-import '../../../home_screen/ui/home_screen.dart';
+import '../../../home_screen/ui/screens/home_screen.dart';
+import '../../../requests_screen_user/data/model/request_type.dart';
 import '../../data/model.dart';
-import '../../data/request_type.dart';
 import '../widgets/request_card_widget.dart';
 
 class RequestsScreen extends StatefulWidget {

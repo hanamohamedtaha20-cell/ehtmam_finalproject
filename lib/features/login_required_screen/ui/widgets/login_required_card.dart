@@ -1,11 +1,6 @@
-import 'package:ehtmam_finalproject/features/login_required_screen/ui/widgets/pirmary.dart';
+import 'package:ehtemam_final_project/features/login_required_screen/ui/widgets/pirmary.dart';
 import 'package:flutter/material.dart';
-<<<<<<< HEAD
-
 import '../../../home_screen/ui/screens/home_screen.dart';
-=======
-import '../../../home_screen/ui/home_screen.dart';
->>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408
 import 'outline_bottom.dart';
 
 class LoginRequiredCard extends StatelessWidget {
@@ -68,11 +63,9 @@ class LoginRequiredCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-<<<<<<< HEAD
-=======
                   Image.asset("images/lock2.png", height: 50),
                   SizedBox(height: 10),
->>>>>>> 823415860e4e0e2ecdcdcb85db67f7d02283a408
+
                   Text(
                     "As a guest, you can browse the app but cannot create requests",
                     textAlign: TextAlign.center,
