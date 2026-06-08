@@ -38,40 +38,44 @@ class SettingsTile extends StatelessWidget {
           ),
         ],
       ),
-      child: ListTile(
-        onTap: onTap,
-        contentPadding: const EdgeInsets.symmetric(horizontal: 14),
-        leading: CircleAvatar(
-          radius: 20,
-          backgroundColor: iconBgColor,
-          child: Icon(icon, color: iconColor, size: 20),
-        ),
-        title: Text(
-          title,
-          style: TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 13,
-            fontWeight: FontWeight.w700,
-            color: titleColor,
-          ),
-        ),
-        subtitle: Text(
-          subtitle,
-          style: const TextStyle(
-            fontFamily: 'Inter',
-            fontSize: 10.5,
-            fontWeight: FontWeight.w400,
-            color: Color(0xFF98A2B3),
-          ),
-        ),
-        trailing: showArrow
-            ? const Icon(
-          Icons.arrow_forward_ios_rounded,
-          size: 14,
-          color: Color(0xFF475467),
-        )
-            : null,
+     child: Material(
+  color: Colors.transparent,
+  borderRadius: BorderRadius.circular(18),
+  child: ListTile(
+    onTap: onTap,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 14),
+    leading: CircleAvatar(
+      radius: 20,
+      backgroundColor: iconBgColor,
+      child: Icon(icon, color: iconColor, size: 20),
+    ),
+    title: Text(
+      title,
+      style: TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 13,
+        fontWeight: FontWeight.w700,
+        color: titleColor,
       ),
+    ),
+    subtitle: Text(
+      subtitle,
+      style: const TextStyle(
+        fontFamily: 'Inter',
+        fontSize: 10.5,
+        fontWeight: FontWeight.w400,
+        color: Color(0xFF98A2B3),
+      ),
+    ),
+    trailing: showArrow
+        ? const Icon(
+            Icons.arrow_forward_ios_rounded,
+            size: 14,
+            color: Color(0xFF475467),
+          )
+        : null,
+  ),
+),
     );
   }
 }
