@@ -1,21 +1,24 @@
-class CareRequestStatsModel {
-  final int pending;
-  final int active;
-  final int completed;
+class CareRequestModel {
+  final String id;
+  final String status;
+  final String location;
+  final String notes;
 
-  CareRequestStatsModel({
-    required this.pending,
-    required this.active,
-    required this.completed,
+  CareRequestModel({
+    required this.id,
+    required this.status,
+    required this.location,
+    required this.notes,
   });
 
-  factory CareRequestStatsModel.fromJson(
+  factory CareRequestModel.fromJson(
       Map<String, dynamic> json,
       ) {
-    return CareRequestStatsModel(
-      pending: json['pending'],
-      active: json['active'],
-      completed: json['completed'],
+    return CareRequestModel(
+      id: json['_id'] ?? '',
+      status: json['status'] ?? '',
+      location: json['location'] ?? '',
+      notes: json['notes'] ?? '',
     );
   }
 }

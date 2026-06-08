@@ -67,20 +67,14 @@ class ApiService {
     loginEndpoint,
     data: {'email': email, 'password': password},
     options: Options(headers: {'Authorization': null}),
+
   );
   final data = response.data;
   if (data['status'] == 'success') {
     final prefs = await SharedPreferences.getInstance();
     final token = data['data'];
     await prefs.setString('token', token);
-    final parts = token.split('.');
-    if (parts.length == 3) {
-      final payload = utf8.decode(
-        base64Url.decode(base64Url.normalize(parts[1])),
-      );
-      final decoded = jsonDecode(payload);
-      await prefs.setString('userId', decoded['id'] ?? '');
-    }
+    print(token);
   }
   return data;
 }
@@ -405,7 +399,11 @@ Future<Map<String, dynamic>> postFormData({
   }
 
   Future<Map<String, dynamic>> getWalletById(String id) async {
-    final response = await _dio.get('$walletEndpoint/$id');
+    print("malak");
+    final response = await _dio.get(
+      walletEndpoint
+    );
+    print(response);
     return response.data;
   }
 

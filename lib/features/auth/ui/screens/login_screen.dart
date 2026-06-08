@@ -5,7 +5,10 @@ import 'package:ehtemam_final_project/features/auth/ui/screens/reset_password_sc
 import 'package:ehtemam_final_project/features/auth/ui/screens/select_role_screen.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/auth_background.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/auth_text_field.dart';
+import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
 import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
+import 'package:ehtemam_final_project/features/profile2/ui/screens/profile_screen.dart';
+import 'package:ehtemam_final_project/features/rating/ui/screens/rating_screen.dart';
 import 'package:ehtemam_final_project/features/splash/ui/widgets/next_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -58,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => PaymentScreen(),
+              builder: (context) =>HomeScreen(),
             ),
           );
         }
@@ -81,18 +84,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(28),
-                  border: Border.all(
-                    color: Colors.white.withOpacity(0.22),
-                    width: 1.2,
-                  ),
+
                 ),
                 child: Column(
                   children: [
-                    const Align(
-                      alignment: Alignment.topRight,
-                      child: LanguageChip(),
-                    ),
-                    const SizedBox(height: 18),
+
                     Expanded(
                       child: SingleChildScrollView(
                         child: Column(
@@ -240,18 +236,26 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             const SizedBox(height: 30),
 
-                            Text(
-                              'Continue as a Guest!',
-                              style: AppTextStyle.semiBold.copyWith(
-                                fontSize: 16,
-                                color: const Color(0xFF2EA63A),
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black.withOpacity(0.25),
-                                    offset: const Offset(0, 4),
-                                    blurRadius: 4,
-                                  ),
-                                ],
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacement(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => HomeScreen()),
+                                );
+                              },
+                              child: Text(
+                                'Continue as a Guest!',
+                                style: AppTextStyle.semiBold.copyWith(
+                                  fontSize: 16,
+                                  color: const Color(0xFF2EA63A),
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withOpacity(0.25),
+                                      offset: const Offset(0, 4),
+                                      blurRadius: 4,
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
 

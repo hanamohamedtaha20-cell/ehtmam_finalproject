@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../../offer_details_screen/data/model/provider_data.dart';
+import '../../data/model/provider_data.dart';
 
 
 class NotesBox extends StatelessWidget {

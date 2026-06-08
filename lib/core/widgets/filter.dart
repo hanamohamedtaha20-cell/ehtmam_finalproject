@@ -84,7 +84,7 @@ class _RequestTabsState extends State<Filter> {
               child: Text(title),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 5),
 
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),

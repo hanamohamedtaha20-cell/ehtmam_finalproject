@@ -10,9 +10,8 @@ import '../widgets/client_info.dart';
 import '../widgets/tabs.dart';
 
 /// TASKS WIDGETS
-import '../widgets/tasks_progress_card.dart';
 import '../widgets/task_item_card.dart';
-import '../widgets/add_task_button.dart';
+
 
 class BookingCgScreenScreen extends StatefulWidget {
   const BookingCgScreenScreen({super.key});
@@ -98,11 +97,15 @@ class _BookingDetailsScreenState
 
 
                     SizedBox(height: 16),
+                    ClientInfoCard(),
+
+
+                    SizedBox(height: 16),
 
                     ServiceDetailsCard(),
 
                     SizedBox(height: 16),
-                    // ClientInfoCard(),
+
                     DateTimeCard(),
 
                     SizedBox(height: 16),
@@ -123,23 +126,15 @@ class _BookingDetailsScreenState
                     SizedBox(height: 16),
 
                      GradientActionButton(
-                      text: "Accept request",
+                      text: "Submit offer",
                       onTap: () {
-
                       },
                     ),
 
                   ],
-
+                    SizedBox(height: 16,),
                   /// TASKS TAB
                   if (selectedTab == 1) ...[
-
-                    TasksProgressCard(
-                      completedTasks: completedTasks,
-                      totalTasks: tasks.length,
-                    ),
-
-                    SizedBox(height: 16),
 
                     Column(
                       children: List.generate(
@@ -163,13 +158,7 @@ class _BookingDetailsScreenState
                         },
                       ),
                     ),
-
-                    SizedBox(height: 24),
-
-                    AddTaskButton(),
                   ],
-
-                  SizedBox(height: 100),
                 ],
               ),
             ),

@@ -113,9 +113,7 @@ class CreateRequestBody extends StatelessWidget {
 
                   return SubmitRequest(
                     onSubmit: () {
-                      CreateRequestCubit
-                          .get(context)
-                          .submitRequest();
+                      context.read<CreateRequestCubit>().submitRequest();
                     },
                   );
                 },

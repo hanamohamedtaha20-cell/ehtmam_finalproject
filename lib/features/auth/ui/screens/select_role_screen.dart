@@ -18,12 +18,6 @@ class SelectRoleScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
             child: Column(
               children: [
-                const Align(
-                  alignment: Alignment.topRight,
-                  child: LanguageChip(),
-                ),
-                const SizedBox(height: 26),
-
                 const SelectRoleLogoSection(),
 
                 const SizedBox(height: 34),

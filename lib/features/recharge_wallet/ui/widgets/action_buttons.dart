@@ -36,7 +36,7 @@ class ActionButtons extends StatelessWidget {
         const SizedBox(width: 12),
         Expanded(
           child: GestureDetector(
-            onTap: onConfirm,
+            onTap: () => Navigator.pop(context),
             child: Container(
               padding: const EdgeInsets.symmetric(vertical: 14),
               decoration: BoxDecoration(

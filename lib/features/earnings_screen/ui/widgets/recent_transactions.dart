@@ -17,13 +17,13 @@ class RecentTransactionsSection
 
         SizedBox(height: 14),
 
-        TransactionCard(
-          title: "Pet Care",
-          subtitle: "marina tarik",
-          amount: "550",
-          date: "March 7, 2026",
-          status: "Paid",
-        ),
+            TransactionCard(
+              title: "Pet Care",
+              subtitle: "marina tarik",
+              amount: "550",
+              date: "March 7, 2026",
+              status: "Paid",
+            ),
       ],
     );
   }

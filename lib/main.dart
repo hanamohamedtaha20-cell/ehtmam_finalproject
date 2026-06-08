@@ -2,20 +2,19 @@ import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/auth/data/repo/auth_repo.dart';
 import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart';
-import 'package:ehtemam_final_project/features/booking_user/ui/screens/booking_screen_user.dart';
+import 'package:ehtemam_final_project/features/earnings_screen/ui/screens/earnings_screen.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/data/repo/mytask_cg_repo.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/manager/mytask_cg_cubit.dart';
-import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
-import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/data/repo/recharge_repo.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_cubit.dart';
+import 'package:ehtemam_final_project/features/request_screen_caregiver/ui/screens/care_requests_screen.dart';
 import 'package:ehtemam_final_project/features/splash/manager/splash_cubit.dart';
-import 'package:ehtemam_final_project/features/splash/ui/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'features/recieved_offers_screen/ui/screens/offer_details_screen.dart';
 
 
 void main() async {

@@ -1,14 +1,41 @@
-import '../model/create_request_model.dart';
-import '../services/create_request_api_service.dart';
+import 'create_request_remote_datasource.dart';
 
-class CreateRequestRepo {
-  final CreateRequestApiService apiService;
+abstract class CreateRequestRepository {
+  Future<void> createRequest({
+    required String serviceId,
+    required String location,
+    required String date,
+    required String time,
+    String? duration,
+    String? notes,
+  });
+}
 
-  CreateRequestRepo(this.apiService);
+class CreateRequestRepositoryImpl
+    implements CreateRequestRepository {
 
-  Future<void> createRequest(CreateRequestModel model) async {
-    await apiService.createRequest(
-      model.toJson(),
+  final CreateRequestRemoteDatasource remoteDatasource;
+
+  CreateRequestRepositoryImpl(
+      this.remoteDatasource,
+      );
+
+  @override
+  Future<void> createRequest({
+    required String serviceId,
+    required String location,
+    required String date,
+    required String time,
+    String? duration,
+    String? notes,
+  }) async {
+    await remoteDatasource.createRequest(
+      serviceId: serviceId,
+      location: location,
+      date: date,
+      time: time,
+      duration: duration,
+      notes: notes,
     );
   }
 }

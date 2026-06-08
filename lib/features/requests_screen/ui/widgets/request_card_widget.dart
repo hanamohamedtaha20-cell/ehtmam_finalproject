@@ -1,12 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:ehtemam_final_project/features/offer_details_screen/ui/screens/offer_details_screen.dart';
-import 'package:ehtemam_final_project/features/offers_screen/ui/screens/offers_screen.dart';
 import 'package:ehtemam_final_project/features/requests_screen_user/data/model/request_type.dart';
 import 'package:ehtemam_final_project/features/requests_screen_user/ui/widgets/action_button.dart';
 import 'package:ehtemam_final_project/features/requests_screen_user/ui/widgets/status_badge.dart';
 import 'package:ehtemam_final_project/features/tasks/ui/screens/task_screen.dart';
 import 'package:flutter/material.dart';
 import '../../../rating/ui/screens/rating_screen.dart';
+import '../../../recieved_offers_screen/ui/screens/offer_details_screen.dart';
+import '../../../recieved_offers_screen/ui/screens/received_screen.dart';
 import '../../data/model.dart';
 
 

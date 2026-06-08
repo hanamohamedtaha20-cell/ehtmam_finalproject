@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/widgets/filter.dart';
 import '../widgets/care_request_card.dart';
+import '../widgets/care_request_header.dart';
 import '../widgets/care_request_stats_row.dart';
 
 class CareRequestsScreen extends StatefulWidget {
@@ -58,14 +59,13 @@ class _CareRequestsScreenState
       body: Column(
         children: [
 
+          const RequestHeader(),
           /// TOP SECTION
           Filter(
-
             selectedTab: selectedFilter,
-
             onTabChanged: (
                 String selectedTab,
-                ) {
+                ){
 
               setState(() {
 
@@ -74,65 +74,45 @@ class _CareRequestsScreenState
               });
             },
           ),
-
-          /// CONTENT
-          Expanded(
-            child: Padding(
-              padding:
-              const EdgeInsets.all(
-                16,
-              ),
-
-              child: Column(
-                children: [
-
-                  /// STATS
-                  const RequestStatsRow(),
-
-                  const SizedBox(
-                    height: 18,
-                  ),
-
-                  /// REQUESTS LIST
-                  Expanded(
-                    child: ListView.separated(
-
-                      itemCount:
-                      filteredRequests
-                          .length,
-
-                      separatorBuilder:
-                          (_, __) =>
-                      const SizedBox(
-                        height: 16,
-                      ),
-
-                      itemBuilder:
-                          (context, index) {
-
-                        final request =
-                        filteredRequests[
-                        index];
-
-                        return RequestCard(
-
-                          status:
-                          request[
-                          "status"],
-
-                          statusColor:
-                          request[
-                          "color"],
-                        );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ),
+      /// CONTENT
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 16,
+            right: 16,
+            
           ),
-        ],
-      ),
+          child: ListView.separated(
+            itemCount: filteredRequests.length + 1,
+
+            separatorBuilder: (_, __) =>
+             SizedBox(height: 10),
+
+            itemBuilder: (context, index) {
+
+              /// أول عنصر = Stats
+              if (index == 0) {
+                return const Column(
+                  children: [
+                    RequestStatsRow(),
+                    SizedBox(height: 10),
+                  ],
+                );
+              }
+
+              final request =
+              filteredRequests[index - 1];
+
+              return RequestCard(
+                status: request["status"],
+                statusColor:
+                request["color"],
+              );
+            },
+          ),
+        ),
+      ),]
+      )
     );
   }
 }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import '../widgets/earnings_header_card.dart';
 import '../widgets/recent_transactions.dart';
 import '../widgets/stats_card.dart';

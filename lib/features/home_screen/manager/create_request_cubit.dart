@@ -1,85 +1,74 @@
-import 'package:ehtemam_final_project/features/home_screen/manager/state/create_request_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../data/repo/create_request_repo.dart';
+import 'package:ehtemam_final_project/features/home_screen/manager/state/create_request_state.dart';
 
-class CreateRequestCubit
-    extends Cubit<CreateRequestState> {
-
-  CreateRequestCubit()
-      : super(CreateRequestInitial());
-
-  static CreateRequestCubit get(context) =>
-      BlocProvider.of(context);
-
-  /// FORM KEY
-  final formKey = GlobalKey<FormState>();
-
-  /// DATE & TIME
+class CreateRequestCubit extends Cubit<CreateRequestState> {
+  final CreateRequestRepository repository;
   DateTime? selectedDate;
-
   TimeOfDay? selectedTime;
-
-  /// VALIDATION FLAGS
   bool isDateEmpty = false;
-
   bool isTimeEmpty = false;
 
-  /// SET DATE
+  CreateRequestCubit(this.repository) : super(CreateRequestInitial());
+
   void setDate(DateTime date) {
-
-    selectedDate = date;
-
-    isDateEmpty = false;
-
-    emit(CreateRequestDateChanged());
+  selectedDate = date;
+  isDateEmpty = false;
+  emit(CreateRequestInitial());
   }
 
-  /// SET TIME
   void setTime(TimeOfDay time) {
-
-    selectedTime = time;
-
-    isTimeEmpty = false;
-
-    emit(CreateRequestTimeChanged());
+  selectedTime = time;
+  isTimeEmpty = false;
+  emit(CreateRequestInitial());
   }
 
-  /// SUBMIT REQUEST
+  final formKey = GlobalKey<FormState>();
+
   void submitRequest() {
-
-    /// DATE VALIDATION
-    isDateEmpty = selectedDate == null;
-
-    /// TIME VALIDATION
-    isTimeEmpty = selectedTime == null;
-
-    /// REBUILD UI
-    emit(CreateRequestDateChanged());
-
-    emit(CreateRequestTimeChanged());
-
-    /// FORM VALIDATION
-    final isFormValid =
-    formKey.currentState!.validate();
-
-    /// STOP IF ANY ERROR
-    if (!isFormValid ||
-        isDateEmpty ||
-        isTimeEmpty) {
-
-      emit(
-        CreateRequestError(
-          "Please complete all required fields",
-        ),
+    if (formKey.currentState!.validate()) {
+      createRequest(
+        serviceId: '',
+        location: '',
+        date: selectedDate != null
+            ? '${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}'
+            : '',
+        time: selectedTime != null
+            ? '${selectedTime!.hour}:${selectedTime!.minute}'
+            : '',
       );
-
-      return;
     }
+  }
 
+
+  Future<void> createRequest({
+    required String serviceId,
+    required String location,
+    required String date,
+    required String time,
+    String? duration,
+    String? notes,
+  }) async {
     emit(CreateRequestLoading());
 
-    // API OR LOGIC HERE
+    try {
+      await repository.createRequest(
+        serviceId: serviceId,
+        location: location,
+        date: date,
+        time: time,
+        duration: duration,
+        notes: notes,
+      );
 
-    emit(CreateRequestSuccess());
+      emit(CreateRequestSuccess());
+    } catch (e) {
+      emit(
+        CreateRequestError(
+          e.toString(),
+        ),
+      );
+    }
   }
 }

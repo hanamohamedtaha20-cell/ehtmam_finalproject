@@ -26,10 +26,20 @@ class TransactionCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(18),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            blurRadius: 6,
+            offset: const Offset(0,4),
+          ),
+        ],
       ),
 
       child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+
+          /// LEFT SIDE
           Expanded(
             child: Column(
               crossAxisAlignment:
@@ -38,9 +48,10 @@ class TransactionCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-
                   style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF1F2937),
                   ),
                 ),
 
@@ -48,16 +59,38 @@ class TransactionCard extends StatelessWidget {
 
                 Text(
                   subtitle,
-
                   style: TextStyle(
                     color: Colors.grey.shade600,
                     fontSize: 12,
                   ),
                 ),
+
+                const SizedBox(height: 8),
+
+                Row(
+                  children: [
+                    Icon(
+                      Icons.calendar_today_outlined,
+                      size: 12,
+                      color: Colors.grey.shade500,
+                    ),
+
+                    const SizedBox(width: 4),
+
+                    Text(
+                      date,
+                      style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontSize: 11,
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
 
+          /// RIGHT SIDE
           Column(
             crossAxisAlignment:
             CrossAxisAlignment.end,
@@ -65,10 +98,10 @@ class TransactionCard extends StatelessWidget {
             children: [
               Text(
                 amount,
-
                 style: const TextStyle(
                   color: Color(0xFF4A90E2),
-                  fontWeight: FontWeight.bold,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
 
@@ -76,8 +109,8 @@ class TransactionCard extends StatelessWidget {
 
               Container(
                 padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
+                  horizontal: 12,
+                  vertical: 5,
                 ),
 
                 decoration: BoxDecoration(
@@ -91,11 +124,12 @@ class TransactionCard extends StatelessWidget {
 
                 child: Text(
                   status,
-
                   style: TextStyle(
                     color: pending
-                        ? Colors.orange
-                        : Colors.green,
+                        ? const Color(0xFFE68A00)
+                        : const Color(0xFF2E7D32),
+                    fontSize: 11,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
               ),

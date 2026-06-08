@@ -1,3 +1,5 @@
+import 'package:ehtemam_final_project/features/account_settings/manager/account_settings_cubit.dart';
+import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_user.dart';
 import 'package:ehtemam_final_project/features/profile2/data/repo/profile_repo.dart';
 import 'package:ehtemam_final_project/features/profile2/manager/profile_cubit.dart';
 import 'package:ehtemam_final_project/features/profile2/manager/profile_state.dart';
@@ -64,7 +66,14 @@ class ProfileScreen extends StatelessWidget {
 class _OptionsCard extends StatelessWidget {
 List<_OptionData> _buildOptions(BuildContext context) => [
     _OptionData(icon: Icons.settings_outlined, label: "accountSettings", color: const Color(0xFF45556C),
-    onTap: () {
+    onTap: () {Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (_) => BlocProvider(
+            create: (_) => AccountSettingsCubit(),
+            child: const AccountSettingsScreen(),
+          ),
+        ),);
   },),
     _OptionData(icon: Icons.notifications_outlined, label: "notifications", color: const Color.fromARGB(255, 245, 221, 126),
     onTap: () {

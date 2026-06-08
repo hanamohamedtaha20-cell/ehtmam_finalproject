@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/features/home_screen/manager/state/create_request_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,8 +15,7 @@ class DateTimeSection extends StatelessWidget {
         CreateRequestState>(
       builder: (context, state) {
 
-        final cubit =
-        CreateRequestCubit.get(context);
+        final cubit = context.read<CreateRequestCubit>();
 
         return Row(
           children: [

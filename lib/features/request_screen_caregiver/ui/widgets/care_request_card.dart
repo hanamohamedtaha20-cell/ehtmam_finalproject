@@ -1,6 +1,7 @@
+import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
 import 'package:flutter/material.dart';
-
 import '../../../../core/widgets/gradient_action_button.dart';
+import '../screens/booking_details_acc.dart';
 
 class RequestCard extends StatelessWidget {
   final String status;
@@ -144,13 +145,13 @@ class RequestCard extends StatelessWidget {
           const SizedBox(height: 20),
 
           /// ACTIONS
-          _buildActions(),
+          _buildActions(context),
         ],
       ),
     );
   }
 
-  Widget _buildActions() {
+  Widget _buildActions(BuildContext context) {
 
     /// PENDING
     if (status == "Pending") {
@@ -209,7 +210,14 @@ class RequestCard extends StatelessWidget {
 
           /// VIEW DETAILS
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => BookingCgScreenScreen(),
+                  ),
+              );
+            },
             child: const Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -221,9 +229,7 @@ class RequestCard extends StatelessWidget {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-
                 SizedBox(width: 4),
-
                 Icon(
                   Icons.arrow_forward,
                   size: 18,
@@ -238,49 +244,85 @@ class RequestCard extends StatelessWidget {
 
     /// ACCEPTED
     if (status == "Accepted") {
-      return Row(
+      return Column(
         children: [
 
-          Expanded(
-            child: GradientActionButton(
-              text: "Share Location",
-              height: 46,
-              fontSize: 13,
-              colors: const [
-                Color(0xFF4CAF50),
-                Color(0xFF7DDE92),
-              ],
-              onTap: () {},
-            ),
-          ),
-
-          const SizedBox(width: 15),
-
-          Expanded(
-            child: SizedBox(
-              height: 46,
-              child: OutlinedButton(
-                onPressed: () {},
-
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(
-                    color: Colors.blue,
-                  ),
-
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18),
-                  ),
+          Row(
+            children: [
+              Expanded(
+                child: GradientActionButton(
+                  text: "Share Location",
+                  height: 46,
+                  fontSize: 13,
+                  colors: const [
+                    Color(0xFF4CAF50),
+                    Color(0xFF7DDE92),
+                  ],
+                  onTap: () {},
                 ),
+              ),
 
-                child: const Text(
-                  "View Tasks",
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
+              const SizedBox(width: 15),
+
+              Expanded(
+                child: SizedBox(
+                  height: 46,
+                  child: OutlinedButton(
+                    onPressed: () {},
+                    style: OutlinedButton.styleFrom(
+                      side: const BorderSide(
+                        color: Colors.blue,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius:
+                        BorderRadius.circular(18),
+                      ),
+                    ),
+                    child: const Text(
+                      "View Tasks",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
                   ),
                 ),
               ),
+            ],
+          ),
+
+          const SizedBox(height: 14),
+
+          InkWell(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BookingDetailsAcc(),
+                ),
+              );
+
+            },
+            child: const Row(
+              mainAxisAlignment:
+              MainAxisAlignment.center,
+              children: [
+                Text(
+                  "View Full Details",
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                SizedBox(width: 4),
+                Icon(
+                  Icons.arrow_forward,
+                  size: 18,
+                  color: Colors.blue,
+                ),
+              ],
             ),
           ),
         ],

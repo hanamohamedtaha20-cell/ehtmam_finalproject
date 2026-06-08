@@ -11,7 +11,7 @@ class AddFundsButton extends StatelessWidget {
   @override
  Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent, // 👈 مهم عشان الـ InkWell
+      color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
         onTap: () {
