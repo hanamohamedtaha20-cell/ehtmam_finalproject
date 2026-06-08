@@ -264,11 +264,22 @@ Future<Map<String, dynamic>> postFormData({
     });
     return response.data;
   }
-
   Future<Map<String, dynamic>> getMyRequests() async {
-    final response = await _dio.get(requestEndpoint);
-    return response.data;
+    try {
+      final response = await _dio.get(requestEndpoint);
+      print("GET MY REQUESTS SUCCESS => ${response.data}");
+      return response.data;
+    } on DioException catch (e) {
+      print("GET MY REQUESTS ERROR STATUS => ${e.response?.statusCode}");
+      print("GET MY REQUESTS ERROR DATA => ${e.response?.data}");
+      print("GET MY REQUESTS ERROR MESSAGE => ${e.message}");
+      rethrow;
+    }
   }
+  // Future<Map<String, dynamic>> getMyRequests() async {
+  //   final response = await _dio.get(requestEndpoint);
+  //   return response.data;
+  // }
 
   Future<Map<String, dynamic>> getAvailableRequests() async {
     final response = await _dio.get(availableRequestsEndpoint);

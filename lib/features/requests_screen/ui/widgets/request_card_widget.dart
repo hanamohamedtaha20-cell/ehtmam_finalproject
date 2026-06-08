@@ -100,7 +100,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => OffersScreen(),
+                      builder: (context) => OffersScreen(requestId: '',),
                     ),
                   );
                 },
@@ -151,7 +151,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OfferDetailsScreen(),
+                          builder: (context) => OfferDetailsScreen(requestId: '',),
                         ),
                       );
                     },

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../core/network/api_service.dart';
 import '../../../../core/widgets/filter.dart';
 import '../../../home_screen/ui/screens/home_screen.dart';
 import '../../data/repo/requests_repo.dart';
@@ -18,7 +19,7 @@ class RequestsScreen extends StatelessWidget {
     return BlocProvider(
 
       create: (_) =>
-      RequestsCubit(RequestsRepo())..getRequests(),
+      RequestsCubit(RequestsRepo(ApiService()))..getRequests(),
 
       child: const RequestsView(),
     );
@@ -150,8 +151,8 @@ class _RequestsViewState
                         return true;
                       }
 
-                      return request.status ==
-                          selectedTab;
+                      return request.status.toLowerCase() ==
+                          selectedTab.toLowerCase();
 
                     }).toList();
 

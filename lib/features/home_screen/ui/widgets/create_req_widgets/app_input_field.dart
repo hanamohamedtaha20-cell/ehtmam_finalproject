@@ -7,13 +7,14 @@ class AppInputField extends StatelessWidget {
   final String hint;
   final IconData? icon;
   final bool isRequired;
+  final TextEditingController? controller;
 
   const AppInputField({
     super.key,
     required this.title,
     required this.hint,
     this.icon,
-    this.isRequired = true,
+    this.isRequired = true, this.controller,
   });
 
   @override
@@ -34,7 +35,7 @@ class AppInputField extends StatelessWidget {
           const SizedBox(height: 12),
 
           TextFormField(
-
+            controller: controller,
             validator: (value) {
 
               if (value == null ||

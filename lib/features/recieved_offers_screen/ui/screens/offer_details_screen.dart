@@ -15,13 +15,14 @@ import '../widgets/offer_details_widgets/reviews_section.dart';
 import '../widgets/offer_details_widgets/services_list.dart';
 
 class OfferDetailsScreen extends StatelessWidget {
-    const OfferDetailsScreen({super.key});
+  final String requestId;
+    const OfferDetailsScreen({super.key,required this.requestId,});
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create:(_) => ProviderCubit(ProviderRepository())..getProvider(),
+        BlocProvider(create:(_) => ProviderCubit(ProviderRepository())..getProvider(requestId),
         ),
         BlocProvider(
           create: (_) => ReviewCubit(ReviewRepository())..getReviews(),
@@ -72,7 +73,7 @@ class OfferDetailsScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => const OffersScreen(),
+                                builder: (context) => OffersScreen( requestId: requestId,),
                               ),
                             );
                           },

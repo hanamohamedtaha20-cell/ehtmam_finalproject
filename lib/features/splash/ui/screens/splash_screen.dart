@@ -76,62 +76,64 @@ class _SplashScreenState extends State<SplashScreen>
           );
         }
       },
-      child: Scaffold(
-        body: SplashBackground(
-          child: SafeArea(
-            child: Padding(
-              padding: EdgeInsets.symmetric(
-                horizontal: 24 * s,
-                vertical: 18 * s,
-              ),
-              child: Column(
-                children: [
-                  const Spacer(),
+      child: Center(
+        child: Scaffold(
+          body: SplashBackground(
+            child: SafeArea(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: 24 * s,
+                  vertical: 18 * s,
+                ),
+                child: Column(
+                  children: [
+                    const Spacer(),
 
-                  FadeTransition(
-                    opacity: logoAnim,
-                    child: ScaleTransition(
-                      scale: logoAnim,
-                      child: const Center(
-                        child: SplashLogo(),
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(height: 45 * s),
-
-                  FadeTransition(
-                    opacity: textAnim,
-                    child: ScaleTransition(
-                      scale: textAnim,
-                      child: Text(
-                        'Connecting families with\ntrusted care services',
-                        textAlign: TextAlign.center,
-                        style: AppTextStyle.body16.copyWith(
-                          fontFamily: AppFonts.inter,
-                          fontSize: 20 * s,
-                          fontWeight: FontWeight.w600,
-                          color: const Color(0xFF252E68),
-                          height: 1.45,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.25),
-                              offset: const Offset(0, 4),
-                              blurRadius: 4,
-                            ),
-                          ],
+                    FadeTransition(
+                      opacity: logoAnim,
+                      child: ScaleTransition(
+                        scale: logoAnim,
+                        child: const Center(
+                          child: SplashLogo(),
                         ),
                       ),
                     ),
-                  ),
 
-                  SizedBox(height: 26 * s),
+                    SizedBox(height: 45 * s),
+
+                    FadeTransition(
+                      opacity: textAnim,
+                      child: ScaleTransition(
+                        scale: textAnim,
+                        child: Text(
+                          'Connecting families with\ntrusted care services',
+                          textAlign: TextAlign.center,
+                          style: AppTextStyle.body16.copyWith(
+                            fontFamily: AppFonts.inter,
+                            fontSize: 17 * s,
+                            fontWeight: FontWeight.w600,
+                            color: const Color(0xFF252E68),
+                            height: 1.45,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withOpacity(0.25),
+                                offset: const Offset(0, 4),
+                                blurRadius: 4,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    SizedBox(height: 26 * s),
 
 
-                  const Spacer(),
+                    const Spacer(),
 
-                  SizedBox(height: 30 * s),
-                ],
+                    SizedBox(height: 30 * s),
+                  ],
+                ),
               ),
             ),
           ),

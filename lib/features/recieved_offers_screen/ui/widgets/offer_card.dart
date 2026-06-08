@@ -66,7 +66,7 @@ class OfferCard extends StatelessWidget {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => OfferDetailsScreen()));
+                      builder: (context) => OfferDetailsScreen(requestId: '',)));
             },
 
             onSecondTap: () {

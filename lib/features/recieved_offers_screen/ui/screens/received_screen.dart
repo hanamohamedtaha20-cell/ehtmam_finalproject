@@ -9,60 +9,54 @@ import '../widgets/offers_list.dart';
 import '../widgets/request_summary_card.dart';
 
 class OffersScreen extends StatelessWidget {
+  final String requestId;
 
-  const OffersScreen({super.key});
+  const OffersScreen({
+    super.key,
+    required this.requestId,
+  });
 
   @override
   Widget build(BuildContext context) {
-
     return BlocProvider(
-
-      create: (_) =>
-      ProviderCubit(
-        ProviderRepository(),)..getProvider(),
+      create: (_) => ProviderCubit(
+        ProviderRepository(),
+      )..getProvider(requestId),
 
       child: Scaffold(
-
         backgroundColor: const Color(0xFFF5F6FA),
 
         body: SafeArea(
-
           child: BlocBuilder<ProviderCubit, ProviderState>(
-
             builder: (context, state) {
-
-              /// loading
               if (state is ProviderLoading) {
-
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
               }
 
-              /// success
               if (state is ProviderLoaded) {
-
-                final providers = state.provider;
+                final provider = state.provider;
 
                 return Column(
-
                   children: [
-
                     const OffersHeader(),
-
                     const RequestSummaryCard(),
-
                     Expanded(
-
                       child: OffersList(
-                        provider: providers,
+                        provider: provider,
                       ),
                     ),
                   ],
                 );
               }
 
-              /// initial
+              if (state is ProviderError) {
+                return const Center(
+                  child: Text('Failed to load data'),
+                );
+              }
+
               return const SizedBox();
             },
           ),

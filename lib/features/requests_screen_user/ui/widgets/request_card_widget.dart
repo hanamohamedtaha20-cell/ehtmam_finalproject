@@ -60,10 +60,16 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
           /// 🔹 Info
           _infoRow("startDate:".tr(), widget.request.date),
 
-          if (widget.request.provider != null)
+          _infoRow("time:".tr(), widget.request.time),
+
+          _infoRow("location:".tr(), widget.request.location),
+
+          if (widget.request.provider != null &&
+              widget.request.provider!.isNotEmpty)
             _infoRow("Provider:".tr(), widget.request.provider!),
 
-          _infoRow("amount:".tr(), widget.request.amount),
+          if (widget.request.amount.isNotEmpty)
+            _infoRow("amount:".tr(), widget.request.amount),
 
            SizedBox(height: 12),
 
@@ -131,7 +137,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OffersScreen(),
+                          builder: (context) => OffersScreen(requestId: '',),
                         ),
                       );
                     },
@@ -171,7 +177,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OfferDetailsScreen(),
+                          builder: (context) => OfferDetailsScreen(requestId: '',),
                         ),
                       );
                     },

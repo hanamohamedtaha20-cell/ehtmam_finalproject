@@ -1,10 +1,13 @@
+import 'package:ehtemam_final_project/features/account_settings/data/repo/account_settings_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'account_settings_state.dart';
 
 class AccountSettingsCubit extends Cubit<AccountSettingsState> {
-  AccountSettingsCubit() : super(const AccountSettingsState(profileImagePath: ''));
+  final AccountSettingsRepo repo;
+
+  AccountSettingsCubit(this.repo) : super(const AccountSettingsState(profileImagePath: ''));
 
   Future<void> loadUserData() async {
     emit(state.copyWith(isLoading: true));
@@ -49,21 +52,35 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
   }) async {
     emit(state.copyWith(isLoading: true, error: null));
 
-    await Future.delayed(const Duration(seconds: 1)); // simulate
-
     if (newPassword != confirmPassword) {
       emit(state.copyWith(
         isLoading: false,
         error: "Passwords do not match",
+        message: "Passwords do not match",
       ));
       return;
     }
 
-    emit(state.copyWith(
-      isLoading: false,
-      success: true,
-    ));
+    try {
+      await repo.changePassword(
+        currentPassword: oldPassword,
+        password: newPassword,
+        passwordConfirmation: confirmPassword,
+      );
+      emit(state.copyWith(
+        isLoading: false,
+        success: true,
+        message: "Password changed successfully",
+      ));
+    } catch (e) {
+      emit(state.copyWith(
+        isLoading: false,
+        error: e.toString(),
+        message: e.toString(),
+      ));
+    }
   }
+
   Future<void> saveRegisterData({
     required String name,
     required String email,

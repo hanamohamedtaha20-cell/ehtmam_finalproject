@@ -12,6 +12,7 @@ class RequestsCubit
       : super(RequestsInitial());
 
   Future<void> getRequests() async {
+    print("GET REQUESTS CALLED");
 
     emit(RequestsLoading());
 

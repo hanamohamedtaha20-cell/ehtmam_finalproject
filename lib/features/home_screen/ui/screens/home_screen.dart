@@ -31,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Stack(
         children: [
           IndexedStack(index: _currentIndex, children: _pages),
-
           Positioned(
             top: 40,
             right: Directionality.of(context) == TextDirection.ltr ? 16 : null,

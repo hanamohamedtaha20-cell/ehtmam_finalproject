@@ -28,14 +28,14 @@ class OnboardingScreen extends StatelessWidget {
                   ],
                 ),
 
-                const SizedBox(height: 40),
+                const SizedBox(height: 30),
 
 
                 /// LOGO
                 Image.asset(
                   AppImages.logo2,
-                  width: 120,
-                  height: 120,
+                  width: 100,
+                  height: 100,
                   fit: BoxFit.contain,
                 ),
 
@@ -48,7 +48,7 @@ class OnboardingScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: 'Pacifico',
-                    fontSize: 48,
+                    fontSize: 40,
                     color: Color(0xFF326986),
                     shadows: [
                       Shadow(
@@ -68,7 +68,7 @@ class OnboardingScreen extends StatelessWidget {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontFamily: AppFonts.inter,
-                    fontSize: 20,
+                    fontSize: 16,
                     fontWeight: FontWeight.w400,
                     color: AppColors.cardBlueStart,
 
@@ -82,14 +82,9 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 70),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    LanguageChip(),
-                  ],
-                ),
-                const SizedBox(height: 18),
+                SizedBox(height: 50),
+
+
                 /// Indicator
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

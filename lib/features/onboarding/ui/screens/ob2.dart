@@ -42,8 +42,8 @@ class OnboardingScreen2 extends StatelessWidget {
                   SizedBox(height:60 ),
 
                   Container(
-                    width: 128 * s,
-                    height: 128 * s,
+                    width: 100 * s,
+                    height: 100 * s,
                     decoration: BoxDecoration(
                       color: const Color(0xFF97CCFD),
                       borderRadius: BorderRadius.circular(18 * s),
@@ -59,7 +59,7 @@ class OnboardingScreen2 extends StatelessWidget {
                     child: Center(
                       child: Image.asset(
                         AppImages.robot,
-                        width: 82.38 * s,
+                        width: 60 * s,
                         height: 60 * s,
                         fit: BoxFit.contain,
                       ),
@@ -73,7 +73,7 @@ class OnboardingScreen2 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: AppFonts.inter,
-                      fontSize: 30,
+                      fontSize: 25,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF1D293D),
                       shadows:  [
@@ -93,7 +93,7 @@ class OnboardingScreen2 extends StatelessWidget {
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: AppFonts.inter,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF1D4987),
                       height: 1.70,
@@ -109,13 +109,8 @@ class OnboardingScreen2 extends StatelessWidget {
                   ),
 
                   const Spacer(),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      LanguageChip(),
-                    ],
-                  ),
-                  SizedBox(height:30 ),
+
+                  SizedBox(height:20 ),
 
                    OnboardingIndicator(
                     currentIndex: 1,
@@ -126,7 +121,7 @@ class OnboardingScreen2 extends StatelessWidget {
 
 
 
-                  SizedBox(height: 16 * s),
+
 
                   NextButton(
                     text: 'Next',

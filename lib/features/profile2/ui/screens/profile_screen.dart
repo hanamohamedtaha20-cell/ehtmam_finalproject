@@ -1,3 +1,5 @@
+import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:ehtemam_final_project/features/account_settings/data/repo/account_settings_repo.dart';
 import 'package:ehtemam_final_project/features/account_settings/manager/account_settings_cubit.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_user.dart';
 import 'package:ehtemam_final_project/features/profile2/data/repo/profile_repo.dart';
@@ -70,7 +72,7 @@ List<_OptionData> _buildOptions(BuildContext context) => [
         context,
         MaterialPageRoute(
           builder: (_) => BlocProvider(
-            create: (_) => AccountSettingsCubit(),
+            create: (_) => AccountSettingsCubit(AccountSettingsRepo(ApiService())),
             child: const AccountSettingsScreen(),
           ),
         ),);

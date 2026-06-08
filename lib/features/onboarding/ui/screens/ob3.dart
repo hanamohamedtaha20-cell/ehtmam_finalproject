@@ -41,8 +41,8 @@ class OnboardingScreen3 extends StatelessWidget {
                   SizedBox(height:60 ),
 
                   Container(
-                    width: 128 * s,
-                    height: 128 * s,
+                    width: 100 * s,
+                    height: 100 * s,
                     decoration: BoxDecoration(
                       color: const Color(0xFF97CCFD),
                       borderRadius: BorderRadius.circular(18 * s),
@@ -65,14 +65,14 @@ class OnboardingScreen3 extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 48 * s),
+                  SizedBox(height: 40 * s),
 
                   Text(
                     'Verified Providers',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: AppFonts.inter,
-                      fontSize: 30,
+                      fontSize: 25,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF1D293D),
                       shadows:  [
@@ -85,14 +85,14 @@ class OnboardingScreen3 extends StatelessWidget {
                     ),
                   ),
 
-                  SizedBox(height: 50),
+                  SizedBox(height: 30),
 
                   Text(
                     'All our care providers are thoroughly\nvetted and verified to ensure the safety\n and quality of service for your loved\n ones.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: AppFonts.inter,
-                      fontSize: 18,
+                      fontSize: 16,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF1D4987),
                       height: 1.70,
@@ -108,13 +108,7 @@ class OnboardingScreen3 extends StatelessWidget {
                   ),
 
                   const Spacer(),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      LanguageChip(),
-                    ],
-                  ),
-                  SizedBox(height:30 ),
+
 
                   OnboardingIndicator(
                     currentIndex: 1,
@@ -125,7 +119,7 @@ class OnboardingScreen3 extends StatelessWidget {
 
 
 
-                  SizedBox(height: 16 * s),
+
 
                   NextButton(
                     text: 'Next',

@@ -294,11 +294,6 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     ),
                   ),
 
-                  const Positioned(
-                    top: 6,
-                    right: 0,
-                    child: LanguageChip(),
-                  ),
                 ],
               ),
             ),

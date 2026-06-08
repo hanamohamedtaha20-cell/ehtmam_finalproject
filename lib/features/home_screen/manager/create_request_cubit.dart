@@ -9,6 +9,9 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
   TimeOfDay? selectedTime;
   bool isDateEmpty = false;
   bool isTimeEmpty = false;
+  final durationController = TextEditingController();
+  final locationController = TextEditingController();
+  final notesController = TextEditingController();
 
   CreateRequestCubit(this.repository) : super(CreateRequestInitial());
 
@@ -26,19 +29,32 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
 
   final formKey = GlobalKey<FormState>();
 
-  void submitRequest() {
+  void submitRequest({required String serviceId}) {
+    if (selectedDate == null) {
+      isDateEmpty = true;
+      emit(CreateRequestInitial());
+      return;
+    }
+
+    if (selectedTime == null) {
+      isTimeEmpty = true;
+      emit(CreateRequestInitial());
+      return;
+    }
+
     if (formKey.currentState!.validate()) {
       createRequest(
-        serviceId: '',
-        location: '',
-        date: selectedDate != null
-            ? '${selectedDate!.year}-${selectedDate!.month}-${selectedDate!.day}'
-            : '',
-        time: selectedTime != null
-            ? '${selectedTime!.hour}:${selectedTime!.minute}'
-            : '',
+        serviceId: serviceId,
+        location: locationController.text,
+        date:
+        '${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}',
+        time:
+        '${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}',
+        duration: durationController.text,
+        notes: notesController.text,
       );
     }
+
   }
 
 
@@ -53,6 +69,12 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     emit(CreateRequestLoading());
 
     try {
+      print("SERVICE ID: $serviceId");
+      print("LOCATION: $location");
+      print("DATE: $date");
+      print("TIME: $time");
+      print("DURATION: $duration");
+      print("NOTES: $notes");
       await repository.createRequest(
         serviceId: serviceId,
         location: location,
@@ -61,7 +83,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
         duration: duration,
         notes: notes,
       );
-
+      print("CREATE REQUEST SUCCESS FROM CUBIT");
       emit(CreateRequestSuccess());
     } catch (e) {
       emit(

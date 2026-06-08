@@ -1,7 +1,7 @@
 import 'package:ehtemam_final_project/features/home_screen/ui/widgets/create_req_widgets/submit_request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../../../requests_screen_user/ui/screens/requests_screen.dart';
 import '../../../manager/create_request_cubit.dart';
 import '../../../manager/state/create_request_state.dart';
 import 'app_input_field.dart';
@@ -11,7 +11,14 @@ import 'request_description_field.dart';
 import 'tasks_section.dart';
 
 class CreateRequestBody extends StatelessWidget {
-  const CreateRequestBody({super.key});
+  final String serviceId;
+  final String serviceName;
+
+  const CreateRequestBody({
+    super.key,
+    required this.serviceId,
+    required this.serviceName,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +27,7 @@ class CreateRequestBody extends StatelessWidget {
 
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text("Create Request"),
+        title: const Text("Create Request "),
       ),
 
       body: SingleChildScrollView(
@@ -44,6 +51,7 @@ class CreateRequestBody extends StatelessWidget {
               AppInputField(
                 title: "Duration",
                 hint: "Enter duration",
+                controller: context.read<CreateRequestCubit>().durationController,
               ),
 
               const SizedBox(height: 16),
@@ -52,6 +60,7 @@ class CreateRequestBody extends StatelessWidget {
                 title: "Location",
                 hint: "Enter your location",
                 icon: Icons.location_on_outlined,
+                controller: context.read<CreateRequestCubit>().locationController,
               ),
 
               const SizedBox(height: 16),
@@ -60,6 +69,7 @@ class CreateRequestBody extends StatelessWidget {
                 title: "Budget (EGP)",
                 hint: "Enter your budget",
                 icon: Icons.attach_money,
+                isRequired: false,
               ),
 
               const SizedBox(height: 16),
@@ -68,6 +78,7 @@ class CreateRequestBody extends StatelessWidget {
                 title: "Special Requirements",
                 hint: "Any special requirements or notes...",
                 isRequired: false,
+                controller: context.read<CreateRequestCubit>().notesController,
               ),
 
               const SizedBox(height: 16),
@@ -81,12 +92,16 @@ class CreateRequestBody extends StatelessWidget {
                 listener: (context, state) {
 
                   if (state is CreateRequestSuccess) {
-                    ScaffoldMessenger.of(context)
-                        .showSnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(
-                        content: Text(
-                          "Request Created Successfully",
-                        ),
+                        content: Text("Request Created Successfully"),
+                      ),
+                    );
+
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const RequestsScreen(),
                       ),
                     );
                   }
@@ -113,7 +128,9 @@ class CreateRequestBody extends StatelessWidget {
 
                   return SubmitRequest(
                     onSubmit: () {
-                      context.read<CreateRequestCubit>().submitRequest();
+                      context.read<CreateRequestCubit>().submitRequest(
+                        serviceId: serviceId,
+                      );
                     },
                   );
                 },

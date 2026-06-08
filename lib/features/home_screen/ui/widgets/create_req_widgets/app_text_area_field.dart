@@ -6,12 +6,13 @@ class AppTextAreaField extends StatelessWidget {
   final String title;
   final String hint;
   final bool isRequired;
+  final TextEditingController? controller;
 
   const AppTextAreaField({
     super.key,
     required this.title,
     required this.hint,
-    this.isRequired = true,
+    this.isRequired = true, this.controller,
   });
 
   @override
@@ -27,6 +28,7 @@ class AppTextAreaField extends StatelessWidget {
           const SizedBox(height: 12),
 
           TextFormField(
+            controller: controller,
             maxLines: 5,
 
             validator: (value) {

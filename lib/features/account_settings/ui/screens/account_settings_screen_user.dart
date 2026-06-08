@@ -69,244 +69,237 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
             child: state.isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : ListView(
-              padding: const EdgeInsets.fromLTRB(18, 16, 18, 24),
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        context.read<BottomNavCubit>().changeTab(0);
-                      },
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        size: 22,
-                        color: Color(0xFF1D2939),
-                      ),
-                    ),
-                    const Text(
-                      'Account Settings',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF1D2939),
-                      ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEAF4FF),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: const Text(
-                        '🌐  E',
-                        style: TextStyle(fontSize: 11),
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 20),
-
-                Container(
-                  height: 90,
-                  padding: const EdgeInsets.all(16),
-                  decoration: cardDecoration(),
-                  child: Row(
+                    padding: const EdgeInsets.fromLTRB(18, 16, 18, 24),
                     children: [
-                      const CircleAvatar(
-                        radius: 31,
-                        backgroundColor: Color(0xFF8EC5FF),
-                        child: Icon(
-                          Icons.person_outline_rounded,
-                          color: Colors.white,
-                          size: 34,
-                        ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              context.read<BottomNavCubit>().changeTab(0);
+                            },
+                            icon: const Icon(
+                              Icons.arrow_back,
+                              size: 22,
+                              color: Color(0xFF1D2939),
+                            ),
+                          ),
+                          const Text(
+                            'Account Settings',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF1D2939),
+                            ),
+                          ),
+                          const Spacer(),
+                        ],
                       ),
-                      const SizedBox(width: 15),
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+
+                      const SizedBox(height: 20),
+
+                      // ── Profile Card ──
+                      Container(
+                        height: 90,
+                        padding: const EdgeInsets.all(16),
+                        decoration: cardDecoration(),
+                        child: Row(
                           children: [
-                            Text(
-                              state.name.isEmpty
-                                  ? 'User Name'
-                                  : state.name,
-                              style: const TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 14,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF1D2939),
+                            const CircleAvatar(
+                              radius: 31,
+                              backgroundColor: Color(0xFF8EC5FF),
+                              child: Icon(
+                                Icons.person_outline_rounded,
+                                color: Colors.white,
+                                size: 34,
                               ),
                             ),
-                            const SizedBox(height: 4),
-                            Text(
-                              state.email.isEmpty
-                                  ? 'user@email.com'
-                                  : state.email,
-                              style: const TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 11,
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xFF667085),
+                            const SizedBox(width: 15),
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    state.name.isEmpty
+                                        ? 'User Name'
+                                        : state.name,
+                                    style: const TextStyle(
+                                      fontFamily: 'Inter',
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w700,
+                                      color: Color(0xFF1D2939),
+                                    ),
+                                  ),
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    state.email.isEmpty
+                                        ? 'user@email.com'
+                                        : state.email,
+                                    style: const TextStyle(
+                                      fontFamily: 'Inter',
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w400,
+                                      color: Color(0xFF667085),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           ],
                         ),
                       ),
+
+                      sectionTitle('PERSONAL INFORMATION'),
+
+                      SettingsTile(
+                        icon: Icons.person_outline_rounded,
+                        title: 'Full Name',
+                        subtitle:
+                            state.name.isEmpty ? 'No name added' : state.name,
+                      ),
+                      SettingsTile(
+                        icon: Icons.mail_outline_rounded,
+                        title: 'Email Address',
+                        subtitle: state.email.isEmpty
+                            ? 'No email added'
+                            : state.email,
+                      ),
+                      SettingsTile(
+                        icon: Icons.phone_outlined,
+                        title: 'Phone Number',
+                        subtitle: state.phone.isEmpty
+                            ? 'No phone added'
+                            : state.phone,
+                      ),
+                      const SettingsTile(
+                        icon: Icons.location_on_outlined,
+                        title: 'Address',
+                        subtitle: '123 Main Street, City',
+                        iconColor: Color(0xFF12B76A),
+                        iconBgColor: Color(0xFFD1FADF),
+                      ),
+
+                      sectionTitle('SECURITY'),
+
+                      SettingsTile(
+                        icon: Icons.lock_outline_rounded,
+                        title: 'Change Password',
+                        subtitle: 'Update your password',
+                        iconColor: const Color(0xFFFF3B30),
+                        iconBgColor: const Color(0xFFFFE8E8),
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => const ChangePasswordScreen(),
+                            ),
+                          );
+                        },
+                      ),
+
+                      sectionTitle('NOTIFICATIONS'),
+
+                      // ── Fix: Material wrapper around SwitchListTile ──
+                      Container(
+                        height: 66,
+                        decoration: cardDecoration(),
+                        child: Material(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(20),
+                          child: SwitchListTile(
+                            value: state.notifications,
+                            activeColor: const Color(0xFF4EA3F1),
+                            onChanged: (value) {
+                              context
+                                  .read<AccountSettingsCubit>()
+                                  .toggleNotifications(value);
+                            },
+                            contentPadding:
+                                const EdgeInsets.symmetric(horizontal: 14),
+                            secondary: const CircleAvatar(
+                              radius: 20,
+                              backgroundColor: Color(0xFFFFF0C2),
+                              child: Icon(
+                                Icons.notifications_none_rounded,
+                                color: Colors.orange,
+                                size: 22,
+                              ),
+                            ),
+                            title: const Text(
+                              'Push Notifications',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Color(0xFF1D2939),
+                              ),
+                            ),
+                            subtitle: const Text(
+                              'Receive app notifications',
+                              style: TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 10.5,
+                                color: Color(0xFF98A2B3),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      sectionTitle('PREFERENCES'),
+
+                      const SettingsTile(
+                        icon: Icons.language_rounded,
+                        title: 'Language',
+                        subtitle: 'English',
+                      ),
+
+                      sectionTitle('DANGER ZONE', color: Colors.red),
+
+                      const SettingsTile(
+                        icon: Icons.delete_outline_rounded,
+                        title: 'Delete Account',
+                        subtitle: 'Permanently delete your account',
+                        iconColor: Colors.red,
+                        iconBgColor: Color(0xFFFFE8E8),
+                        titleColor: Colors.red,
+                      ),
+
+                      const SizedBox(height: 10),
+
+                      // ── Logout Button ──
+                      Container(
+                        height: 50,
+                        decoration: cardDecoration(),
+                        child: TextButton.icon(
+                          onPressed: () {
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => LoginScreen(),
+                              ),
+                              (route) => false,
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.logout_rounded,
+                            color: Colors.red,
+                            size: 18,
+                          ),
+                          label: const Text(
+                            'Logout',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
-                ),
-
-                sectionTitle('PERSONAL INFORMATION'),
-
-                SettingsTile(
-                  icon: Icons.person_outline_rounded,
-                  title: 'Full Name',
-                  subtitle:
-                  state.name.isEmpty ? 'No name added' : state.name,
-                ),
-                SettingsTile(
-                  icon: Icons.mail_outline_rounded,
-                  title: 'Email Address',
-                  subtitle: state.email.isEmpty
-                      ? 'No email added'
-                      : state.email,
-                ),
-                SettingsTile(
-                  icon: Icons.phone_outlined,
-                  title: 'Phone Number',
-                  subtitle: state.phone.isEmpty
-                      ? 'No phone added'
-                      : state.phone,
-                ),
-                SettingsTile(
-                  icon: Icons.location_on_outlined,
-                  title: 'Address',
-                  subtitle: '123 Main Street, City',
-                  iconColor: const Color(0xFF12B76A),
-                  iconBgColor: const Color(0xFFD1FADF),
-                ),
-
-                sectionTitle('SECURITY'),
-
-                SettingsTile(
-                  icon: Icons.lock_outline_rounded,
-                  title: 'Change Password',
-                  subtitle: 'Update your password',
-                  iconColor: const Color(0xFFFF3B30),
-                  iconBgColor: const Color(0xFFFFE8E8),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const ChangePasswordScreen(),
-                      ),
-                    );
-                  },
-                ),
-
-                sectionTitle('NOTIFICATIONS'),
-
-                Container(
-                  height: 66,
-                  decoration: cardDecoration(),
-                  child: SwitchListTile(
-                    value: state.notifications,
-                    activeColor: const Color(0xFF4EA3F1),
-                    onChanged: (value) {
-                      context
-                          .read<AccountSettingsCubit>()
-                          .toggleNotifications(value);
-                    },
-                    contentPadding:
-                    const EdgeInsets.symmetric(horizontal: 14),
-                    secondary: const CircleAvatar(
-                      radius: 20,
-                      backgroundColor: Color(0xFFFFF0C2),
-                      child: Icon(
-                        Icons.notifications_none_rounded,
-                        color: Colors.orange,
-                        size: 22,
-                      ),
-                    ),
-                    title: const Text(
-                      'Push Notifications',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xFF1D2939),
-                      ),
-                    ),
-                    subtitle: const Text(
-                      'Receive app notifications',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 10.5,
-                        color: Color(0xFF98A2B3),
-                      ),
-                    ),
-                  ),
-                ),
-
-                sectionTitle('PREFERENCES'),
-
-                const SettingsTile(
-                  icon: Icons.language_rounded,
-                  title: 'Language',
-                  subtitle: 'English',
-                ),
-
-                sectionTitle('DANGER ZONE', color: Colors.red),
-
-                const SettingsTile(
-                  icon: Icons.delete_outline_rounded,
-                  title: 'Delete Account',
-                  subtitle: 'Permanently delete your account',
-                  iconColor: Colors.red,
-                  iconBgColor: Color(0xFFFFE8E8),
-                  titleColor: Colors.red,
-                ),
-
-                const SizedBox(height: 10),
-
-                Container(
-                  height: 50,
-                  decoration: cardDecoration(),
-                  child: TextButton.icon(
-                    onPressed: () {
-                      Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => LoginScreen(),
-                        ),
-                            (route) => false,
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.logout_rounded,
-                      color: Colors.red,
-                      size: 18,
-                    ),
-                    label: const Text(
-                      'Logout',
-                      style: TextStyle(
-                        fontFamily: 'Inter',
-                        fontSize: 13,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ),
         );
       },
