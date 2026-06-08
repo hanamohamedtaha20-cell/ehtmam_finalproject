@@ -527,4 +527,18 @@ Future<Map<String, dynamic>> postFormData({
     });
     return response.data;
   }
+  Future<Map<String, dynamic>> updateTask(String id, Map<String, dynamic> fields) async {
+  final response = await _dio.patch('$tasksEndpoint/$id', data: fields);
+  return response.data;
+}
+Future<Map<String, dynamic>> uploadTaskProof(String taskId, String filePath) async {
+  final formData = FormData.fromMap({
+    'proofUrl': await MultipartFile.fromFile(filePath),
+  });
+  final response = await _dio.patch(
+    '$tasksEndpoint/$taskId',
+    data: formData,
+  );
+  return response.data;
+}
 }

@@ -1,4 +1,6 @@
 import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:ehtemam_final_project/features/account_settings/manager/account_settings_cubit.dart';
+import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_user.dart';
 import 'package:ehtemam_final_project/features/auth/data/repo/auth_repo.dart';
 import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/data/repo/mytask_cg_repo.dart';
@@ -50,8 +52,11 @@ class MyApp extends StatelessWidget {
       create: (_) => SplashCubit(),
     ),
     BlocProvider(
-  create: (_) => MytaskCgCubit(MytaskCgRepo()),
+  create: (_) => MytaskCgCubit(MytaskCgRepo(ApiService())),
 ),
+ BlocProvider(
+      create: (context) => AccountSettingsCubit(),
+    ),
   ],
     
       child: MaterialApp(
@@ -59,7 +64,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
-        home: MytaskCgScreen(),
+        home:AccountSettingsScreen(),
       ),
     );
   }

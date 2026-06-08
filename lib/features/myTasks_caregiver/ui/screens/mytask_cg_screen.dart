@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repo/mytask_cg_repo.dart';
@@ -15,8 +16,7 @@ class MytaskCgScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MytaskCgCubit(MytaskCgRepo())..loadBookings(),
-      child: const _MytaskCgView(),
+    create: (_) => MytaskCgCubit(MytaskCgRepo(ApiService()))..loadBookings(),      child: const _MytaskCgView(),
     );
   }
 }

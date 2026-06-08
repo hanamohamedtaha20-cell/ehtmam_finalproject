@@ -1,5 +1,4 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../data/model/mytask_cg_booking_model.dart';
 import '../data/model/mytask_cg_task_model.dart';
 import '../data/repo/mytask_cg_repo.dart';
 import 'mytask_cg_state.dart';
@@ -10,7 +9,6 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
   final ImagePicker _picker = ImagePicker();
 
   MytaskCgCubit(this.repo) : super(MytaskCgInitial());
-
   Future<void> loadBookings() async {
     emit(MytaskCgLoading());
     try {
@@ -53,12 +51,14 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
   emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
 }
 
-  void addTask(String bookingId, MytaskCgTaskModel newTask) {
-  print('adding task: ${newTask.title} with media: ${newTask.mediaProof}'); // ✅
+ Future<void> addTask(String bookingId, MytaskCgTaskModel newTask) async {
   final current = state as MytaskCgLoaded;
+  final createdTask = await repo.createTask(bookingId: bookingId, title: newTask.title);
+  final finalTask = createdTask.copyWith(mediaProof: newTask.mediaProof);
+
   final updated = current.bookings.map((b) {
     if (b.bookingId == bookingId) {
-      return b.copyWith(tasks: [...b.tasks, newTask]);
+      return b.copyWith(tasks: [...b.tasks, finalTask]);
     }
     return b;
   }).toList();
@@ -69,12 +69,23 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
   if (files.isEmpty) return;
 
   final current = state as MytaskCgLoaded;
+  List<String> uploadedUrls = [];
+
+  for (final file in files) {
+    try {
+      final url = await repo.uploadProof(taskId, file.path);
+      if (url.isNotEmpty) uploadedUrls.add(url);
+    } catch (e) {
+      uploadedUrls.add(file.path); // fallback local path
+    }
+  }
+
   final updated = current.bookings.map((b) {
     if (b.bookingId == bookingId) {
       final updatedTasks = b.tasks.map((t) {
         if (t.id == taskId) {
           return t.copyWith(
-            mediaProof: [...t.mediaProof, ...files.map((f) => f.path)],
+            mediaProof: [...t.mediaProof, ...uploadedUrls],
           );
         }
         return t;
@@ -85,15 +96,19 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
   }).toList();
   emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
 }
-void toggleTaskDone(String bookingId, String taskId) {
+Future<void> toggleTaskDone(String bookingId, String taskId) async {
   final current = state as MytaskCgLoaded;
+  final booking = current.bookings.firstWhere((b) => b.bookingId == bookingId);
+  final task = booking.tasks.firstWhere((t) => t.id == taskId);
+  if (task.mediaProof.isEmpty) return;
+
+  final newState = !task.isDone ? 'completed' : 'in-progress';
+  await repo.updateTask(taskId, taskState: newState);
+
   final updated = current.bookings.map((b) {
     if (b.bookingId == bookingId) {
       final updatedTasks = b.tasks.map((t) {
-        if (t.id == taskId) {
-          if (t.mediaProof.isEmpty) return t;
-          return t.copyWith(isDone: !t.isDone);
-        }
+        if (t.id == taskId) return t.copyWith(isDone: !t.isDone);
         return t;
       }).toList();
       return b.copyWith(tasks: updatedTasks);
