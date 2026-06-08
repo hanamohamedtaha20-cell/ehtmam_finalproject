@@ -1,18 +1,30 @@
 import 'package:ehtemam_final_project/features/tasks/data/model/task_model.dart';
+import 'package:ehtemam_final_project/features/tasks/data/repo/task_repo.dart';
 import 'package:ehtemam_final_project/features/tasks/manager/task_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskCubit extends Cubit<TaskState> {
+  final TaskRepo _repo = TaskRepo();
+
   TaskCubit() : super(TaskInitial());
 
-  void loadTasks() {
-    emit(TaskLoaded(tasks: [
-      const TaskModel(id: '1', description: 'Pick dog food and favorite toys', category: TaskCategory.petCare, status: TaskStatus.active),
-      const TaskModel(id: '2', description: 'Write down feeding schedule and special instructions', category: TaskCategory.petCare, status: TaskStatus.active),
-      const TaskModel(id: '3', description: 'Prepare medication and vet contact info', category: TaskCategory.petCare, status: TaskStatus.active),
-      const TaskModel(id: '4', description: 'Confirm service provider availability', category: TaskCategory.elderCare, status: TaskStatus.active),
-      const TaskModel(id: '5', description: 'Prepare list of daily medications', category: TaskCategory.childCare, status: TaskStatus.active),
-    ]));
+  Future<void> loadTasks() async {
+    emit(TaskLoading());
+    try {
+      final tasks = await _repo.getTasks();
+      emit(TaskLoaded(tasks: tasks));
+    } catch (e) {
+      emit(TaskError(e.toString()));
+    }
+  }
+
+  Future<void> addTask(String description) async {
+    try {
+      await _repo.addTask(description);
+      await loadTasks(); 
+    } catch (e) {
+      emit(TaskError(e.toString()));
+    }
   }
 
   void selectTab(int index) {
@@ -35,10 +47,12 @@ class TaskCubit extends Cubit<TaskState> {
       final updated = s.tasks.map((t) {
         if (t.id == id) {
           return TaskModel(
-            id: t.id,
+            id:          t.id,
             description: t.description,
-            category: t.category,
-            status: t.status == TaskStatus.active ? TaskStatus.completed : TaskStatus.active,
+            category:    t.category,
+            status: t.status == TaskStatus.active
+                ? TaskStatus.completed
+                : TaskStatus.active,
           );
         }
         return t;
@@ -51,9 +65,9 @@ class TaskCubit extends Cubit<TaskState> {
     if (state is TaskLoaded) {
       final s = state as TaskLoaded;
       emit(TaskLoaded(
-        tasks: s.tasks.where((t) => t.id != id).toList(),
-        selectedTab: s.selectedTab,
-        searchQuery: s.searchQuery,
+        tasks:        s.tasks.where((t) => t.id != id).toList(),
+        selectedTab:  s.selectedTab,
+        searchQuery:  s.searchQuery,
       ));
     }
   }

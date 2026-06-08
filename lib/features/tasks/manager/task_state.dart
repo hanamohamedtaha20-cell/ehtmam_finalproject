@@ -4,9 +4,11 @@ abstract class TaskState {}
 
 class TaskInitial extends TaskState {}
 
+class TaskLoading extends TaskState {}
+
 class TaskLoaded extends TaskState {
   final List<TaskModel> tasks;
-  final int selectedTab; // 0=All, 1=Active, 2=Completed
+  final int selectedTab;
   final String searchQuery;
 
   TaskLoaded({
@@ -20,11 +22,17 @@ class TaskLoaded extends TaskState {
     if (selectedTab == 1) result = result.where((t) => t.status == TaskStatus.active).toList();
     if (selectedTab == 2) result = result.where((t) => t.status == TaskStatus.completed).toList();
     if (searchQuery.isNotEmpty) {
-      result = result.where((t) => t.description.toLowerCase().contains(searchQuery.toLowerCase())).toList();
+      result = result.where((t) =>
+          t.description.toLowerCase().contains(searchQuery.toLowerCase())).toList();
     }
     return result;
   }
 
-  int get activeCount => tasks.where((t) => t.status == TaskStatus.active).length;
+  int get activeCount    => tasks.where((t) => t.status == TaskStatus.active).length;
   int get completedCount => tasks.where((t) => t.status == TaskStatus.completed).length;
+}
+
+class TaskError extends TaskState {
+  final String message;
+  TaskError(this.message);
 }

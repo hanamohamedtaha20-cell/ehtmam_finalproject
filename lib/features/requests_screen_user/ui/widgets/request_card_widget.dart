@@ -204,7 +204,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => RatingScreen(),
+                builder: (context) => RatingScreen(caregiverId: '', serviceId: '', requestId: '', caregiverName: '', caregiverRole: '',),
               ),
             );
           },

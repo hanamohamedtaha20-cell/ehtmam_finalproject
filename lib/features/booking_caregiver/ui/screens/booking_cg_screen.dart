@@ -1,5 +1,8 @@
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/client_budget_card.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/date_time_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/proposed_price_card.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/service_details_card.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/special_instructions_card.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/booking_details_appbar/booking_details_appbar.dart';
 import '../../../../core/widgets/gradient_action_button.dart';
@@ -92,14 +95,14 @@ class _BookingDetailsScreenState
                   /// DETAILS TAB
                   if (selectedTab == 0) ...[
 
-                    ClientInfoCard(),
+
 
                     SizedBox(height: 16),
 
                     ServiceDetailsCard(),
 
                     SizedBox(height: 16),
-
+                    // ClientInfoCard(),
                     DateTimeCard(),
 
                     SizedBox(height: 16),

@@ -1,10 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:ehtemam_final_project/features/offer_details_screen/ui/screens/offer_details_screen.dart';
+import 'package:ehtemam_final_project/features/offers_screen/ui/screens/offers_screen.dart';
+import 'package:ehtemam_final_project/features/requests_screen_user/data/model/request_type.dart';
 import 'package:ehtemam_final_project/features/requests_screen_user/ui/widgets/action_button.dart';
-import '../../../requests_screen_user/data/model/request_type.dart';
-import '../../../requests_screen_user/ui/widgets/status_badge.dart';
-import '/features/offer_details_screen/ui/screens/offer_details_screen.dart';
-import '/features/offers_screen/ui/screens/offers_screen.dart';
+import 'package:ehtemam_final_project/features/requests_screen_user/ui/widgets/status_badge.dart';
+import 'package:ehtemam_final_project/features/tasks/ui/screens/task_screen.dart';
 import 'package:flutter/material.dart';
+import '../../../rating/ui/screens/rating_screen.dart';
 import '../../data/model.dart';
 
 
@@ -105,7 +107,17 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
               ),
             ),
              SizedBox(width: 10),
-             Icon(Icons.tune),
+            IconButton(
+              icon: Icon(Icons.tune),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => TaskScreen(),
+                  ),
+                );
+              },
+            )
           ],
         );
 
@@ -158,7 +170,17 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
         );
 
       case RequestType.completed:
-        return ActionButton(text: "Rate Service".tr(), onTap: () {  },);
+        return ActionButton(
+          text: "Rate Service".tr(),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => RatingScreen(caregiverId: '', serviceId: '', requestId: '', caregiverName: '', caregiverRole: '',),
+              ),
+            );
+          },
+        );
 
       case RequestType.cancelled:
         return  SizedBox();

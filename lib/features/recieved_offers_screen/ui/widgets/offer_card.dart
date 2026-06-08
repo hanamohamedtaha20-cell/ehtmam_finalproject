@@ -46,7 +46,7 @@ class OfferCard extends StatelessWidget {
 
           SizedBox(height: 10),
 
-          NotesBox(provider: provider,),
+          // NotesBox(provider: provider,),
 
           SizedBox(height: 10),
 
