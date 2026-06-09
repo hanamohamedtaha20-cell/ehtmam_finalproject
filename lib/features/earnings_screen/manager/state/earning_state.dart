@@ -8,8 +8,9 @@ class EarningsLoading extends EarningsState {}
 
 class EarningsLoaded extends EarningsState {
   final EarningsModel earnings;
+  final List<TransactionModel> transactions;
 
-  EarningsLoaded(this.earnings);
+  EarningsLoaded(this.earnings, {this.transactions = const []});
 }
 
 class EarningsError extends EarningsState {

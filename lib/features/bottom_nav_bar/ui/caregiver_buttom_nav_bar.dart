@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../account_settings/ui/screens/account_settings_screen_careprovider.dart';
+import '../../earnings_screen/ui/screens/earnings_screen.dart';
+import '../../request_screen_caregiver/ui/screens/care_requests_screen.dart';
 import '../manager/bottom_nav_bar_cubit.dart';
 import '../manager/bottom_nav_bar_state.dart';
 class CareGiverBottomNavScreen extends StatelessWidget {
@@ -14,8 +16,8 @@ class CareGiverBottomNavScreen extends StatelessWidget {
 
     final List<Widget> screens = [
       const Center(child: Text('Dashboard')),
-      const Center(child: Text('Requests')),
-      const Center(child: Text('Earnings')),
+      const CareRequestsScreen(),
+      const EarningsScreen(),
       const CareProviderAccountSettingsScreen(),
     ];
 

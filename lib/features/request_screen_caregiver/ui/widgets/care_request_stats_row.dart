@@ -1,40 +1,40 @@
-
 import 'package:flutter/material.dart';
 
 class RequestStatsRow extends StatelessWidget {
-  const RequestStatsRow({super.key});
+  final int pendingCount;
+  final int activeCount;
+  final int completedCount;
+
+  const RequestStatsRow({
+    super.key,
+    this.pendingCount = 0,
+    this.activeCount = 0,
+    this.completedCount = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
-
-        /// PENDING
         Expanded(
           child: _buildCard(
-            count: "3",
+            count: pendingCount.toString(),
             label: "Pending",
             color: const Color(0xFFFFC857),
           ),
         ),
-
         const SizedBox(width: 10),
-
-        /// ACTIVE
         Expanded(
           child: _buildCard(
-            count: "5",
+            count: activeCount.toString(),
             label: "Active",
             color: const Color(0xFF4A90E2),
           ),
         ),
-
         const SizedBox(width: 10),
-
-        /// COMPLETED
         Expanded(
           child: _buildCard(
-            count: "18",
+            count: completedCount.toString(),
             label: "Completed",
             color: const Color(0xFF4CAF50),
           ),
@@ -49,16 +49,10 @@ class RequestStatsRow extends StatelessWidget {
     required Color color,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 14,
-      ),
-
+      padding: const EdgeInsets.symmetric(vertical: 14),
       decoration: BoxDecoration(
         color: Colors.white,
-
-        borderRadius:
-        BorderRadius.circular(16),
-
+        borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
@@ -67,24 +61,19 @@ class RequestStatsRow extends StatelessWidget {
           ),
         ],
       ),
-
       child: Column(
         children: [
           Text(
             count,
-
             style: TextStyle(
               color: color,
               fontSize: 22,
               fontWeight: FontWeight.bold,
             ),
           ),
-
           const SizedBox(height: 4),
-
           Text(
             label,
-
             style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 12,

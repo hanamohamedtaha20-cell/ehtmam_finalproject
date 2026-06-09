@@ -3,37 +3,34 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../data/repo/Repository.dart';
 
-
-class CareRequestsCubit
-    extends Cubit<CareRequestsState> {
-
+class CareRequestsCubit extends Cubit<CareRequestsState> {
   final CareRequestsRepository repository;
 
-  CareRequestsCubit(
-      this.repository,
-      ) : super(
-    CareRequestsInitial(),
-  );
+  CareRequestsCubit(this.repository) : super(CareRequestsInitial());
 
-  Future<void> getRequests() async {
+  Future<void> getAllRequests() async {
     emit(CareRequestsLoading());
 
     try {
-      final requests =
-      await repository
-          .getAvailableRequests();
-
-      emit(
-        CareRequestsLoaded(
-          requests,
-        ),
-      );
+      final requests = await repository.getAllRequests();
+      emit(CareRequestsLoaded(requests));
     } catch (e) {
-      emit(
-        CareRequestsError(
-          e.toString(),
-        ),
+      emit(CareRequestsError(e.toString()));
+    }
+  }
+
+  Future<void> respondToRequest({
+    required String requestId,
+    required String action,
+  }) async {
+    try {
+      await repository.respondToRequest(
+        requestId: requestId,
+        action: action,
       );
+      await getAllRequests();
+    } catch (e) {
+      emit(CareRequestsError(e.toString()));
     }
   }
 }

@@ -1,21 +1,35 @@
 import 'package:flutter/material.dart';
 
 class EarningsHeaderCard extends StatelessWidget {
-  const EarningsHeaderCard({super.key});
+  final double totalEarnings;
+  final String? trendText;
+
+  const EarningsHeaderCard({
+    super.key,
+    this.totalEarnings = 0,
+    this.trendText,
+  });
+
+  String get _formattedTotal {
+    if (totalEarnings >= 1000) {
+      return totalEarnings.toStringAsFixed(0).replaceAllMapped(
+            RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+            (m) => '${m[1]},',
+          );
+    }
+    return totalEarnings.toStringAsFixed(0);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-
       padding: const EdgeInsets.symmetric(
         horizontal: 16,
         vertical: 25,
       ),
-
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-
         gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -25,74 +39,59 @@ class EarningsHeaderCard extends StatelessWidget {
           ],
         ),
       ),
-
       child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
-
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
           Text(
             "Total Earnings",
-
             style: TextStyle(
               color: Colors.white.withOpacity(0.85),
               fontSize: 12,
               fontWeight: FontWeight.w400,
             ),
           ),
-
           const SizedBox(height: 6),
-
-          const Text(
-            "4,820",
-
-            style: TextStyle(
+          Text(
+            _formattedTotal,
+            style: const TextStyle(
               fontSize: 40,
               color: Colors.white,
               fontWeight: FontWeight.w700,
               height: 1,
             ),
           ),
-
-          const SizedBox(height: 10),
-
-          Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 12,
-              vertical: 6,
-            ),
-
-            decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
-              borderRadius:
-              BorderRadius.circular(20),
-            ),
-
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-
-                Icon(
-                  Icons.trending_up,
-                  color: Colors.white,
-                  size: 12,
-                ),
-
-                SizedBox(width: 4),
-
-                Text(
-                  "+15.3% from last month",
-
-                  style: TextStyle(
+          if (trendText != null) ...[
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 12,
+                vertical: 6,
+              ),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.15),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(
+                    Icons.trending_up,
                     color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
+                    size: 12,
                   ),
-                ),
-              ],
+                  const SizedBox(width: 4),
+                  Text(
+                    trendText!,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ],
       ),
     );

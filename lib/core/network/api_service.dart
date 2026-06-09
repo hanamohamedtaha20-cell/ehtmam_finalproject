@@ -537,4 +537,15 @@ Future<Map<String, dynamic>> postFormData({
     });
     return response.data;
   }
+
+  Future<Map<String, dynamic>> updateTask({
+    required String id,
+    required String taskState,
+  }) async {
+    final response = await _dio.patch(
+      '$tasksEndpoint/$id',
+      data: {'taskState': taskState},
+    );
+    return response.data;
+  }
 }

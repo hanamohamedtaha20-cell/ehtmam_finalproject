@@ -1,43 +1,43 @@
 import 'package:flutter/material.dart';
 
 class ServiceDetailsCard extends StatelessWidget {
-  const ServiceDetailsCard({super.key});
+  final String serviceType;
+  final String petType;
+  final String duration;
+
+  const ServiceDetailsCard({
+    super.key,
+    this.serviceType = '',
+    this.petType = '',
+    this.duration = '',
+  });
 
   Widget detailRow({
     required String title,
     required String value,
   }) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 16),
-
+      padding: const EdgeInsets.only(bottom: 16),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: [
-
-          /// TITLE
           Expanded(
             child: Text(
               title,
-
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xff4B5A75),
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
             ),
           ),
-
-          SizedBox(width: 15),
-
-          /// VALUE
+          const SizedBox(width: 15),
           Flexible(
             child: Text(
               value,
               textAlign: TextAlign.end,
-
-              style: TextStyle(
+              style: const TextStyle(
                 color: Color(0xff1F2C44),
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
@@ -53,46 +53,34 @@ class ServiceDetailsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 18,
         vertical: 20,
       ),
-
       decoration: BoxDecoration(
-        color: Color(0xffF8F8F8),
-
+        color: const Color(0xffF8F8F8),
         borderRadius: BorderRadius.circular(25),
-
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
-            offset: Offset(0, 6),
+            offset: const Offset(0, 6),
             blurRadius: 6,
           ),
         ],
       ),
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-
         children: [
-
-          /// HEADER
           Row(
-            children: [
-
+            children: const [
               Icon(
                 Icons.inventory_2_outlined,
                 color: Color(0xff4B5A75),
                 size: 18,
               ),
-
               SizedBox(width: 8),
-
               Text(
                 "SERVICE DETAILS",
-
                 style: TextStyle(
                   color: Color(0xff4B5A75),
                   fontSize: 14,
@@ -101,32 +89,19 @@ class ServiceDetailsCard extends StatelessWidget {
               ),
             ],
           ),
-
-          SizedBox(height: 15),
-
-          /// DETAILS
+          const SizedBox(height: 15),
           detailRow(
             title: "Service Type",
-            value: "Pet Care",
+            value: serviceType.isNotEmpty ? serviceType : '—',
           ),
-
-          detailRow(
-            title: "Pet Name",
-            value: "Max",
-          ),
-
-          detailRow(
-            title: "Pet Type",
-            value: "Golden Retriever",
-          ),
-
-          Padding(
-            padding: EdgeInsets.only(bottom: 0),
-
-            child: detailRow(
-              title: "Duration",
-              value: "4 hours",
+          if (petType.isNotEmpty)
+            detailRow(
+              title: "Notes",
+              value: petType,
             ),
+          detailRow(
+            title: "Duration",
+            value: duration.isNotEmpty ? duration : '—',
           ),
         ],
       ),

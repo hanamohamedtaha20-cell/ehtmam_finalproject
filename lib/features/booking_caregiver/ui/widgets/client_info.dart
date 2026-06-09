@@ -1,11 +1,24 @@
 import 'package:flutter/material.dart';
 
-
 class ClientInfoCard extends StatelessWidget {
-  const ClientInfoCard({super.key});
+  final String name;
+  final String phone;
+  final String email;
+  final double rating;
+
+  const ClientInfoCard({
+    super.key,
+    this.name = '',
+    this.phone = '',
+    this.email = '',
+    this.rating = 0,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final ratingText =
+        rating > 0 ? '$rating rating' : 'No rating yet';
+
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(20),
@@ -23,7 +36,6 @@ class ClientInfoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          /// TITLE
           Row(
             children: const [
               Icon(
@@ -42,10 +54,7 @@ class ClientInfoCard extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 15),
-
-          /// USER INFO
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -69,16 +78,14 @@ class ClientInfoCard extends StatelessWidget {
                   size: 24,
                 ),
               ),
-
               const SizedBox(width: 14),
-
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
-                      "Menaa adel",
-                      style: TextStyle(
+                    Text(
+                      name.isNotEmpty ? name : 'Client',
+                      style: const TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w700,
                         color: Color(0xff1E2A44),
@@ -94,7 +101,7 @@ class ClientInfoCard extends StatelessWidget {
                         ),
                         const SizedBox(width: 4),
                         Text(
-                          "5.0 rating",
+                          ratingText,
                           style: TextStyle(
                             color: Colors.grey[700],
                             fontSize: 12,
@@ -108,56 +115,53 @@ class ClientInfoCard extends StatelessWidget {
               ),
             ],
           ),
-
-          const SizedBox(height: 15),
-
-          /// PHONE
-          Row(
-            children: [
-              const Icon(
-                Icons.call_outlined,
-                color: Color(0xff2F80ED),
-                size: 20,
-              ),
-              const SizedBox(width: 10),
-              Text(
-                "+20100870085",
-                style: TextStyle(
-                  color: Colors.grey[700],
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
+          if (phone.isNotEmpty) ...[
+            const SizedBox(height: 15),
+            Row(
+              children: [
+                const Icon(
+                  Icons.call_outlined,
+                  color: Color(0xff2F80ED),
+                  size: 20,
                 ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 12),
-
-          /// EMAIL
-          Row(
-            children: [
-              const Icon(
-                Icons.mail_outline,
-                color: Color(0xff2F80ED),
-                size: 20,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  "Menna.adel@email.com",
-                  overflow: TextOverflow.ellipsis,
+                const SizedBox(width: 10),
+                Text(
+                  phone,
                   style: TextStyle(
                     color: Colors.grey[700],
                     fontSize: 12,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
+          if (email.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                const Icon(
+                  Icons.mail_outline,
+                  color: Color(0xff2F80ED),
+                  size: 20,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Text(
+                    email,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
         ],
       ),
     );
   }
 }
-

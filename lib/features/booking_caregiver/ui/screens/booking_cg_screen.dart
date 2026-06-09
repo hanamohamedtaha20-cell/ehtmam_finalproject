@@ -1,170 +1,224 @@
+import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/data/repo/booking_remote_ds.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/data/repo/repository_implementation.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/manager/booking_details_cubit.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/manager/state/booking_details_state.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/client_budget_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/date_time_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/proposed_price_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/service_details_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/special_instructions_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/booking_details_appbar/booking_details_appbar.dart';
 import '../../../../core/widgets/gradient_action_button.dart';
 import '../widgets/client_info.dart';
 import '../widgets/tabs.dart';
-
-/// TASKS WIDGETS
 import '../widgets/task_item_card.dart';
 
+class BookingCgScreenScreen extends StatelessWidget {
+  final String requestId;
 
-class BookingCgScreenScreen extends StatefulWidget {
-  const BookingCgScreenScreen({super.key});
-
-  @override
-  State<BookingCgScreenScreen> createState() =>
-      _BookingDetailsScreenState();
-}
-
-class _BookingDetailsScreenState
-    extends State<BookingCgScreenScreen> {
-
-  int selectedTab = 0;
-  final TextEditingController priceController =
-  TextEditingController();
-
-  final TextEditingController notesController =
-  TextEditingController();
-
-  final List<Map<String, dynamic>> tasks = [
-    {
-      "title": "Feed Max breakfast",
-      "done": false,
-    },
-    {
-      "title": "Give medication at 12 PM",
-      "done": false,
-    },
-    {
-      "title": "Take Max for a walk",
-      "done": false,
-    },
-    {
-      "title": "Play fetch in the backyard",
-      "done": false,
-    },
-    {
-      "title": "Refill water bowl",
-      "done": false,
-    },
-  ];
+  const BookingCgScreenScreen({
+    super.key,
+    required this.requestId,
+  });
 
   @override
   Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => BookingDetailsCubit(
+        BookingRepositoryImpl(
+          BookingRemoteDataSourceImpl(ApiService()),
+        ),
+      )..loadRequestDetails(requestId),
+      child: BookingCgView(requestId: requestId),
+    );
+  }
+}
 
-    int completedTasks =
-        tasks.where((task) => task["done"] == true).length;
+class BookingCgView extends StatefulWidget {
+  final String requestId;
 
-    return Scaffold(
-      backgroundColor: const Color(0xFFF8F9FA),
+  const BookingCgView({super.key, required this.requestId});
 
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
+  @override
+  State<BookingCgView> createState() => _BookingCgViewState();
+}
 
-            /// APPBAR
-            const BookingDetailsAppBar(),
+class _BookingCgViewState extends State<BookingCgView> {
+  int selectedTab = 0;
+  bool tasksLoaded = false;
+  final TextEditingController priceController = TextEditingController();
+  final TextEditingController notesController = TextEditingController();
 
-            const SizedBox(height: 16),
+  @override
+  void dispose() {
+    priceController.dispose();
+    notesController.dispose();
+    super.dispose();
+  }
 
-            /// TABS
-            BookingTabs(
-              selectedIndex: selectedTab,
+  void _onTabChanged(int index) {
+    setState(() => selectedTab = index);
+    if (index == 1 && !tasksLoaded) {
+      tasksLoaded = true;
+      context.read<BookingDetailsCubit>().loadTasks();
+    }
+  }
 
-              onTabChanged: (index) {
-                setState(() {
-                  selectedTab = index;
-                });
-              },
-            ),
+  Future<void> _submitOffer(BuildContext context) async {
+    final price = num.tryParse(priceController.text.trim());
+    if (price == null || price <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a valid price')),
+      );
+      return;
+    }
 
-            const SizedBox(height: 20),
+    final success = await context.read<BookingDetailsCubit>().submitOffer(
+          requestId: widget.requestId,
+          price: price,
+          notes: notesController.text.trim().isEmpty
+              ? null
+              : notesController.text.trim(),
+        );
 
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+    if (!context.mounted) return;
 
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Offer submitted successfully')),
+      );
+      Navigator.pop(context);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<BookingDetailsCubit, BookingDetailsState>(
+      builder: (context, state) {
+        if (state is BookingDetailsLoading) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
+
+        if (state is BookingDetailsError) {
+          return Scaffold(
+            body: Center(
               child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-
-                  /// DETAILS TAB
-                  if (selectedTab == 0) ...[
-
-
-
-                    SizedBox(height: 16),
-                    ClientInfoCard(),
-
-
-                    SizedBox(height: 16),
-
-                    ServiceDetailsCard(),
-
-                    SizedBox(height: 16),
-
-                    DateTimeCard(),
-
-                    SizedBox(height: 16),
-
-                    SpecialInstructionsCard(),
-
-                    SizedBox(height: 16),
-
-                    ClientBudgetCard(amount:"\$550.00" ),
-
-                    SizedBox(height: 16),
-
-                    ProposedPriceCard(
-                      controller:
-                      priceController,
-                      notesController: notesController,
-                    ),
-                    SizedBox(height: 16),
-
-                     GradientActionButton(
-                      text: "Submit offer",
-                      onTap: () {
-                      },
-                    ),
-
-                  ],
-                    SizedBox(height: 16,),
-                  /// TASKS TAB
-                  if (selectedTab == 1) ...[
-
-                    Column(
-                      children: List.generate(
-                        tasks.length,
-                            (index) {
-
-                          final task = tasks[index];
-
-                          return TaskItemCard(
-                            title: task["title"],
-
-                            isDone: task["done"],
-
-                            onTap: () {
-                              setState(() {
-                                task["done"] =
-                                !task["done"];
-                              });
-                            },
-                          );
-                        },
-                      ),
-                    ),
-                  ],
+                  Text(state.message),
+                  const SizedBox(height: 12),
+                  ElevatedButton(
+                    onPressed: () => context
+                        .read<BookingDetailsCubit>()
+                        .loadRequestDetails(widget.requestId),
+                    child: const Text('Retry'),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
-      ),
+          );
+        }
+
+        if (state is! BookingDetailsLoaded) {
+          return const SizedBox.shrink();
+        }
+
+        final booking = state.booking;
+        final completedTasks =
+            booking.tasks.where((t) => t.done).length;
+        final budgetText = booking.clientBudget > 0
+            ? '\$${booking.clientBudget.toStringAsFixed(2)}'
+            : '—';
+
+        return Scaffold(
+          backgroundColor: const Color(0xFFF8F9FA),
+          body: SingleChildScrollView(
+            child: Column(
+              children: [
+                BookingDetailsAppBar(
+                  bookingId: booking.displayId,
+                  statusLabel: booking.statusLabel,
+                ),
+                const SizedBox(height: 16),
+                BookingTabs(
+                  selectedIndex: selectedTab,
+                  onTabChanged: _onTabChanged,
+                  completedCount: completedTasks,
+                  totalCount: booking.tasks.length,
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Column(
+                    children: [
+                      if (selectedTab == 0) ...[
+                        const SizedBox(height: 16),
+                        ClientInfoCard(
+                          name: booking.clientName,
+                          phone: booking.phone,
+                          email: booking.email,
+                          rating: booking.rating,
+                        ),
+                        const SizedBox(height: 16),
+                        ServiceDetailsCard(
+                          serviceType: booking.serviceType,
+                          petType: booking.petType,
+                          duration: booking.duration,
+                        ),
+                        const SizedBox(height: 16),
+                        DateTimeCard(
+                          date: booking.date,
+                          time: booking.time,
+                          location: booking.location,
+                        ),
+                        const SizedBox(height: 16),
+                        SpecialInstructionsCard(
+                          instructions: booking.specialInstructions,
+                        ),
+                        const SizedBox(height: 16),
+                        ClientBudgetCard(amount: budgetText),
+                        const SizedBox(height: 16),
+                        ProposedPriceCard(
+                          controller: priceController,
+                          notesController: notesController,
+                        ),
+                        const SizedBox(height: 16),
+                        GradientActionButton(
+                          text: "Submit offer",
+                          onTap: () => _submitOffer(context),
+                        ),
+                      ],
+                      const SizedBox(height: 16),
+                      if (selectedTab == 1)
+                        booking.tasks.isEmpty
+                            ? const Padding(
+                                padding: EdgeInsets.all(24),
+                                child: Text('No tasks available'),
+                              )
+                            : Column(
+                                children: booking.tasks.map((task) {
+                                  return TaskItemCard(
+                                    title: task.title,
+                                    isDone: task.done,
+                                    onTap: () => context
+                                        .read<BookingDetailsCubit>()
+                                        .toggleTask(task.id, !task.done),
+                                  );
+                                }).toList(),
+                              ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }

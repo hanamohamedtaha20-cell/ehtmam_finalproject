@@ -1,17 +1,33 @@
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
+import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/gradient_action_button.dart';
 import '../screens/booking_details_acc.dart';
 
 class RequestCard extends StatelessWidget {
-  final String status;
-  final Color statusColor;
+  final CareRequestModel request;
+  final VoidCallback? onAccept;
+  final VoidCallback? onDecline;
 
   const RequestCard({
     super.key,
-    required this.status,
-    required this.statusColor,
+    required this.request,
+    this.onAccept,
+    this.onDecline,
   });
+
+  Color get statusColor {
+    switch (request.status) {
+      case 'Pending':
+        return const Color(0xFFFFC857);
+      case 'Accepted':
+        return const Color(0xFF4A90E2);
+      case 'Completed':
+        return const Color(0xFF4CAF50);
+      default:
+        return const Color(0xFFFFC857);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,36 +44,30 @@ class RequestCard extends StatelessWidget {
           ),
         ],
       ),
-
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
-          /// TOP
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                "Pet Care",
-                style: TextStyle(
+              Text(
+                request.serviceName,
+                style: const TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-
               Container(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 12,
                   vertical: 6,
                 ),
-
                 decoration: BoxDecoration(
                   color: statusColor.withOpacity(0.15),
                   borderRadius: BorderRadius.circular(20),
                 ),
-
                 child: Text(
-                  status,
+                  request.status,
                   style: TextStyle(
                     color: statusColor,
                     fontWeight: FontWeight.w600,
@@ -67,84 +77,64 @@ class RequestCard extends StatelessWidget {
               ),
             ],
           ),
-
-          const SizedBox(height: 8),
-
-          Text(
-            "Dog • Golden Retriever",
-            style: TextStyle(
-              color: Colors.grey.shade600,
+          if (request.duration.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Text(
+              request.duration,
+              style: TextStyle(color: Colors.grey.shade600),
             ),
-          ),
-
-          const SizedBox(height: 4),
-
-          Text(
-            "Client: gena shamel",
-            style: TextStyle(
-              color: Colors.grey.shade500,
-              fontSize: 14,
-            ),
-          ),
-
-          const SizedBox(height: 18),
-
-          _info(
-            Icons.calendar_today_outlined,
-            "Start: March 15, 2026",
-          ),
-
-          _info(
-            Icons.access_time_outlined,
-            "Duration: 5 days",
-          ),
-
-          /// LOCATION
-          _info(
-            Icons.location_on_outlined,
-            "123 sidi beshr, Alexandria",
-          ),
-
-          /// PRICE
-          const Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Text(
-              "550",
+          ],
+          if (request.clientName.isNotEmpty) ...[
+            const SizedBox(height: 4),
+            Text(
+              "Client: ${request.clientName}",
               style: TextStyle(
-                color: Colors.blue,
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
+                color: Colors.grey.shade500,
+                fontSize: 14,
               ),
             ),
-          ),
-
-          /// NOTE
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Icon(
-                Icons.info_outline,
-                color: Colors.blue,
-                size: 18,
-              ),
-
-              const SizedBox(width: 8),
-
-              Expanded(
-                child: Text(
-                  "Needs daily walks and special diet",
-                  style: TextStyle(
-                    color: Colors.grey.shade700,
-                    fontSize: 13,
-                  ),
+          ],
+          const SizedBox(height: 18),
+          if (request.date.isNotEmpty)
+            _info(Icons.calendar_today_outlined, "Start: ${request.date}"),
+          if (request.duration.isNotEmpty)
+            _info(Icons.access_time_outlined, "Duration: ${request.duration}"),
+          if (request.location.isNotEmpty)
+            _info(Icons.location_on_outlined, request.location),
+          if (request.price.isNotEmpty)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 10),
+              child: Text(
+                request.price,
+                style: const TextStyle(
+                  color: Colors.blue,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
-            ],
-          ),
-
+            ),
+          if (request.notes.isNotEmpty)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(
+                  Icons.info_outline,
+                  color: Colors.blue,
+                  size: 18,
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    request.notes,
+                    style: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontSize: 13,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           const SizedBox(height: 20),
-
-          /// ACTIONS
           _buildActions(context),
         ],
       ),
@@ -152,15 +142,11 @@ class RequestCard extends StatelessWidget {
   }
 
   Widget _buildActions(BuildContext context) {
-
-    /// PENDING
-    if (status == "Pending") {
+    if (request.status == "Pending") {
       return Column(
         children: [
-
           Row(
             children: [
-
               Expanded(
                 child: GradientActionButton(
                   text: "Accept Request",
@@ -170,28 +156,21 @@ class RequestCard extends StatelessWidget {
                     Color(0xFF4CAF50),
                     Color(0xFF7DDE92),
                   ],
-                  onTap: () {},
+                  onTap: onAccept ?? () {},
                 ),
               ),
-
               const SizedBox(width: 15),
-
               Expanded(
                 child: SizedBox(
                   height: 46,
                   child: OutlinedButton(
-                    onPressed: () {},
-
+                    onPressed: onDecline,
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(
-                        color: Colors.red,
-                      ),
-
+                      side: const BorderSide(color: Colors.red),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18),
                       ),
                     ),
-
                     child: const Text(
                       "Decline",
                       style: TextStyle(
@@ -205,17 +184,16 @@ class RequestCard extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 14),
-
-          /// VIEW DETAILS
           InkWell(
             onTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => BookingCgScreenScreen(),
+                context,
+                MaterialPageRoute(
+                  builder: (_) => BookingCgScreenScreen(
+                    requestId: request.id,
                   ),
+                ),
               );
             },
             child: const Row(
@@ -242,11 +220,9 @@ class RequestCard extends StatelessWidget {
       );
     }
 
-    /// ACCEPTED
-    if (status == "Accepted") {
+    if (request.status == "Accepted") {
       return Column(
         children: [
-
           Row(
             children: [
               Expanded(
@@ -261,21 +237,28 @@ class RequestCard extends StatelessWidget {
                   onTap: () {},
                 ),
               ),
-
               const SizedBox(width: 15),
-
               Expanded(
                 child: SizedBox(
                   height: 46,
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      if (request.bookingId != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => BookingDetailsAcc(
+                              bookingId: request.bookingId!,
+                              initialTab: 1,
+                            ),
+                          ),
+                        );
+                      }
+                    },
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(
-                        color: Colors.blue,
-                      ),
+                      side: const BorderSide(color: Colors.blue),
                       shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(18),
                       ),
                     ),
                     child: const Text(
@@ -291,22 +274,22 @@ class RequestCard extends StatelessWidget {
               ),
             ],
           ),
-
           const SizedBox(height: 14),
-
           InkWell(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => BookingDetailsAcc(),
-                ),
-              );
-
+              if (request.bookingId != null) {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => BookingDetailsAcc(
+                      bookingId: request.bookingId!,
+                    ),
+                  ),
+                );
+              }
             },
             child: const Row(
-              mainAxisAlignment:
-              MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   "View Full Details",
@@ -329,26 +312,18 @@ class RequestCard extends StatelessWidget {
       );
     }
 
-    /// COMPLETED
     return SizedBox(
       width: double.infinity,
-
       child: SizedBox(
         height: 46,
-
         child: OutlinedButton(
           onPressed: () {},
-
           style: OutlinedButton.styleFrom(
-            side: const BorderSide(
-              color: Colors.orange,
-            ),
-
+            side: const BorderSide(color: Colors.orange),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(18),
             ),
           ),
-
           child: const Text(
             "Rate Client",
             style: TextStyle(
@@ -362,25 +337,13 @@ class RequestCard extends StatelessWidget {
     );
   }
 
-  Widget _info(
-      IconData icon,
-      String text,
-      ) {
+  Widget _info(IconData icon, String text) {
     return Padding(
-      padding: const EdgeInsets.only(
-        bottom: 10,
-      ),
-
+      padding: const EdgeInsets.only(bottom: 10),
       child: Row(
         children: [
-          Icon(
-            icon,
-            size: 17,
-            color: Colors.grey,
-          ),
-
+          Icon(icon, size: 17, color: Colors.grey),
           const SizedBox(width: 8),
-
           Expanded(
             child: Text(
               text,

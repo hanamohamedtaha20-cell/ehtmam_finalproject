@@ -1,4 +1,9 @@
 class BookingDetailsModel {
+  final String id;
+  final String displayId;
+  final String status;
+  final String statusLabel;
+
   final String clientName;
   final String phone;
   final String email;
@@ -19,6 +24,10 @@ class BookingDetailsModel {
   final List<TaskModel> tasks;
 
   BookingDetailsModel({
+    required this.id,
+    required this.displayId,
+    required this.status,
+    required this.statusLabel,
     required this.clientName,
     required this.phone,
     required this.email,
@@ -31,48 +40,167 @@ class BookingDetailsModel {
     required this.location,
     required this.specialInstructions,
     required this.clientBudget,
-    required this.tasks,
+    this.tasks = const [],
   });
 
-  factory BookingDetailsModel.fromJson(
-      Map<String, dynamic> json,
-      ) {
+  factory BookingDetailsModel.fromRequestJson(Map<String, dynamic> json) {
+    final service = json['service'];
+    final client = json['client'];
+
+    String serviceName = '';
+    if (service is Map<String, dynamic>) {
+      serviceName = service['serviceName']?.toString() ?? '';
+    }
+
+    String clientName = '';
+    String phone = '';
+    String email = '';
+    if (client is Map<String, dynamic>) {
+      clientName = client['full_name']?.toString() ?? '';
+      phone = client['phone']?.toString() ?? '';
+      email = client['email']?.toString() ?? '';
+    }
+
+    final statusValue = (json['status'] ?? 'PENDING').toString();
+
     return BookingDetailsModel(
-      clientName: json['client_name'],
-      phone: json['phone'],
-      email: json['email'],
-      rating: json['rating'].toDouble(),
-      serviceType: json['service_type'],
-      petType: json['pet_type'],
-      duration: json['duration'],
-      date: json['date'],
-      time: json['time'],
-      location: json['location'],
-      specialInstructions:
-      json['special_instructions'],
-      clientBudget:
-      json['client_budget'].toDouble(),
-      tasks: (json['tasks'] as List)
-          .map((e) => TaskModel.fromJson(e))
-          .toList(),
+      id: json['_id']?.toString() ?? '',
+      displayId: _shortId(json['_id']?.toString() ?? ''),
+      status: statusValue,
+      statusLabel: _formatStatus(statusValue),
+      clientName: clientName,
+      phone: phone,
+      email: email,
+      rating: 0,
+      serviceType: serviceName.isNotEmpty ? serviceName : 'Care Service',
+      petType: json['notes']?.toString() ?? '',
+      duration: json['duration']?.toString() ?? '',
+      date: json['date']?.toString() ?? '',
+      time: json['time']?.toString() ?? '',
+      location: json['location']?.toString() ?? '',
+      specialInstructions: json['notes']?.toString() ?? '',
+      clientBudget: 0,
     );
   }
+
+  factory BookingDetailsModel.fromBookingJson(Map<String, dynamic> json) {
+    final service = json['service'];
+    final request = json['request'];
+    final offer = json['offer'];
+    final client = request is Map ? request['client'] : null;
+
+    String serviceName = '';
+    if (service is Map<String, dynamic>) {
+      serviceName = service['serviceName']?.toString() ?? '';
+    }
+
+    String clientName = '';
+    String phone = '';
+    String email = '';
+    if (client is Map<String, dynamic>) {
+      clientName = client['full_name']?.toString() ?? '';
+      phone = client['phone']?.toString() ?? '';
+      email = client['email']?.toString() ?? '';
+    }
+
+    final statusValue = (json['status'] ?? 'PENDING').toString();
+    final price = (offer?['price'] ?? json['price'] ?? 0).toDouble();
+
+    return BookingDetailsModel(
+      id: json['_id']?.toString() ?? '',
+      displayId: _shortId(json['_id']?.toString() ?? ''),
+      status: statusValue,
+      statusLabel: _formatStatus(statusValue),
+      clientName: clientName,
+      phone: phone,
+      email: email,
+      rating: 0,
+      serviceType: serviceName.isNotEmpty ? serviceName : 'Care Service',
+      petType: request is Map ? (request['notes']?.toString() ?? '') : '',
+      duration: request is Map ? (request['duration']?.toString() ?? '') : '',
+      date: request is Map ? (request['date']?.toString() ?? '') : '',
+      time: request is Map ? (request['time']?.toString() ?? '') : '',
+      location: request is Map ? (request['location']?.toString() ?? '') : '',
+      specialInstructions:
+          request is Map ? (request['notes']?.toString() ?? '') : '',
+      clientBudget: price,
+    );
+  }
+
+  BookingDetailsModel copyWith({
+    String? clientName,
+    String? phone,
+    String? email,
+    double? rating,
+    List<TaskModel>? tasks,
+  }) {
+    return BookingDetailsModel(
+      id: id,
+      displayId: displayId,
+      status: status,
+      statusLabel: statusLabel,
+      clientName: clientName ?? this.clientName,
+      phone: phone ?? this.phone,
+      email: email ?? this.email,
+      rating: rating ?? this.rating,
+      serviceType: serviceType,
+      petType: petType,
+      duration: duration,
+      date: date,
+      time: time,
+      location: location,
+      specialInstructions: specialInstructions,
+      clientBudget: clientBudget,
+      tasks: tasks ?? this.tasks,
+    );
+  }
+
+  static String _shortId(String id) {
+    if (id.length <= 8) return 'BK$id';
+    return 'BK${id.substring(id.length - 5).toUpperCase()}';
+  }
+
+  static String _formatStatus(String status) {
+    switch (status.toUpperCase()) {
+      case 'PENDING':
+        return 'Pending';
+      case 'CONFIRMED':
+        return 'Confirmed';
+      case 'COMPLETED':
+        return 'Completed';
+      case 'CANCELLED':
+        return 'Cancelled';
+      case 'ACCEPTED':
+        return 'Accepted';
+      default:
+        return status;
+    }
+  }
 }
+
 class TaskModel {
+  final String id;
   final String title;
   final bool done;
 
   TaskModel({
+    required this.id,
     required this.title,
     required this.done,
   });
 
-  factory TaskModel.fromJson(
-      Map<String, dynamic> json,
-      ) {
+  factory TaskModel.fromJson(Map<String, dynamic> json) {
+    final statusStr =
+        (json['taskState'] ?? json['done'] ?? 'pending').toString().toLowerCase();
+    final done = statusStr == 'completed' || statusStr == 'true';
+
     return TaskModel(
-      title: json['title'],
-      done: json['done'],
+      id: json['_id']?.toString() ?? '',
+      title: json['taskTitle']?.toString() ??
+          json['title']?.toString() ??
+          json['taskDescription']?.toString() ??
+          '',
+      done: done,
     );
   }
 }

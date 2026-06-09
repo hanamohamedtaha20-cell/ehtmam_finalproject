@@ -3,15 +3,23 @@ import 'package:flutter/material.dart';
 class BookingTabs extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onTabChanged;
+  final int completedCount;
+  final int totalCount;
 
   const BookingTabs({
     super.key,
     required this.selectedIndex,
     required this.onTabChanged,
+    this.completedCount = 0,
+    this.totalCount = 0,
   });
 
   @override
   Widget build(BuildContext context) {
+    final tasksLabel = totalCount > 0
+        ? 'Tasks ($completedCount/$totalCount)'
+        : 'Tasks';
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
@@ -29,40 +37,34 @@ class BookingTabs extends StatelessWidget {
         ),
         child: Row(
           children: [
-            /// DETAILS TAB
             Expanded(
               child: GestureDetector(
-                onTap: () {
-                  onTabChanged(0);
-                },
+                onTap: () => onTabChanged(0),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 14,
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
                   decoration: BoxDecoration(
                     gradient: selectedIndex == 0
                         ? const LinearGradient(
-                      colors: [
-                        Color(0xff2F80ED),
-                        Color(0xff7EB6FF),
-                      ],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    )
+                            colors: [
+                              Color(0xff2F80ED),
+                              Color(0xff7EB6FF),
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          )
                         : null,
-                    color: selectedIndex == 0
-                        ? null
-                        : Colors.transparent,
+                    color:
+                        selectedIndex == 0 ? null : Colors.transparent,
                     borderRadius: BorderRadius.circular(14),
                     boxShadow: selectedIndex == 0
                         ? [
-                      BoxShadow(
-                        color: Colors.blue.withOpacity(.18),
-                        blurRadius: 8,
-                        offset: const Offset(0, 3),
-                      ),
-                    ]
+                            BoxShadow(
+                              color: Colors.blue.withOpacity(.18),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ]
                         : [],
                   ),
                   child: Center(
@@ -80,46 +82,39 @@ class BookingTabs extends StatelessWidget {
                 ),
               ),
             ),
-
-            /// TASKS TAB
             Expanded(
               child: GestureDetector(
-                onTap: () {
-                  onTabChanged(1);
-                },
+                onTap: () => onTabChanged(1),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 14,
-                  ),
+                  padding: const EdgeInsets.symmetric(vertical: 14),
                   decoration: BoxDecoration(
                     gradient: selectedIndex == 1
                         ? const LinearGradient(
-                      colors: [
-                        Color(0xff2F80ED),
-                        Color(0xff7EB6FF),
-                      ],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    )
+                            colors: [
+                              Color(0xff2F80ED),
+                              Color(0xff7EB6FF),
+                            ],
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                          )
                         : null,
-                    color: selectedIndex == 1
-                        ? null
-                        : Colors.transparent,
+                    color:
+                        selectedIndex == 1 ? null : Colors.transparent,
                     borderRadius: BorderRadius.circular(14),
                     boxShadow: selectedIndex == 1
                         ? [
-                      BoxShadow(
-                        color: Colors.blue.withOpacity(.18),
-                        blurRadius: 8,
-                        offset: const Offset(0, 3),
-                      ),
-                    ]
+                            BoxShadow(
+                              color: Colors.blue.withOpacity(.18),
+                              blurRadius: 8,
+                              offset: const Offset(0, 3),
+                            ),
+                          ]
                         : [],
                   ),
                   child: Center(
                     child: Text(
-                      'Tasks (3/5)',
+                      tasksLabel,
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: selectedIndex == 1

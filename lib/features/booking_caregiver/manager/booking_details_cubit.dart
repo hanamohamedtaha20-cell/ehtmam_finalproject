@@ -1,36 +1,82 @@
 import 'package:ehtemam_final_project/features/booking_caregiver/manager/state/booking_details_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../data/model/booking_details_model.dart';
 import '../data/repo/repo.dart';
 
-class BookingDetailsCubit
-    extends Cubit<BookingDetailsState> {
+class BookingDetailsCubit extends Cubit<BookingDetailsState> {
   final BookingRepository repository;
 
-  BookingDetailsCubit(this.repository)
-      : super(
-    BookingDetailsInitial(),
-  );
+  BookingDetailsCubit(this.repository) : super(BookingDetailsInitial());
 
-  Future<void> getBookingDetails(
-      int bookingId,
-      ) async {
+  Future<void> loadRequestDetails(String requestId) async {
     emit(BookingDetailsLoading());
 
     try {
-      final result =
-      await repository.getBookingDetails(
-        bookingId,
-      );
-
-      emit(
-        BookingDetailsLoaded(result),
-      );
+      final result = await repository.getRequestDetails(requestId);
+      emit(BookingDetailsLoaded(result));
     } catch (e) {
-      emit(
-        BookingDetailsError(
-          e.toString(),
-        ),
+      emit(BookingDetailsError(e.toString()));
+    }
+  }
+
+  Future<void> loadBookingDetails(String bookingId) async {
+    emit(BookingDetailsLoading());
+
+    try {
+      final result = await repository.getBookingDetails(bookingId);
+      emit(BookingDetailsLoaded(result));
+    } catch (e) {
+      emit(BookingDetailsError(e.toString()));
+    }
+  }
+
+  Future<void> loadTasks() async {
+    final current = state;
+    if (current is! BookingDetailsLoaded) return;
+
+    try {
+      final tasks = await repository.getTasks();
+      emit(BookingDetailsLoaded(current.booking.copyWith(tasks: tasks)));
+    } catch (e) {
+      emit(BookingDetailsError(e.toString()));
+    }
+  }
+
+  Future<void> toggleTask(String taskId, bool done) async {
+    final current = state;
+    if (current is! BookingDetailsLoaded) return;
+
+    try {
+      await repository.updateTask(taskId, done);
+      final updatedTasks = current.booking.tasks.map((t) {
+        if (t.id == taskId) {
+          return TaskModel(id: t.id, title: t.title, done: done);
+        }
+        return t;
+      }).toList();
+      emit(BookingDetailsLoaded(
+        current.booking.copyWith(tasks: updatedTasks),
+      ));
+    } catch (e) {
+      emit(BookingDetailsError(e.toString()));
+    }
+  }
+
+  Future<bool> submitOffer({
+    required String requestId,
+    required num price,
+    String? notes,
+  }) async {
+    try {
+      await repository.sendOffer(
+        requestId: requestId,
+        price: price,
+        notes: notes,
       );
+      return true;
+    } catch (e) {
+      emit(BookingDetailsError(e.toString()));
+      return false;
     }
   }
 }
