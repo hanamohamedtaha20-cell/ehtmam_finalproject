@@ -40,18 +40,18 @@ final ValueChanged<int?> onFilterChanged;
              ],
           ),
          const SizedBox(height: 12),
-Divider(
-  color: Colors.white.withOpacity(0.3),
-  thickness: 1,
-  height: 1,
-),
-const SizedBox(height: 12),
-_SummaryStatRow(summary: summary),
-        ],
-      ),
-    );
-  }
-}
+          Divider(
+            color: Colors.white.withOpacity(0.3),
+            thickness: 1,
+            height: 1,
+          ),
+          const SizedBox(height: 12),
+          _SummaryStatRow(summary: summary),
+                  ],
+                ),
+              );
+            }
+          }
 
 class _BigScore extends StatelessWidget {
   final ProviderReviewSummaryModel summary;
