@@ -101,9 +101,8 @@ context.read<ProviderReviewCubit>().filterByStar(star as int?),                 
                               child: ReviewItemCard(
                                 review: review,
                                 isHelpful: state.helpfulIds.contains(review.id),
-                                onHelpfulTap: () =>
-                                    context.read<ProviderReviewCubit>().markHelpful(review.id),
-                                onViewBooking: () {
+                                 onHelpfulTap: () {},
+                                 onViewBooking: () {
                                   // Navigate to booking: context.push('/bookings/${review.bookingId}');
                                 },
                               ),

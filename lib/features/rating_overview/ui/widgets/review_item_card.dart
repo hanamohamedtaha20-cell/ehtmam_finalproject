@@ -54,20 +54,13 @@ class _ReviewerInfo extends StatelessWidget {
 
   Color get _avatarBg {
     switch (review.serviceType) {
-      case 'Pet Care': return AppColors.lightGreen;
-      case 'Elderly Care': return AppColors.lightOrange;
+      case 'Pet Care': return AppColors.lightBlue;
+      case 'Elderly Care': return AppColors.lightBlue;
       default: return AppColors.lightBlue;
     }
   }
 
-  Color get _avatarFg {
-    switch (review.serviceType) {
-      case 'Pet Care': return AppColors.green;
-      case 'Elderly Care': return AppColors.orange;
-      default: return AppColors.blue;
-    }
-  }
-
+  
   String get _initials {
     final parts = review.reviewerName.trim().split(' ');
     if (parts.length >= 2) return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
@@ -82,7 +75,7 @@ class _ReviewerInfo extends StatelessWidget {
           radius: 21,
           backgroundColor: _avatarBg,
           child: Text(_initials,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: _avatarFg)),
+              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, )),
         ),
         const SizedBox(width: 10),
         Expanded(
@@ -126,9 +119,8 @@ class _ReviewComment extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       decoration: BoxDecoration(
-        color: AppColors.bg2,
+        color: Color(0xffF8FAFC),
         borderRadius: BorderRadius.circular(10),
-        border: const Border(left: BorderSide(color: AppColors.primary, width: 3)),
       ),
       child: Text(
         '"$comment"',
@@ -160,7 +152,7 @@ class _ReviewActions extends StatelessWidget {
             duration: const Duration(milliseconds: 200),
             padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
             decoration: BoxDecoration(
-              color: isHelpful ? AppColors.primary.withOpacity(0.12) : AppColors.lightPurple,
+              color: isHelpful ? Color(0xffECFDF5) : Color(0xffECFDF5),
               borderRadius: BorderRadius.circular(99),
             ),
             child: Row(
