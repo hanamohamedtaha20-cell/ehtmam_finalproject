@@ -251,29 +251,24 @@ Future<Map<String, dynamic>> postFormData({
 
   Future<Map<String, dynamic>> createRequest({
     required String serviceId,
-    required String governorate,
+    required String location,
     required String date,
     required String time,
     String? duration,
     String? notes,
     String? budget,
   }) async {
-    print("SERVICE ID: $serviceId");
-    print("GOVERNORATE: $governorate");
-    print("DATE: $date");
-    print("TIME: $time");
-    print("DURATION: $duration");
-    print("NOTES: $notes");
-    print("BUDGET: $budget");
+    final parsedBudget =
+        budget != null && budget.isNotEmpty ? num.tryParse(budget) : null;
 
     final response = await _dio.post(requestEndpoint, data: {
-      'service':     serviceId,
-      'governorate': governorate,
-      'date':        date,
-      'time':        time,
-      if (duration != null) 'duration': duration,
-      if (notes    != null) 'notes':    notes,
-      if (budget   != null) 'budget':   budget,
+      'service':  serviceId,
+      'location': location,
+      'date':     date,
+      'time':     time,
+      if (duration != null && duration.isNotEmpty) 'duration': duration,
+      if (notes    != null && notes.isNotEmpty)    'notes':    notes,
+      if (parsedBudget != null)                    'budget':   parsedBudget,
     });
     return response.data;
   }

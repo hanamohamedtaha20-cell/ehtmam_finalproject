@@ -151,19 +151,24 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     if (formKey.currentState!.validate()) {
       createRequest(
         serviceId: serviceId,
-        governorate: locationController.text,
+        location: locationController.text.trim(),
         date: '${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}',
         time: '${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}',
-        duration: durationController.text,
-        notes: notesController.text,
-        budget: budgetController.text,
+        duration: _optionalText(durationController.text),
+        notes: _optionalText(notesController.text),
+        budget: _optionalText(budgetController.text),
       );
     }
   }
 
+  String? _optionalText(String value) {
+    final trimmed = value.trim();
+    return trimmed.isEmpty ? null : trimmed;
+  }
+
   Future<void> createRequest({
     required String serviceId,
-    required String governorate,
+    required String location,
     required String date,
     required String time,
     String? duration,
@@ -174,7 +179,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     try {
       await repository.createRequest(
         serviceId: serviceId,
-        governorate: governorate,
+        location: location,
         date: date,
         time: time,
         duration: duration,
@@ -183,10 +188,18 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
       );
       emit(CreateRequestSuccess());
     } catch (e) {
-      if (e is DioException) {
-        print("BACKEND ERROR: ${e.response?.data}");
-      }
-      emit(CreateRequestError(e.toString()));
+      emit(CreateRequestError(_errorMessage(e)));
     }
+  }
+
+  String _errorMessage(Object e) {
+    if (e is DioException) {
+      final data = e.response?.data;
+      if (data is Map && data['message'] != null) {
+        return data['message'].toString();
+      }
+      return e.message ?? 'Failed to create request';
+    }
+    return e.toString();
   }
 }
