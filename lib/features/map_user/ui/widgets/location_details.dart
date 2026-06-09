@@ -13,6 +13,7 @@ class LocationDetails extends StatelessWidget {
     required this.distance,
     required this.eta,
   });
+  
 
   @override
   Widget build(BuildContext context) {

@@ -3,13 +3,16 @@ import 'package:ehtemam_final_project/features/account_settings/manager/account_
 import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_user.dart';
 import 'package:ehtemam_final_project/features/auth/data/repo/auth_repo.dart';
 import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
+import 'package:ehtemam_final_project/features/map_user/ui/screens/track_caregiver_screen.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/data/repo/mytask_cg_repo.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/manager/mytask_cg_cubit.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
+import 'package:ehtemam_final_project/features/rating_overview/ui/screens/provider_reviews_screen.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/data/repo/recharge_repo.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_cubit.dart';
+import 'package:ehtemam_final_project/features/share_location_cg/ui/screens/share_location_cg_screen.dart';
 import 'package:ehtemam_final_project/features/splash/manager/splash_cubit.dart';
 import 'package:ehtemam_final_project/features/splash/ui/screens/splash_screen.dart';
 import 'package:ehtemam_final_project/features/task_progress_user/ui/screens/task_progress_screen.dart';
@@ -64,7 +67,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
-        home:AccountSettingsScreen(),
+        home:ProviderReviewsScreen(),
       ),
     );
   }

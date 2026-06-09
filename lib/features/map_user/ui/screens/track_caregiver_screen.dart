@@ -2,16 +2,39 @@ import 'package:ehtemam_final_project/features/booking_user/ui/screens/booking_s
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/eta_banner.dart';
 import '../widgets/caregiver_info_card.dart';
 import '../widgets/location_details.dart';
-class TrackCaregiverScreen extends StatelessWidget {
+class TrackCaregiverScreen extends StatefulWidget {
   const TrackCaregiverScreen({super.key});
 
   static const LatLng _userLocation      = LatLng(30.0444, 31.2357);
   static const LatLng _caregiverLocation = LatLng(30.0500, 31.2400);
 
   @override
+  State<TrackCaregiverScreen> createState() => _TrackCaregiverScreenState();
+}
+
+class _TrackCaregiverScreenState extends State<TrackCaregiverScreen> {
+  String _caregiverName = '';
+  String _userAddress = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    final prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _caregiverName = prefs.getString('user_name') ?? 'Caregiver';
+      _userAddress = prefs.getString('user_government') ?? 'Cairo, Egypt';
+    });
+  } 
+  
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
@@ -46,7 +69,7 @@ class TrackCaregiverScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: FlutterMap(
                 options: MapOptions(
-                  initialCenter: _caregiverLocation,
+                  initialCenter: TrackCaregiverScreen._caregiverLocation,
                   initialZoom: 14,
                 ),
                 children: [
@@ -58,7 +81,7 @@ class TrackCaregiverScreen extends StatelessWidget {
                   MarkerLayer(
                     markers: [
                       Marker(
-                        point: _caregiverLocation,
+                        point: TrackCaregiverScreen._caregiverLocation,
                         width: 40,
                         height: 40,
                         child: const Icon(
@@ -68,7 +91,7 @@ class TrackCaregiverScreen extends StatelessWidget {
                         ),
                       ),
                       Marker(
-                        point: _userLocation,
+                        point: TrackCaregiverScreen._userLocation,
                         width: 40,
                         height: 40,
                         child: const Icon(
@@ -89,8 +112,8 @@ class TrackCaregiverScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CaregiverInfoCard(
-                    name: "Paws & Claws",
+                   CaregiverInfoCard(
+                    name: _caregiverName,
                     speciality: "Pet Care",
                     rating: "4.8",
                     reviewCount: "99",
@@ -110,8 +133,8 @@ class TrackCaregiverScreen extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 12),
-                  const LocationDetails(
-                    userLocation: "123 Main Street, Cairo, Egypt",
+                  LocationDetails(
+                    userLocation: _userAddress,
                     caregiverLocation: "456 Oak Avenue",
                     distance: "2.0 km",
                     eta: "14 min",

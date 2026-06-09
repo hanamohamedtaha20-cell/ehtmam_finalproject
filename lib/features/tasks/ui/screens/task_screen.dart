@@ -99,12 +99,7 @@ class TaskScreen extends StatelessWidget {
               ),
             ),
           ),
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Color(0xff3A8BD7),
-            shape: const CircleBorder(),
-            child: const Icon(Icons.add, color: Colors.white),
-            onPressed: () => showAddTaskDialog(context),
-          ),
+          
         ),
       );
   }

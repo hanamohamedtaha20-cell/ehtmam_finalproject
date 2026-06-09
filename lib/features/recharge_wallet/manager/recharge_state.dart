@@ -11,7 +11,6 @@ class RechargeLoaded extends RechargeState {
   RechargeLoaded(this.model);
 }
 
-// لما الـ API يرجع الـ paymentUrl
 class RechargeSuccess extends RechargeState {
   final String paymentUrl;
   RechargeSuccess(this.paymentUrl);

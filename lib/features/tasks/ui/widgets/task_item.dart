@@ -28,7 +28,40 @@ class TaskItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isCompleted = task.status == TaskStatus.completed;
-    return Container(
+    return Dismissible(
+      key: Key(task.id),
+
+      direction: DismissDirection.endToStart,
+
+      onDismissed: (_) {
+        onDelete(task.id);
+      },
+
+      background: Container(),
+
+      secondaryBackground: Container(
+        alignment: Alignment.centerRight,
+
+        margin: const EdgeInsets.all(2),
+
+        padding: const EdgeInsets.symmetric(
+          horizontal: 24,
+        ),
+
+        decoration: BoxDecoration(
+          color: const Color(0xFFFFEAEA),
+
+          borderRadius: BorderRadius.circular(14),
+        ),
+
+        child: const Icon(
+          Icons.delete_outline,
+          color: Colors.red,
+          size: 28,
+        ),
+      ),
+
+      child: Container(
       margin: EdgeInsets.all(2),
       padding: EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -87,12 +120,9 @@ class TaskItem extends StatelessWidget {
               ],
             ),
           ),
-          GestureDetector(
-            onTap: () => onDelete(task.id),
-            child: const Icon(Icons.delete_outline, size: 18, color: Colors.grey),
-          ),
+          
         ],
       ),
-    );
+    ));
   }
 }

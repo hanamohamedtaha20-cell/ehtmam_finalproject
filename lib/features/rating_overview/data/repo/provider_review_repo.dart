@@ -54,7 +54,7 @@ class ProviderReviewRepoImpl implements ProviderReviewRepo {
         ProviderReviewModel(
           id: '3',
           reviewerName: 'Wael Ashraf',
-          serviceType: 'House Cleaning',
+          serviceType: 'Pet Care',
           rating: 4,
           comment: 'Great job overall, will definitely book again!',
           date: DateTime(2026, 3, 28),

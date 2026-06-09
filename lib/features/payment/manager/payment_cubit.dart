@@ -16,10 +16,10 @@ class PaymentCubit extends Cubit<PaymentState> {
       final walletId  = prefs.getString('walletId')  ?? '';
       final bookingId = prefs.getString('bookingId') ?? '';
 
-      final walletResult  = await repo.getPaymentData(walletId);
+      //final walletResult  = await repo.getPaymentData(walletId);
       final bookingResult = await repo.getBookingData(bookingId);
 
-      final walletData  = walletResult['data'];
+      // final walletData  = walletResult['data'];
       final bookingData = bookingResult['data'];
 
       final double price       = (bookingData?['price'] ?? 0).toDouble();
@@ -27,15 +27,15 @@ class PaymentCubit extends Cubit<PaymentState> {
       final double taxRate     = price * 0.10;
       final double total       = price + platformFee + taxRate;
 
-      final transactions = (walletData['transactions'] as List? ?? [])
-          .map((t) => TransactionModel.fromJson(t))
-          .toList();
+      // final transactions = (walletData['transactions'] as List? ?? [])
+      //     .map((t) => TransactionModel.fromJson(t))
+      //     .toList();
 
       emit(PaymentLoaded(
-        balance:      (walletData['balance']        ?? 0).toDouble(),
-        income:       (walletData['totalDeposited'] ?? 0).toDouble(),
-        expense:      (walletData['totalSpent']     ?? 0).toDouble(),
-        transactions: transactions,
+        balance:      ( 0).toDouble(),
+        income:       ( 0).toDouble(),
+        expense:      ( 0).toDouble(),
+        transactions: [],
         serviceCost:  price,
         platformFee:  platformFee,
         taxRate:      taxRate,
@@ -45,4 +45,12 @@ class PaymentCubit extends Cubit<PaymentState> {
       emit(PaymentError(e.toString()));
     }
   }
+  void addBalance(double amount) {
+  if (state is PaymentLoaded) {
+    final current = state as PaymentLoaded;
+    emit(current.copyWith(
+      balance: current.balance + amount,
+    ));
+  }
+}
 }

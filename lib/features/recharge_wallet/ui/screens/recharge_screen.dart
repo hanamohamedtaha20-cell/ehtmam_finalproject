@@ -1,4 +1,5 @@
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_cubit.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_state.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/ui/widgets/action_buttons.dart';
@@ -104,10 +105,21 @@ class _RechargeScreenState extends State<RechargeScreen> {
             const SizedBox(height: 8),
             CustomAmountField(controller: _customAmountController),
             const SizedBox(height: 24),
-            ActionButtons(onConfirm: () {}),
-          ],
+            ActionButtons(
+              onConfirm: () {
+                final amount = double.tryParse(_customAmountController.text) ?? 0;
+                if (amount <= 0) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter a valid amount')),
+                  );
+                  return;
+                }
+                context.read<PaymentCubit>().addBalance(amount);
+                Navigator.pop(context);
+              },
+            ),          ],
         ),
       ),
     ));
   }
-}
+}//new

@@ -19,7 +19,6 @@ class ServiceTypeBadge extends StatelessWidget {
     switch (serviceType) {
       case 'Pet Care': return Icons.pets_rounded;
       case 'Elderly Care': return Icons.elderly_rounded;
-      case 'House Cleaning': return Icons.cleaning_services_rounded;
       default: return Icons.miscellaneous_services_rounded;
     }
   }
