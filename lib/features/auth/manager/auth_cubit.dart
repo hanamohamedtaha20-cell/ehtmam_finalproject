@@ -82,20 +82,23 @@ class AuthCubit extends Cubit<AuthState> {
     );
 
     try {
-      final token = await authRepo.login(
+      final loginResponse = await authRepo.login(
         email: email,
         password: password,
       );
 
       final prefs = await SharedPreferences.getInstance();
 
-      await prefs.setString('token', token);
+      await prefs.setString('token', loginResponse.token);
+      await prefs.setString('user_role', loginResponse.user.role);
       await prefs.setBool('is_logged_in', true);
 
       emit(
         state.copyWith(
           status: AuthStatus.authenticated,
-          token: token,
+          token: loginResponse.token,
+          userRole: loginResponse.user.role,
+          userName: loginResponse.user.fullName,
         ),
       );
     } catch (e) {
@@ -113,6 +116,7 @@ class AuthCubit extends Cubit<AuthState> {
       final prefs = await SharedPreferences.getInstance();
 
       await prefs.remove('token');
+      await prefs.remove('user_role');
       await prefs.setBool('is_logged_in', false);
 
       emit(const AuthState());

@@ -6,6 +6,7 @@ import 'package:ehtemam_final_project/features/auth/ui/screens/select_role_scree
 import 'package:ehtemam_final_project/features/auth/ui/widgets/auth_background.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/auth_text_field.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
+import 'package:ehtemam_final_project/features/homescreen_caregiver/ui/screens/hc_home_screen.dart';
 import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
 import 'package:ehtemam_final_project/features/profile2/ui/screens/profile_screen.dart';
 import 'package:ehtemam_final_project/features/rating/ui/screens/rating_screen.dart';
@@ -53,17 +54,30 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _navigateAfterLogin(String role) {
+    final normalizedRole = role.toLowerCase();
+    final Widget homeScreen;
+
+    if (normalizedRole == 'client') {
+      homeScreen = const HomeScreen();
+    } else if (normalizedRole == 'giver' || normalizedRole == 'caregiver') {
+      homeScreen = const HcHomeScreen();
+    } else {
+      homeScreen = const HomeScreen();
+    }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (_) => homeScreen),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state.status == AuthStatus.authenticated) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>HomeScreen(),
-            ),
-          );
+          _navigateAfterLogin(state.userRole);
         }
 
         if (state.status == AuthStatus.error) {

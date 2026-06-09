@@ -1,51 +1,42 @@
-import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
+import '../model/login_response_model.dart';
 
 class AuthRepo {
   final ApiService apiService;
 
   AuthRepo(this.apiService);
 
-  Future<String> login({
+  Future<LoginResponseModel> login({
     required String email,
     required String password,
   }) async {
-  //   try {
-  //     print('=== LOGIN REQUEST ===');
-  //   print('Email: $email');
-  //   print('Password: $password');
-  //     final data = await apiService.loginClient(
-  //       email: email,
-  //       password: password,
-  //     );
-  //     print('=== LOGIN RESPONSE ===');
-  //   print('Response: $data');
-  //     return data['data'];
-  //   } catch (e) {
-  //      print('=== LOGIN ERROR ===');
-  //   print('Error: $e');
-  //     throw Exception('Login failed: $e');
-  //   }
-  // }
-  try {
-    final cleanEmail = email.trim().replaceAll(' ', '');
-    final cleanPassword = password.trim();
-    
-    print('Clean Email: "$cleanEmail"');
-    print('Clean Password: "$cleanPassword"');
-    
-    final data = await apiService.loginClient(
-      email: cleanEmail,
-      password: cleanPassword,
-    );
-    return data['data'];
-  } catch (e) {
-    print('Error: $e');
-    throw Exception('Login failed: $e');
+    try {
+      final cleanEmail = email.trim().replaceAll(' ', '');
+      final cleanPassword = password.trim();
+
+      final data = await apiService.loginClient(
+        email: cleanEmail,
+        password: cleanPassword,
+      );
+
+      if (data['status'] != 'success') {
+        throw Exception(data['message'] ?? 'Login failed');
+      }
+
+      final loginResponse =
+          LoginResponseModel.fromJson(Map<String, dynamic>.from(data));
+
+      if (loginResponse.token.isEmpty) {
+        throw Exception('Login response missing token');
+      }
+
+      return loginResponse;
+    } catch (e) {
+      throw Exception('Login failed: $e');
+    }
   }
-}
 
   Future<void> signup({
     required String fullName,

@@ -12,6 +12,7 @@ class AuthState {
   final String? errorMessage;
   final String? token;
   final String userName;
+  final String userRole;
 
   const AuthState({
     this.status = AuthStatus.initial,
@@ -19,6 +20,7 @@ class AuthState {
     this.errorMessage,
     this.token,
     this.userName = 'User',
+    this.userRole = '',
   });
 
   AuthState copyWith({
@@ -27,6 +29,7 @@ class AuthState {
     String? errorMessage,
     String? token,
     String? userName,
+    String? userRole,
   }) {
     return AuthState(
       status: status ?? this.status,
@@ -34,6 +37,7 @@ class AuthState {
       errorMessage: errorMessage,
       token: token ?? this.token,
       userName: userName ?? this.userName,
+      userRole: userRole ?? this.userRole,
     );
   }
 }

@@ -60,24 +60,17 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> loginClient({
-  required String email,
-  required String password,
-}) async {
-  final response = await _dio.post(
-    loginEndpoint,
-    data: {'email': email, 'password': password},
-    options: Options(headers: {'Authorization': null}),
+    required String email,
+    required String password,
+  }) async {
+    final response = await _dio.post(
+      loginEndpoint,
+      data: {'email': email, 'password': password},
+      options: Options(headers: {'Authorization': null}),
+    );
 
-  );
-  final data = response.data;
-  if (data['status'] == 'success') {
-    final prefs = await SharedPreferences.getInstance();
-    final token = data['data'];
-    await prefs.setString('token', token);
-    print(token);
+    return Map<String, dynamic>.from(response.data as Map);
   }
-  return data;
-}
 
 Future<Map<String, dynamic>> postFormData({
   required String endpoint,
