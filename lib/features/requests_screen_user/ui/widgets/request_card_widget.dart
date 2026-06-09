@@ -58,18 +58,19 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
            SizedBox(height: 10),
 
           /// 🔹 Info
-          _infoRow("startDate:".tr(), widget.request.date),
+          _infoRow("start_date".tr(), widget.request.date),
 
-          _infoRow("time:".tr(), widget.request.time),
+          _infoRow("time".tr(), widget.request.time),
 
-          _infoRow("location:".tr(), widget.request.location),
+          if (widget.request.governorate.isNotEmpty)
+            _infoRow("governorate".tr(), widget.request.governorate),
 
           if (widget.request.provider != null &&
               widget.request.provider!.isNotEmpty)
             _infoRow("Provider:".tr(), widget.request.provider!),
 
           if (widget.request.amount.isNotEmpty)
-            _infoRow("amount:".tr(), widget.request.amount),
+            _infoRow("amount".tr(), widget.request.amount),
 
            SizedBox(height: 12),
 

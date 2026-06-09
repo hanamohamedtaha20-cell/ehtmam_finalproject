@@ -48,6 +48,8 @@
   "completed": "Completed",
 
   "start_date": "Start Date",
+  "time": "Time",
+  "governorate": "Governorate",
   "amount": "Amount",
 
   "view_offers": "View Offers",
