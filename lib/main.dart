@@ -3,6 +3,8 @@ import 'package:ehtemam_final_project/features/account_settings/manager/account_
 import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_user.dart';
 import 'package:ehtemam_final_project/features/auth/data/repo/auth_repo.dart';
 import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
+import 'package:ehtemam_final_project/features/bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
+import 'package:ehtemam_final_project/features/homescreen_caregiver/ui/screens/home_screen_caregiver.dart';
 import 'package:ehtemam_final_project/features/map_user/ui/screens/track_caregiver_screen.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/data/repo/mytask_cg_repo.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/manager/mytask_cg_cubit.dart';
@@ -54,9 +56,9 @@ class MyApp extends StatelessWidget {
     BlocProvider(
       create: (_) => SplashCubit(),
     ),
-    BlocProvider(
-  create: (_) => MytaskCgCubit(MytaskCgRepo(ApiService())),
-),
+     BlocProvider(
+          create: (_) => MytaskCgCubit(MytaskCgRepo()),
+        ),
  BlocProvider(
       create: (context) => AccountSettingsCubit(),
     ),
@@ -67,7 +69,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
-        home:ProviderReviewsScreen(),
+        home:CareGiverBottomNavScreen(),
       ),
     );
   }

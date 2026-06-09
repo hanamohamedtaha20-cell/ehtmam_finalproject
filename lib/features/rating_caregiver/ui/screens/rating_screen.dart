@@ -1,4 +1,5 @@
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/features/homescreen_caregiver/ui/screens/home_screen_caregiver.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/custom_header.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/rating_row.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/rating_stars.dart';
@@ -109,7 +110,7 @@ class _RatingScreenState extends State<RatingGiverScreen> {
                   Navigator.pushAndRemoveUntil(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
+                      builder: (context) => const HcHomeScreen(),
                     ),
                         (route) => false,
                   );

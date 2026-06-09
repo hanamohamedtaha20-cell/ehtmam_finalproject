@@ -257,7 +257,7 @@ Future<Map<String, dynamic>> postFormData({
     required String date,
     required String time,
     String? duration,
-    String? notes,
+    String? notes, required String governorate,
   }) async {
     final response = await _dio.post(requestEndpoint, data: {
       'service':  serviceId,

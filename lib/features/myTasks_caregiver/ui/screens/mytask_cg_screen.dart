@@ -1,4 +1,5 @@
 import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:ehtemam_final_project/features/request_screen_caregiver/ui/screens/care_requests_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repo/mytask_cg_repo.dart';
@@ -13,11 +14,10 @@ import '../widgets/mytask_cg_checkin_bar.dart';
 class MytaskCgScreen extends StatelessWidget {
   const MytaskCgScreen({super.key});
 
-  @override
+   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-    create: (_) => MytaskCgCubit(MytaskCgRepo(ApiService()))..loadBookings(),      child: const _MytaskCgView(),
-    );
+    context.read<MytaskCgCubit>().loadBookings();
+    return const _MytaskCgView();
   }
 }
 
@@ -33,7 +33,15 @@ class _MytaskCgView extends StatelessWidget {
         elevation: 0,
         leading: IconButton(
             icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => const CareRequestsScreen(),
+                  ),
+                );
+
+            },
           ),        
         title: const Text('My Tasks', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
       ),

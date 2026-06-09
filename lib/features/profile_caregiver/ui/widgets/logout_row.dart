@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 
 class LogoutRow extends StatelessWidget {
@@ -6,7 +7,13 @@ class LogoutRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        
+      Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+      builder: (_) => LoginScreen(),));
+          },
       child: Container(
         margin: EdgeInsets.all(12),
         width: double.infinity,
