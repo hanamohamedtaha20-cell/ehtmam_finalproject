@@ -3,11 +3,13 @@ import '../../../../core/network/api_service.dart';
 abstract class CreateRequestRemoteDatasource {
   Future<void> createRequest({
     required String serviceId,
-    required String location,
     required String date,
     required String time,
     String? duration,
     String? notes,
+    required String governorate,
+    String? budget,
+
   });
 }
 
@@ -23,20 +25,23 @@ class CreateRequestRemoteDatasourceImpl
   @override
   Future<void> createRequest({
     required String serviceId,
-    required String location,
+    required String governorate,
     required String date,
     required String time,
     String? duration,
     String? notes,
+    String? budget,
+
   }) async {
 
     await apiService.createRequest(
       serviceId: serviceId,
-      location: location,
+      governorate: governorate,
       date: date,
       time: time,
       duration: duration,
       notes: notes,
+      budget:      budget,
     );
   }
 }

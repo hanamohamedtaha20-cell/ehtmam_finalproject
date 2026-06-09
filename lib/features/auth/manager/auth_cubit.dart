@@ -32,7 +32,7 @@ class AuthCubit extends Cubit<AuthState> {
     PlatformFile? certificateFile,
     String careField = '',
     String specialization = '',
-    String certificateFileName = '',
+    String certificateFileName = '', required String street, required String building,
   }) async {
     emit(
       state.copyWith(
@@ -48,6 +48,9 @@ class AuthCubit extends Cubit<AuthState> {
         password: password,
         passwordConfirmation: password,
         role: role,
+        governorate: government,
+        street: street,
+        building: building,
         profileFile: profileFile,
         nationalIdFile: nationalIdFile,
         certificateFile: certificateFile,
@@ -109,6 +112,7 @@ class AuthCubit extends Cubit<AuthState> {
         );
         final decoded = jsonDecode(payload);
         await prefs.setString('userId', decoded['id'] ?? '');
+        await prefs.setString('user_role', decoded['role'] ?? '');
       }
 
       emit(state.copyWith(status: AuthStatus.authenticated, token: token));

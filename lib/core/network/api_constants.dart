@@ -1,4 +1,4 @@
-const String baseUrl = 'https://final-graduation-production.up.railway.app';
+const String baseUrl = 'https://graduation-production-b4c1.up.railway.app';
 
 const String signupEndpoint            = '/userlog/signup';
 const String loginEndpoint             = '/userlog/login';

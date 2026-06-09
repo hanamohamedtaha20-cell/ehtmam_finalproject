@@ -174,26 +174,18 @@ class BookingDetailsAppBar extends StatelessWidget {
                   ),
 
                   decoration: BoxDecoration(
-                    color: const Color(0xff25B516),
+                    color:  Color(0xFFFEF3C6),
                     borderRadius: BorderRadius.circular(30),
                   ),
 
                   child: const Row(
                     children: [
 
-                      Icon(
-                        Icons.check_circle_outline,
-                        color: Colors.white,
-                        size: 14,
-                      ),
-
-                      SizedBox(width: 4),
-
                       Text(
-                        "Confirmed",
+                        "Pending",
 
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Color(0xFFBB4D00),
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
                         ),

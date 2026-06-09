@@ -70,6 +70,7 @@ class CreateRequestBody extends StatelessWidget {
                 hint: "Enter your budget",
                 icon: Icons.attach_money,
                 isRequired: false,
+                controller: context.read<CreateRequestCubit>().budgetController,
               ),
 
               const SizedBox(height: 16),

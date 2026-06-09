@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../booking_caregiver/ui/screens/booking_cg_screen.dart';
+import '../../../request_screen_caregiver/ui/screens/booking_details_acc.dart';
 import '../../data/model/hc_request_model.dart';
 
 class HcRequestCard extends StatelessWidget {
@@ -123,7 +125,14 @@ class HcRequestCard extends StatelessWidget {
                       ),
                     ),
                     child: ElevatedButton.icon(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const BookingDetailsAcc(),
+                          ),
+                        );
+                      },
                       icon: const Icon(
                         Icons.check,
                         size: 16,
@@ -171,7 +180,14 @@ class HcRequestCard extends StatelessWidget {
           ),
           Center(
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => BookingCgScreenScreen(),
+                  ),
+                );
+              },
               child: Text(
                 'View Full Details →',
                 style: TextStyle(

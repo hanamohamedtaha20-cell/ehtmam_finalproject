@@ -13,10 +13,11 @@ import 'package:ehtemam_final_project/features/splash/ui/widgets/next_button.dar
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../manager/auth_cubit.dart';
 import '../../manager/auth_state.dart';
-
+import 'package:ehtemam_final_project/features/homescreen_caregiver/ui/screens/home_screen_caregiver.dart';
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -56,14 +57,22 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.status == AuthStatus.authenticated) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>HomeScreen(),
-            ),
-          );
+          final prefs = await SharedPreferences.getInstance();
+          final role = prefs.getString('user_role') ?? '';
+
+          if (role == 'caregiver') {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HcHomeScreen()),
+            );
+          } else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+            );
+          }
         }
 
         if (state.status == AuthStatus.error) {

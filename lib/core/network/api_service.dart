@@ -27,6 +27,7 @@ class ApiService {
           handler.next(options);
         },
         onError: (error, handler) {
+          print("API ERROR: ${error.response?.data}");
           handler.next(error);
         },
       ),
@@ -44,6 +45,9 @@ class ApiService {
     required String passwordConfirmation,
     File? profilePicture,
     File? nationalId,
+    String? governorate,
+    String? street,
+    String? building,
   }) async {
     final formData = FormData.fromMap({
       'full_name':            fullName,
@@ -54,6 +58,9 @@ class ApiService {
         'profile_picture': await MultipartFile.fromFile(profilePicture.path),
       if (nationalId != null)
         'national_id': await MultipartFile.fromFile(nationalId.path),
+      if (governorate != null) 'governorate': governorate,
+      if (street != null) 'address[street]': street,
+      if (building != null) 'address[building]': building,
     });
     final response = await _dio.post(signupEndpoint, data: formData);
     return response.data;
@@ -244,19 +251,29 @@ Future<Map<String, dynamic>> postFormData({
 
   Future<Map<String, dynamic>> createRequest({
     required String serviceId,
-    required String location,
+    required String governorate,
     required String date,
     required String time,
     String? duration,
     String? notes,
+    String? budget,
   }) async {
+    print("SERVICE ID: $serviceId");
+    print("GOVERNORATE: $governorate");
+    print("DATE: $date");
+    print("TIME: $time");
+    print("DURATION: $duration");
+    print("NOTES: $notes");
+    print("BUDGET: $budget");
+
     final response = await _dio.post(requestEndpoint, data: {
-      'service':  serviceId,
-      'location': location,
-      'date':     date,
-      'time':     time,
+      'service':     serviceId,
+      'governorate': governorate,
+      'date':        date,
+      'time':        time,
       if (duration != null) 'duration': duration,
       if (notes    != null) 'notes':    notes,
+      if (budget   != null) 'budget':   budget,
     });
     return response.data;
   }

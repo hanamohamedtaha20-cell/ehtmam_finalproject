@@ -36,6 +36,8 @@ class _RegisterFormState extends State<RegisterForm> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController confirmPasswordController =
   TextEditingController();
+  final TextEditingController streetController = TextEditingController();
+  final TextEditingController buildingController = TextEditingController();
 
   bool isPasswordHidden = true;
   bool isConfirmPasswordHidden = true;
@@ -88,7 +90,10 @@ class _RegisterFormState extends State<RegisterForm> {
     phoneController.dispose();
     passwordController.dispose();
     confirmPasswordController.dispose();
+    streetController.dispose();
+    buildingController.dispose();
     super.dispose();
+
   }
 
   Future<void> _pickFile({required String type}) async {
@@ -152,6 +157,8 @@ class _RegisterFormState extends State<RegisterForm> {
         profileFile: profileFile,
         nationalIdFile: nationalIdFile,
         certificateFile: certificateFile,
+        street: streetController.text.trim(),
+        building: buildingController.text.trim(),
       );
     }
   }
@@ -295,7 +302,32 @@ class _RegisterFormState extends State<RegisterForm> {
                 validatorText: 'Government is required',
               ),
 
+
+
               const SizedBox(height: 12),
+              _label('Street'),
+              const SizedBox(height: 6),
+              RegisterInputField(
+                controller: streetController,
+                hintText: 'Enter your street',
+                prefixIcon: Icons.signpost_outlined,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) return 'Street is required';
+                  return null;
+                },
+              ),
+              const SizedBox(height: 12),
+              _label('Building'),
+              const SizedBox(height: 6),
+              RegisterInputField(
+                controller: buildingController,
+                hintText: 'Enter your building number',
+                prefixIcon: Icons.apartment_outlined,
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) return 'Building is required';
+                  return null;
+                },
+              ),
 
               _label('Phone Number'),
               const SizedBox(height: 6),
