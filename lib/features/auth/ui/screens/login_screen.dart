@@ -15,6 +15,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/resources/app_colors.dart';
+import '../../../bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import '../../manager/auth_cubit.dart';
 import '../../manager/auth_state.dart';
 
