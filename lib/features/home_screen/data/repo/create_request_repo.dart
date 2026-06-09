@@ -4,7 +4,6 @@ abstract class CreateRequestRepository {
   Future<void> createRequest({
     required String serviceId,
     required String governorate,
-    required String location,
     required String date,
     required String time,
     String? duration,
@@ -27,7 +26,6 @@ class CreateRequestRepositoryImpl
   Future<void> createRequest({
     required String serviceId,
     required String governorate,
-    required String location,
     required String date,
     required String time,
     String? duration,
@@ -37,7 +35,6 @@ class CreateRequestRepositoryImpl
     await remoteDatasource.createRequest(
       serviceId: serviceId,
       governorate: governorate,
-      location: location,
       date: date,
       time: time,
       duration: duration,

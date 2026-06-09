@@ -62,15 +62,6 @@ class CreateRequestBody extends StatelessWidget {
               const SizedBox(height: 16),
 
               AppInputField(
-                title: "Location",
-                hint: "Enter your location",
-                icon: Icons.location_on_outlined,
-                controller: context.read<CreateRequestCubit>().locationController,
-              ),
-
-              const SizedBox(height: 16),
-
-              AppInputField(
                 title: "Budget (EGP)",
                 hint: "Enter your budget",
                 icon: Icons.attach_money,

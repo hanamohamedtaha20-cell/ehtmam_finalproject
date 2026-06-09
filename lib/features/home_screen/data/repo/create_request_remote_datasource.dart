@@ -4,7 +4,6 @@ abstract class CreateRequestRemoteDatasource {
   Future<void> createRequest({
     required String serviceId,
     required String governorate,
-    required String location,
     required String date,
     required String time,
     String? duration,
@@ -27,7 +26,6 @@ class CreateRequestRemoteDatasourceImpl
   Future<void> createRequest({
     required String serviceId,
     required String governorate,
-    required String location,
     required String date,
     required String time,
     String? duration,
@@ -39,7 +37,6 @@ class CreateRequestRemoteDatasourceImpl
     await apiService.createRequest(
       serviceId: serviceId,
       governorate: governorate,
-      location: location,
       date: date,
       time: time,
       duration: duration,

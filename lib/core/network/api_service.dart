@@ -252,7 +252,6 @@ Future<Map<String, dynamic>> postFormData({
   Future<Map<String, dynamic>> createRequest({
     required String serviceId,
     required String governorate,
-    required String location,
     required String date,
     required String time,
     String? duration,
@@ -265,7 +264,6 @@ Future<Map<String, dynamic>> postFormData({
     final response = await _dio.post(requestEndpoint, data: {
       'service':     serviceId,
       'governorate': governorate,
-      'location':    location,
       'date':        date,
       'time':        time,
       if (duration != null && duration.isNotEmpty) 'duration': duration,

@@ -122,7 +122,6 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
   bool isGovernorateEmpty = false;
 
   final formKey = GlobalKey<FormState>();
-  final locationController = TextEditingController();
   final durationController = TextEditingController();
   final notesController = TextEditingController();
   final budgetController = TextEditingController();
@@ -165,7 +164,6 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
       createRequest(
         serviceId: serviceId,
         governorate: selectedGovernorate!,
-        location: locationController.text.trim(),
         date: '${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}',
         time: '${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}',
         duration: _optionalText(durationController.text),
@@ -183,7 +181,6 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
   Future<void> createRequest({
     required String serviceId,
     required String governorate,
-    required String location,
     required String date,
     required String time,
     String? duration,
@@ -195,7 +192,6 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
       await repository.createRequest(
         serviceId: serviceId,
         governorate: governorate,
-        location: location,
         date: date,
         time: time,
         duration: duration,
