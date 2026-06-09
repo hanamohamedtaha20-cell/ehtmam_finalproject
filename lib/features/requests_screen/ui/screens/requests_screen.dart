@@ -133,7 +133,7 @@ class _RequestsScreenState extends State<RequestsScreen> {
                          Navigator.push(
                            context,
                            MaterialPageRoute(
-                             builder: (context) => HomeScreen(),
+                             builder: (context) => HomeScreen(isGuest: true,),
                            ),
                          );
                        },

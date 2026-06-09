@@ -9,10 +9,7 @@ import 'whyChoose_card.dart';
 
 class HomeContent extends StatelessWidget {
    HomeContent({super.key});
-  final user = UserModel(
-    name: "ahmed",
 
-  );
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -20,7 +17,7 @@ class HomeContent extends StatelessWidget {
       child: ListView(
         children: [
           /// 🔹 HEADER
-           HeaderWidget(user: user,),
+
           Container(
             margin: const EdgeInsets.symmetric(vertical: 10),
             height: 1,

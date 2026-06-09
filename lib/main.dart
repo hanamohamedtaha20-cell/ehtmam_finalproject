@@ -11,6 +11,7 @@ import 'core/network/api_service.dart';
 import 'features/auth/data/repo/auth_repo.dart';
 import 'features/auth/manager/auth_cubit.dart';
 import 'features/auth/ui/screens/register_screen.dart';
+import 'features/bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import 'features/home_screen/ui/home_screen.dart';
 import 'features/splash/manager/splash_cubit.dart';
 
@@ -71,7 +72,7 @@ class MyApp extends StatelessWidget {
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
 
-        home:LoginScreen()
+        home:CareGiverBottomNavScreen()
         //RegisterScreen(role: 'user',),
       ),
     );

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '/features/home_screen/ui/widgets/home_content.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required bool isGuest});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

@@ -8,15 +8,20 @@ import '../../../bottom_nav_bar/manager/bottom_nav_bar_state.dart';
 import '../../../bottom_nav_bar/ui/bottom_nav_bar.dart';
 
 class MainLayoutScreen extends StatelessWidget {
-  const MainLayoutScreen({super.key});
+  final bool isGuest;
+
+  const MainLayoutScreen({
+    super.key,
+    this.isGuest = false,
+  });
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> screens = [
-      const HomeScreen(),
+      HomeScreen(isGuest: isGuest),
       const RequestsScreen(),
       const Center(child: Text('Bookings')),
-       AccountSettingsScreen(),
+      AccountSettingsScreen(),
     ];
 
     return BlocBuilder<BottomNavCubit, BottomNavState>(
@@ -27,7 +32,6 @@ class MainLayoutScreen extends StatelessWidget {
           bottomNavigationBar: UserBottomNavScreen(
             currentIndex: state.currentIndex,
             onTap: (index) {
-              print(index);
               context.read<BottomNavCubit>().changeTab(index);
             },
           ),

@@ -19,7 +19,7 @@ class ApiService {
     Options? options,
   }) async {
     return await dio.post(endpoint,
-        data: data,
+      data: data,
       options: options,
     );
   }
