@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
     if (normalizedRole == 'client') {
       homeScreen = const HomeScreen();
     } else if (normalizedRole == 'giver' || normalizedRole == 'caregiver') {
-      homeScreen = const HcHomeScreen();
+      homeScreen = const CareGiverBottomNavScreen();
     } else {
       homeScreen = const HomeScreen();
     }
