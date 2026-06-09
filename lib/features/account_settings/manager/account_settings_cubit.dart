@@ -10,27 +10,62 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
   AccountSettingsCubit(this.repo) : super(const AccountSettingsState(profileImagePath: ''));
 
   Future<void> loadUserData() async {
-    emit(state.copyWith(isLoading: true));
+    emit(state.copyWith(isLoading: true, error: null));
 
     final prefs = await SharedPreferences.getInstance();
 
-    emit(
-      state.copyWith(
-        name: prefs.getString('user_name') ?? '',
-        email: prefs.getString('user_email') ?? '',
-        phone: prefs.getString('user_phone') ?? '',
-        role: prefs.getString('user_role') ?? '',
-        notifications: prefs.getBool('notifications') ?? false,
-        government: prefs.getString('user_government') ?? '',
-        careField: prefs.getString('care_field') ?? '',
-        specialization: prefs.getString('care_specialization') ?? '',
-        certificateFileName: prefs.getString('certificate_file_name') ?? '',
-        isLoading: false,
+    try {
+      final userId = prefs.getString('userId') ?? '';
 
-      ),
-    );
+      if (userId.isNotEmpty) {
+        final response = await repo.getUserProfile(userId);
+
+        final user = response['data'];
+
+        final name = user?['full_name'] ?? user?['fullName'] ?? prefs.getString('user_name') ?? '';
+        final email = user?['email'] ?? prefs.getString('user_email') ?? '';
+        final phone = user?['phoneNumber'] ?? user?['phone'] ?? prefs.getString('user_phone') ?? '';
+        final government = user?['government'] ?? prefs.getString('user_government') ?? '';
+
+        await prefs.setString('user_name', name);
+        await prefs.setString('user_email', email);
+        await prefs.setString('user_phone', phone);
+        await prefs.setString('user_government', government);
+      }
+      print("LOADED NAME => ${prefs.getString('user_name')}");
+      print("LOADED EMAIL => ${prefs.getString('user_email')}");
+      print("LOADED PHONE => ${prefs.getString('user_phone')}");
+      print("LOADED GOV => ${prefs.getString('user_government')}");
+
+      emit(
+        state.copyWith(
+          name: prefs.getString('user_name') ?? '',
+          email: prefs.getString('user_email') ?? '',
+          phone: prefs.getString('user_phone') ?? '',
+          role: prefs.getString('user_role') ?? '',
+          government: prefs.getString('user_government') ?? '',
+          notifications: prefs.getBool('notifications') ?? false,
+          careField: prefs.getString('care_field') ?? '',
+          specialization: prefs.getString('care_specialization') ?? '',
+          certificateFileName: prefs.getString('certificate_file_name') ?? '',
+          isLoading: false,
+        ),
+      );
+    } catch (e) {
+      emit(
+        state.copyWith(
+          name: prefs.getString('user_name') ?? '',
+          email: prefs.getString('user_email') ?? '',
+          phone: prefs.getString('user_phone') ?? '',
+          role: prefs.getString('user_role') ?? '',
+          government: prefs.getString('user_government') ?? '',
+          notifications: prefs.getBool('notifications') ?? false,
+          isLoading: false,
+          error: e.toString(),
+        ),
+      );
+    }
   }
-
   Future<void> toggleNotifications(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('notifications', value);

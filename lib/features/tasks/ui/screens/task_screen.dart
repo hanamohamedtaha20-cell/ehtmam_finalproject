@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../requests_screen_user/ui/screens/requests_screen.dart';
+import '../widgets/add_task_dialog.dart';
 
 class TaskScreen extends StatelessWidget {
   const TaskScreen({super.key});
@@ -52,9 +53,6 @@ class TaskScreen extends StatelessWidget {
                     StatsRow(activeCount: state.activeCount, completedCount: state.completedCount),
                      SizedBox(height: 16),
 
-                    /// Search
-                    TaskSearchField(onChanged: (q) => context.read<TaskCubit>().search(q)),
-                    const SizedBox(height: 16),
 
                     /// Tab Bar
                        TaskTabs(
@@ -83,7 +81,12 @@ class TaskScreen extends StatelessWidget {
             ),
           ),
         ),
-        
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xff3A8BD7),
+          shape: const CircleBorder(),
+          child: const Icon(Icons.add, color: Colors.white),
+          onPressed: () => showAddTaskDialog(context),
+        ),
       ),
     );
   }

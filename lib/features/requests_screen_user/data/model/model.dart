@@ -13,6 +13,7 @@ class RequestModel {
   final RequestType type;
   final int offersCount;
 
+
   const RequestModel({
     required this.id,
     required this.title,

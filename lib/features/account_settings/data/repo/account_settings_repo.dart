@@ -5,6 +5,10 @@ class AccountSettingsRepo {
 
   AccountSettingsRepo(this._apiService);
 
+  Future<Map<String, dynamic>> getUserProfile(String userId) async {
+    return await _apiService.getUserProfile(userId);
+  }
+
   Future<void> changePassword({
     required String currentPassword,
     required String password,

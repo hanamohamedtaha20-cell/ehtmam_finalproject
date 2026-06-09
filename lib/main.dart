@@ -7,6 +7,7 @@ import 'package:ehtemam_final_project/features/myTasks_caregiver/data/repo/mytas
 import 'package:ehtemam_final_project/features/myTasks_caregiver/manager/mytask_cg_cubit.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
+import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/data/repo/recharge_repo.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_cubit.dart';
 import 'package:ehtemam_final_project/features/splash/manager/splash_cubit.dart';
@@ -14,6 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'features/account_settings/manager/account_settings_cubit.dart';
+import 'features/rating/data/repo/rating_repo.dart';
+import 'features/rating/manager/rating_cubit.dart';
 
 
 
@@ -39,7 +42,7 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (_) => PaymentCubit(PaymentRepo()),
+          create: (_) => PaymentCubit(PaymentRepo())..loadData(),
         ),
         BlocProvider(
           create: (_) => RechargeCubit(RechargeRepo()),
@@ -54,6 +57,9 @@ class MyApp extends StatelessWidget {
 ),
         BlocProvider(
           create: (_) => AccountSettingsCubit(AccountSettingsRepo(ApiService())),
+        ),
+        BlocProvider(
+          create: (_) => RatingCubit(RatingRepo()),
         ),
   ],
 

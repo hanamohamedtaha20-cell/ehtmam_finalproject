@@ -1,7 +1,7 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'dart:convert';
 import '../data/repo/auth_repo.dart';
 import 'auth_state.dart';
 
@@ -54,6 +54,23 @@ class AuthCubit extends Cubit<AuthState> {
         careField: careField,
         specialization: specialization,
       );
+      final prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString('user_government', government);
+      await prefs.setString('user_name', name);
+      await prefs.setString('user_email', email);
+      await prefs.setString('user_phone', phone);
+      await prefs.setString('user_role', role);
+      print("NAME => ${prefs.getString('user_name')}");
+      print("EMAIL => ${prefs.getString('user_email')}");
+      print("PHONE => ${prefs.getString('user_phone')}");
+      print("GOV => ${prefs.getString('user_government')}");
+
+      // if (state.status == AuthStatus.registered) {
+      //   final prefs = await SharedPreferences.getInstance();
+      //   await prefs.setString('user_government', government);
+      //   await prefs.setString('user_name', name);
+      // }
 
       emit(
         state.copyWith(
@@ -74,39 +91,34 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
-    emit(
-      state.copyWith(
-        status: AuthStatus.loading,
-        errorMessage: null,
-      ),
-    );
-
+    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
     try {
       final token = await authRepo.login(
         email: email,
         password: password,
       );
-
       final prefs = await SharedPreferences.getInstance();
-
       await prefs.setString('token', token);
       await prefs.setBool('is_logged_in', true);
 
-      emit(
-        state.copyWith(
-          status: AuthStatus.authenticated,
-          token: token,
-        ),
-      );
+
+      final parts = token.split('.');
+      if (parts.length == 3) {
+        final payload = utf8.decode(
+          base64Url.decode(base64Url.normalize(parts[1])),
+        );
+        final decoded = jsonDecode(payload);
+        await prefs.setString('userId', decoded['id'] ?? '');
+      }
+
+      emit(state.copyWith(status: AuthStatus.authenticated, token: token));
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: AuthStatus.error,
-          errorMessage: 'Invalid email or password',
-        ),
-      );
+      emit(state.copyWith(
+          status: AuthStatus.error, errorMessage: 'Invalid email or password'));
     }
   }
+
+
 
   Future<void> logout() async {
     try {

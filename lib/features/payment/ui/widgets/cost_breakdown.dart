@@ -74,7 +74,7 @@ class _CostBreakdownCard extends StatelessWidget {
           const SizedBox(height: 10),
          _CostBreakdownRow(label: "Service Cost", amount: serviceCost, isBold: false),
         _CostBreakdownRow(label: "Platform Fee (5%)", amount: platformFee, isBold: false),
-        _CostBreakdownRow(label: "Tax (10%)", amount: taxRate, isBold: false),
+        _CostBreakdownRow(label: "Tax (14%)", amount: taxRate, isBold: false),
         const Divider(),
         _CostBreakdownRow(
           label: "Total Amount",

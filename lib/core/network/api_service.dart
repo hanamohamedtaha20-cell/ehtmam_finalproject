@@ -139,13 +139,9 @@ Future<Map<String, dynamic>> postFormData({
   }
 
   Future<Map<String, dynamic>> getUserProfile(String userId) async {
-    final response = await _dio.get(
-      '/userlog/$userId',
-      options: Options(headers: {'Authorization': null}),
-    );
+    final response = await _dio.get('/userlog/$userId');
     return response.data;
   }
-
   // ══════════════════════════════════════════════════════════
   //  CAREGIVER — /caregiver
   // ══════════════════════════════════════════════════════════
