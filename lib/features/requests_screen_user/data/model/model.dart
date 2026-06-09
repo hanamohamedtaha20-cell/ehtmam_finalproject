@@ -45,6 +45,15 @@ class RequestModel {
     final rawGovernorate =
         json['governorate']?.toString() ?? json['location']?.toString() ?? '';
 
+    final providerValue = json['provider'];
+    String? providerName;
+    if (providerValue is Map) {
+      providerName = providerValue['full_name']?.toString() ??
+          providerValue['name']?.toString();
+    } else {
+      providerName = providerValue?.toString();
+    }
+
     return RequestModel(
       id: json['_id']?.toString() ?? '',
       title: serviceName,
@@ -54,10 +63,15 @@ class RequestModel {
       governorate: rawGovernorate,
       amount: json['budget']?.toString() ?? '',
       status: _formatStatus(statusValue),
-      provider: json['provider']?.toString(),
+      provider: providerName,
       type: _mapStringToRequestType(statusValue),
-      offersCount: json['offers_count'] ?? 0,
+      offersCount: _toInt(json['offers_count']),
     );
+  }
+
+  static int _toInt(dynamic value) {
+    if (value is int) return value;
+    return int.tryParse(value?.toString() ?? '') ?? 0;
   }
 
   static String _formatDate(String? raw) {

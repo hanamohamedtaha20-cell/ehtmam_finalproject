@@ -5,11 +5,11 @@ class ProviderRepository {
   final ApiService _apiService = ApiService();
 
   Future<List<ProviderModel>> getOffers(String requestId) async {
-    if (requestId.isEmpty) {
+    if (requestId.trim().isEmpty) {
       throw Exception('Request id is missing');
     }
 
-    final response = await _apiService.getOffersOnRequest(requestId);
+    final response = await _apiService.getOffersOnRequest(requestId.trim());
     final status = response['status']?.toString();
 
     if (status != 'success') {
@@ -18,24 +18,33 @@ class ProviderRepository {
       );
     }
 
-    final data = response['data'];
-    if (data == null) return [];
+    final rawOffers = _extractOffers(response['data']);
+    final offers = <ProviderModel>[];
 
-    if (data is List) {
-      return data
-          .whereType<Map>()
-          .map((item) => ProviderModel.fromOfferJson(
-                Map<String, dynamic>.from(item),
-              ))
-          .toList();
+    for (final item in rawOffers) {
+      if (item is! Map) continue;
+
+      try {
+        offers.add(
+          ProviderModel.fromOfferJson(Map<String, dynamic>.from(item)),
+        );
+      } catch (_) {
+        continue;
+      }
     }
+
+    return offers;
+  }
+
+  List<dynamic> _extractOffers(dynamic data) {
+    if (data is List) return data;
 
     if (data is Map) {
-      return [
-        ProviderModel.fromOfferJson(Map<String, dynamic>.from(data)),
-      ];
+      final nestedOffers = data['offers'];
+      if (nestedOffers is List) return nestedOffers;
+      return [data];
     }
 
-    return [];
+    return const [];
   }
 }

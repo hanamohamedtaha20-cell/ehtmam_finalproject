@@ -40,7 +40,13 @@ class AuthRepo {
       email: cleanEmail,
       password: cleanPassword,
     );
-    return data['data'];
+
+    final token = data['data']?.toString();
+    if (token == null || token.isEmpty) {
+      throw Exception(data['message']?.toString() ?? 'Login failed');
+    }
+
+    return token;
   } catch (e) {
     print('Error: $e');
     throw Exception('Login failed: $e');

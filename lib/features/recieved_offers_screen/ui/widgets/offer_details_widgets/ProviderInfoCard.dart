@@ -49,8 +49,8 @@ class ProviderInfoCard extends StatelessWidget {
                 /// 🔹 Location
                 _item(
                   icon: Icons.location_on_outlined,
-                  title: "Location",
-                  value: p.location, // 👈 بدل النص الثابت
+                  title: "Governorate",
+                  value: p.location.isNotEmpty ? p.location : 'Not specified',
                 ),
 
                 SizedBox(height: 16),
