@@ -21,7 +21,7 @@ class OffersScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => ProviderCubit(
         ProviderRepository(),
-      )..getProvider(requestId),
+      )..getOffers(requestId),
 
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F6FA),
@@ -36,15 +36,29 @@ class OffersScreen extends StatelessWidget {
               }
 
               if (state is ProviderLoaded) {
-                final provider = state.provider;
-
                 return Column(
                   children: [
                     const OffersHeader(),
-                    const RequestSummaryCard(),
+                    RequestSummaryCard(
+                      offersCount: state.offers.length,
+                    ),
                     Expanded(
                       child: OffersList(
-                        provider: provider,
+                        requestId: requestId,
+                        offers: state.offers,
+                      ),
+                    ),
+                  ],
+                );
+              }
+
+              if (state is ProviderEmpty) {
+                return Column(
+                  children: [
+                    const OffersHeader(),
+                    const Expanded(
+                      child: Center(
+                        child: Text('No offers received yet'),
                       ),
                     ),
                   ],
@@ -52,8 +66,21 @@ class OffersScreen extends StatelessWidget {
               }
 
               if (state is ProviderError) {
-                return const Center(
-                  child: Text('Failed to load data'),
+                return Column(
+                  children: [
+                    const OffersHeader(),
+                    Expanded(
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(24),
+                          child: Text(
+                            state.message,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 );
               }
 

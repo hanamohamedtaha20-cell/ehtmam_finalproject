@@ -1,4 +1,5 @@
 class ProviderModel {
+  final String id;
   final String description;
   final String experience;
   final int completed;
@@ -25,6 +26,7 @@ class ProviderModel {
   final bool bestValue;
 
   ProviderModel({
+    required this.id,
     required this.description,
     required this.experience,
     required this.completed,
@@ -47,54 +49,71 @@ class ProviderModel {
     required this.bestValue,
   });
 
-  factory ProviderModel.fromJson(Map<String, dynamic> json) {
+  factory ProviderModel.fromOfferJson(Map<String, dynamic> json) {
+    final caregiver = json['caregiver'];
+    final caregiverMap = caregiver is Map<String, dynamic>
+        ? caregiver
+        : <String, dynamic>{};
+
+    final caregiverPrice = _toDouble(caregiverMap['price']);
+    final offerPrice = _toDouble(json['price']);
+
     return ProviderModel(
-      description: json['description']?.toString() ?? "",
-      experience: json['experience']?.toString() ?? "",
-
-      completed: (json['completed'] ?? 0) is int
-          ? json['completed']
-          : int.tryParse(json['completed'].toString()) ?? 0,
-
-      qualifications: json['qualifications'] != null
-          ? List<String>.from(json['qualifications'])
-          : [],
-
-      phone: json['phone']?.toString() ?? "",
-      email: json['email']?.toString() ?? "",
-
-      location: json['location']?.toString() ?? "",
-      availability: json['availability']?.toString() ?? "",
-      responseTime: json['response_time']?.toString() ?? "",
-
-      name: json['name']?.toString() ?? "",
-      service: json['service']?.toString() ?? "",
-
-      rating: (json['rating'] is num)
-          ? (json['rating'] as num).toDouble()
-          : double.tryParse(json['rating']?.toString() ?? "0") ?? 0.0,
-
-      reviewsCount: (json['reviews_count'] ?? 0) is int
-          ? json['reviews_count']
-          : int.tryParse(json['reviews_count'].toString()) ?? 0,
-
-
-      isVerified: json['verified'] == true,
-      isCertified: json['certified'] == true,
-
-      price: (json['price'] is num)
-          ? (json['price'] as num).toDouble()
-          : double.tryParse(json['price']?.toString() ?? "0") ?? 0.0,
-
-      oldPrice: (json['old_price'] is num)
-          ? (json['old_price'] as num).toDouble()
-          : double.tryParse(json['old_price']?.toString() ?? "0") ?? 0.0,
-
-      specialization: json['specialization']?.toString() ?? "",
-      notes: json['notes']?.toString() ?? "",
-
-
+      id: json['_id']?.toString() ?? '',
+      description: caregiverMap['experience']?.toString() ??
+          json['description']?.toString() ??
+          '',
+      experience: caregiverMap['experience']?.toString() ?? '',
+      completed: _toInt(caregiverMap['completed'] ?? caregiverMap['totalRequests']),
+      qualifications: _toStringList(caregiverMap['qualifications'] ??
+          caregiverMap['certifications']),
+      phone: caregiverMap['phone']?.toString() ?? '',
+      email: caregiverMap['email']?.toString() ?? '',
+      location: caregiverMap['governorate']?.toString() ??
+          caregiverMap['location']?.toString() ??
+          '',
+      availability: caregiverMap['availability']?.toString() ?? '',
+      responseTime: caregiverMap['response_time']?.toString() ??
+          caregiverMap['avgResponse']?.toString() ??
+          '',
+      name: caregiverMap['full_name']?.toString() ??
+          caregiverMap['name']?.toString() ??
+          json['name']?.toString() ??
+          '',
+      service: caregiverMap['speciality']?.toString() ??
+          caregiverMap['specialization']?.toString() ??
+          json['service']?.toString() ??
+          '',
+      rating: _toDouble(caregiverMap['rating']),
+      reviewsCount: _toInt(caregiverMap['reviews_count'] ?? caregiverMap['reviews']),
+      isVerified: caregiverMap['verified'] == true || caregiverMap['active'] == true,
+      isCertified: caregiverMap['certified'] == true,
+      price: offerPrice > 0 ? offerPrice : caregiverPrice,
+      oldPrice: caregiverPrice > 0 && offerPrice > 0 && caregiverPrice > offerPrice
+          ? caregiverPrice
+          : 0,
+      specialization: caregiverMap['speciality']?.toString() ??
+          caregiverMap['specialization']?.toString() ??
+          '',
+      notes: json['notes']?.toString() ?? '',
       bestValue: json['best_value'] == true,
     );
+  }
+
+  static double _toDouble(dynamic value) {
+    if (value is num) return value.toDouble();
+    return double.tryParse(value?.toString() ?? '0') ?? 0;
+  }
+
+  static int _toInt(dynamic value) {
+    if (value is int) return value;
+    return int.tryParse(value?.toString() ?? '0') ?? 0;
+  }
+
+  static List<String> _toStringList(dynamic value) {
+    if (value is List) {
+      return value.map((item) => item.toString()).toList();
+    }
+    return const [];
   }
 }

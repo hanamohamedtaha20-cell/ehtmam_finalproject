@@ -6,13 +6,17 @@ import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets
 import 'package:flutter/material.dart';
 import '../../data/model/provider_data.dart';
 import '../screens/offer_details_screen.dart';
-import 'notes.dart';
 
 
 class OfferCard extends StatelessWidget {
+  final String requestId;
   final ProviderModel provider;
 
-  const OfferCard({super.key, required this.provider});
+  const OfferCard({
+    super.key,
+    required this.requestId,
+    required this.provider,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -64,9 +68,14 @@ class OfferCard extends StatelessWidget {
 
             onFirstTap: () {
               Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => OfferDetailsScreen(requestId: '',)));
+                context,
+                MaterialPageRoute(
+                  builder: (context) => OfferDetailsScreen(
+                    requestId: requestId,
+                    offerId: provider.id,
+                  ),
+                ),
+              );
             },
 
             onSecondTap: () {
