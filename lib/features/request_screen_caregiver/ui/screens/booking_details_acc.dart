@@ -64,7 +64,7 @@ class _BookingDetailsAccViewState extends State<BookingDetailsAccView> {
     if (selectedTab == 1) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         tasksLoaded = true;
-        context.read<BookingDetailsCubit>().loadTasks();
+        context.read<BookingDetailsCubit>().loadTasks(booking.requestId);
       });
     }
   }

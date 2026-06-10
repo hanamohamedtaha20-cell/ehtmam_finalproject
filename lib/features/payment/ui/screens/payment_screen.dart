@@ -6,7 +6,8 @@ import 'package:ehtemam_final_project/features/payment/ui/widgets/cost_breakdown
 import 'package:ehtemam_final_project/features/payment/ui/widgets/income_expense_row.dart';
 import 'package:ehtemam_final_project/features/payment/ui/widgets/transaction_history.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart%20';
+import 'package:flutter/material.dart';
+import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
@@ -84,8 +85,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       CostBreakdown(
                         serviceCost: state.serviceCost,
                         platformFee: state.platformFee,
-                        taxRate:     state.taxRate,
-                        total:       state.total,
+                        taxRate: state.taxRate,
+                        total: state.total,
+                        onPay: () async {
+                          final error =
+                              await context.read<PaymentCubit>().payBooking();
+                          if (!context.mounted) return;
+
+                          CustomSnackBar.show(
+                            context,
+                            message: error ??
+                                'Payment completed successfully',
+                          );
+                        },
                       ),
 
                       const SizedBox(height: 20),

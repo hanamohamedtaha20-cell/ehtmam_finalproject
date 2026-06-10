@@ -2,6 +2,7 @@ import 'package:ehtemam_final_project/core/utils/date_formatter.dart';
 
 class BookingDetailsModel {
   final String id;
+  final String requestId;
   final String displayId;
   final String status;
   final String statusLabel;
@@ -27,6 +28,7 @@ class BookingDetailsModel {
 
   BookingDetailsModel({
     required this.id,
+    required this.requestId,
     required this.displayId,
     required this.status,
     required this.statusLabel,
@@ -148,6 +150,7 @@ class BookingDetailsModel {
   }) {
     return BookingDetailsModel(
       id: id,
+      requestId: requestId,
       displayId: displayId,
       status: status,
       statusLabel: statusLabel,
@@ -207,13 +210,13 @@ class TaskModel {
     required this.done,
   });
 
-  factory TaskModel.fromJson(Map<String, dynamic> json) {
+  factory TaskModel.fromJson(Map<String, dynamic> json, {int index = 0}) {
     final statusStr =
         (json['taskState'] ?? json['done'] ?? 'pending').toString().toLowerCase();
     final done = statusStr == 'completed' || statusStr == 'true';
 
     return TaskModel(
-      id: json['_id']?.toString() ?? '',
+      id: json['_id']?.toString() ?? 'task_$index',
       title: json['taskTitle']?.toString() ??
           json['title']?.toString() ??
           json['taskDescription']?.toString() ??

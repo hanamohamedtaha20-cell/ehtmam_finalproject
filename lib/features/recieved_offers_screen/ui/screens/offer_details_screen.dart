@@ -13,6 +13,7 @@ import '../widgets/offer_details_widgets/provider_card.dart';
 import '../widgets/offer_details_widgets/provider_notes.dart';
 import '../widgets/offer_details_widgets/reviews_section.dart';
 import '../widgets/offer_details_widgets/services_list.dart';
+import '../../utils/offer_payment_handler.dart';
 
 class OfferDetailsScreen extends StatelessWidget {
   final String requestId;
@@ -114,7 +115,13 @@ class OfferDetailsScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              onSecondTap: () {},
+                              onSecondTap: () {
+                                processOfferPayment(
+                                  context: context,
+                                  offerId: offerId,
+                                  offerPrice: provider.price,
+                                );
+                              },
                             ),
                           ],
                         ),

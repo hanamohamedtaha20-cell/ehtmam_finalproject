@@ -36,6 +36,38 @@ class ProviderRepository {
     return offers;
   }
 
+  Future<String> acceptOfferAndCreateBooking(String offerId) async {
+    if (offerId.trim().isEmpty) {
+      throw Exception('Offer id is missing');
+    }
+
+    await _apiService.respondToOffer(
+      offerId: offerId.trim(),
+      status: 'accepted',
+    );
+
+    final response = await _apiService.createBookingFromOffer(offerId.trim());
+    final bookingId = _extractBookingId(response);
+
+    if (bookingId.isEmpty) {
+      throw Exception('Failed to create booking from offer');
+    }
+
+    return bookingId;
+  }
+
+  String _extractBookingId(Map<String, dynamic> response) {
+    final data = response['data'];
+
+    if (data is Map) {
+      return data['_id']?.toString() ?? data['id']?.toString() ?? '';
+    }
+
+    if (data is String) return data;
+
+    return response['_id']?.toString() ?? '';
+  }
+
   List<dynamic> _extractOffers(dynamic data) {
     if (data is List) return data;
 

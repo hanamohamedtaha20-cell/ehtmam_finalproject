@@ -155,7 +155,9 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => TaskScreen(),
+                        builder: (context) => TaskScreen(
+                          requestId: widget.request.id,
+                        ),
                       ),
                     );
                   },
@@ -197,7 +199,9 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => TaskScreen(),
+                        builder: (context) => TaskScreen(
+                          requestId: widget.request.id,
+                        ),
                       ),
                     );
                   },

@@ -527,6 +527,14 @@ Future<Map<String, dynamic>> postFormData({
     return response.data;
   }
 
+  Future<List<dynamic>> getTasksByRequestId(String requestId) async {
+    final response = await _dio.get('$tasksEndpoint/$requestId');
+    final data = response.data;
+    if (data is List) return data;
+    if (data is Map && data['data'] is List) return data['data'] as List;
+    return [];
+  }
+
   Future<Map<String, dynamic>> createTask({
     required String description,
   }) async {

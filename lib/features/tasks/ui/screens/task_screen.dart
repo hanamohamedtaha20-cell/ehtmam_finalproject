@@ -12,12 +12,14 @@ import '../../../requests_screen_user/ui/screens/requests_screen.dart';
 import '../widgets/add_task_dialog.dart';
 
 class TaskScreen extends StatelessWidget {
-  const TaskScreen({super.key});
+  final String requestId;
+
+  const TaskScreen({super.key, required this.requestId});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => TaskCubit()..loadTasks(),
+      create: (_) => TaskCubit(requestId: requestId)..loadTasks(),
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F5F5),
         body: SafeArea(
@@ -25,7 +27,13 @@ class TaskScreen extends StatelessWidget {
             padding:  EdgeInsets.all(16),
             child: BlocBuilder<TaskCubit, TaskState>(
               builder: (context, state) {
-                if (state is! TaskLoaded) return const Center(child: CircularProgressIndicator());
+                if (state is TaskLoading || state is TaskInitial) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                if (state is TaskError) {
+                  return Center(child: Text(state.message));
+                }
+                if (state is! TaskLoaded) return const SizedBox.shrink();
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

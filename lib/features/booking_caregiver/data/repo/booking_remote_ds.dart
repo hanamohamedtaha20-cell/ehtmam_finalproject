@@ -4,7 +4,7 @@ import '../model/booking_details_model.dart';
 abstract class BookingRemoteDatasource {
   Future<BookingDetailsModel> getBookingDetails(String bookingId);
   Future<BookingDetailsModel> getRequestDetails(String requestId);
-  Future<List<TaskModel>> getTasks();
+  Future<List<TaskModel>> getTasks(String requestId);
   Future<void> updateTask(String taskId, bool completed);
   Future<void> sendOffer({
     required String requestId,
@@ -59,12 +59,14 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
   }
 
   @override
-  Future<List<TaskModel>> getTasks() async {
-    final response = await apiService.getAllTasks();
-    final list = response['data'] as List? ?? [];
-    return list
-        .map((e) => TaskModel.fromJson(e as Map<String, dynamic>))
-        .toList();
+  Future<List<TaskModel>> getTasks(String requestId) async {
+    final list = await apiService.getTasksByRequestId(requestId);
+    return list.asMap().entries.map((entry) {
+      return TaskModel.fromJson(
+        entry.value as Map<String, dynamic>,
+        index: entry.key,
+      );
+    }).toList();
   }
 
   @override

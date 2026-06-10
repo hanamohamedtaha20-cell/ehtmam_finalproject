@@ -5,13 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TaskCubit extends Cubit<TaskState> {
   final TaskRepo _repo = TaskRepo();
+  final String requestId;
 
-  TaskCubit() : super(TaskInitial());
+  TaskCubit({required this.requestId}) : super(TaskInitial());
 
   Future<void> loadTasks() async {
     emit(TaskLoading());
     try {
-      final tasks = await _repo.getTasks();
+      final tasks = await _repo.getTasksByRequestId(requestId);
       emit(TaskLoaded(tasks: tasks));
     } catch (e) {
       emit(TaskError(e.toString()));

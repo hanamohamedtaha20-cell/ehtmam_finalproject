@@ -63,7 +63,7 @@ class _BookingCgViewState extends State<BookingCgView> {
     setState(() => selectedTab = index);
     if (index == 1 && !tasksLoaded) {
       tasksLoaded = true;
-      context.read<BookingDetailsCubit>().loadTasks();
+      context.read<BookingDetailsCubit>().loadTasks(widget.requestId);
     }
   }
 

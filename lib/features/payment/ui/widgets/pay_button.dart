@@ -12,7 +12,7 @@ class PayButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onPay,
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF3A8BD7),
           foregroundColor: Colors.white,

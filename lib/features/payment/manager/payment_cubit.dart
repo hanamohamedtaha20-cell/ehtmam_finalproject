@@ -10,44 +10,85 @@ class PaymentCubit extends Cubit<PaymentState> {
 
   PaymentCubit(this.repo) : super(PaymentInitial());
 
-  Future<void> loadData() async {
+  Future<void> loadData({double? offerPrice}) async {
     final currentBalance = state is PaymentLoaded
         ? (state as PaymentLoaded).balance
         : 0.0;
     emit(PaymentLoading());
     try {
-      final prefs     = await SharedPreferences.getInstance();
-      final walletId  = prefs.getString('walletId')  ?? '';
+      final prefs = await SharedPreferences.getInstance();
       final bookingId = prefs.getString('bookingId') ?? '';
 
-      //final walletResult  = await repo.getPaymentData(walletId);
-      final bookingResult = await repo.getBookingData(bookingId);
+      double price = offerPrice ?? 0;
 
-      // final walletData  = walletResult['data'];
-      final bookingData = bookingResult['data'];
+      if (bookingId.isNotEmpty) {
+        try {
+          final bookingResult = await repo.getBookingData(bookingId);
+          final bookingData = bookingResult['data'];
+          if (bookingData is Map<String, dynamic>) {
+            price = _extractPrice(bookingData, fallback: price);
+          }
+        } catch (_) {
+          // Fall back to offer price when booking details are unavailable.
+        }
+      }
 
-      final double price       = ( 0).toDouble();
       final double platformFee = price * 0.05;
-      final double taxRate     = price * 0.14;
-      final double total       = price + platformFee + taxRate;
-
-      // final transactions = (walletData['transactions'] as List? ?? [])
-      //     .map((t) => TransactionModel.fromJson(t))
-      //     .toList();
+      final double taxRate = price * 0.14;
+      final double total = price + platformFee + taxRate;
 
       emit(PaymentLoaded(
         balance: currentBalance,
-        income:       ( 0).toDouble(),
-        expense:      ( 0).toDouble(),
+        income: 0,
+        expense: 0,
         transactions: [],
-        serviceCost:  price,
-        platformFee:  platformFee,
-        taxRate:      taxRate,
-        total:        total,
+        serviceCost: price,
+        platformFee: platformFee,
+        taxRate: taxRate,
+        total: total,
       ));
     } catch (e) {
       emit(PaymentError(e.toString()));
     }
+  }
+
+  Future<String?> payBooking() async {
+    final current = state;
+    if (current is! PaymentLoaded) {
+      return 'Payment data is not ready';
+    }
+
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final bookingId = prefs.getString('bookingId') ?? '';
+
+      if (bookingId.isEmpty) {
+        return 'No booking selected for payment';
+      }
+
+      await repo.payBooking(bookingId);
+
+      emit(current.copyWith(
+        balance: current.balance - current.total,
+        expense: current.expense + current.total,
+      ));
+      return null;
+    } catch (e) {
+      return e.toString();
+    }
+  }
+
+  double _extractPrice(Map<String, dynamic> bookingData, {double fallback = 0}) {
+    final offer = bookingData['offer'];
+    if (offer is Map) {
+      final offerPrice = offer['price'];
+      if (offerPrice is num) return offerPrice.toDouble();
+    }
+
+    final price = bookingData['price'];
+    if (price is num) return price.toDouble();
+
+    return fallback;
   }
   void addBalance(double amount) {
     if (state is PaymentLoaded) {

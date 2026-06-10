@@ -4,10 +4,14 @@ import '../model/task_model.dart';
 class TaskRepo {
   final ApiService _api = ApiService();
 
-  Future<List<TaskModel>> getTasks() async {
-    final result = await _api.getAllTasks();
-    final list = result['data'] as List? ?? [];
-    return list.map((t) => TaskModel.fromJson(t)).toList();
+  Future<List<TaskModel>> getTasksByRequestId(String requestId) async {
+    final list = await _api.getTasksByRequestId(requestId);
+    return list.asMap().entries.map((entry) {
+      return TaskModel.fromJson(
+        entry.value as Map<String, dynamic>,
+        index: entry.key,
+      );
+    }).toList();
   }
 
   Future<void> addTask(String description) async {

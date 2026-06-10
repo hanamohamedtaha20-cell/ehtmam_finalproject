@@ -20,4 +20,8 @@ class PaymentRepo {
       paymentMethod: paymentMethod,
     );
   }
+
+  Future<Map<String, dynamic>> payBooking(String bookingId) async {
+    return await _api.payBookingFromWallet(bookingId);
+  }
 }

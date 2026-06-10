@@ -22,7 +22,7 @@ class TaskModel {
     }
   }
 
-  factory TaskModel.fromJson(Map<String, dynamic> json) {
+  factory TaskModel.fromJson(Map<String, dynamic> json, {int index = 0}) {
     TaskCategory category;
     final type = (json['taskType'] ?? '').toString().toLowerCase();
     if (type.contains('pet'))   category = TaskCategory.petCare;
@@ -35,8 +35,8 @@ class TaskModel {
         : TaskStatus.active;
 
     return TaskModel(
-      id:          json['_id'] ?? '',
-      description: json['taskDescription'] ?? '',
+      id:          json['_id']?.toString() ?? 'task_$index',
+      description: json['taskDescription']?.toString() ?? '',
       category:    category,
       status:      status,
     );
