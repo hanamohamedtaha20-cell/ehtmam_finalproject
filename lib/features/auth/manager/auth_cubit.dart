@@ -1,7 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../data/repo/auth_repo.dart';
 import 'auth_state.dart';
 
@@ -32,7 +31,7 @@ class AuthCubit extends Cubit<AuthState> {
     PlatformFile? certificateFile,
     String careField = '',
     String specialization = '',
-    String certificateFileName = '',
+    String certificateFileName = '', required String street, required String building,
   }) async {
     emit(
       state.copyWith(
@@ -48,12 +47,26 @@ class AuthCubit extends Cubit<AuthState> {
         password: password,
         passwordConfirmation: password,
         role: role,
+        governorate: government,
+        street: street,
+        building: building,
         profileFile: profileFile,
         nationalIdFile: nationalIdFile,
         certificateFile: certificateFile,
         careField: careField,
         specialization: specialization,
       );
+      final prefs = await SharedPreferences.getInstance();
+
+      await prefs.setString('user_government', government);
+      await prefs.setString('user_name', name);
+      await prefs.setString('user_email', email);
+      await prefs.setString('user_phone', phone);
+      await prefs.setString('user_role', role);
+      print("NAME => ${prefs.getString('user_name')}");
+      print("EMAIL => ${prefs.getString('user_email')}");
+      print("PHONE => ${prefs.getString('user_phone')}");
+      print("GOV => ${prefs.getString('user_government')}");
 
       emit(
         state.copyWith(
@@ -74,19 +87,12 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
-    emit(
-      state.copyWith(
-        status: AuthStatus.loading,
-        errorMessage: null,
-      ),
-    );
-
+    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
     try {
       final loginResponse = await authRepo.login(
         email: email,
         password: password,
       );
-
       final prefs = await SharedPreferences.getInstance();
 
       await prefs.setString('token', loginResponse.token);
@@ -102,12 +108,8 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: AuthStatus.error,
-          errorMessage: 'Invalid email or password',
-        ),
-      );
+      emit(state.copyWith(
+          status: AuthStatus.error, errorMessage: 'Invalid email or password'));
     }
   }
 

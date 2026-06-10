@@ -7,19 +7,45 @@ class ProviderCubit extends Cubit<ProviderState> {
 
   ProviderCubit(this.repo) : super(ProviderInitial());
 
-  Future<void> getProvider(String requestId) async {
+  Future<void> getOffers(String requestId) async {
     emit(ProviderLoading());
 
     try {
-      final data = await repo.getProvider(requestId);
+      final offers = await repo.getOffers(requestId);
 
-      emit(
-        ProviderLoaded(data),
-      );
+      if (offers.isEmpty) {
+        emit(ProviderEmpty());
+        return;
+      }
+
+      emit(ProviderLoaded(offers: offers));
     } catch (e) {
-      emit(
-        ProviderError(),
+      emit(ProviderError(e.toString()));
+    }
+  }
+
+  Future<void> loadOfferDetails({
+    required String requestId,
+    required String offerId,
+  }) async {
+    emit(ProviderLoading());
+
+    try {
+      final offers = await repo.getOffers(requestId);
+
+      if (offers.isEmpty) {
+        emit(ProviderEmpty());
+        return;
+      }
+
+      final selected = offers.firstWhere(
+        (offer) => offer.id == offerId,
+        orElse: () => offers.first,
       );
+
+      emit(ProviderLoaded(offers: offers, selectedOffer: selected));
+    } catch (e) {
+      emit(ProviderError(e.toString()));
     }
   }
 }

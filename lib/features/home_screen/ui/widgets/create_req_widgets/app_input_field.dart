@@ -37,9 +37,7 @@ class AppInputField extends StatelessWidget {
           TextFormField(
             controller: controller,
             validator: (value) {
-
-              if (value == null ||
-                  value.isEmpty) {
+              if (isRequired && (value == null || value.isEmpty)) {
                 return "This field is required";
               }
 

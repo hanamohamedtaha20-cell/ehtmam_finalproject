@@ -5,21 +5,13 @@ class ServiceTypeBadge extends StatelessWidget {
   final String serviceType;
   const ServiceTypeBadge({super.key, required this.serviceType});
 
-  Color get _bg {
-    switch (serviceType) {
-      case 'Pet Care': return AppColors.lightGreen;
-      case 'Elderly Care': return AppColors.lightOrange;
-      case 'House Cleaning': return AppColors.lightBlue;
-      default: return AppColors.lightPurple;
-    }
-  }
+  
 
   Color get _fg {
     switch (serviceType) {
       case 'Pet Care': return AppColors.green;
-      case 'Elderly Care': return AppColors.orange;
-      case 'House Cleaning': return AppColors.blue;
-      default: return AppColors.purple;
+      case 'Elderly Care': return AppColors.green;
+      default: return AppColors.green;
     }
   }
 
@@ -27,7 +19,6 @@ class ServiceTypeBadge extends StatelessWidget {
     switch (serviceType) {
       case 'Pet Care': return Icons.pets_rounded;
       case 'Elderly Care': return Icons.elderly_rounded;
-      case 'House Cleaning': return Icons.cleaning_services_rounded;
       default: return Icons.miscellaneous_services_rounded;
     }
   }
@@ -36,7 +27,7 @@ class ServiceTypeBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration(color: _bg, borderRadius: BorderRadius.circular(99)),
+      decoration: BoxDecoration( borderRadius: BorderRadius.circular(99)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [

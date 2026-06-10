@@ -1,4 +1,5 @@
 class ProviderModel {
+  final String id;
   final String description;
   final String experience;
   final int completed;
@@ -25,6 +26,7 @@ class ProviderModel {
   final bool bestValue;
 
   ProviderModel({
+    required this.id,
     required this.description,
     required this.experience,
     required this.completed,
@@ -47,54 +49,115 @@ class ProviderModel {
     required this.bestValue,
   });
 
-  factory ProviderModel.fromJson(Map<String, dynamic> json) {
+  factory ProviderModel.fromOfferJson(Map<String, dynamic> json) {
+    final caregiver = json['caregiver'];
+    final caregiverMap = caregiver is Map
+        ? Map<String, dynamic>.from(caregiver)
+        : <String, dynamic>{};
+
+    final caregiverPrice = _toDouble(caregiverMap['price']);
+    final offerPrice = _toDouble(json['price']);
+
     return ProviderModel(
-      description: json['description']?.toString() ?? "",
-      experience: json['experience']?.toString() ?? "",
-
-      completed: (json['completed'] ?? 0) is int
-          ? json['completed']
-          : int.tryParse(json['completed'].toString()) ?? 0,
-
-      qualifications: json['qualifications'] != null
-          ? List<String>.from(json['qualifications'])
-          : [],
-
-      phone: json['phone']?.toString() ?? "",
-      email: json['email']?.toString() ?? "",
-
-      location: json['location']?.toString() ?? "",
-      availability: json['availability']?.toString() ?? "",
-      responseTime: json['response_time']?.toString() ?? "",
-
-      name: json['name']?.toString() ?? "",
-      service: json['service']?.toString() ?? "",
-
-      rating: (json['rating'] is num)
-          ? (json['rating'] as num).toDouble()
-          : double.tryParse(json['rating']?.toString() ?? "0") ?? 0.0,
-
-      reviewsCount: (json['reviews_count'] ?? 0) is int
-          ? json['reviews_count']
-          : int.tryParse(json['reviews_count'].toString()) ?? 0,
-
-
-      isVerified: json['verified'] == true,
-      isCertified: json['certified'] == true,
-
-      price: (json['price'] is num)
-          ? (json['price'] as num).toDouble()
-          : double.tryParse(json['price']?.toString() ?? "0") ?? 0.0,
-
-      oldPrice: (json['old_price'] is num)
-          ? (json['old_price'] as num).toDouble()
-          : double.tryParse(json['old_price']?.toString() ?? "0") ?? 0.0,
-
-      specialization: json['specialization']?.toString() ?? "",
-      notes: json['notes']?.toString() ?? "",
-
-
+      id: _asString(json['_id']),
+      description: _firstNonEmpty([
+        caregiverMap['experience'],
+        caregiverMap['bio'],
+        json['description'],
+      ]),
+      experience: _asString(caregiverMap['experience']),
+      completed: _toInt(
+        caregiverMap['completed'] ?? caregiverMap['totalRequests'],
+      ),
+      qualifications: _toStringList(
+        caregiverMap['qualifications'] ?? caregiverMap['certifications'],
+      ),
+      phone: _asString(caregiverMap['phone']),
+      email: _asString(caregiverMap['email']),
+      location: _firstNonEmpty([
+        caregiverMap['governorate'],
+        caregiverMap['location'],
+      ]),
+      availability: _asString(caregiverMap['availability']),
+      responseTime: _firstNonEmpty([
+        caregiverMap['response_time'],
+        caregiverMap['avgResponse'],
+      ]),
+      name: _firstNonEmpty([
+        caregiverMap['full_name'],
+        caregiverMap['fullName'],
+        caregiverMap['name'],
+        json['name'],
+      ]),
+      service: _firstNonEmpty([
+        _serviceName(json['service']),
+        caregiverMap['speciality'],
+        caregiverMap['specialization'],
+        caregiverMap['specialty'],
+      ]),
+      rating: _toDouble(caregiverMap['rating']),
+      reviewsCount: _toInt(
+        caregiverMap['reviews_count'] ?? caregiverMap['reviews'],
+      ),
+      isVerified:
+          caregiverMap['verified'] == true || caregiverMap['active'] == true,
+      isCertified: caregiverMap['certified'] == true,
+      price: offerPrice > 0 ? offerPrice : caregiverPrice,
+      oldPrice: caregiverPrice > 0 &&
+              offerPrice > 0 &&
+              caregiverPrice > offerPrice
+          ? caregiverPrice
+          : 0,
+      specialization: _firstNonEmpty([
+        caregiverMap['speciality'],
+        caregiverMap['specialization'],
+        caregiverMap['specialty'],
+      ]),
+      notes: _asString(json['notes']),
       bestValue: json['best_value'] == true,
     );
+  }
+
+  static String _serviceName(dynamic service) {
+    if (service is Map) {
+      return _firstNonEmpty([
+        service['serviceName'],
+        service['name'],
+        service['title'],
+      ]);
+    }
+    return _asString(service);
+  }
+
+  static String _asString(dynamic value) {
+    if (value == null) return '';
+    return value.toString();
+  }
+
+  static String _firstNonEmpty(List<dynamic> values) {
+    for (final value in values) {
+      final text = _asString(value).trim();
+      if (text.isNotEmpty) return text;
+    }
+    return '';
+  }
+
+  static double _toDouble(dynamic value) {
+    if (value is num) return value.toDouble();
+    return double.tryParse(_asString(value)) ?? 0;
+  }
+
+  static int _toInt(dynamic value) {
+    if (value is int) return value;
+    return int.tryParse(_asString(value)) ?? 0;
+  }
+
+  static List<String> _toStringList(dynamic value) {
+    if (value is! List) return const [];
+
+    return value
+        .map((item) => _asString(item).trim())
+        .where((item) => item.isNotEmpty)
+        .toList();
   }
 }

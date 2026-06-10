@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/data/repo/recharge_repo.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_cubit.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/ui/screens/recharge_screen.dart';
@@ -9,7 +10,7 @@ class AddFundsButton extends StatelessWidget {
   const AddFundsButton({super.key});
 
   @override
- Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -19,9 +20,12 @@ class AddFundsButton extends StatelessWidget {
             context: context,
             isScrollControlled: true,
             backgroundColor: Colors.transparent,
-            builder: (_) => BlocProvider(
-              create: (_) => RechargeCubit(RechargeRepo())..loadData(),
-              child: const RechargeScreen(),
+            builder: (ctx) => BlocProvider.value(
+              value: context.read<PaymentCubit>(),
+              child: BlocProvider(
+                create: (_) => RechargeCubit(RechargeRepo())..loadData(),
+                child: const RechargeScreen(),
+              ),
             ),
           );
         },

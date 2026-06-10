@@ -1,4 +1,6 @@
+
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_cubit.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_state.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/ui/widgets/action_buttons.dart';
@@ -20,7 +22,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
   int _selectedMethod = 0;
   double _selectedQuickAmount = 0;
   final TextEditingController _customAmountController =
-      TextEditingController(text: "0.00");
+  TextEditingController(text: "0.00");
 
   @override
   void dispose() {
@@ -31,83 +33,94 @@ class _RechargeScreenState extends State<RechargeScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<RechargeCubit, RechargeState>(
-      listener: (context, state) {
-        if (state is RechargeSuccess) {
-          launchUrl(Uri.parse(state.paymentUrl));
-          Navigator.pop(context);
-        }
-        if (state is RechargeError) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.message)),
-          );
-        }
-      },
-      child: Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Colors.white, AppColors.lightBlue, Colors.white],
-        ),
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        boxShadow: [
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
-        ],
-      ),
-      padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Center(
-              child: Text(
-                "Add Funds",
-                style: TextStyle(
-                    fontFamily: "Arimo",
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18),
-              ),
+        listener: (context, state) {
+          if (state is RechargeSuccess) {
+            launchUrl(Uri.parse(state.paymentUrl));
+            Navigator.pop(context);
+          }
+          if (state is RechargeError) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+        },
+        child: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+              colors: [Colors.white, AppColors.lightBlue, Colors.white],
             ),
-            const SizedBox(height: 20),
-            const Text("Select Payment Method",
-                style: TextStyle(
-                    fontFamily: "Arimo",
-                    fontSize: 13,
-                    color: AppColors.textLight)),
-            const SizedBox(height: 10),
-            PaymentMethodsList(
-              selectedIndex: _selectedMethod,
-              onSelected: (i) => setState(() => _selectedMethod = i),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            boxShadow: [
+              BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
+              BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+            ],
+          ),
+          padding: const EdgeInsets.fromLTRB(16, 20, 16, 24),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Center(
+                  child: Text(
+                    "Add Funds",
+                    style: TextStyle(
+                        fontFamily: "Arimo",
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text("Select Payment Method",
+                    style: TextStyle(
+                        fontFamily: "Arimo",
+                        fontSize: 13,
+                        color: AppColors.textLight)),
+                const SizedBox(height: 10),
+                PaymentMethodsList(
+                  selectedIndex: _selectedMethod,
+                  onSelected: (i) => setState(() => _selectedMethod = i),
+                ),
+                const SizedBox(height: 20),
+                const Text("Quick Amounts",
+                    style: TextStyle(
+                        fontFamily: "Arimo",
+                        fontSize: 13,
+                        color: AppColors.textLight)),
+                const SizedBox(height: 10),
+                QuickAmounts(
+                  selectedAmount: _selectedQuickAmount,
+                  onSelected: (amount) => setState(() {
+                    _selectedQuickAmount = amount;
+                    _customAmountController.text = amount.toStringAsFixed(2);
+                  }),
+                ),
+                const SizedBox(height: 20),
+                const Text("Custom Amount",
+                    style: TextStyle(
+                        fontFamily: "Arimo",
+                        fontSize: 13,
+                        color: AppColors.textLight)),
+                const SizedBox(height: 8),
+                CustomAmountField(controller: _customAmountController),
+                const SizedBox(height: 24),
+                ActionButtons(
+                  onConfirm: () {
+                    final amount = double.tryParse(_customAmountController.text) ?? 0;
+                    if (amount <= 0) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Please enter a valid amount')),
+                      );
+                      return;
+                    }
+                    context.read<PaymentCubit>().addBalance(amount);
+                    Navigator.pop(context);
+                  },
+                ),          ],
             ),
-            const SizedBox(height: 20),
-            const Text("Quick Amounts",
-                style: TextStyle(
-                    fontFamily: "Arimo",
-                    fontSize: 13,
-                    color: AppColors.textLight)),
-            const SizedBox(height: 10),
-            QuickAmounts(
-              selectedAmount: _selectedQuickAmount,
-              onSelected: (amount) => setState(() {
-                _selectedQuickAmount = amount;
-                _customAmountController.text = amount.toStringAsFixed(2);
-              }),
-            ),
-            const SizedBox(height: 20),
-            const Text("Custom Amount",
-                style: TextStyle(
-                    fontFamily: "Arimo",
-                    fontSize: 13,
-                    color: AppColors.textLight)),
-            const SizedBox(height: 8),
-            CustomAmountField(controller: _customAmountController),
-            const SizedBox(height: 24),
-            ActionButtons(onConfirm: () {}),
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
-}
+}//new

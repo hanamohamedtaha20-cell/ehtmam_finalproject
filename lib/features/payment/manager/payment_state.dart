@@ -1,3 +1,4 @@
+
 import 'package:ehtemam_final_project/features/payment/data/model/payment_model.dart';
 
 abstract class PaymentState {}
@@ -26,6 +27,28 @@ class PaymentLoaded extends PaymentState {
     required this.taxRate,
     required this.total,
   });
+
+  PaymentLoaded copyWith({
+    double? balance,
+    double? income,
+    double? expense,
+    List<TransactionModel>? transactions,
+    double? serviceCost,
+    double? platformFee,
+    double? taxRate,
+    double? total,
+  }) {
+    return PaymentLoaded(
+      balance: balance ?? this.balance,
+      income: income ?? this.income,
+      expense: expense ?? this.expense,
+      transactions: transactions ?? this.transactions,
+      serviceCost: serviceCost ?? this.serviceCost,
+      platformFee: platformFee ?? this.platformFee,
+      taxRate: taxRate ?? this.taxRate,
+      total: total ?? this.total,
+    );
+  }
 }
 
 class PaymentError extends PaymentState {

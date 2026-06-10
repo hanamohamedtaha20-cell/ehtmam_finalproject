@@ -65,59 +65,44 @@ class _ProviderReviewsView extends StatelessWidget {
 
           if (state is! ProviderReviewLoaded) return const SizedBox();
 
-          return Column(
-            children: [
-              Expanded(
-                child: CustomScrollView(
-                  slivers: [
-                    SliverToBoxAdapter(
-                      child:ReviewScoreHeader(
-                      summary: state.summary,
-                      activeStarFilter: state.activeStarFilter,
-                      onFilterChanged: (star) =>
-context.read<ProviderReviewCubit>().filterByStar(star as int?),                    ),
-                    ),
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
-                        child: ReviewFilterTabs(
-                          activeFilter: state.activeStarFilter,
-                          onFilterChanged: (star) =>
-                              context.read<ProviderReviewCubit>().filterByStar(star),
-                        ),
-                      ),
-                    ),
-                    if (state.reviews.isEmpty)
-                      const SliverFillRemaining(
-                        child: ReviewEmptyState(message: 'No reviews for this filter yet.'),
-                      )
-                    else
-                      SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                          (context, index) {
-                            final review = state.reviews[index];
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 12),
-                              child: ReviewItemCard(
-                                review: review,
-                                isHelpful: state.helpfulIds.contains(review.id),
-                                onHelpfulTap: () =>
-                                    context.read<ProviderReviewCubit>().markHelpful(review.id),
-                                onViewBooking: () {
-                                  // Navigate to booking: context.push('/bookings/${review.bookingId}');
-                                },
-                              ),
-                            );
-                          },
-                          childCount: state.reviews.length,
-                        ),
-                      ),
-                  ],
-                ),
+        return Column(
+          children: [
+            ReviewScoreHeader(
+              summary: state.summary,
+              activeStarFilter: state.activeStarFilter,
+              onFilterChanged: (star) =>
+                  context.read<ProviderReviewCubit>().filterByStar(star as int?),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 12),
+              child: ReviewFilterTabs(
+                activeFilter: state.activeStarFilter,
+                onFilterChanged: (star) =>
+                    context.read<ProviderReviewCubit>().filterByStar(star),
               ),
-             
-            ],
-          );
+            ),
+            Expanded(
+              child: state.reviews.isEmpty
+                  ? const ReviewEmptyState(message: 'No reviews for this filter yet.')
+                  : ListView.builder(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      itemCount: state.reviews.length,
+                      itemBuilder: (context, index) {
+                        final review = state.reviews[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 12),
+                          child: ReviewItemCard(
+                            review: review,
+                            isHelpful: state.helpfulIds.contains(review.id),
+                            onHelpfulTap: () {},
+                            onViewBooking: () {},
+                          ),
+                        );
+                      },
+                    ),
+            ),
+          ],
+        );
         },
       ),
     );

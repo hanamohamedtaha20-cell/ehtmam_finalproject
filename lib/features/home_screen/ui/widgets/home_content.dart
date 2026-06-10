@@ -5,10 +5,10 @@ import 'package:ehtemam_final_project/features/home_screen/manager/home_cubit.da
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/crearte_request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../requests_screen_user/ui/screens/requests_screen.dart';
 import '../../data/model/user_model.dart';
 import '../../manager/state/home_state.dart';
 import 'bundles_card.dart';
-import '../../../requests_screen/ui/screens/requests_screen.dart';
 import 'request_card.dart';
 import 'header.dart';
 import 'service_card.dart';
@@ -205,7 +205,14 @@ class HomeContent extends StatelessWidget {
 
             const SizedBox(height: 20),
 
-            BundlesCard(onTap: () {}),
+            BundlesCard(onTap: () {
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(
+              //     builder: (_) => const BundleScreen(),
+              //   ),
+              // );
+            }),
 
             const SizedBox(height: 20),
 

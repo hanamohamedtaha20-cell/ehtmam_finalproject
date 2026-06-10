@@ -86,17 +86,17 @@ List<_OptionData> _buildOptions(BuildContext context) => [
       // Navigator.push(context, ...)
     },),
     _OptionData(icon: Icons.account_balance_wallet_outlined, label: "My Wallet", color: const Color.fromARGB(255, 126, 186, 243),
-    onTap: () {
-       Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (_) => PaymentCubit(PaymentRepo()),
-          child: const PaymentScreen(),
-        ),
-      ),
-    );  
-    },),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider.value(
+                value: context.read<PaymentCubit>(),
+                child: const PaymentScreen(),
+              ),
+            ),
+          );
+        },),
   ];
 
   @override

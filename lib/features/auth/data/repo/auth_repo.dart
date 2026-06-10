@@ -44,6 +44,9 @@ class AuthRepo {
     required String password,
     required String passwordConfirmation,
     required String role,
+    String governorate = '',
+    String street = '',
+    String building = '',
     PlatformFile? profileFile,
     PlatformFile? nationalIdFile,
     PlatformFile? certificateFile,
@@ -72,6 +75,9 @@ class AuthRepo {
             nationalIdFile!.bytes!,
             filename: nationalIdFile.name,
           ),
+        if (governorate.isNotEmpty) 'governorate': governorate,
+        if (street.isNotEmpty) 'address[street]': street,
+        if (building.isNotEmpty) 'address[building]': building,
         if (isCaregiver && certificateFile?.bytes != null)
           'certifications': MultipartFile.fromBytes(
             certificateFile!.bytes!,
@@ -80,7 +86,8 @@ class AuthRepo {
       });
 
       final endpoint = isCaregiver ? '/caregiver/signup' : '/userlog/signup';
-      await apiService.postFormData(endpoint: endpoint, formData: formData);
+      final response = await apiService.postFormData(endpoint: endpoint, formData: formData);
+      print("SIGNUP RESPONSE: $response");
     } catch (e) {
       throw Exception('Signup failed: $e');
     }

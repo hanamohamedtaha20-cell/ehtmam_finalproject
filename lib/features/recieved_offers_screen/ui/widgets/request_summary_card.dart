@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
 
 class RequestSummaryCard extends StatelessWidget {
-  const RequestSummaryCard({super.key});
+  final int offersCount;
+
+  const RequestSummaryCard({
+    super.key,
+    required this.offersCount,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin:  EdgeInsets.symmetric(horizontal: 16),
-      padding:  EdgeInsets.all(16),
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        boxShadow:[ BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          offset: Offset(0, 10),
-          blurRadius: 10,),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.2),
+            offset: const Offset(0, 10),
+            blurRadius: 10,
+          ),
         ],
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
@@ -28,34 +35,42 @@ class RequestSummaryCard extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
+          const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Pet Care",
-                  style: TextStyle(color: Colors.white,
-                  fontWeight: FontWeight.bold
-                  )),
-              SizedBox(height: 5,),
-              Text("Care providers have responded",
-                  style: TextStyle(
-                      color: Colors.white70,
-                      fontSize: 12)
+              Text(
+                'Received Offers',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 5),
+              Text(
+                'Care providers have responded',
+                style: TextStyle(
+                  color: Colors.white70,
+                  fontSize: 12,
+                ),
               ),
             ],
           ),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.2),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Text("3 offers", style: TextStyle(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.white)
-                ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            decoration: BoxDecoration(
+              color: Colors.white.withOpacity(0.2),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: Text(
+              '$offersCount offers',
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: Colors.white,
               ),
-            ],
+            ),
+          ),
+        ],
       ),
     );
   }

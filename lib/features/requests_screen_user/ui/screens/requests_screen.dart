@@ -151,8 +151,7 @@ class _RequestsViewState
                         return true;
                       }
 
-                      return request.status.toLowerCase() ==
-                          selectedTab.toLowerCase();
+                      return request.status.toLowerCase() == selectedTab.toLowerCase();
 
                     }).toList();
 

@@ -1,5 +1,4 @@
 import 'package:easy_localization/easy_localization.dart';
-import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/screens/offer_details_screen.dart';
 import 'package:ehtemam_final_project/features/requests_screen_user/ui/widgets/status_badge.dart';
 import 'package:ehtemam_final_project/features/tasks/ui/screens/task_screen.dart';
 import 'package:flutter/material.dart';
@@ -58,18 +57,19 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
            SizedBox(height: 10),
 
           /// 🔹 Info
-          _infoRow("startDate:".tr(), widget.request.date),
+          _infoRow("start_date".tr(), widget.request.date),
 
-          _infoRow("time:".tr(), widget.request.time),
+          _infoRow("time".tr(), widget.request.time),
 
-          _infoRow("location:".tr(), widget.request.location),
+          if (widget.request.governorate.isNotEmpty)
+            _infoRow("governorate".tr(), widget.request.governorate),
 
           if (widget.request.provider != null &&
               widget.request.provider!.isNotEmpty)
             _infoRow("Provider:".tr(), widget.request.provider!),
 
           if (widget.request.amount.isNotEmpty)
-            _infoRow("amount:".tr(), widget.request.amount),
+            _infoRow("amount".tr(), widget.request.amount),
 
            SizedBox(height: 12),
 
@@ -137,7 +137,9 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OffersScreen(requestId: '',),
+                          builder: (context) => OffersScreen(
+                          requestId: widget.request.id,
+                        ),
                         ),
                       );
                     },
@@ -177,7 +179,9 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => OfferDetailsScreen(requestId: '',),
+                          builder: (context) => OffersScreen(
+                          requestId: widget.request.id,
+                        ),
                         ),
                       );
                     },

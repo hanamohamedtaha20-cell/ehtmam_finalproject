@@ -1,7 +1,6 @@
-import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/offer_details_widgets/reviews.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart%20';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'reviews.dart';
 import '../../../manager/reviews_cubit.dart';
 import '../../../manager/state/reviews_state.dart';
 

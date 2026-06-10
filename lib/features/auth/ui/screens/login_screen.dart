@@ -17,7 +17,6 @@ import '../../../../core/resources/app_colors.dart';
 import '../../../bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import '../../manager/auth_cubit.dart';
 import '../../manager/auth_state.dart';
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -75,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.status == AuthStatus.authenticated) {
           _navigateAfterLogin(state.userRole);
         }

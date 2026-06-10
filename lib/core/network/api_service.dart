@@ -27,6 +27,7 @@ class ApiService {
           handler.next(options);
         },
         onError: (error, handler) {
+          print("API ERROR: ${error.response?.data}");
           handler.next(error);
         },
       ),
@@ -44,6 +45,9 @@ class ApiService {
     required String passwordConfirmation,
     File? profilePicture,
     File? nationalId,
+    String? governorate,
+    String? street,
+    String? building,
   }) async {
     final formData = FormData.fromMap({
       'full_name':            fullName,
@@ -54,6 +58,9 @@ class ApiService {
         'profile_picture': await MultipartFile.fromFile(profilePicture.path),
       if (nationalId != null)
         'national_id': await MultipartFile.fromFile(nationalId.path),
+      if (governorate != null) 'governorate': governorate,
+      if (street != null) 'address[street]': street,
+      if (building != null) 'address[building]': building,
     });
     final response = await _dio.post(signupEndpoint, data: formData);
     return response.data;
@@ -132,13 +139,9 @@ Future<Map<String, dynamic>> postFormData({
   }
 
   Future<Map<String, dynamic>> getUserProfile(String userId) async {
-    final response = await _dio.get(
-      '/userlog/$userId',
-      options: Options(headers: {'Authorization': null}),
-    );
+    final response = await _dio.get('/userlog/$userId');
     return response.data;
   }
-
   // ══════════════════════════════════════════════════════════
   //  CAREGIVER — /caregiver
   // ══════════════════════════════════════════════════════════
@@ -241,19 +244,24 @@ Future<Map<String, dynamic>> postFormData({
 
   Future<Map<String, dynamic>> createRequest({
     required String serviceId,
-    required String location,
+    required String governorate,
     required String date,
     required String time,
     String? duration,
     String? notes,
+    String? budget,
   }) async {
+    final parsedBudget =
+        budget != null && budget.isNotEmpty ? num.tryParse(budget) : null;
+
     final response = await _dio.post(requestEndpoint, data: {
-      'service':  serviceId,
-      'location': location,
-      'date':     date,
-      'time':     time,
-      if (duration != null) 'duration': duration,
-      if (notes    != null) 'notes':    notes,
+      'service':     serviceId,
+      'governorate': governorate,
+      'date':        date,
+      'time':        time,
+      if (duration != null && duration.isNotEmpty) 'duration': duration,
+      if (notes    != null && notes.isNotEmpty)    'notes':    notes,
+      if (parsedBudget != null)                    'budget':   parsedBudget,
     });
     return response.data;
   }

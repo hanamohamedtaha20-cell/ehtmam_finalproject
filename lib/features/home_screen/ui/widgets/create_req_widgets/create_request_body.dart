@@ -7,6 +7,7 @@ import '../../../manager/state/create_request_state.dart';
 import 'app_input_field.dart';
 import 'app_text_area_field.dart';
 import 'date_time_section.dart';
+import 'governorate_field.dart';
 import 'request_description_field.dart';
 import 'tasks_section.dart';
 
@@ -56,12 +57,7 @@ class CreateRequestBody extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              AppInputField(
-                title: "Location",
-                hint: "Enter your location",
-                icon: Icons.location_on_outlined,
-                controller: context.read<CreateRequestCubit>().locationController,
-              ),
+              const GovernorateField(),
 
               const SizedBox(height: 16),
 
@@ -70,6 +66,7 @@ class CreateRequestBody extends StatelessWidget {
                 hint: "Enter your budget",
                 icon: Icons.attach_money,
                 isRequired: false,
+                controller: context.read<CreateRequestCubit>().budgetController,
               ),
 
               const SizedBox(height: 16),

@@ -7,19 +7,21 @@ class CreateRequestRepository {
 
   Future<void> createRequest({
     required String serviceId,
-    required String location,
+    required String governorate,
     required String date,
     required String time,
     String? duration,
     String? notes,
+    String? budget,
   }) async {
     await _apiService.createRequest(
       serviceId: serviceId,
-      location: location,
+      governorate: governorate,
       date: date,
       time: time,
       duration: duration,
       notes: notes,
+      budget: budget,
     );
   }
 }

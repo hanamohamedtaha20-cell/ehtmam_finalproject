@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 import 'request_type.dart';
 
 class RequestModel {
@@ -6,12 +8,13 @@ class RequestModel {
   final String subtitle;
   final String date;
   final String time;
-  final String location;
+  final String governorate;
   final String amount;
   final String status;
   final String? provider;
   final RequestType type;
   final int offersCount;
+
 
   const RequestModel({
     required this.id,
@@ -19,7 +22,7 @@ class RequestModel {
     required this.subtitle,
     required this.date,
     required this.time,
-    required this.location,
+    required this.governorate,
     required this.amount,
     required this.status,
     required this.type,
@@ -39,20 +42,47 @@ class RequestModel {
     }
 
     final statusValue = json['status']?.toString() ?? 'PENDING';
+    final rawGovernorate =
+        json['governorate']?.toString() ?? json['location']?.toString() ?? '';
+
+    final providerValue = json['provider'];
+    String? providerName;
+    if (providerValue is Map) {
+      providerName = providerValue['full_name']?.toString() ??
+          providerValue['name']?.toString();
+    } else {
+      providerName = providerValue?.toString();
+    }
 
     return RequestModel(
       id: json['_id']?.toString() ?? '',
       title: serviceName,
       subtitle: json['duration']?.toString() ?? '',
-      date: json['date']?.toString() ?? '',
+      date: _formatDate(json['date']?.toString()),
       time: json['time']?.toString() ?? '',
-      location: json['location']?.toString() ?? '',
+      governorate: rawGovernorate,
       amount: json['budget']?.toString() ?? '',
       status: _formatStatus(statusValue),
-      provider: json['provider']?.toString(),
+      provider: providerName,
       type: _mapStringToRequestType(statusValue),
-      offersCount: json['offers_count'] ?? 0,
+      offersCount: _toInt(json['offers_count']),
     );
+  }
+
+  static int _toInt(dynamic value) {
+    if (value is int) return value;
+    return int.tryParse(value?.toString() ?? '') ?? 0;
+  }
+
+  static String _formatDate(String? raw) {
+    if (raw == null || raw.isEmpty) return '';
+
+    try {
+      final parsed = DateTime.parse(raw).toLocal();
+      return DateFormat('MMM d, yyyy').format(parsed);
+    } catch (_) {
+      return raw.split('T').first;
+    }
   }
 
   static String _formatStatus(String status) {
@@ -92,7 +122,7 @@ class RequestModel {
       "subtitle": subtitle,
       "date": date,
       "time": time,
-      "location": location,
+      "governorate": governorate,
       "amount": amount,
       "status": status,
       "provider": provider,

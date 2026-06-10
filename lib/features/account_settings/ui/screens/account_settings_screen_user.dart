@@ -75,7 +75,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         children: [
                           IconButton(
                             onPressed: () {
-                              context.read<BottomNavCubit>().changeTab(0);
+                              if (Navigator.canPop(context)) {
+                                Navigator.pop(context);
+                              } else {
+                                context.read<BottomNavCubit>().changeTab(3);
+                              }
                             },
                             icon: const Icon(
                               Icons.arrow_back,
@@ -172,12 +176,14 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             ? 'No phone added'
                             : state.phone,
                       ),
-                      const SettingsTile(
+                      SettingsTile(
                         icon: Icons.location_on_outlined,
                         title: 'Address',
-                        subtitle: '123 Main Street, City',
-                        iconColor: Color(0xFF12B76A),
-                        iconBgColor: Color(0xFFD1FADF),
+                        subtitle: state.government.isEmpty
+                            ? 'No address added'
+                            : state.government,
+                        iconColor: const Color(0xFF12B76A),
+                        iconBgColor: const Color(0xFFD1FADF),
                       ),
 
                       sectionTitle('SECURITY'),
@@ -247,13 +253,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         ),
                       ),
 
-                      sectionTitle('PREFERENCES'),
-
-                      const SettingsTile(
-                        icon: Icons.language_rounded,
-                        title: 'Language',
-                        subtitle: 'English',
-                      ),
 
                       sectionTitle('DANGER ZONE', color: Colors.red),
 

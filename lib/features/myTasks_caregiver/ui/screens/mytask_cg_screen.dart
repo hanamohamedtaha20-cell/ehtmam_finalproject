@@ -15,8 +15,7 @@ class MytaskCgScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MytaskCgCubit(MytaskCgRepo())..loadBookings(),
-      child: const _MytaskCgView(),
+      create: (_) => MytaskCgCubit(MytaskCgRepo())..loadBookings(),      child: const _MytaskCgView(),
     );
   }
 }
@@ -32,9 +31,9 @@ class _MytaskCgView extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-            icon: const Icon(Icons.arrow_back, color: Colors.black),
-            onPressed: () {},
-          ),        
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          onPressed: () {},
+        ),
         title: const Text('My Tasks', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
       ),
       body: BlocBuilder<MytaskCgCubit, MytaskCgState>(
@@ -48,54 +47,54 @@ class _MytaskCgView extends StatelessWidget {
           if (state is MytaskCgLoaded) {
             final cubit = context.read<MytaskCgCubit>();
             return Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: Column(
               children: [
-                MytaskCgStatsHeader(
-                  pendingCount: state.pendingCount,
-                  completedCount: state.completedCount,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  child: Column(
+                    children: [
+                      MytaskCgStatsHeader(
+                        pendingCount: state.pendingCount,
+                        completedCount: state.completedCount,
+                      ),
+                      const SizedBox(height: 12),
+                      ...state.bookings.where((b) => b.isCheckedIn).map((booking) => Padding(
+                        padding: const EdgeInsets.only(bottom: 12),
+                        child: MytaskCgCheckinBar(booking: booking),
+                      )),
+                      const SizedBox(height: 12),
+                      MytaskCgFilterTabs(
+                        selected: state.filter,
+                        allCount: state.allTasks.length,
+                        pendingCount: state.pendingCount,
+                        doneCount: state.completedCount,
+                        onFilter: cubit.filterBookings,
+                      ),
+                      const SizedBox(height: 12),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 12),
-                ...state.bookings.where((b) => b.isCheckedIn).map((booking) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: MytaskCgCheckinBar(booking: booking),
-                )),
-                const SizedBox(height: 12),
-                MytaskCgFilterTabs(
-                  selected: state.filter,
-                  allCount: state.allTasks.length,
-                  pendingCount: state.pendingCount,
-                  doneCount: state.completedCount,
-                  onFilter: cubit.filterBookings,
+                Expanded(
+                  child: ListView(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    children: [
+                      ...state.filteredTasks.map((task) {
+                        final booking = state.getBookingForTask(task.id);
+                        if (booking == null) return const SizedBox();
+                        return MytaskCgTaskItem(
+                          task: task,
+                          bookingId: booking.bookingId,
+                          onAddProof: () => cubit.addMediaToTask(booking.bookingId, task.id),
+                        );
+                      }),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 12),
               ],
-            ),
-          ),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-              children: [
-                ...state.filteredTasks.map((task) {
-                  final booking = state.getBookingForTask(task.id);
-                  if (booking == null) return const SizedBox();
-                  return MytaskCgTaskItem(
-                    task: task,
-                    bookingId: booking.bookingId,
-                    onAddProof: () => cubit.addMediaToTask(booking.bookingId, task.id),
-                  );
-                }),
-              ],
-            ),
-          ),
-        ],
-      );
-    }
-    return const SizedBox();
-  },
-),
+            );
+          }
+          return const SizedBox();
+        },
+      ),
       floatingActionButton: BlocBuilder<MytaskCgCubit, MytaskCgState>(
         builder: (context, state) {
           if (state is! MytaskCgLoaded) return const SizedBox();
