@@ -6,7 +6,6 @@ import 'package:ehtemam_final_project/features/auth/ui/screens/select_role_scree
 import 'package:ehtemam_final_project/features/auth/ui/widgets/auth_background.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/auth_text_field.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
-import 'package:ehtemam_final_project/features/homescreen_caregiver/ui/screens/hc_home_screen.dart';
 import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
 import 'package:ehtemam_final_project/features/profile2/ui/screens/profile_screen.dart';
 import 'package:ehtemam_final_project/features/rating/ui/screens/rating_screen.dart';

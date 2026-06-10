@@ -3,11 +3,25 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../account_settings/ui/screens/account_settings_screen_careprovider.dart';
 import '../../earnings_screen/ui/screens/earnings_screen.dart';
+import '../../homescreen_caregiver/ui/screens/home_screen_caregiver.dart';
 import '../../request_screen_caregiver/ui/screens/care_requests_screen.dart';
 import '../manager/bottom_nav_bar_cubit.dart';
 import '../manager/bottom_nav_bar_state.dart';
+
 class CareGiverBottomNavScreen extends StatelessWidget {
   const CareGiverBottomNavScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => BottomNavCubit(),
+      child: const _CareGiverBottomNavView(),
+    );
+  }
+}
+
+class _CareGiverBottomNavView extends StatelessWidget {
+  const _CareGiverBottomNavView();
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +29,7 @@ class CareGiverBottomNavScreen extends StatelessWidget {
     final s = (width / 390).clamp(0.85, 1.15);
 
     final List<Widget> screens = [
-      const Center(child: Text('Dashboard')),
+      const HcHomeScreen(),
       const CareRequestsScreen(),
       const EarningsScreen(),
       const CareProviderAccountSettingsScreen(),
@@ -25,12 +39,9 @@ class CareGiverBottomNavScreen extends StatelessWidget {
       builder: (context, state) {
         return Scaffold(
           extendBody: true,
-
           body: screens[state.currentIndex],
-
           bottomNavigationBar: Container(
             height: 88 * s,
-
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
@@ -41,12 +52,9 @@ class CareGiverBottomNavScreen extends StatelessWidget {
                 ],
               ),
             ),
-
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-
-                // DASHBOARD
                 navItem(
                   context: context,
                   state: state,
@@ -56,8 +64,6 @@ class CareGiverBottomNavScreen extends StatelessWidget {
                   label: 'Dashboard',
                   scale: s,
                 ),
-
-                // REQUESTS
                 navItem(
                   context: context,
                   state: state,
@@ -67,8 +73,6 @@ class CareGiverBottomNavScreen extends StatelessWidget {
                   label: 'Requests',
                   scale: s,
                 ),
-
-                // EARNINGS
                 navItem(
                   context: context,
                   state: state,
@@ -78,8 +82,6 @@ class CareGiverBottomNavScreen extends StatelessWidget {
                   label: 'Earnings',
                   scale: s,
                 ),
-
-                // PROFILE
                 navItem(
                   context: context,
                   state: state,
@@ -110,69 +112,46 @@ class CareGiverBottomNavScreen extends StatelessWidget {
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-
       onTap: () {
         context.read<BottomNavCubit>().changeTab(index);
       },
-
       child: SizedBox(
         width: 80 * scale,
         height: 88 * scale,
-
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
-            // BLUE TOP LINE
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
-
               width: isSelected ? 36 * scale : 0,
               height: 4 * scale,
-
               decoration: BoxDecoration(
                 color: const Color(0xFF3A8BD7),
-
                 borderRadius: BorderRadius.circular(20),
               ),
             ),
-
             SizedBox(height: 8 * scale),
-
-            // ICON CIRCLE
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
-
               width: isSelected ? 38 * scale : 26 * scale,
               height: isSelected ? 38 * scale : 26 * scale,
-
               decoration: BoxDecoration(
-                color:
-                isSelected ? Colors.white : Colors.transparent,
-
+                color: isSelected ? Colors.white : Colors.transparent,
                 shape: BoxShape.circle,
               ),
-
               child: Icon(
                 isSelected ? selectedIcon : icon,
-
                 size: isSelected ? 21 * scale : 19 * scale,
-
                 color: isSelected
                     ? const Color(0xFF3A8BD7)
                     : Colors.white,
               ),
             ),
-
             SizedBox(height: 6 * scale),
-
-            // LABEL
             Text(
               label,
-
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 12 * scale,
