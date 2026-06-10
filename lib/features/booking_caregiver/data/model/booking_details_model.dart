@@ -69,6 +69,7 @@ class BookingDetailsModel {
 
     return BookingDetailsModel(
       id: json['_id']?.toString() ?? '',
+      requestId: json['_id']?.toString() ?? '',
       displayId: _shortId(json['_id']?.toString() ?? ''),
       status: statusValue,
       statusLabel: _formatStatus(statusValue),
@@ -115,6 +116,9 @@ class BookingDetailsModel {
 
     return BookingDetailsModel(
       id: json['_id']?.toString() ?? '',
+      requestId: request is Map
+          ? (request['_id']?.toString() ?? '')
+          : (request?.toString() ?? ''),
       displayId: _shortId(json['_id']?.toString() ?? ''),
       status: statusValue,
       statusLabel: _formatStatus(statusValue),

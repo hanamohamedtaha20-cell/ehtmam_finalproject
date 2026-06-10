@@ -61,19 +61,19 @@ class _BookingDetailsAccViewState extends State<BookingDetailsAccView> {
   void initState() {
     super.initState();
     selectedTab = widget.initialTab;
-    if (selectedTab == 1) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        tasksLoaded = true;
-        context.read<BookingDetailsCubit>().loadTasks(booking.requestId);
-      });
-    }
   }
 
-  void _onTabChanged(int index) {
+  void _loadTasksIfNeeded(String requestId) {
+    if (selectedTab != 1 || tasksLoaded || requestId.isEmpty) return;
+    tasksLoaded = true;
+    context.read<BookingDetailsCubit>().loadTasks(requestId);
+  }
+
+  void _onTabChanged(int index, String requestId) {
     setState(() => selectedTab = index);
-    if (index == 1 && !tasksLoaded) {
+    if (index == 1 && !tasksLoaded && requestId.isNotEmpty) {
       tasksLoaded = true;
-      context.read<BookingDetailsCubit>().loadTasks();
+      context.read<BookingDetailsCubit>().loadTasks(requestId);
     }
   }
 
@@ -112,6 +112,7 @@ class _BookingDetailsAccViewState extends State<BookingDetailsAccView> {
         }
 
         final booking = state.booking;
+        _loadTasksIfNeeded(booking.requestId);
         final completedTasks =
             booking.tasks.where((t) => t.done).length;
 
@@ -127,7 +128,7 @@ class _BookingDetailsAccViewState extends State<BookingDetailsAccView> {
                 const SizedBox(height: 16),
                 BookingTabs(
                   selectedIndex: selectedTab,
-                  onTabChanged: _onTabChanged,
+                  onTabChanged: (index) => _onTabChanged(index, booking.requestId),
                   completedCount: completedTasks,
                   totalCount: booking.tasks.length,
                 ),
