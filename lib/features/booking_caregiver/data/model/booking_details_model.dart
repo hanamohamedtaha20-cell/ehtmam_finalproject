@@ -1,3 +1,5 @@
+import 'package:ehtemam_final_project/core/utils/date_formatter.dart';
+
 class BookingDetailsModel {
   final String id;
   final String displayId;
@@ -75,8 +77,11 @@ class BookingDetailsModel {
       serviceType: serviceName.isNotEmpty ? serviceName : 'Care Service',
       petType: json['notes']?.toString() ?? '',
       duration: json['duration']?.toString() ?? '',
-      date: json['date']?.toString() ?? '',
-      time: json['time']?.toString() ?? '',
+      date: DateFormatter.formatDisplayDate(
+        json['date']?.toString(),
+        includeTime: false,
+      ),
+      time: _formatTime(json['date']?.toString(), json['time']?.toString()),
       location: json['location']?.toString() ?? '',
       specialInstructions: json['notes']?.toString() ?? '',
       clientBudget: 0,
@@ -118,8 +123,15 @@ class BookingDetailsModel {
       serviceType: serviceName.isNotEmpty ? serviceName : 'Care Service',
       petType: request is Map ? (request['notes']?.toString() ?? '') : '',
       duration: request is Map ? (request['duration']?.toString() ?? '') : '',
-      date: request is Map ? (request['date']?.toString() ?? '') : '',
-      time: request is Map ? (request['time']?.toString() ?? '') : '',
+      date: request is Map
+          ? DateFormatter.formatDisplayDate(
+              request['date']?.toString(),
+              includeTime: false,
+            )
+          : '',
+      time: request is Map
+          ? _formatTime(request['date']?.toString(), request['time']?.toString())
+          : '',
       location: request is Map ? (request['location']?.toString() ?? '') : '',
       specialInstructions:
           request is Map ? (request['notes']?.toString() ?? '') : '',
@@ -153,6 +165,12 @@ class BookingDetailsModel {
       clientBudget: clientBudget,
       tasks: tasks ?? this.tasks,
     );
+  }
+
+  static String _formatTime(String? dateRaw, String? timeRaw) {
+    if (timeRaw != null && timeRaw.isNotEmpty) return timeRaw;
+    if (dateRaw == null || !dateRaw.contains('T')) return '';
+    return DateFormatter.formatDisplayTime(dateRaw);
   }
 
   static String _shortId(String id) {

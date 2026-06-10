@@ -1,3 +1,5 @@
+import 'package:ehtemam_final_project/core/utils/date_formatter.dart';
+
 enum CareRequestSource { request, booking }
 
 class CareRequestModel {
@@ -51,8 +53,11 @@ class CareRequestModel {
       serviceName: serviceName.isNotEmpty ? serviceName : 'Care Service',
       duration: json['duration']?.toString() ?? '',
       location: json['location']?.toString() ?? '',
-      date: json['date']?.toString() ?? '',
-      time: json['time']?.toString() ?? '',
+      date: DateFormatter.formatDisplayDate(json['date']?.toString()),
+      time: _formatTime(
+        json['date']?.toString(),
+        json['time']?.toString(),
+      ),
       notes: json['notes']?.toString() ?? '',
       clientName: clientName,
       price: json['budget']?.toString() ?? '',
@@ -95,8 +100,15 @@ class CareRequestModel {
       serviceName: serviceName.isNotEmpty ? serviceName : 'Care Service',
       duration: request is Map ? (request['duration']?.toString() ?? '') : '',
       location: request is Map ? (request['location']?.toString() ?? '') : '',
-      date: request is Map ? (request['date']?.toString() ?? '') : '',
-      time: request is Map ? (request['time']?.toString() ?? '') : '',
+      date: request is Map
+          ? DateFormatter.formatDisplayDate(request['date']?.toString())
+          : '',
+      time: request is Map
+          ? _formatTime(
+              request['date']?.toString(),
+              request['time']?.toString(),
+            )
+          : '',
       notes: request is Map ? (request['notes']?.toString() ?? '') : '',
       clientName: clientName,
       price: price,
@@ -111,6 +123,12 @@ class CareRequestModel {
       return (offer['price'] ?? json['price'] ?? 0) as num;
     }
     return (json['price'] ?? 0) as num;
+  }
+
+  static String _formatTime(String? dateRaw, String? timeRaw) {
+    if (timeRaw != null && timeRaw.isNotEmpty) return timeRaw;
+    if (dateRaw == null || !dateRaw.contains('T')) return '';
+    return DateFormatter.formatDisplayTime(dateRaw);
   }
 
   static String _formatStatus(String status) {
