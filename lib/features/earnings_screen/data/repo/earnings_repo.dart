@@ -8,7 +8,7 @@ class EarningsRepository {
 
   Future<EarningsResult> getEarnings() async {
     final response = await _apiService.getMyBookings();
-    final List bookings = response['data'] ?? [];
+    final bookings = _extractDataList(response);
 
     double totalEarnings = 0;
     int jobs = 0;
@@ -18,8 +18,8 @@ class EarningsRepository {
     for (final b in bookings) {
       final map = b as Map<String, dynamic>;
       final rawStatus = (map['status'] ?? '').toString().toUpperCase();
-      final offer = map['offer'];
-      final price = (offer?['price'] ?? map['price'] ?? 0).toDouble();
+      final transaction = TransactionModel.fromBookingJson(map);
+      final price = transaction.amount;
       final request = map['request'];
 
       if (rawStatus == 'COMPLETED') {
@@ -34,7 +34,7 @@ class EarningsRepository {
       if (rawStatus == 'COMPLETED' ||
           rawStatus == 'CONFIRMED' ||
           rawStatus == 'PENDING') {
-        transactions.add(TransactionModel.fromBookingJson(map));
+        transactions.add(transaction);
       }
     }
 
@@ -61,5 +61,14 @@ class EarningsRepository {
       return value * 8;
     }
     return value;
+  }
+
+  List<dynamic> _extractDataList(dynamic response) {
+    if (response is List) return response;
+    if (response is Map) {
+      final data = response['data'];
+      if (data is List) return data;
+    }
+    return [];
   }
 }

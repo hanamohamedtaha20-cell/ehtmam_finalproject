@@ -13,6 +13,14 @@ class TransactionModel {
     required this.status,
   });
 
+  static num _priceFromJson(Map<String, dynamic> json) {
+    final offer = json['offer'];
+    if (offer is Map<String, dynamic>) {
+      return (offer['price'] ?? json['price'] ?? 0) as num;
+    }
+    return (json['price'] ?? 0) as num;
+  }
+
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
       title: json['title'] ?? '',
@@ -26,7 +34,6 @@ class TransactionModel {
   factory TransactionModel.fromBookingJson(Map<String, dynamic> json) {
     final service = json['service'];
     final request = json['request'];
-    final offer = json['offer'];
     final client = request is Map ? request['client'] : null;
 
     String serviceName = 'Care Service';
@@ -41,7 +48,7 @@ class TransactionModel {
 
     final rawStatus = (json['status'] ?? '').toString().toUpperCase();
     final isPaid = rawStatus == 'COMPLETED' || rawStatus == 'CONFIRMED';
-    final amount = (offer?['price'] ?? json['price'] ?? 0).toDouble();
+    final amount = _priceFromJson(json).toDouble();
     final date = request is Map ? (request['date']?.toString() ?? '') : '';
 
     return TransactionModel(

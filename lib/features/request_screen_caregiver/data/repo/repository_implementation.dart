@@ -12,8 +12,8 @@ class CareRequestsRepositoryImpl implements CareRequestsRepository {
     final availableResponse = await apiService.getAvailableRequests();
     final bookingsResponse = await apiService.getMyBookings();
 
-    final availableList = availableResponse['data'] as List? ?? [];
-    final bookingsList = bookingsResponse['data'] as List? ?? [];
+    final availableList = _extractDataList(availableResponse);
+    final bookingsList = _extractDataList(bookingsResponse);
 
     final pending = availableList
         .map((e) => CareRequestModel.fromRequestJson(e as Map<String, dynamic>))
@@ -25,6 +25,15 @@ class CareRequestsRepositoryImpl implements CareRequestsRepository {
         .toList();
 
     return [...pending, ...fromBookings];
+  }
+
+  List<dynamic> _extractDataList(dynamic response) {
+    if (response is List) return response;
+    if (response is Map) {
+      final data = response['data'];
+      if (data is List) return data;
+    }
+    return [];
   }
 
   @override

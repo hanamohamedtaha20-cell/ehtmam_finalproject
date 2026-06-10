@@ -63,7 +63,6 @@ class CareRequestModel {
   factory CareRequestModel.fromBookingJson(Map<String, dynamic> json) {
     final service = json['service'];
     final request = json['request'];
-    final offer = json['offer'];
     final client = request is Map ? request['client'] : null;
 
     String serviceName = '';
@@ -86,7 +85,7 @@ class CareRequestModel {
       uiStatus = _formatStatus(rawStatus);
     }
 
-    final price = (offer?['price'] ?? json['price'] ?? 0).toString();
+    final price = _priceFromJson(json).toString();
 
     return CareRequestModel(
       id: request is Map
@@ -104,6 +103,14 @@ class CareRequestModel {
       sourceType: CareRequestSource.booking,
       bookingId: json['_id']?.toString(),
     );
+  }
+
+  static num _priceFromJson(Map<String, dynamic> json) {
+    final offer = json['offer'];
+    if (offer is Map<String, dynamic>) {
+      return (offer['price'] ?? json['price'] ?? 0) as num;
+    }
+    return (json['price'] ?? 0) as num;
   }
 
   static String _formatStatus(String status) {
