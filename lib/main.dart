@@ -1,5 +1,8 @@
 import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/account_settings/data/repo/account_settings_repo.dart';
+import 'package:ehtemam_final_project/features/admin_home_screen/ui/admin_dashboard._screen.dart';
+import 'package:ehtemam_final_project/features/admin_provider_screen/ui/ad_provider_screen.dart';
+import 'package:ehtemam_final_project/features/admin_users_screen/ui/ad_user_screen.dart';
 import 'package:ehtemam_final_project/features/auth/data/repo/auth_repo.dart';
 import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart';
@@ -70,7 +73,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
-        home: LoginScreen(),
+        home: AdminDashboardScreen(),
       ),
     );
   }

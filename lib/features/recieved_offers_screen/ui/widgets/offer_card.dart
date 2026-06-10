@@ -1,4 +1,5 @@
 import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
+import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/price_row.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/provider_info.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/rating_row.dart';
@@ -82,7 +83,13 @@ class OfferCard extends StatelessWidget {
             },
 
             onSecondTap: () {
-
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => PaymentScreen(
+                  ),
+                ),
+              );
             },
           ),
         ],
