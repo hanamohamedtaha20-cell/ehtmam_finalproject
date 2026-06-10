@@ -170,16 +170,18 @@ class ProviderCard extends StatelessWidget {
 
                         Row(
                           children: [
-                            Text(
-                              "\$${p.oldPrice}",
-                              style: TextStyle(
-                                color: Colors.white70,
-                                decoration: TextDecoration.lineThrough,
+                            if (p.oldPrice > 0) ...[
+                              Text(
+                                "${p.oldPrice.toStringAsFixed(0)} EGP",
+                                style: TextStyle(
+                                  color: Colors.white70,
+                                  decoration: TextDecoration.lineThrough,
+                                ),
                               ),
-                            ),
-                            SizedBox(width: 6),
+                              SizedBox(width: 6),
+                            ],
                             Text(
-                              "\$${p.price}",
+                              "${p.price.toStringAsFixed(0)} EGP",
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 22,
@@ -188,29 +190,40 @@ class ProviderCard extends StatelessWidget {
                             ),
                           ],
                         ),
+                        if (p.hourlyRate > 0) ...[
+                          SizedBox(height: 4),
+                          Text(
+                            "${p.hourlyRate.toStringAsFixed(0)} EGP / hr",
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
                       ],
                     ),
 
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.end,
-                      children: [
-                        Text(
-                          "Experience",
-                          style: TextStyle(
-                            color: Colors.white70,
-                            fontSize: 12,
+                    if (p.location.isNotEmpty)
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            "Location",
+                            style: TextStyle(
+                              color: Colors.white70,
+                              fontSize: 12,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 4),
-                        Text(
-                          p.experience,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
+                          SizedBox(height: 4),
+                          Text(
+                            p.location,
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
                   ],
                 ),
               ],

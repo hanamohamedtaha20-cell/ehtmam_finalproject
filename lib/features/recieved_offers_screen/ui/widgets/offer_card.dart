@@ -2,6 +2,7 @@ import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/price_row.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/provider_info.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/rating_row.dart';
+import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/notes.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/specialization_box.dart';
 import 'package:flutter/material.dart';
 import '../../data/model/provider_data.dart';
@@ -46,13 +47,15 @@ class OfferCard extends StatelessWidget {
 
           SizedBox(height: 10),
 
-          SpecializationBox(provider: provider,),
+          if (provider.specialization.isNotEmpty) ...[
+            SpecializationBox(provider: provider),
+            SizedBox(height: 10),
+          ],
 
-          SizedBox(height: 10),
-
-          // NotesBox(provider: provider,),
-
-          SizedBox(height: 10),
+          if (provider.notes.isNotEmpty) ...[
+            NotesBox(provider: provider),
+            SizedBox(height: 10),
+          ],
 
           PriceRow(provider: provider),
 

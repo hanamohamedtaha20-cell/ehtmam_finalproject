@@ -30,16 +30,18 @@ class PriceRow extends StatelessWidget {
 
             Row(
               children: [
-                Text(
-                  "\$${provider.oldPrice}",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    decoration: TextDecoration.lineThrough, // 👈 شطب
+                if (provider.oldPrice > 0) ...[
+                  Text(
+                    "${provider.oldPrice.toStringAsFixed(0)} EGP",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      decoration: TextDecoration.lineThrough,
+                    ),
                   ),
-                ),
-                SizedBox(width: 6),
+                  SizedBox(width: 6),
+                ],
                 Text(
-                "\$${provider.price}",
+                  "${provider.price.toStringAsFixed(0)} EGP",
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -48,32 +50,42 @@ class PriceRow extends StatelessWidget {
                 ),
               ],
             ),
+            if (provider.hourlyRate > 0) ...[
+              SizedBox(height: 4),
+              Text(
+                "${provider.hourlyRate.toStringAsFixed(0)} EGP / hr",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: 12,
+                ),
+              ),
+            ],
           ],
         ),
 
-        /// 🔹 Best Value badge
-        Container(
-          padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-          decoration: BoxDecoration(
-            color: Color(0xFF16A34A),
-            borderRadius: BorderRadius.circular(20),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.green.withOpacity(0.3),
-                blurRadius: 8,
-                offset: Offset(0, 4),
+        if (provider.bestValue)
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            decoration: BoxDecoration(
+              color: Color(0xFF16A34A),
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.green.withOpacity(0.3),
+                  blurRadius: 8,
+                  offset: Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Text(
+              "Best Value",
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontSize: 12,
               ),
-            ],
-          ),
-          child: Text(
-            "Best Value",
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontSize: 12,
             ),
           ),
-        ),
 
       ],
     );

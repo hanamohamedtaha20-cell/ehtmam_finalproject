@@ -1,5 +1,7 @@
 class ProviderModel {
   final String id;
+  final String caregiverId;
+  final String status;
   final String description;
   final String experience;
   final int completed;
@@ -16,6 +18,7 @@ class ProviderModel {
 
   final double price;
   final double oldPrice;
+  final double hourlyRate;
 
   final String name;
   final String service;
@@ -27,6 +30,8 @@ class ProviderModel {
 
   ProviderModel({
     required this.id,
+    this.caregiverId = '',
+    this.status = '',
     required this.description,
     required this.experience,
     required this.completed,
@@ -41,6 +46,7 @@ class ProviderModel {
     required this.isCertified,
     required this.price,
     required this.oldPrice,
+    this.hourlyRate = 0,
     required this.name,
     required this.service,
     required this.rating,
@@ -55,11 +61,14 @@ class ProviderModel {
         ? Map<String, dynamic>.from(caregiver)
         : <String, dynamic>{};
 
-    final caregiverPrice = _toDouble(caregiverMap['price']);
+    final hourlyRate = _toDouble(caregiverMap['price']);
     final offerPrice = _toDouble(json['price']);
+    final explicitOldPrice = _toDouble(json['old_price'] ?? json['oldPrice']);
 
     return ProviderModel(
       id: _asString(json['_id']),
+      caregiverId: _asString(caregiverMap['_id']),
+      status: _asString(json['status']),
       description: _firstNonEmpty([
         caregiverMap['experience'],
         caregiverMap['bio'],
@@ -102,12 +111,9 @@ class ProviderModel {
       isVerified:
           caregiverMap['verified'] == true || caregiverMap['active'] == true,
       isCertified: caregiverMap['certified'] == true,
-      price: offerPrice > 0 ? offerPrice : caregiverPrice,
-      oldPrice: caregiverPrice > 0 &&
-              offerPrice > 0 &&
-              caregiverPrice > offerPrice
-          ? caregiverPrice
-          : 0,
+      price: offerPrice,
+      oldPrice: explicitOldPrice,
+      hourlyRate: hourlyRate,
       specialization: _firstNonEmpty([
         caregiverMap['speciality'],
         caregiverMap['specialization'],
