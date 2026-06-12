@@ -1,43 +1,83 @@
 class BundleModel {
+  final String id;
   final String client;
-  final String caregiver;
-  final String services;
-  final String bundle_name;
+  final String bundleName;
   final double price;
-  final double discount;
-  final double totalPrice;
+  final double? discount;
+  final double? totalPrice;
+  final List<String> features;
+  final bool isActive;
+  final String? createdAt;
 
   BundleModel({
+    required this.id,
     required this.client,
-    required this.caregiver,
-    required this.bundle_name,
-    required this.services,
+    required this.bundleName,
     required this.price,
-    required this.discount,
-    required this.totalPrice,
+    this.discount,
+    this.totalPrice,
+    this.features = const [],
+    this.isActive = true,
+    this.createdAt,
   });
+
+  double get displayPrice => totalPrice ?? price;
+
+  int get discountPercent => discount?.round() ?? 0;
 
   factory BundleModel.fromJson(Map<String, dynamic> json) {
     return BundleModel(
+      id: json['_id']?.toString() ?? '',
       client: json['client']?.toString() ?? '',
-      caregiver: json['caregiver']?.toString() ?? '',
-      services: json['services']?.toString() ?? '',
-      bundle_name: json['bundle_name']?.toString() ?? '',
-      price: (json['price'] ?? 0).toDouble(),
-      discount: (json['discount'] ?? 0).toDouble(),
-      totalPrice: (json['totalPrice'] ?? 0).toDouble(),
+      bundleName: json['bundle_name']?.toString() ?? '',
+      price: _parseDouble(json['price']),
+      discount: json['discount'] == null ? null : _parseDouble(json['discount']),
+      totalPrice:
+          json['totalPrice'] == null ? null : _parseDouble(json['totalPrice']),
+      features: _parseFeatures(json['features']),
+      isActive: json['isActive'] == true,
+      createdAt: json['createdAt']?.toString(),
     );
+  }
+
+  static double _parseDouble(dynamic value) {
+    if (value == null) return 0;
+    if (value is num) return value.toDouble();
+    if (value is String) return double.tryParse(value) ?? 0;
+    return 0;
+  }
+
+  static List<String> _parseFeatures(dynamic raw) {
+    if (raw is! List) return [];
+
+    return raw
+        .map((item) {
+          if (item == null) return '';
+          if (item is String) return item;
+          if (item is Map) {
+            final value = item['name'] ??
+                item['title'] ??
+                item['feature'] ??
+                item['description'];
+            return value?.toString() ?? '';
+          }
+          return item.toString();
+        })
+        .where((feature) => feature.isNotEmpty)
+        .toList();
   }
 
   Map<String, dynamic> toJson() {
     return {
+      '_id': id,
       'client': client,
-      'caregiver': caregiver,
-      'bundle_name': bundle_name,
-      'services': services,
+      'bundle_name': bundleName,
       'price': price,
-      'discount': discount,
-      'totalPrice': totalPrice,
+      if (discount != null) 'discount': discount,
+      if (totalPrice != null) 'totalPrice': totalPrice,
+      'features': features,
+      'isActive': isActive,
+      if (createdAt != null) 'createdAt': createdAt,
     };
   }
 }

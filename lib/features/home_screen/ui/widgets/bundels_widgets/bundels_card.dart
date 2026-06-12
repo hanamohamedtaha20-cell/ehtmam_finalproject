@@ -12,11 +12,19 @@ class BundleCard extends StatelessWidget {
     required this.bundle,
   });
 
-  List<String> get _features => [
-        'Original price: ${bundle.price} SAR',
-        'Discount: ${bundle.discount}%',
-        'Final price: ${bundle.totalPrice} SAR',
-      ];
+  List<String> get _features {
+    if (bundle.features.isNotEmpty) return bundle.features;
+
+    final items = <String>[
+      'Price: ${bundle.displayPrice.toStringAsFixed(0)} SAR',
+    ];
+
+    if (bundle.discountPercent > 0) {
+      items.add('Discount: ${bundle.discountPercent}%');
+    }
+
+    return items;
+  }
 
   @override
   Widget build(BuildContext context) {

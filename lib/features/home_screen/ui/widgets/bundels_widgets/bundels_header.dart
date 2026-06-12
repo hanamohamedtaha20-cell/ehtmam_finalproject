@@ -12,7 +12,6 @@ class BundleHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(bundle);
     return Row(
       children: [
         const CircleAvatar(
@@ -25,19 +24,20 @@ class BundleHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                bundle.bundle_name,
+                bundle.bundleName,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,
                 ),
               ),
-              Text(
-                'Discount ${bundle.discount}%',
-                style: TextStyle(
-                  color: Colors.grey.shade600,
-                  fontSize: 12,
+              if (bundle.discountPercent > 0)
+                Text(
+                  'Discount ${bundle.discountPercent}%',
+                  style: TextStyle(
+                    color: Colors.grey.shade600,
+                    fontSize: 12,
+                  ),
                 ),
-              ),
             ],
           ),
         ),
@@ -46,7 +46,7 @@ class BundleHeader extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Text(
-              '${bundle.totalPrice}',
+              bundle.displayPrice.toStringAsFixed(0),
               style: const TextStyle(
                 fontSize: 22,
                 fontWeight: FontWeight.bold,
