@@ -5,7 +5,7 @@ abstract class BookingRepository {
   Future<BookingDetailsModel> getRequestDetails(String requestId);
   Future<List<TaskModel>> getTasks(String requestId);
   Future<void> updateTask(String taskId, bool completed);
-  Future<void> sendOffer({
+  Future<Map<String, dynamic>> sendOffer({
     required String requestId,
     required num price,
     String? notes,

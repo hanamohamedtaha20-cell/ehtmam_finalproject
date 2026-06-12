@@ -6,7 +6,7 @@ abstract class BookingRemoteDatasource {
   Future<BookingDetailsModel> getRequestDetails(String requestId);
   Future<List<TaskModel>> getTasks(String requestId);
   Future<void> updateTask(String taskId, bool completed);
-  Future<void> sendOffer({
+  Future<Map<String, dynamic>> sendOffer({
     required String requestId,
     required num price,
     String? notes,
@@ -78,15 +78,24 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
   }
 
   @override
-  Future<void> sendOffer({
+  Future<Map<String, dynamic>> sendOffer({
     required String requestId,
     required num price,
     String? notes,
   }) async {
-    await apiService.sendOffer(
+    final response = await apiService.sendOffer(
       requestId: requestId,
       price: price,
       notes: notes,
+    );
+
+    final data = response['data'];
+    if (data is Map<String, dynamic>) {
+      return data;
+    }
+
+    throw Exception(
+      response['message']?.toString() ?? 'Failed to send offer',
     );
   }
 }

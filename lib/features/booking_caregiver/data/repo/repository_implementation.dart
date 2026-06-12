@@ -24,7 +24,7 @@ class BookingRepositoryImpl implements BookingRepository {
       datasource.updateTask(taskId, completed);
 
   @override
-  Future<void> sendOffer({
+  Future<Map<String, dynamic>> sendOffer({
     required String requestId,
     required num price,
     String? notes,

@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/core/utils/api_error_message.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/manager/state/booking_details_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/model/booking_details_model.dart';
@@ -62,7 +63,7 @@ class BookingDetailsCubit extends Cubit<BookingDetailsState> {
     }
   }
 
-  Future<bool> submitOffer({
+  Future<String?> submitOffer({
     required String requestId,
     required num price,
     String? notes,
@@ -73,10 +74,9 @@ class BookingDetailsCubit extends Cubit<BookingDetailsState> {
         price: price,
         notes: notes,
       );
-      return true;
+      return null;
     } catch (e) {
-      emit(BookingDetailsError(e.toString()));
-      return false;
+      return apiErrorMessage(e);
     }
   }
 }

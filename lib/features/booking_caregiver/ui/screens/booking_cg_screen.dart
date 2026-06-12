@@ -50,6 +50,7 @@ class BookingCgView extends StatefulWidget {
 class _BookingCgViewState extends State<BookingCgView> {
   int selectedTab = 0;
   bool tasksLoaded = false;
+  bool isSubmittingOffer = false;
   final TextEditingController priceController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
 
@@ -69,6 +70,8 @@ class _BookingCgViewState extends State<BookingCgView> {
   }
 
   Future<void> _submitOffer(BuildContext context) async {
+    if (isSubmittingOffer) return;
+
     final price = num.tryParse(priceController.text.trim());
     if (price == null || price <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -77,7 +80,9 @@ class _BookingCgViewState extends State<BookingCgView> {
       return;
     }
 
-    final success = await context.read<BookingDetailsCubit>().submitOffer(
+    setState(() => isSubmittingOffer = true);
+
+    final error = await context.read<BookingDetailsCubit>().submitOffer(
           requestId: widget.requestId,
           price: price,
           notes: notesController.text.trim().isEmpty
@@ -87,17 +92,24 @@ class _BookingCgViewState extends State<BookingCgView> {
 
     if (!context.mounted) return;
 
-    if (success) {
+    setState(() => isSubmittingOffer = false);
+
+    if (error != null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Offer submitted successfully')),
+        SnackBar(content: Text(error)),
       );
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => OffersScreen(requestId: widget.requestId),
-        ),
-      );
+      return;
     }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Offer sent')),
+    );
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => OffersScreen(requestId: widget.requestId),
+      ),
+    );
   }
 
   @override
@@ -195,7 +207,7 @@ class _BookingCgViewState extends State<BookingCgView> {
                         ),
                         const SizedBox(height: 16),
                         GradientActionButton(
-                          text: "Submit offer",
+                          text: isSubmittingOffer ? "Submitting..." : "Submit offer",
                           onTap: () => _submitOffer(context),
                         ),
                       ],

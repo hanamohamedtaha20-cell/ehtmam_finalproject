@@ -10,6 +10,7 @@ const String caregiverEndpoint         = '/caregiver';
 const String servicesEndpoint          = '/services';
 const String requestEndpoint           = '/request';
 const String availableRequestsEndpoint = '/request/available';
+const String offerEndpoint             = '/offer';
 const String bookingFromOfferEndpoint  = '/booking/bookingfromoffer';
 const String bookingEndpoint           = '/booking';
 const String createPaymentEndpoint     = '/payment/create';

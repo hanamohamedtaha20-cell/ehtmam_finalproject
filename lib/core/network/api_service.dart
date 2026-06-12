@@ -319,13 +319,13 @@ Future<Map<String, dynamic>> postFormData({
     String? notes,
   }) async {
     final response = await _dio.post(
-      '/offer/$requestId/offer',
+      '$offerEndpoint/$requestId/offer',
       data: {
         'price': price,
-        if (notes != null) 'notes': notes,
+        if (notes != null && notes.isNotEmpty) 'notes': notes,
       },
     );
-    return response.data;
+    return Map<String, dynamic>.from(response.data as Map);
   }
 
   Future<Map<String, dynamic>> respondToOffer({
