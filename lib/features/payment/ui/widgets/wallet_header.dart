@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 class WalletHeader extends StatelessWidget {
   final double balance; 
 
-  const WalletHeader({super.key, required this.balance}); // 👈 عدلي ده
+  const WalletHeader({super.key, required this.balance});
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center, // 👈 مهم
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         /// 🔹 ICON BOX
         Container(

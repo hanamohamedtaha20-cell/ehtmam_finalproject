@@ -11,15 +11,24 @@ class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit(this.repo) : super(PaymentInitial());
 
   Future<void> loadData({double? offerPrice}) async {
-    final currentBalance = state is PaymentLoaded
-        ? (state as PaymentLoaded).balance
-        : 0.0;
     emit(PaymentLoading());
     try {
-      final prefs = await SharedPreferences.getInstance();
-      final bookingId = prefs.getString('bookingId') ?? '';
+      final walletResult = await repo.getPaymentData('');
+      final walletData = walletResult['data'];
+
+      final double balance = (walletData?['balance'] ?? 0).toDouble();
+      final double income = (walletData?['totalDeposited'] ?? 0).toDouble();
+      final double expense = (walletData?['totalSpent'] ?? 0).toDouble();
+
+      final transactions = (walletData?['transactions'] as List? ?? [])
+          .whereType<Map<String, dynamic>>()
+          .map((t) => TransactionModel.fromJson(t))
+          .toList();
 
       double price = offerPrice ?? 0;
+
+      final prefs = await SharedPreferences.getInstance();
+      final bookingId = prefs.getString('bookingId') ?? '';
 
       if (bookingId.isNotEmpty) {
         try {
@@ -38,10 +47,10 @@ class PaymentCubit extends Cubit<PaymentState> {
       final double total = price + platformFee + taxRate;
 
       emit(PaymentLoaded(
-        balance: currentBalance,
-        income: 0,
-        expense: 0,
-        transactions: [],
+        balance: balance,
+        income: income,
+        expense: expense,
+        transactions: transactions,
         serviceCost: price,
         platformFee: platformFee,
         taxRate: taxRate,
@@ -90,6 +99,7 @@ class PaymentCubit extends Cubit<PaymentState> {
 
     return fallback;
   }
+
   void addBalance(double amount) {
     if (state is PaymentLoaded) {
       final current = state as PaymentLoaded;

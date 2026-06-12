@@ -17,7 +17,7 @@ class WhyChooseCardWidget extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(14),

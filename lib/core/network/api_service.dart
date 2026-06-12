@@ -204,6 +204,7 @@ Future<Map<String, dynamic>> postFormData({
       '$caregiverEndpoint/$id',
       options: Options(headers: {'Authorization': null}),
     );
+    print('CAREGIVER BY ID: ${response.data}');
     return response.data;
   }
 
@@ -387,6 +388,9 @@ Future<Map<String, dynamic>> postFormData({
       'amount':        amount,
       'paymentMethod': paymentMethod,
     });
+    var result;
+    print('FULL RESPONSE: $result');
+
     return response.data;
   }
 
@@ -395,6 +399,10 @@ Future<Map<String, dynamic>> postFormData({
       payBookingWalletEndpoint,
       data: {'bookingId': bookingId},
     );
+    return response.data;
+  }
+  Future<Map<String, dynamic>> processPayment(String offerId) async {
+    final response = await _dio.post('$processPaymentEndpoint/$offerId');
     return response.data;
   }
 
@@ -555,6 +563,10 @@ Future<Map<String, dynamic>> postFormData({
       '$tasksEndpoint/$id',
       data: {'taskState': taskState},
     );
+    return response.data;
+  }
+  Future<Map<String, dynamic>> deleteTask(String id) async {
+    final response = await _dio.delete('$tasksEndpoint/$id');
     return response.data;
   }
 }

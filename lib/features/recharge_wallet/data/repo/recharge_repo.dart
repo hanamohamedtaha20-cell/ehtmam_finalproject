@@ -7,7 +7,7 @@ class RechargeRepo {
 
   RechargeModel getData() {
     return RechargeModel(
-      methods: ["Vodafone Cash", "InstaPay", "Credit/Debit Card", "Fawry"],
+      methods: ["Credit/Debit Card"],
       quickAmounts: [50, 100, 200, 500],
     );
   }

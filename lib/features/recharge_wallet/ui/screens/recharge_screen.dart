@@ -35,8 +35,11 @@ class _RechargeScreenState extends State<RechargeScreen> {
     return BlocListener<RechargeCubit, RechargeState>(
         listener: (context, state) {
           if (state is RechargeSuccess) {
-            launchUrl(Uri.parse(state.paymentUrl));
             Navigator.pop(context);
+            launchUrl(
+              Uri.parse(state.paymentUrl),
+              mode: LaunchMode.externalApplication,
+            );
           }
           if (state is RechargeError) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -115,8 +118,9 @@ class _RechargeScreenState extends State<RechargeScreen> {
                       );
                       return;
                     }
-                    context.read<PaymentCubit>().addBalance(amount);
-                    Navigator.pop(context);
+                    context.read<RechargeCubit>().recharge(
+                        amount: amount,
+                        selectedMethodIndex: _selectedMethod,);
                   },
                 ),          ],
             ),

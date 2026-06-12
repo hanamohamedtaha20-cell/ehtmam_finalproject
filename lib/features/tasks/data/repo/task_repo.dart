@@ -17,4 +17,11 @@ class TaskRepo {
   Future<void> addTask(String description) async {
     await _api.createTask(description: description);
   }
+  Future<void> updateTaskState(String id, String taskState) async {
+    await _api.updateTask(id: id, taskState: taskState);
+  }
+
+  Future<void> deleteTask(String id) async {
+    await _api.deleteTask(id);
+  }
 }
