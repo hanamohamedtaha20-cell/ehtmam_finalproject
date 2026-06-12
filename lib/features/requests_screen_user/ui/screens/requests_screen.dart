@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/network/api_service.dart';
+import '../../../../core/resources/app_colors.dart';
 import '../../../../core/widgets/filter.dart';
 import '../../../home_screen/ui/screens/home_screen.dart';
 import '../../data/repo/requests_repo.dart';
@@ -128,12 +129,44 @@ class _RequestsViewState
                   }
 
                   /// ERROR
-                  if (state
-                  is RequestsError) {
-
+                  if (state is RequestsError) {
                     return Center(
-                      child: Text(
-                        state.message,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.wifi_off_rounded,
+                              size: 48,
+                              color: Colors.grey.shade400,
+                            ),
+                            const SizedBox(height: 16),
+                            Text(
+                              state.message,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey.shade600,
+                                height: 1.5,
+                              ),
+                            ),
+                            const SizedBox(height: 20),
+                            ElevatedButton.icon(
+                              onPressed: () =>
+                                  context.read<RequestsCubit>().getRequests(),
+                              icon: const Icon(Icons.refresh_rounded, size: 18),
+                              label: Text('retry'.tr()),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                foregroundColor: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(99),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     );
                   }

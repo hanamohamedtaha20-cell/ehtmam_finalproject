@@ -56,6 +56,13 @@
   "view_details": "View Details",
   "rate_service": "Rate Service",
 
-  "received_offers": "Received Offers {}"
+  "received_offers": "Received Offers {}",
+
+  "connection_timeout_error": "Connection timed out. Please check your internet and try again.",
+  "connection_error": "Unable to connect. Please check your internet connection.",
+  "server_error": "Something went wrong on our end. Please try again later.",
+  "request_cancelled": "Request was cancelled.",
+  "something_went_wrong": "Something went wrong. Please try again.",
+  "retry": "Retry"
 
 }

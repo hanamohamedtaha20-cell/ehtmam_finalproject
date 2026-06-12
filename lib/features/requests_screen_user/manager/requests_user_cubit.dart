@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/core/utils/api_error_message.dart';
 import 'package:ehtemam_final_project/features/requests_screen_user/manager/state/requests_user_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -26,12 +27,7 @@ class RequestsCubit
       );
 
     } catch (e) {
-
-      emit(
-        RequestsError(
-          e.toString(),
-        ),
-      );
+      emit(RequestsError(apiErrorMessage(e)));
     }
   }
 }
