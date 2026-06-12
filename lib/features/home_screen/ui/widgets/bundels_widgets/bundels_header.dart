@@ -12,6 +12,7 @@ class BundleHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(bundle);
     return Row(
       children: [
         const CircleAvatar(
@@ -24,7 +25,7 @@ class BundleHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                bundle.services,
+                bundle.bundle_name,
                 style: const TextStyle(
                   fontSize: 16,
                   fontWeight: FontWeight.w700,

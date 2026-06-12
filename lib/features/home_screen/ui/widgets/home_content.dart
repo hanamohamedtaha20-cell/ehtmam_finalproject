@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../requests_screen_user/ui/screens/requests_screen.dart';
 import '../../data/model/user_model.dart';
 import '../../manager/state/home_state.dart';
+import '../screens/bundels_screen.dart';
 import 'bundles_card.dart';
 import 'request_card.dart';
 import 'header.dart';
@@ -206,12 +207,12 @@ class HomeContent extends StatelessWidget {
             const SizedBox(height: 20),
 
             BundlesCard(onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(
-              //     builder: (_) => const BundleScreen(),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => ServiceBundlesScreen(),
+                ),
+              );
             }),
 
             const SizedBox(height: 20),

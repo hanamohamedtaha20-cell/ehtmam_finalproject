@@ -6,6 +6,7 @@ import 'package:ehtemam_final_project/features/admin_users_screen/ui/ad_user_scr
 import 'package:ehtemam_final_project/features/auth/data/repo/auth_repo.dart';
 import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart';
+import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/data/repo/mytask_cg_repo.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/manager/mytask_cg_cubit.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
@@ -96,7 +97,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
-        home:AdminButtomNavBar(),
+        home:LoginScreen(),
       ),
     );
   }
