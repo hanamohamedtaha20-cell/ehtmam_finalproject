@@ -8,6 +8,7 @@ import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/date
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/proposed_price_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/service_details_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/special_instructions_card.dart';
+import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/screens/received_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/booking_details_appbar/booking_details_appbar.dart';
@@ -90,7 +91,12 @@ class _BookingCgViewState extends State<BookingCgView> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Offer submitted successfully')),
       );
-      Navigator.pop(context);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => OffersScreen(requestId: widget.requestId),
+        ),
+      );
     }
   }
 
