@@ -89,10 +89,18 @@ class _HcHomeView extends StatelessWidget {
                           request: request,
                           onAccept: request.sourceType ==
                                   CareRequestSource.request
-                              ? () => cubit.respondToRequest(
-                                    requestId: request.id,
-                                    action: 'ACCEPT',
-                                  )
+                              ? () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => BookingCgScreen(
+                                        requestId: request.id,
+                                        initialTab: 0,
+                                        bookingId: '',
+                                      ),
+                                    ),
+                                  );
+                                }
                               : null,
                           onDecline: request.sourceType ==
                                   CareRequestSource.request
@@ -101,16 +109,6 @@ class _HcHomeView extends StatelessWidget {
                                     action: 'REJECT',
                                   )
                               : null,
-                          onViewDetails: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => BookingCgScreen(
-                                  requestId: request.id, initialTab: 1, bookingId: '',
-                                ),
-                              ),
-                            );
-                          },
                         );
                       },
                       childCount: state.pendingRequests.length,

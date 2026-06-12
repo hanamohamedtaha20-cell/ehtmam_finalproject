@@ -155,24 +155,7 @@ class RequestCard extends StatelessWidget {
                     Color(0xFF4CAF50),
                     Color(0xFF7DDE92),
                   ],
-                  onTap: () {
-                    if (request.bookingId != null) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) {
-                            return BookingCgScreen(
-                              bookingId: request.bookingId!,
-                              requestId: request.id,
-                              initialTab: 1,
-                            );
-                          },
-                        ),
-                      );
-                    } else {
-                      onAccept?.call();
-                    }
-                  },
+                  onTap: () => _openBookingDetails(context),
                 ),
               ),
               const SizedBox(width: 15),
@@ -282,6 +265,19 @@ class RequestCard extends StatelessWidget {
               fontWeight: FontWeight.w600,
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  void _openBookingDetails(BuildContext context, {int initialTab = 0}) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => BookingCgScreen(
+          requestId: request.id,
+          initialTab: initialTab,
+          bookingId: request.bookingId ?? '',
         ),
       ),
     );

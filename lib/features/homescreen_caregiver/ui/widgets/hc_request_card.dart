@@ -5,14 +5,12 @@ class HcRequestCard extends StatelessWidget {
   final CareRequestModel request;
   final VoidCallback? onAccept;
   final VoidCallback? onDecline;
-  final VoidCallback? onViewDetails;
 
   const HcRequestCard({
     super.key,
     required this.request,
     this.onAccept,
     this.onDecline,
-    this.onViewDetails,
   });
 
   String get _subtitle {
@@ -140,32 +138,6 @@ class HcRequestCard extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-          SizedBox(height: 14 * s),
-          Center(
-            child: InkWell(
-              onTap: onViewDetails,
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    'View Full Details',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 14 * s,
-                      fontWeight: FontWeight.w600,
-                      color: const Color(0xFF3A8BD7),
-                    ),
-                  ),
-                  SizedBox(width: 4 * s),
-                  Icon(
-                    Icons.arrow_forward_rounded,
-                    size: 16 * s,
-                    color: const Color(0xFF3A8BD7),
-                  ),
-                ],
-              ),
-            ),
           ),
         ],
       ),
