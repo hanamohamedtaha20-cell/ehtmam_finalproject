@@ -63,6 +63,7 @@
   "server_error": "Something went wrong on our end. Please try again later.",
   "request_cancelled": "Request was cancelled.",
   "something_went_wrong": "Something went wrong. Please try again.",
-  "retry": "Retry"
+  "retry": "Retry",
+  "try_again": "Try Again"
 
 }

@@ -53,39 +53,45 @@ class _RequestsViewState
             /// 🔹 Header
             Padding(
               padding: const EdgeInsets.all(16),
-
               child: Row(
                 children: [
-
                   GestureDetector(
                     onTap: () {
-
                       Navigator.push(
                         context,
-
                         MaterialPageRoute(
-                          builder: (context) =>
-                              HomeScreen(),
+                          builder: (context) => HomeScreen(),
                         ),
                       );
                     },
-
-                    child: const Icon(
-                      Icons.arrow_back,
-                    ),
+                    child: const Icon(Icons.arrow_back),
                   ),
-
                   const SizedBox(width: 10),
-
                   Text(
                     "My Requests".tr(),
-
                     style: const TextStyle(
-                      fontWeight:
-                      FontWeight.bold,
-
+                      fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
+                  ),
+                  const Spacer(),
+                  BlocBuilder<RequestsCubit, RequestsState>(
+                    builder: (context, state) {
+                      if (state is RequestsLoading) {
+                        return const SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        );
+                      }
+
+                      return IconButton(
+                        onPressed: () =>
+                            context.read<RequestsCubit>().getRequests(),
+                        icon: const Icon(Icons.refresh_rounded),
+                        tooltip: 'try_again'.tr(),
+                      );
+                    },
                   ),
                 ],
               ),
@@ -156,7 +162,7 @@ class _RequestsViewState
                               onPressed: () =>
                                   context.read<RequestsCubit>().getRequests(),
                               icon: const Icon(Icons.refresh_rounded, size: 18),
-                              label: Text('retry'.tr()),
+                              label: Text('try_again'.tr()),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
                                 foregroundColor: Colors.white,
@@ -199,27 +205,18 @@ class _RequestsViewState
                       );
                     }
 
-                    return ListView.builder(
-
-                      padding:
-                      const EdgeInsets.all(
-                        16,
+                    return RefreshIndicator(
+                      onRefresh: () =>
+                          context.read<RequestsCubit>().getRequests(),
+                      child: ListView.builder(
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: const EdgeInsets.all(16),
+                        itemCount: filteredRequests.length,
+                        itemBuilder: (context, index) {
+                          final request = filteredRequests[index];
+                          return RequestCardWidget(request: request);
+                        },
                       ),
-
-                      itemCount:
-                      filteredRequests.length,
-
-                      itemBuilder:
-                          (context, index) {
-
-                        final request =
-                        filteredRequests[
-                        index];
-
-                        return RequestCardWidget(
-                          request: request,
-                        );
-                      },
                     );
                   }
 
