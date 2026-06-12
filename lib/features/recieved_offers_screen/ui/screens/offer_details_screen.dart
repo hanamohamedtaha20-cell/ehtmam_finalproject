@@ -13,7 +13,7 @@ import '../widgets/offer_details_widgets/provider_card.dart';
 import '../widgets/offer_details_widgets/provider_notes.dart';
 import '../widgets/offer_details_widgets/reviews_section.dart';
 import '../widgets/offer_details_widgets/services_list.dart';
-import '../../utils/offer_payment_handler.dart';
+import '../../utils/offer_accept_handler.dart';
 
 class OfferDetailsScreen extends StatelessWidget {
   final String requestId;
@@ -104,7 +104,7 @@ class OfferDetailsScreen extends StatelessWidget {
                             const SizedBox(height: 20),
                             ActionButtonsRow(
                               firstText: 'Other Offers',
-                              secondText: 'Process Payment',
+                              secondText: 'Accept',
                               onFirstTap: () {
                                 Navigator.push(
                                   context,
@@ -116,10 +116,12 @@ class OfferDetailsScreen extends StatelessWidget {
                                 );
                               },
                               onSecondTap: () {
-                                processOfferPayment(
+                                acceptOffer(
                                   context: context,
                                   offerId: offerId,
+                                  requestId: requestId,
                                   offerPrice: provider.price,
+                                  popOnSuccess: true,
                                 );
                               },
                             ),

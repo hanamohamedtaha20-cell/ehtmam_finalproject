@@ -333,7 +333,7 @@ Future<Map<String, dynamic>> postFormData({
     required String status,
   }) async {
     final response = await _dio.patch(
-      '/offer/$offerId/respond',
+      '$offerEndpoint/$offerId/respond',
       data: {'status': status},
     );
     return response.data;

@@ -6,7 +6,7 @@ import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/widgets/specialization_box.dart';
 import 'package:flutter/material.dart';
 import '../../data/model/provider_data.dart';
-import '../../utils/offer_payment_handler.dart';
+import '../../utils/offer_accept_handler.dart';
 import '../screens/offer_details_screen.dart';
 
 
@@ -68,7 +68,7 @@ class OfferCard extends StatelessWidget {
 
           ActionButtonsRow(
             firstText: "View Detils",
-            secondText: "Process Payment",
+            secondText: "Accept",
 
             onFirstTap: () {
               Navigator.push(
@@ -83,9 +83,10 @@ class OfferCard extends StatelessWidget {
             },
 
             onSecondTap: () {
-              processOfferPayment(
+              acceptOffer(
                 context: context,
                 offerId: provider.id,
+                requestId: requestId,
                 offerPrice: provider.price,
               );
             },
