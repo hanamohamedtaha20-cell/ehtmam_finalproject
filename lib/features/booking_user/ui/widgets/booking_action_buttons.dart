@@ -8,12 +8,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../requests_screen_user/ui/screens/requests_screen.dart';
+import '../../data/model/booking_model_user.dart';
 
 class BookingActionButtons extends StatelessWidget {
   final String status;
   final VoidCallback? onCancel;
+  final BookingModelUser booking;
 
-  const BookingActionButtons({super.key, required this.status, this.onCancel});
+
+  const BookingActionButtons({super.key, required this.status, this.onCancel, required this.booking});
 
   @override
   Widget build(BuildContext context) {
@@ -29,12 +32,17 @@ class BookingActionButtons extends StatelessWidget {
                 icon: Icons.location_on_outlined,
                 color: AppColors.green,
                 onTap: () {
-                   Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const TrackCaregiverScreen(),
-                  ),
-                );
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => TrackCaregiverScreen(
+                        caregiverName: booking.subtitle,
+                        speciality:    booking.speciality,
+                        phoneNumber:   booking.phone,
+                        userLocation:  booking.location,
+                      ),
+                    ),
+                  );
                 },
               ),
             ),

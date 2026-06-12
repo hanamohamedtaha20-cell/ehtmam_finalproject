@@ -1,101 +1,122 @@
-import 'package:ehtemam_final_project/features/admin_users_screen/manager/state/ad_user_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../model/AD_user_model.dart';
-import '../model/repo/ad_user_repository.dart';
 
+import 'ad_user_state.dart';
 
-class AdUserCubit extends Cubit<AdUserState> {
-  final AdUserRepository repository;
+class AdUserCubit extends Cubit<AdUsersState> {
+  AdUserCubit() : super(const AdUsersState());
 
-  AdUserCubit(this.repository) : super(UserInitial());
+  void getUsers() {
+    final users = [
+      {
+        'name': 'Sarah Johnson',
+        'email': 'sarah.j@email.com',
+        'bookings': '24 bookings',
+        'joined': 'Joined Jan 2026',
+        'initials': 'SJ',
+        'status': 'Active',
+        'premium': false,
+      },
+      {
+        'name': 'ashraf khaled',
+        'email': 'ashraf.c@email.com',
+        'bookings': '12 bookings',
+        'joined': 'Joined Feb 2026',
+        'initials': 'MC',
+        'status': 'Active',
+        'premium': false,
+      },
+      {
+        'name': 'tamer mustafa',
+        'email': 'emily.d@email.com',
+        'bookings': '8 bookings',
+        'joined': 'Joined Dec 2025',
+        'initials': 'ED',
+        'status': 'Inactive',
+        'premium': true,
+      },
+      {
+        'name': 'hany wael',
+        'email': 'hani.w@email.com',
+        'bookings': '31 bookings',
+        'joined': 'Joined Oct 2025',
+        'initials': 'JW',
+        'status': 'Active',
+        'premium': true,
+      },
+      {
+        'name': 'khaled sakr',
+        'email': 'khaled2@email.com',
+        'bookings': '5 bookings',
+        'joined': 'Joined Mar 2026',
+        'initials': 'LA',
+        'status': 'Active',
+        'premium': false,
+      },
+    ];
 
-  List<AdUserModel> users = [];
-
-  Future<void> getUsers() async {
-    try {
-      emit(UserLoading());
-
-      users = await repository.getUsers();
-
-      emit(
-        UserLoaded(users),
-      );
-    } catch (e) {
-      emit(
-        UsersError(
-          e.toString(),
-        ),
-      );
-    }
+    emit(
+      state.copyWith(
+        allUsers: users,
+        filteredUsers: users,
+      ),
+    );
   }
 
-  Future<void> blockUser(int userId) async {
-    try {
-      emit(UserBlocking());
+  void searchUsers(String value) {
+    final query = value.trim().toLowerCase();
 
-      await repository.blockUser(userId);
-
-      users = users.map((user) {
-        if (user.id == userId) {
-          return AdUserModel(
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            bookings: user.bookings,
-            joinedDate: user.joinedDate,
-            isActive: false,
-            isPremium: user.isPremium,
-          );
-        }
-
-        return user;
-      }).toList();
-
+    if (query.isEmpty) {
       emit(
-        UserBlocked(
-          'User blocked successfully',
+        state.copyWith(
+          searchText: value,
+          filteredUsers: state.allUsers,
         ),
       );
-
-      emit(
-        UserLoaded(users),
-      );
-    } catch (e) {
-      emit(
-        UsersError(
-          e.toString(),
-        ),
-      );
+      return;
     }
+
+    final filtered = state.allUsers.where((user) {
+      final name = user['name'].toString().toLowerCase();
+      final email = user['email'].toString().toLowerCase();
+      final status = user['status'].toString().toLowerCase();
+
+      return name.contains(query) ||
+          email.contains(query) ||
+          status.contains(query);
+    }).toList();
+
+    emit(
+      state.copyWith(
+        searchText: value,
+        filteredUsers: filtered,
+      ),
+    );
   }
 
-  Future<void> searchUsers(String query) async {
-    try {
-      if (query.isEmpty) {
-        emit(
-          UserLoaded(users),
-        );
-        return;
-      }
+  void blockUser(String email) {
+    final updatedUsers = state.allUsers.where((user) {
+      return user['email'] != email;
+    }).toList();
 
-      final filteredUsers = users.where((user) {
-        return user.name
-            .toLowerCase()
-            .contains(query.toLowerCase()) ||
-            user.email
-                .toLowerCase()
-                .contains(query.toLowerCase());
-      }).toList();
+    final query = state.searchText.trim().toLowerCase();
 
-      emit(
-        UserLoaded(filteredUsers),
-      );
-    } catch (e) {
-      emit(
-        UsersError(
-          e.toString(),
-        ),
-      );
-    }
+    final updatedFilteredUsers = query.isEmpty
+        ? updatedUsers
+        : updatedUsers.where((user) {
+      final name = user['name'].toString().toLowerCase();
+      final userEmail = user['email'].toString().toLowerCase();
+      final status = user['status'].toString().toLowerCase();
+
+      return name.contains(query) ||
+          userEmail.contains(query) ||
+          status.contains(query);
+    }).toList();
+
+    emit(
+      state.copyWith(
+        allUsers: updatedUsers,
+        filteredUsers: updatedFilteredUsers,
+      ),
+    );
   }
 }

@@ -1,111 +1,73 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../model/ad_provider_model.dart';
-import '../model/repo/ad_provider_repo.dart';
-import 'state/ad_provider_state.dart';
+import '../model/repo/ad_provider_repository.dart';
+import 'ad_provider_state.dart';
 
 class AdProviderCubit extends Cubit<AdProviderState> {
-  final AdProviderRepository repository;
+  final AdProviderRepositoryImpl repo;
 
-  AdProviderCubit(this.repository)
-      : super(AdProviderInitial());
+  AdProviderCubit(this.repo) : super(AdProviderInitial());
 
-  List<AdProviderModel> providers = [];
+  List<AdProviderModel> _allProviders = [];
 
   Future<void> getProviders() async {
+    emit(AdProviderLoading());
+
     try {
-      emit(AdProviderLoading());
+      final providers = await repo.getProviders();
 
-      providers =
-      await repository.getProviders();
-
-      emit(
-        AdProviderLoaded(providers),
-      );
-    } catch (e) {
-      emit(
-        AdProviderError(
-          e.toString(),
-        ),
-      );
-    }
-  }
-
-  Future<void> blockProvider(
-      int providerId,
-      ) async {
-    try {
-      await repository.blockProvider(
-        providerId,
-      );
-
-      providers = providers.map((provider) {
-        if (provider.id == providerId) {
-          return provider.copyWith(
-            isActive: false,
-          );
-        }
-
-        return provider;
-      }).toList();
+      _allProviders = providers;
 
       emit(
         AdProviderLoaded(
-          providers,
+          allProviders: _allProviders,
+          providers: _allProviders,
         ),
       );
     } catch (e) {
-      emit(
-        AdProviderError(
-          e.toString(),
-        ),
-      );
+      emit(AdProviderError(e.toString()));
     }
   }
 
-  Future<void> searchProviders(
-      String query,
-      ) async {
-    try {
-      if (query.isEmpty) {
-        emit(
-          AdProviderLoaded(
-            providers,
-          ),
-        );
-        return;
-      }
+  void searchProviders(String value) {
+    final query = value.trim().toLowerCase();
 
-      final filteredProviders =
-      providers.where((provider) {
-        return provider.name
-            .toLowerCase()
-            .contains(
-          query.toLowerCase(),
-        ) ||
-            provider.email
-                .toLowerCase()
-                .contains(
-              query.toLowerCase(),
-            ) ||
-            provider.service
-                .toLowerCase()
-                .contains(
-              query.toLowerCase(),
-            );
-      }).toList();
-
+    if (query.isEmpty) {
       emit(
         AdProviderLoaded(
-          filteredProviders,
+          allProviders: _allProviders,
+          providers: _allProviders,
+          searchText: value,
         ),
       );
-    } catch (e) {
-      emit(
-        AdProviderError(
-          e.toString(),
-        ),
-      );
+      return;
     }
+
+    final filtered = _allProviders.where((provider) {
+      final name = provider.name.toLowerCase();
+      final service = provider.service.toLowerCase();
+
+      return name.contains(query) || service.contains(query);
+    }).toList();
+
+    emit(
+      AdProviderLoaded(
+        allProviders: _allProviders,
+        providers: filtered,
+        searchText: value,
+      ),
+    );
+  }
+
+  void blockProvider(AdProviderModel provider) {
+    _allProviders.remove(provider);
+
+    emit(
+      AdProviderLoaded(
+        allProviders: _allProviders,
+        providers: _allProviders,
+      ),
+    );
   }
 }

@@ -18,7 +18,17 @@ class TaskScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => TaskCubit()..loadTasks(),
-      child: Scaffold(
+      child: const _TaskScreenBody(),
+    );
+  }
+}
+
+class _TaskScreenBody extends StatelessWidget {
+  const _TaskScreenBody();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
         backgroundColor: const Color(0xFFF5F5F5),
         body: SafeArea(
           child: Padding(
@@ -87,7 +97,7 @@ class TaskScreen extends StatelessWidget {
           child: const Icon(Icons.add, color: Colors.white),
           onPressed: () => showAddTaskDialog(context),
         ),
-      ),
-    );
+
+      );
   }
 }

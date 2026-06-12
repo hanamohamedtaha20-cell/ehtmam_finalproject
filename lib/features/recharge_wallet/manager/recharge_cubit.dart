@@ -18,20 +18,15 @@ class RechargeCubit extends Cubit<RechargeState> {
   }) async {
     emit(RechargeLoading());
     try {
-      final methodMap = {
-        0: 'MOBILE_WALLET',
-        1: 'MOBILE_WALLET',
-        2: 'CARD',
-        3: 'MOBILE_WALLET',
-      };
+      final paymentMethod = 'CARD';
 
-      final paymentMethod = methodMap[selectedMethodIndex] ?? 'CARD';
-
+      print('RECHARGE REQUEST: amount=$amount, method=$paymentMethod');
       final result = await repo.recharge(
         amount: amount,
         paymentMethod: paymentMethod,
       );
-
+      emit(RechargeSuccess(result['paymentUrl'] ?? ''));
+      print('PAYMENT URL: ${result['paymentUrl']}');
       emit(RechargeSuccess(result['paymentUrl'] ?? ''));
     } catch (e) {
       emit(RechargeError('failed to connect to the sevrver'));

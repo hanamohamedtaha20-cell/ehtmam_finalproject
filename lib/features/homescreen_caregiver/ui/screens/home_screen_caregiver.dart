@@ -105,8 +105,8 @@ class _HcHomeView extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (_) => BookingCgScreenScreen(
-                                  requestId: request.id,
+                                builder: (_) => BookingCgScreen(
+                                  requestId: request.id, initialTab: 1, bookingId: '',
                                 ),
                               ),
                             );

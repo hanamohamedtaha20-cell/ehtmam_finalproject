@@ -16,12 +16,12 @@ import '../widgets/client_info.dart';
 import '../widgets/tabs.dart';
 import '../widgets/task_item_card.dart';
 
-class BookingCgScreenScreen extends StatelessWidget {
+class BookingCgScreen extends StatelessWidget {
   final String requestId;
 
-  const BookingCgScreenScreen({
+  const BookingCgScreen({
     super.key,
-    required this.requestId,
+    required this.requestId, required int initialTab, required String bookingId,
   });
 
   @override

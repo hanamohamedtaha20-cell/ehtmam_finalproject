@@ -2,7 +2,6 @@ import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/book
 import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/gradient_action_button.dart';
-import '../screens/booking_details_acc.dart';
 
 class RequestCard extends StatelessWidget {
   final CareRequestModel request;
@@ -149,14 +148,31 @@ class RequestCard extends StatelessWidget {
             children: [
               Expanded(
                 child: GradientActionButton(
-                  text: "Accept Request",
+                  text: "View Details",
                   height: 46,
                   fontSize: 13,
                   colors: const [
                     Color(0xFF4CAF50),
                     Color(0xFF7DDE92),
                   ],
-                  onTap: onAccept ?? () {},
+                  onTap: () {
+                    if (request.bookingId != null) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) {
+                            return BookingCgScreen(
+                              bookingId: request.bookingId!,
+                              requestId: request.id,
+                              initialTab: 1,
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      onAccept?.call();
+                    }
+                  },
                 ),
               ),
               const SizedBox(width: 15),
@@ -183,38 +199,6 @@ class RequestCard extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-          const SizedBox(height: 14),
-          InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => BookingCgScreenScreen(
-                    requestId: request.id,
-                  ),
-                ),
-              );
-            },
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "View Full Details",
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(width: 4),
-                Icon(
-                  Icons.arrow_forward,
-                  size: 18,
-                  color: Colors.blue,
-                ),
-              ],
-            ),
           ),
         ],
       );
@@ -247,9 +231,9 @@ class RequestCard extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (_) => BookingDetailsAcc(
+                            builder: (_) => BookingCgScreen(
                               bookingId: request.bookingId!,
-                              initialTab: 1,
+                              initialTab: 1, requestId: '',
                             ),
                           ),
                         );
@@ -273,40 +257,6 @@ class RequestCard extends StatelessWidget {
                 ),
               ),
             ],
-          ),
-          const SizedBox(height: 14),
-          InkWell(
-            onTap: () {
-              if (request.bookingId != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => BookingDetailsAcc(
-                      bookingId: request.bookingId!,
-                    ),
-                  ),
-                );
-              }
-            },
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "View Full Details",
-                  style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                SizedBox(width: 4),
-                Icon(
-                  Icons.arrow_forward,
-                  size: 18,
-                  color: Colors.blue,
-                ),
-              ],
-            ),
           ),
         ],
       );

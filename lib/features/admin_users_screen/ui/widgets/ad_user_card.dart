@@ -95,7 +95,13 @@ class AdUserCard extends StatelessWidget {
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (_) => const BlockUserDialog(),
+                builder: (_) => BlockUserDialog(
+                  name: user.name,
+                  email: user.email,
+                  onBlock: () {
+                    Navigator.pop(context);
+                  },
+                ),
               );
             },
             icon: const Icon(

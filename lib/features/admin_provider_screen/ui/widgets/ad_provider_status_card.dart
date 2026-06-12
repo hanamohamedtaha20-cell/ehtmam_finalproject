@@ -1,29 +1,40 @@
 import 'package:flutter/material.dart';
 
 class AdProviderStatsCard extends StatelessWidget {
-  const AdProviderStatsCard({super.key});
+  final int total;
+
+  const AdProviderStatsCard({
+    super.key,
+    required this.total,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 90,
-      padding: const EdgeInsets.all(12),
+      width: 88,
+      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(14),
       ),
-      child: const Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Column(
         children: [
           Text(
-            "2,543",
-            style: TextStyle(
+            total.toString(),
+            style: const TextStyle(
+              color: Color(0xff2F93E6),
               fontSize: 22,
-              fontWeight: FontWeight.bold,
-              color: Colors.blue,
+              fontWeight: FontWeight.w700,
             ),
           ),
-          Text("Total Provider"),
+          const SizedBox(height: 4),
+          const Text(
+            'Total Provider',
+            style: TextStyle(
+              color: Color(0xff111827),
+              fontSize: 10,
+            ),
+          ),
         ],
       ),
     );

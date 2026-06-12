@@ -2,6 +2,7 @@ import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/screens/received_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../../core/network/api_service.dart';
 import '../../data/repo/Provider_repo.dart';
 import '../../data/repo/reviews_repo.dart';
 import '../../manager/provider_details_cubit.dart';
@@ -114,7 +115,38 @@ class OfferDetailsScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              onSecondTap: () {},
+                              onSecondTap: () async {
+                                final provider = (context.read<ProviderCubit>().state as ProviderLoaded).provider;
+
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (_) => const Center(child: CircularProgressIndicator()),
+                                );
+
+                                try {
+                                  final apiService = ApiService();
+                                  await apiService.processPayment(provider.id);
+
+                                  Navigator.pop(context);
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Payment successful! Booking confirmed.'),
+                                      backgroundColor: Colors.green,
+                                    ),
+                                  );
+                                } catch (e) {
+                                  Navigator.pop(context);
+
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(e.toString().replaceAll('Exception: ', '')),
+                                      backgroundColor: Colors.red,
+                                    ),
+                                  );
+                                }
+                              },
                             ),
                           ],
                         ),

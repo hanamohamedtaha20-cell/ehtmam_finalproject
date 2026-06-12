@@ -7,6 +7,8 @@ class BookingModelUser {
   final String location;
   final int price;
   final String status;
+  final String speciality;
+  final String phone;
 
   BookingModelUser({
     required this.id,
@@ -16,17 +18,18 @@ class BookingModelUser {
     required this.time,
     required this.location,
     required this.price,
-    required this.status,
+    required this.status, required this.speciality, required this.phone,
   });
 
   factory BookingModelUser.fromJson(Map<String, dynamic> json) {
-    final service  = json['service'];
-    final request  = json['request'];
-    final offer    = json['offer'];
+    final service = json['service'];
+    final request = json['request'];
+    final offer = json['offer'];
 
-    final rawStatus = (json['status'] ?? '').toString().toLowerCase();
+    final rawStatus = (json['bookingStatus'] ?? json['status'] ?? '').toString().toLowerCase();
+
     String status;
-    if (rawStatus == 'confirmed' || rawStatus == 'pending') {
+    if (rawStatus == 'confirmed' || rawStatus == 'pending' || rawStatus == 'accepted') {
       status = 'upcoming';
     } else if (rawStatus == 'completed') {
       status = 'completed';
@@ -35,14 +38,30 @@ class BookingModelUser {
     }
 
     return BookingModelUser(
-      id:       json['_id']                    ?? '',
-      title:    service?['serviceName']         ?? 'Care Service',
-      subtitle: json['caregiver']?['full_name'] ?? '',
-      date:     request?['date']               ?? '',
-      time:     request?['time']               ?? '',
-      location: request?['location']           ?? '',
-      price:    (offer?['price'] ?? json['price'] ?? 0).toInt(),
+      id:       json['_id'] ?? '',
+      title:    service is Map ? (service['serviceName'] ?? 'Care Service') : 'Care Service',
+      subtitle: json['caregiver'] is Map ? (json['caregiver']['full_name'] ?? '') : '',
+      date: request is Map ? _formatDate(request['date']?.toString()) : '',      time:     request is Map ? (request['time'] ?? '') : '',
+      location: request is Map ? (request['location'] ?? request['governorate'] ?? '') : '',
+      price:    int.tryParse((json['price'] ?? 0).toString()) ?? 0,
+      speciality: json['request'] is Map
+          ? (json['request']['service'] is Map
+          ? (json['request']['service']['serviceName'] ?? '')
+          : '')
+          : '',
+      phone: json['caregiver'] is Map
+          ? (json['caregiver']['phone'] ?? '')
+          : '',
       status:   status,
     );
+  }
+  static String _formatDate(String? raw) {
+    if (raw == null || raw.isEmpty) return '';
+    try {
+      final parsed = DateTime.parse(raw).toLocal();
+      return '${parsed.day}/${parsed.month}/${parsed.year}';
+    } catch (_) {
+      return raw.split('T').first;
+    }
   }
 }

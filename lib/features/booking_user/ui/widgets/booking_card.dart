@@ -67,7 +67,7 @@ final VoidCallback? onCancel;
           ),
           const SizedBox(height: 12),
           BookingActionButtons(status: booking.status,
-           onCancel: onCancel,
+           onCancel: onCancel, booking: booking,
 ),
             ],
       ),

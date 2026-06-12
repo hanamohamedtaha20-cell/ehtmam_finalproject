@@ -6,7 +6,18 @@ import '../widgets/eta_banner.dart';
 import '../widgets/caregiver_info_card.dart';
 import '../widgets/location_details.dart';
 class TrackCaregiverScreen extends StatelessWidget {
-  const TrackCaregiverScreen({super.key});
+  final String caregiverName;
+  final String speciality;
+  final String phoneNumber;
+  final String userLocation;
+
+  const TrackCaregiverScreen({
+    super.key,
+    required this.caregiverName,
+    required this.speciality,
+    required this.phoneNumber,
+    required this.userLocation,
+  });
 
   static const LatLng _userLocation      = LatLng(30.0444, 31.2357);
   static const LatLng _caregiverLocation = LatLng(30.0500, 31.2400);
@@ -89,33 +100,24 @@ class TrackCaregiverScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const CaregiverInfoCard(
-                    name: "Paws & Claws",
-                    speciality: "Pet Care",
-                    rating: "4.8",
-                    reviewCount: "99",
-                    status: "On the way",
+                  CaregiverInfoCard(
+                    name:           caregiverName.isEmpty ? "Caregiver" : caregiverName,
+                    speciality:     speciality.isEmpty ? "Care Service" : speciality,
+                    rating:         "4.8",
+                    reviewCount:    "99",
+                    status:         "On the way",
                     statusSubtitle: "Caregiver is heading to your location",
-                    phoneNumber: "+20 10 0000 0000",
-
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    "Location Details",
-                    style: TextStyle(
-                      fontFamily: "Arimo",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.black,
-                    ),
+                    phoneNumber:    phoneNumber.isEmpty ? "-" : phoneNumber,
                   ),
                   const SizedBox(height: 12),
-                  const LocationDetails(
-                    userLocation: "123 Main Street, Cairo, Egypt",
+                  LocationDetails(
+                    userLocation:      userLocation.isEmpty ? "Your Location" : userLocation,
                     caregiverLocation: "456 Oak Avenue",
-                    distance: "2.0 km",
-                    eta: "14 min",
+                    distance:          "2.0 km",
+                    eta:               "14 min",
                   ),
+
+
                 ],
               ),
             ),

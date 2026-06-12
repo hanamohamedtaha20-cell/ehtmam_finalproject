@@ -14,6 +14,7 @@ class RequestModel {
   final String? provider;
   final RequestType type;
   final int offersCount;
+  final String Description;
 
 
   const RequestModel({
@@ -27,7 +28,7 @@ class RequestModel {
     required this.status,
     required this.type,
     this.provider,
-    this.offersCount = 0,
+    this.offersCount = 0, required this.Description,
   });
 
   factory RequestModel.fromJson(Map<String, dynamic> json) {
@@ -65,7 +66,7 @@ class RequestModel {
       status: _formatStatus(statusValue),
       provider: providerName,
       type: _mapStringToRequestType(statusValue),
-      offersCount: _toInt(json['offers_count']),
+      offersCount: _toInt(json['offers_count']), Description: '',
     );
   }
 
