@@ -5,8 +5,10 @@ class TaskProgressRepo {
   final ApiService _api = ApiService();
 
   Future<List<TaskProgressModel>> getTasks() async {
-    final result = await _api.getAllTasks();
-    final list = result['data'] as List? ?? [];
-    return list.map((t) => TaskProgressModel.fromJson(t)).toList();
+    final list = await _api.fetchTasks();
+    return list
+        .whereType<Map<String, dynamic>>()
+        .map(TaskProgressModel.fromJson)
+        .toList();
   }
 }

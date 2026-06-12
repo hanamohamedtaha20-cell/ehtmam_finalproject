@@ -21,7 +21,7 @@ class TaskCubit extends Cubit<TaskState> {
 
   Future<void> addTask(String description) async {
     try {
-      await _repo.addTask(description);
+      await _repo.addTask(requestId, description);
       await loadTasks();
     } catch (e) {
       emit(TaskError(e.toString()));

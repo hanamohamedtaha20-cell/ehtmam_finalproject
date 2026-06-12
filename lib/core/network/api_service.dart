@@ -525,6 +525,14 @@ Future<Map<String, dynamic>> postFormData({
   //  TASKS — /tasks
   // ══════════════════════════════════════════════════════════
 
+  Future<List<dynamic>> fetchTasks() async {
+    final response = await _dio.get(tasksEndpoint);
+    final data = response.data;
+    if (data is List) return data;
+    if (data is Map && data['data'] is List) return data['data'] as List;
+    return [];
+  }
+
   Future<Map<String, dynamic>> getAllTasks() async {
     final response = await _dio.get(tasksEndpoint);
     return response.data;
@@ -536,11 +544,19 @@ Future<Map<String, dynamic>> postFormData({
   }
 
   Future<List<dynamic>> getTasksByRequestId(String requestId) async {
-    final response = await _dio.get('$tasksEndpoint/$requestId');
-    final data = response.data;
-    if (data is List) return data;
-    if (data is Map && data['data'] is List) return data['data'] as List;
-    return [];
+    final list = await fetchTasks();
+    return list.where((item) {
+      if (item is! Map) return false;
+      return _taskBelongsToRequest(item, requestId);
+    }).toList();
+  }
+
+  bool _taskBelongsToRequest(Map task, String requestId) {
+    final request = task['request'];
+    if (request is Map) {
+      return request['_id']?.toString() == requestId;
+    }
+    return request?.toString() == requestId;
   }
 
   Future<Map<String, dynamic>> createTask({
@@ -552,6 +568,21 @@ Future<Map<String, dynamic>> postFormData({
       'taskID':          DateTime.now().millisecondsSinceEpoch.toString(),
       'proofUrl':        '',
     });
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> createRequestTasks({
+    required String requestId,
+    required List<String> taskDescriptions,
+  }) async {
+    if (taskDescriptions.isEmpty) return {};
+
+    final response = await _dio.post(
+      '$tasksEndpoint/$requestId',
+      data: taskDescriptions
+          .map((description) => {'taskDescription': description})
+          .toList(),
+    );
     return response.data;
   }
 

@@ -125,6 +125,20 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
   final durationController = TextEditingController();
   final notesController = TextEditingController();
   final budgetController = TextEditingController();
+  final List<String> tasks = [];
+
+  void addTask(String description) {
+    final trimmed = description.trim();
+    if (trimmed.isEmpty) return;
+    tasks.add(trimmed);
+    emit(CreateRequestInitial());
+  }
+
+  void removeTask(int index) {
+    if (index < 0 || index >= tasks.length) return;
+    tasks.removeAt(index);
+    emit(CreateRequestInitial());
+  }
 
   void setDate(DateTime date) {
     selectedDate = date;
@@ -169,6 +183,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
         duration: _optionalText(durationController.text),
         notes: _optionalText(notesController.text),
         budget: _optionalText(budgetController.text),
+        tasks: List<String>.from(tasks),
       );
     }
   }
@@ -186,6 +201,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     String? duration,
     String? notes,
     String? budget,
+    List<String> tasks = const [],
   }) async {
     emit(CreateRequestLoading());
     try {
@@ -197,6 +213,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
         duration: duration,
         notes: notes,
         budget: budget,
+        tasks: tasks,
       );
       emit(CreateRequestSuccess());
     } catch (e) {

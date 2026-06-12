@@ -9,7 +9,7 @@ abstract class CreateRequestRepository {
     String? duration,
     String? budget,
     String? notes,
-
+    List<String> tasks = const [],
   });
 }
 
@@ -31,6 +31,7 @@ class CreateRequestRepositoryImpl
     String? duration,
     String? notes,
     String? budget,
+    List<String> tasks = const [],
   }) async {
     await remoteDatasource.createRequest(
       serviceId: serviceId,
@@ -40,6 +41,7 @@ class CreateRequestRepositoryImpl
       duration: duration,
       notes: notes,
       budget: budget,
+      tasks: tasks,
     );
   }
 }

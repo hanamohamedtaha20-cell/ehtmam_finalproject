@@ -9,7 +9,7 @@ abstract class CreateRequestRemoteDatasource {
     String? duration,
     String? notes,
     String? budget,
-
+    List<String> tasks = const [],
   });
 }
 
@@ -31,10 +31,9 @@ class CreateRequestRemoteDatasourceImpl
     String? duration,
     String? notes,
     String? budget,
-
+    List<String> tasks = const [],
   }) async {
-
-    await apiService.createRequest(
+    final response = await apiService.createRequest(
       serviceId: serviceId,
       governorate: governorate,
       date: date,
@@ -43,5 +42,25 @@ class CreateRequestRemoteDatasourceImpl
       notes: notes,
       budget: budget,
     );
+
+    if (tasks.isEmpty) return;
+
+    final requestId = _extractRequestId(response);
+    if (requestId == null || requestId.isEmpty) {
+      throw Exception('Request created but no request ID returned for tasks');
+    }
+
+    await apiService.createRequestTasks(
+      requestId: requestId,
+      taskDescriptions: tasks,
+    );
+  }
+
+  String? _extractRequestId(Map<String, dynamic> response) {
+    final data = response['data'];
+    if (data is Map<String, dynamic>) {
+      return data['_id']?.toString();
+    }
+    return response['_id']?.toString();
   }
 }
