@@ -337,7 +337,13 @@ Future<Map<String, dynamic>> postFormData({
       data: {'status': status},
       options: Options(contentType: Headers.formUrlEncodedContentType),
     );
-    return Map<String, dynamic>.from(response.data as Map);
+
+    final data = response.data;
+    if (data is Map) {
+      return Map<String, dynamic>.from(data);
+    }
+
+    return {'message': 'Response saved', 'data': data};
   }
 
   Future<Map<String, dynamic>> deleteOffer(String offerId) async {
@@ -353,8 +359,15 @@ Future<Map<String, dynamic>> postFormData({
     final response = await _dio.post(
       bookingFromOfferEndpoint,
       data: {'offerId': offerId},
+      options: Options(contentType: Headers.formUrlEncodedContentType),
     );
-    return response.data;
+
+    final data = response.data;
+    if (data is Map) {
+      return Map<String, dynamic>.from(data);
+    }
+
+    return {'data': data};
   }
 
   Future<Map<String, dynamic>> getMyBookings() async {

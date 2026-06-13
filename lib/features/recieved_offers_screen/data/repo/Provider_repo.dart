@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import '../../../../core/network/api_service.dart';
 import '../model/provider_data.dart';
 
@@ -36,28 +37,46 @@ class ProviderRepository {
     return offers;
   }
 
-  Future<String> acceptOfferAndCreateBooking(String offerId) async {
+  Future<String> acceptOfferAndCreateBooking(
+    String offerId, {
+    String? requestId,
+  }) async {
     final trimmedOfferId = offerId.trim();
     if (trimmedOfferId.isEmpty) {
       throw Exception('Offer id is missing');
     }
 
-    await _apiService.respondToOffer(
-      offerId: trimmedOfferId,
-      status: 'accepted',
-    );
+    var resolvedRequestId = requestId?.trim() ?? '';
 
-    final bookingId = await _findBookingIdForOffer(trimmedOfferId);
-    if (bookingId.isEmpty) {
-      throw Exception('Booking was not created for this offer');
+    try {
+      final respondResponse = await _apiService.respondToOffer(
+        offerId: trimmedOfferId,
+        status: 'accepted',
+      );
+      final extractedRequestId = _extractRequestId(respondResponse);
+      if (extractedRequestId.isNotEmpty) {
+        resolvedRequestId = extractedRequestId;
+      }
+    } on DioException catch (e) {
+      final statusCode = e.response?.statusCode;
+      if (statusCode != 400 && statusCode != 409) rethrow;
     }
 
-    return bookingId;
+    return _resolveBookingId(
+      offerId: trimmedOfferId,
+      requestId: resolvedRequestId,
+    );
   }
 
-  Future<String> _findBookingIdForOffer(String offerId) async {
+  Future<String> _resolveBookingId({
+    required String offerId,
+    required String requestId,
+  }) async {
     for (var attempt = 0; attempt < 3; attempt++) {
-      final bookingId = await _lookupBookingIdForOffer(offerId);
+      final bookingId = await _lookupBookingId(
+        offerId: offerId,
+        requestId: requestId,
+      );
       if (bookingId.isNotEmpty) return bookingId;
 
       if (attempt < 2) {
@@ -65,24 +84,71 @@ class ProviderRepository {
       }
     }
 
-    return '';
+    return _createBookingFromOffer(offerId);
   }
 
-  Future<String> _lookupBookingIdForOffer(String offerId) async {
+  Future<String> _lookupBookingId({
+    required String offerId,
+    required String requestId,
+  }) async {
     final response = await _apiService.getMyBookings();
-    final list = response['data'];
-    if (list is! List) return '';
+    final list = _extractBookingsList(response);
+    String? pendingRequestMatch;
 
     for (final item in list) {
       if (item is! Map) continue;
 
       final booking = Map<String, dynamic>.from(item);
-      if (!_bookingMatchesOffer(booking, offerId)) continue;
+      final id = booking['_id']?.toString() ?? '';
+      if (id.isEmpty) continue;
 
-      return booking['_id']?.toString() ?? '';
+      if (_bookingMatchesOffer(booking, offerId)) return id;
+
+      if (requestId.isNotEmpty && _bookingMatchesRequest(booking, requestId)) {
+        final status =
+            (booking['status'] ?? booking['bookingStatus'] ?? '')
+                .toString()
+                .toUpperCase();
+        if (status == 'PENDING') {
+          pendingRequestMatch ??= id;
+        }
+      }
     }
 
-    return '';
+    return pendingRequestMatch ?? '';
+  }
+
+  Future<String> _createBookingFromOffer(String offerId) async {
+    try {
+      final response = await _apiService.createBookingFromOffer(offerId);
+      return _extractBookingId(response);
+    } catch (_) {
+      return '';
+    }
+  }
+
+  String _extractRequestId(Map<String, dynamic> response) {
+    final data = response['data'];
+    if (data is! Map) return '';
+
+    final request = data['request'];
+    if (request is Map) {
+      return request['_id']?.toString() ?? '';
+    }
+
+    return request?.toString() ?? '';
+  }
+
+  String _extractBookingId(Map<String, dynamic> response) {
+    final data = response['data'];
+
+    if (data is Map) {
+      return data['_id']?.toString() ?? data['id']?.toString() ?? '';
+    }
+
+    if (data is String) return data;
+
+    return response['_id']?.toString() ?? '';
   }
 
   bool _bookingMatchesOffer(Map<String, dynamic> booking, String offerId) {
@@ -93,6 +159,31 @@ class ProviderRepository {
     }
 
     return offer?.toString() == offerId;
+  }
+
+  bool _bookingMatchesRequest(Map<String, dynamic> booking, String requestId) {
+    final request = booking['request'];
+
+    if (request is Map) {
+      return request['_id']?.toString() == requestId;
+    }
+
+    return request?.toString() == requestId;
+  }
+
+  List<dynamic> _extractBookingsList(dynamic response) {
+    if (response is List) return response;
+
+    if (response is Map) {
+      final data = response['data'];
+      if (data is List) return data;
+      if (data is Map) {
+        final nested = data['bookings'];
+        if (nested is List) return nested;
+      }
+    }
+
+    return const [];
   }
 
   List<dynamic> _extractOffers(dynamic data) {

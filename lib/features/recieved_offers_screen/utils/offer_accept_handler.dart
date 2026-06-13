@@ -26,11 +26,18 @@ Future<void> acceptOffer({
   );
 
   try {
-    final bookingId =
-        await ProviderRepository().acceptOfferAndCreateBooking(offerId);
+    final bookingId = await ProviderRepository().acceptOfferAndCreateBooking(
+      offerId,
+      requestId: requestId,
+    );
 
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setString('bookingId', bookingId);
+    if (bookingId.isNotEmpty) {
+      await prefs.setString('bookingId', bookingId);
+    } else {
+      await prefs.remove('bookingId');
+    }
+    await prefs.setString('acceptedOfferId', offerId.trim());
 
     if (!context.mounted) return;
     Navigator.pop(context);

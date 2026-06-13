@@ -22,13 +22,33 @@ String apiErrorMessage(Object error) {
     }
   }
 
+  final message = error.toString();
+  if (message.startsWith('Exception: ')) {
+    return message.substring('Exception: '.length);
+  }
+
+  if (message.isNotEmpty) return message;
+
   return 'something_went_wrong'.tr();
 }
 
 String? _serverMessage(DioException error) {
   final data = error.response?.data;
-  if (data is Map && data['message'] != null) {
-    return data['message'].toString();
+
+  if (data is Map) {
+    final message = data['message'];
+    if (message != null) return message.toString();
+
+    final errorField = data['error'];
+    if (errorField != null) return errorField.toString();
+
+    final errors = data['errors'];
+    if (errors is List && errors.isNotEmpty) {
+      return errors.first.toString();
+    }
   }
+
+  if (data is String && data.isNotEmpty) return data;
+
   return null;
 }
