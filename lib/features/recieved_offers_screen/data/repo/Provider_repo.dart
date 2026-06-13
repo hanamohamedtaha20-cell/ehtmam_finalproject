@@ -37,35 +37,62 @@ class ProviderRepository {
   }
 
   Future<String> acceptOfferAndCreateBooking(String offerId) async {
-    if (offerId.trim().isEmpty) {
+    final trimmedOfferId = offerId.trim();
+    if (trimmedOfferId.isEmpty) {
       throw Exception('Offer id is missing');
     }
 
     await _apiService.respondToOffer(
-      offerId: offerId.trim(),
+      offerId: trimmedOfferId,
       status: 'accepted',
     );
 
-    final response = await _apiService.createBookingFromOffer(offerId.trim());
-    final bookingId = _extractBookingId(response);
-
+    final bookingId = await _findBookingIdForOffer(trimmedOfferId);
     if (bookingId.isEmpty) {
-      throw Exception('Failed to create booking from offer');
+      throw Exception('Booking was not created for this offer');
     }
 
     return bookingId;
   }
 
-  String _extractBookingId(Map<String, dynamic> response) {
-    final data = response['data'];
+  Future<String> _findBookingIdForOffer(String offerId) async {
+    for (var attempt = 0; attempt < 3; attempt++) {
+      final bookingId = await _lookupBookingIdForOffer(offerId);
+      if (bookingId.isNotEmpty) return bookingId;
 
-    if (data is Map) {
-      return data['_id']?.toString() ?? data['id']?.toString() ?? '';
+      if (attempt < 2) {
+        await Future.delayed(const Duration(milliseconds: 500));
+      }
     }
 
-    if (data is String) return data;
+    return '';
+  }
 
-    return response['_id']?.toString() ?? '';
+  Future<String> _lookupBookingIdForOffer(String offerId) async {
+    final response = await _apiService.getMyBookings();
+    final list = response['data'];
+    if (list is! List) return '';
+
+    for (final item in list) {
+      if (item is! Map) continue;
+
+      final booking = Map<String, dynamic>.from(item);
+      if (!_bookingMatchesOffer(booking, offerId)) continue;
+
+      return booking['_id']?.toString() ?? '';
+    }
+
+    return '';
+  }
+
+  bool _bookingMatchesOffer(Map<String, dynamic> booking, String offerId) {
+    final offer = booking['offer'];
+
+    if (offer is Map) {
+      return offer['_id']?.toString() == offerId;
+    }
+
+    return offer?.toString() == offerId;
   }
 
   List<dynamic> _extractOffers(dynamic data) {

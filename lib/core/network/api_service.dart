@@ -335,8 +335,9 @@ Future<Map<String, dynamic>> postFormData({
     final response = await _dio.patch(
       '$offerEndpoint/$offerId/respond',
       data: {'status': status},
+      options: Options(contentType: Headers.formUrlEncodedContentType),
     );
-    return response.data;
+    return Map<String, dynamic>.from(response.data as Map);
   }
 
   Future<Map<String, dynamic>> deleteOffer(String offerId) async {
