@@ -37,7 +37,7 @@ class ProviderRepository {
     return offers;
   }
 
-  Future<String> acceptOfferAndCreateBooking(
+  Future<void> acceptOffer(
     String offerId, {
     String? requestId,
   }) async {
@@ -46,26 +46,30 @@ class ProviderRepository {
       throw Exception('Offer id is missing');
     }
 
-    var resolvedRequestId = requestId?.trim() ?? '';
-
     try {
-      final respondResponse = await _apiService.respondToOffer(
+      await _apiService.respondToOffer(
         offerId: trimmedOfferId,
         status: 'accepted',
       );
-      final extractedRequestId = _extractRequestId(respondResponse);
-      if (extractedRequestId.isNotEmpty) {
-        resolvedRequestId = extractedRequestId;
-      }
     } on DioException catch (e) {
       final statusCode = e.response?.statusCode;
-      if (statusCode != 400 && statusCode != 409) rethrow;
+      if (statusCode == 400 || statusCode == 409) return;
+      rethrow;
     }
+  }
 
-    return _resolveBookingId(
-      offerId: trimmedOfferId,
-      requestId: resolvedRequestId,
-    );
+  Future<String> findBookingForAcceptedOffer(
+    String offerId, {
+    String? requestId,
+  }) async {
+    try {
+      return await _resolveBookingId(
+        offerId: offerId.trim(),
+        requestId: requestId?.trim() ?? '',
+      );
+    } catch (_) {
+      return '';
+    }
   }
 
   Future<String> _resolveBookingId({
@@ -91,31 +95,36 @@ class ProviderRepository {
     required String offerId,
     required String requestId,
   }) async {
-    final response = await _apiService.getMyBookings();
-    final list = _extractBookingsList(response);
-    String? pendingRequestMatch;
+    try {
+      final response = await _apiService.getMyBookings();
+      final list = _extractBookingsList(response);
+      String? pendingRequestMatch;
 
-    for (final item in list) {
-      if (item is! Map) continue;
+      for (final item in list) {
+        if (item is! Map) continue;
 
-      final booking = Map<String, dynamic>.from(item);
-      final id = booking['_id']?.toString() ?? '';
-      if (id.isEmpty) continue;
+        final booking = Map<String, dynamic>.from(item);
+        final id = booking['_id']?.toString() ?? '';
+        if (id.isEmpty) continue;
 
-      if (_bookingMatchesOffer(booking, offerId)) return id;
+        if (_bookingMatchesOffer(booking, offerId)) return id;
 
-      if (requestId.isNotEmpty && _bookingMatchesRequest(booking, requestId)) {
-        final status =
-            (booking['status'] ?? booking['bookingStatus'] ?? '')
-                .toString()
-                .toUpperCase();
-        if (status == 'PENDING') {
-          pendingRequestMatch ??= id;
+        if (requestId.isNotEmpty &&
+            _bookingMatchesRequest(booking, requestId)) {
+          final status =
+              (booking['status'] ?? booking['bookingStatus'] ?? '')
+                  .toString()
+                  .toUpperCase();
+          if (status == 'PENDING') {
+            pendingRequestMatch ??= id;
+          }
         }
       }
-    }
 
-    return pendingRequestMatch ?? '';
+      return pendingRequestMatch ?? '';
+    } catch (_) {
+      return '';
+    }
   }
 
   Future<String> _createBookingFromOffer(String offerId) async {
@@ -125,18 +134,6 @@ class ProviderRepository {
     } catch (_) {
       return '';
     }
-  }
-
-  String _extractRequestId(Map<String, dynamic> response) {
-    final data = response['data'];
-    if (data is! Map) return '';
-
-    final request = data['request'];
-    if (request is Map) {
-      return request['_id']?.toString() ?? '';
-    }
-
-    return request?.toString() ?? '';
   }
 
   String _extractBookingId(Map<String, dynamic> response) {

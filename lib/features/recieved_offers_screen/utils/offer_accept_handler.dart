@@ -1,5 +1,6 @@
 import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
 import 'package:ehtemam_final_project/core/utils/api_error_message.dart';
+import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
 import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/data/repo/Provider_repo.dart';
@@ -25,8 +26,15 @@ Future<void> acceptOffer({
     builder: (_) => const Center(child: CircularProgressIndicator()),
   );
 
+  final repository = ProviderRepository();
+
   try {
-    final bookingId = await ProviderRepository().acceptOfferAndCreateBooking(
+    await repository.acceptOffer(
+      offerId,
+      requestId: requestId,
+    );
+
+    final bookingId = await repository.findBookingForAcceptedOffer(
       offerId,
       requestId: requestId,
     );
@@ -42,20 +50,17 @@ Future<void> acceptOffer({
     if (!context.mounted) return;
     Navigator.pop(context);
 
-    await context.read<PaymentCubit>().loadData(offerPrice: offerPrice);
-
-    if (!context.mounted) return;
-
-    if (popOnSuccess) {
+    if (popOnSuccess && Navigator.canPop(context)) {
       Navigator.pop(context);
     }
 
     if (!context.mounted) return;
-    Navigator.push(
-      context,
+
+    await Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (_) => BlocProvider.value(
-          value: context.read<PaymentCubit>(),
+        builder: (_) => BlocProvider(
+          create: (_) =>
+              PaymentCubit(PaymentRepo())..loadData(offerPrice: offerPrice),
           child: const PaymentScreen(),
         ),
       ),
