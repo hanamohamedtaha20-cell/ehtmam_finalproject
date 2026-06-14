@@ -1,8 +1,21 @@
+import 'package:ehtemam_final_project/features/home_screen/manager/chatbot_cubit.dart';
+import 'package:ehtemam_final_project/features/home_screen/manager/state/chatbot_state.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/widgets/language_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class ChatbotScreen extends StatelessWidget {
+import '../../data/model/chat_message_model.dart';
+
+class ChatbotScreen extends StatefulWidget {
   const ChatbotScreen({super.key});
+
+  @override
+  State<ChatbotScreen> createState() => _ChatbotScreenState();
+}
+
+class _ChatbotScreenState extends State<ChatbotScreen> {
+  final TextEditingController controller =
+  TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -75,10 +88,10 @@ class ChatbotScreen extends StatelessWidget {
                   ),
                   // Language Button
                   Row(
-                      children: [
+                    children: [
                       LanguageSwitcher(),
-                      ],
-                    ),
+                    ],
+                  ),
                 ],
               ),
             ),
@@ -87,85 +100,62 @@ class ChatbotScreen extends StatelessWidget {
 
             // Chat Body
             Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Container(
-                    constraints: const BoxConstraints(maxWidth: 260),
-                    padding: const EdgeInsets.all(14),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(.08),
-                          blurRadius: 8,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              "✨ AI Assistant",
+              child: BlocBuilder<ChatCubit, ChatbotState>(
+                builder: (context, state) {
+                  if (state is ChatbotLoading) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  if (state is ChatbotError) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  }
+
+                  if (state is ChatbotLoaded) {
+                    return ListView.builder(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: state.messages.length,
+                      itemBuilder: (context, index) {
+                        final message = state.messages[index];
+
+                        return Align(
+                          alignment: message.isUser
+                              ? Alignment.centerRight
+                              : Alignment.centerLeft,
+                          child: Container(
+                            margin: const EdgeInsets.only(
+                              bottom: 10,
+                            ),
+                            padding: const EdgeInsets.all(14),
+                            constraints: const BoxConstraints(
+                              maxWidth: 280,
+                            ),
+                            decoration: BoxDecoration(
+                              color: message.isUser
+                                  ? const Color(0xff3A8BE0)
+                                  : Colors.white,
+                              borderRadius:
+                              BorderRadius.circular(16),
+                            ),
+                            child: Text(
+                              message.message,
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 12,
-                                color: Color(0xff3A8BE0),
+                                color: message.isUser
+                                    ? Colors.white
+                                    : Colors.black87,
                               ),
                             ),
-                            const SizedBox(width: 5),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 4,
-                                vertical: 1,
-                              ),
-                              decoration: BoxDecoration(
-                                color: const Color(0xffEAF3FF),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: const Text(
-                                "AI",
-                                style: TextStyle(
-                                  fontSize: 9,
-                                  color: Color(0xff3A8BE0),
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 10),
-                        const Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: "Hello! ",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              TextSpan(
-                                text:
-                                "👋 I'm your AI assistant powered by artificial intelligence. I can help you understand Ehtemam services, guide you through the app, and answer all your questions. Ask me anything!",
-                              ),
-                            ],
                           ),
-                          style: TextStyle(
-                            fontSize: 13,
-                            height: 1.5,
-                            color: Colors.black87,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                        );
+                      },
+                    );
+                  }
+
+                  return const SizedBox();
+                },
               ),
             ),
 
@@ -192,6 +182,7 @@ class ChatbotScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: TextField(
+                        controller: controller,
                         decoration: InputDecoration(
                           hintText: "Type message",
                           hintStyle: TextStyle(
@@ -205,26 +196,39 @@ class ChatbotScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      height: 46,
-                      width: 46,
-                      decoration: BoxDecoration(
-                        color: const Color(0xff3A8BE0),
-                        borderRadius: BorderRadius.circular(16),
-                        boxShadow: [
-                          BoxShadow(
-                            color:
-                            const Color(0xff3A8BE0).withOpacity(.4),
-                            blurRadius: 10,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
+                    GestureDetector(
+                      onTap: () {
+                        if (controller.text.trim().isEmpty) {
+                          return;
+                        }
+
+                        context.read<ChatCubit>().sendMessage(
+                          sessionId: '6a2eb497e6abdc229d81a3e1',
+                          message: controller.text,
+                        );
+
+                        controller.clear();
+                      },
+                      child: Container(
+                        height: 46,
+                        width: 46,
+                        decoration: BoxDecoration(
+                          color: const Color(0xff3A8BE0),
+                          borderRadius: BorderRadius.circular(16),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xff3A8BE0).withOpacity(.4),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: const Icon(
+                          Icons.send_rounded,
+                          color: Colors.white,
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.send_rounded,
-                        color: Colors.white,
-                      ),
-                    ),
+                    )
                   ],
                 ),
               ),

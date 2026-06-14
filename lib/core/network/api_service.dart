@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/admin_features/data/bundle_model.dart';
 import '../../features/admin_features/data/transaction_model.dart';
 import '../../features/admin_users_screen/model/AD_user_model.dart';
+import '../../features/home_screen/data/model/chat_message_model.dart';
 import 'api_constants.dart';
 
 
@@ -780,5 +781,20 @@ class ApiService {
       print("STATUS => ${e.response?.statusCode}");
       print("DATA => ${e.response?.data}");
     }
+  }
+  Future<ChatMessageModel> sendMessage({
+    required String sessionId,
+    required String message,
+  }) async {
+    final response = await _dio.post(
+      '/chat/$sessionId/messages',
+      data: {
+        "message": message,
+      },
+    );
+
+    return ChatMessageModel.fromJson(
+      response.data['data']['message'],
+    );
   }
 }
