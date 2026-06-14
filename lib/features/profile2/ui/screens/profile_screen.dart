@@ -2,6 +2,7 @@ import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/account_settings/data/repo/account_settings_repo.dart';
 import 'package:ehtemam_final_project/features/account_settings/manager/account_settings_cubit.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_user.dart';
+import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart';
 import 'package:ehtemam_final_project/features/profile2/data/repo/profile_repo.dart';
 import 'package:ehtemam_final_project/features/profile2/manager/profile_cubit.dart';
 import 'package:ehtemam_final_project/features/profile2/manager/profile_state.dart';
@@ -12,6 +13,7 @@ import 'package:ehtemam_final_project/features/profile2/ui/widgets/profile_heade
 import 'package:ehtemam_final_project/features/profile2/ui/widgets/stats_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
 import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
@@ -31,6 +33,56 @@ class ProfileScreen extends StatelessWidget {
                 return const Center(child: CircularProgressIndicator());
               }
               if (state is ProfileError) {
+                final isAuthError = state.message.contains('User ID not found') ||
+                    state.message.contains('not logged in') ||
+                    state.message.contains('401');
+                if (isAuthError) {
+                  return Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.lock_outline, size: 64, color: Color(0xFF6C63FF)),
+                          const SizedBox(height: 16),
+                          const Text(
+                            'Session Expired',
+                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Please log in again to view your profile.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.grey),
+                          ),
+                          const SizedBox(height: 24),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF6C63FF),
+                              foregroundColor: Colors.white,
+                              minimumSize: const Size(double.infinity, 48),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                            onPressed: () async {
+                              final prefs = await SharedPreferences.getInstance();
+                              await prefs.clear();
+                              if (context.mounted) {
+                                Navigator.pushAndRemoveUntil(
+                                  context,
+                                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                                  (_) => false,
+                                );
+                              }
+                            },
+                            child: const Text('Log In'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
                 return Center(child: Text(state.message));
               }
               if (state is! ProfileLoaded) {

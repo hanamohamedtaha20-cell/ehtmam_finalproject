@@ -120,6 +120,8 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
   bool isDateEmpty = false;
   bool isTimeEmpty = false;
   bool isGovernorateEmpty = false;
+  bool isTasksEmpty = false;
+  bool isBudgetEmpty = false;
 
   final formKey = GlobalKey<FormState>();
   final durationController = TextEditingController();
@@ -131,6 +133,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     final trimmed = description.trim();
     if (trimmed.isEmpty) return;
     tasks.add(trimmed);
+    isTasksEmpty = false;
     emit(CreateRequestInitial());
   }
 
@@ -159,31 +162,29 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
   }
 
   void submitRequest({required String serviceId}) {
-    if (selectedDate == null) {
-      isDateEmpty = true;
+    bool hasError = false;
+
+    if (selectedDate == null) { isDateEmpty = true; hasError = true; }
+    if (selectedTime == null) { isTimeEmpty = true; hasError = true; }
+    if (selectedGovernorate == null) { isGovernorateEmpty = true; hasError = true; }
+    if (tasks.isEmpty) { isTasksEmpty = true; hasError = true; }
+    if (budgetController.text.trim().isEmpty) { isBudgetEmpty = true; hasError = true; }
+
+    if (hasError) {
       emit(CreateRequestInitial());
       return;
     }
-    if (selectedTime == null) {
-      isTimeEmpty = true;
-      emit(CreateRequestInitial());
-      return;
-    }
-    if (selectedGovernorate == null) {
-      isGovernorateEmpty = true;
-      emit(CreateRequestInitial());
-      return;
-    }
+
     if (formKey.currentState!.validate()) {
       createRequest(
-        serviceId: serviceId,
+        serviceId:   serviceId,
         governorate: selectedGovernorate!,
         date: '${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}',
         time: '${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}',
         duration: _optionalText(durationController.text),
-        notes: _optionalText(notesController.text),
-        budget: _optionalText(budgetController.text),
-        tasks: List<String>.from(tasks),
+        notes:    _optionalText(notesController.text),
+        budget:   budgetController.text.trim(),
+        tasks:    List<String>.from(tasks),
       );
     }
   }
@@ -203,6 +204,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     String? budget,
     List<String> tasks = const [],
   }) async {
+    if (isClosed) return;
     emit(CreateRequestLoading());
     try {
       await repository.createRequest(
@@ -215,9 +217,13 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
         budget: budget,
         tasks: tasks,
       );
-      emit(CreateRequestSuccess());
+      if (!isClosed) {
+        emit(CreateRequestSuccess());
+      }
     } catch (e) {
-      emit(CreateRequestError(_errorMessage(e)));
+      if (!isClosed) {
+        emit(CreateRequestError(_errorMessage(e)));
+      }
     }
   }
 

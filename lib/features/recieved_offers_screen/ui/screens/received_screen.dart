@@ -8,7 +8,7 @@ import '../widgets/offer_header.dart';
 import '../widgets/offers_list.dart';
 import '../widgets/request_summary_card.dart';
 
-class OffersScreen extends StatelessWidget {
+class OffersScreen extends StatefulWidget {
   final String requestId;
 
   const OffersScreen({
@@ -17,51 +17,68 @@ class OffersScreen extends StatelessWidget {
   });
 
   @override
-  Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ProviderCubit(
-        ProviderRepository(),
-      )..getOffers(requestId),
+  State<OffersScreen> createState() => _OffersScreenState();
+}
 
+class _OffersScreenState extends State<OffersScreen> with RouteAware {
+  late final ProviderCubit _cubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _cubit = ProviderCubit(ProviderRepository())..getOffers(widget.requestId);
+  }
+
+  @override
+  void dispose() {
+    _cubit.close();
+    super.dispose();
+  }
+
+  void _refresh() => _cubit.getOffers(widget.requestId);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider.value(
+      value: _cubit,
       child: Scaffold(
         backgroundColor: const Color(0xFFF5F6FA),
-
         body: SafeArea(
           child: BlocBuilder<ProviderCubit, ProviderState>(
             builder: (context, state) {
               if (state is ProviderLoading) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+                return const Center(child: CircularProgressIndicator());
               }
 
               if (state is ProviderLoaded) {
-                return Column(
-                  children: [
-                    const OffersHeader(),
-                    RequestSummaryCard(
-                      offersCount: state.offers.length,
-                    ),
-                    Expanded(
-                      child: OffersList(
-                        requestId: requestId,
-                        offers: state.offers,
+                return RefreshIndicator(
+                  onRefresh: () async => _refresh(),
+                  child: Column(
+                    children: [
+                      const OffersHeader(),
+                      RequestSummaryCard(offersCount: state.offers.length),
+                      Expanded(
+                        child: OffersList(
+                          requestId: widget.requestId,
+                          offers: state.offers,
+                          onOfferActioned: _refresh,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 );
               }
 
               if (state is ProviderEmpty) {
-                return Column(
-                  children: [
-                    const OffersHeader(),
-                    const Expanded(
-                      child: Center(
-                        child: Text('No offers received yet'),
-                      ),
-                    ),
-                  ],
+                return RefreshIndicator(
+                  onRefresh: () async => _refresh(),
+                  child: ListView(
+                    children: const [
+                      OffersHeader(),
+                      SizedBox(height: 80),
+                      Center(child: Text('No offers received yet')),
+                    ],
+                  ),
                 );
               }
 
@@ -73,9 +90,16 @@ class OffersScreen extends StatelessWidget {
                       child: Center(
                         child: Padding(
                           padding: const EdgeInsets.all(24),
-                          child: Text(
-                            state.message,
-                            textAlign: TextAlign.center,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(state.message, textAlign: TextAlign.center),
+                              const SizedBox(height: 16),
+                              ElevatedButton(
+                                onPressed: _refresh,
+                                child: const Text('Retry'),
+                              ),
+                            ],
                           ),
                         ),
                       ),

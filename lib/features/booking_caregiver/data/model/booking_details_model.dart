@@ -87,7 +87,7 @@ class BookingDetailsModel {
       time: _formatTime(json['date']?.toString(), json['time']?.toString()),
       location: json['location']?.toString() ?? '',
       specialInstructions: json['notes']?.toString() ?? '',
-      clientBudget: 0,
+      clientBudget: (json['budget'] ?? 0).toDouble(),
     );
   }
 

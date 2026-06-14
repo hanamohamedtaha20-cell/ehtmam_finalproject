@@ -8,17 +8,22 @@ class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit(this._repo) : super(ProfileInitial());
 
   Future<void> loadProfile() async {
+    if (isClosed) return;
     emit(ProfileLoading());
     try {
       final user = await _repo.getUser();
-      emit(ProfileLoaded(
-        user:          user,
-        totalRequests: 0,
-        completed:     0,
-        rating:        0.0,
-      ));
+      if (!isClosed) {
+        emit(ProfileLoaded(
+          user:          user,
+          totalRequests: 0,
+          completed:     0,
+          rating:        0.0,
+        ));
+      }
     } catch (e) {
-      emit(ProfileError(e.toString()));
+      if (!isClosed) {
+        emit(ProfileError(e.toString()));
+      }
     }
   }
 }

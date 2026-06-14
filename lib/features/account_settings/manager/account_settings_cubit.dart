@@ -10,6 +10,7 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
   AccountSettingsCubit(this.repo) : super(const AccountSettingsState(profileImagePath: ''));
 
   Future<void> loadUserData() async {
+    if (isClosed) return;
     emit(state.copyWith(isLoading: true, error: null));
 
     final prefs = await SharedPreferences.getInstance();
@@ -37,47 +38,54 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
       print("LOADED PHONE => ${prefs.getString('user_phone')}");
       print("LOADED GOV => ${prefs.getString('user_government')}");
 
-      emit(
-        state.copyWith(
-          name: prefs.getString('user_name') ?? '',
-          email: prefs.getString('user_email') ?? '',
-          phone: prefs.getString('user_phone') ?? '',
-          role: prefs.getString('user_role') ?? '',
-          government: prefs.getString('user_government') ?? '',
-          notifications: prefs.getBool('notifications') ?? false,
-          careField: prefs.getString('care_field') ?? '',
-          specialization: prefs.getString('care_specialization') ?? '',
-          certificateFileName: prefs.getString('certificate_file_name') ?? '',
-          isLoading: false,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            name: prefs.getString('user_name') ?? '',
+            email: prefs.getString('user_email') ?? '',
+            phone: prefs.getString('user_phone') ?? '',
+            role: prefs.getString('user_role') ?? '',
+            government: prefs.getString('user_government') ?? '',
+            notifications: prefs.getBool('notifications') ?? false,
+            careField: prefs.getString('care_field') ?? '',
+            specialization: prefs.getString('care_specialization') ?? '',
+            certificateFileName: prefs.getString('certificate_file_name') ?? '',
+            isLoading: false,
+          ),
+        );
+      }
     } catch (e) {
-      emit(
-        state.copyWith(
-          name: prefs.getString('user_name') ?? '',
-          email: prefs.getString('user_email') ?? '',
-          phone: prefs.getString('user_phone') ?? '',
-          role: prefs.getString('user_role') ?? '',
-          government: prefs.getString('user_government') ?? '',
-          notifications: prefs.getBool('notifications') ?? false,
-          isLoading: false,
-          error: e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            name: prefs.getString('user_name') ?? '',
+            email: prefs.getString('user_email') ?? '',
+            phone: prefs.getString('user_phone') ?? '',
+            role: prefs.getString('user_role') ?? '',
+            government: prefs.getString('user_government') ?? '',
+            notifications: prefs.getBool('notifications') ?? false,
+            isLoading: false,
+            error: e.toString(),
+          ),
+        );
+      }
     }
   }
+
   Future<void> toggleNotifications(bool value) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool('notifications', value);
 
-    emit(
-      state.copyWith(
-        notifications: value,
-        message: value
-            ? 'Notifications enabled'
-            : 'Notifications disabled',
-      ),
-    );
+    if (!isClosed) {
+      emit(
+        state.copyWith(
+          notifications: value,
+          message: value
+              ? 'Notifications enabled'
+              : 'Notifications disabled',
+        ),
+      );
+    }
   }
 
   Future<void> changePassword({
@@ -85,14 +93,17 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
     required String newPassword,
     required String confirmPassword,
   }) async {
+    if (isClosed) return;
     emit(state.copyWith(isLoading: true, error: null));
 
     if (newPassword != confirmPassword) {
-      emit(state.copyWith(
-        isLoading: false,
-        error: "Passwords do not match",
-        message: "Passwords do not match",
-      ));
+      if (!isClosed) {
+        emit(state.copyWith(
+          isLoading: false,
+          error: "Passwords do not match",
+          message: "Passwords do not match",
+        ));
+      }
       return;
     }
 
@@ -102,17 +113,21 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
         password: newPassword,
         passwordConfirmation: confirmPassword,
       );
-      emit(state.copyWith(
-        isLoading: false,
-        success: true,
-        message: "Password changed successfully",
-      ));
+      if (!isClosed) {
+        emit(state.copyWith(
+          isLoading: false,
+          success: true,
+          message: "Password changed successfully",
+        ));
+      }
     } catch (e) {
-      emit(state.copyWith(
-        isLoading: false,
-        error: e.toString(),
-        message: e.toString(),
-      ));
+      if (!isClosed) {
+        emit(state.copyWith(
+          isLoading: false,
+          error: e.toString(),
+          message: e.toString(),
+        ));
+      }
     }
   }
 
@@ -139,6 +154,7 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
     await prefs.setString('care_specialization', specialization);
     await prefs.setString('certificate_file_name', certificateFileName);
   }
+
   Future<void> pickProfileImage() async {
     final ImagePicker picker = ImagePicker();
 
@@ -148,7 +164,9 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
     );
 
     if (image != null) {
-      emit(state.copyWith(profileImagePath: image.path));
+      if (!isClosed) {
+        emit(state.copyWith(profileImagePath: image.path));
+      }
     }
   }
 }

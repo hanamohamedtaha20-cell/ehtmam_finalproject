@@ -151,7 +151,7 @@ class _BookingCgViewState extends State<BookingCgView> {
         final completedTasks =
             booking.tasks.where((t) => t.done).length;
         final budgetText = booking.clientBudget > 0
-            ? '\$${booking.clientBudget.toStringAsFixed(2)}'
+            ? '${booking.clientBudget.toStringAsFixed(0)} EGP'
             : '—';
 
         return Scaffold(

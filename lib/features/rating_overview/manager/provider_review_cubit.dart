@@ -8,13 +8,18 @@ class ProviderReviewCubit extends Cubit<ProviderReviewState> {
   ProviderReviewCubit(this._repo) : super(ProviderReviewInitial());
 
   Future<void> loadReviews() async {
+    if (isClosed) return;
     emit(ProviderReviewLoading());
     try {
       final summary = await _repo.getSummary();
       final reviews = await _repo.getReviews();
-      emit(ProviderReviewLoaded(summary: summary, reviews: reviews));
+      if (!isClosed) {
+        emit(ProviderReviewLoaded(summary: summary, reviews: reviews));
+      }
     } catch (e) {
-      emit(ProviderReviewError(e.toString()));
+      if (!isClosed) {
+        emit(ProviderReviewError(e.toString()));
+      }
     }
   }
 
@@ -27,11 +32,15 @@ class ProviderReviewCubit extends Cubit<ProviderReviewState> {
 
     try {
       final reviews = await _repo.getReviews(starFilter: newFilter);
-      if (state is ProviderReviewLoaded) {
-        emit((state as ProviderReviewLoaded).copyWith(reviews: reviews));
+      if (!isClosed) {
+        if (state is ProviderReviewLoaded) {
+          emit((state as ProviderReviewLoaded).copyWith(reviews: reviews));
+        }
       }
     } catch (e) {
-      emit(ProviderReviewError(e.toString()));
+      if (!isClosed) {
+        emit(ProviderReviewError(e.toString()));
+      }
     }
   }
 
@@ -47,8 +56,10 @@ class ProviderReviewCubit extends Cubit<ProviderReviewState> {
       await _repo.markHelpful(reviewId);
     } catch (_) {
       final rolledBack = Set<String>.from(updated)..remove(reviewId);
-      if (state is ProviderReviewLoaded) {
-        emit((state as ProviderReviewLoaded).copyWith(helpfulIds: rolledBack));
+      if (!isClosed) {
+        if (state is ProviderReviewLoaded) {
+          emit((state as ProviderReviewLoaded).copyWith(helpfulIds: rolledBack));
+        }
       }
     }
   }

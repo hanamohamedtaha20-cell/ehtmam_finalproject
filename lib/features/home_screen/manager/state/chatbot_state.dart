@@ -14,8 +14,9 @@ class ChatbotLoading extends ChatbotState {
 
 class ChatbotLoaded extends ChatbotState {
   final List<ChatMessageModel> messages;
+  final bool isTyping;
 
-  const ChatbotLoaded(this.messages);
+  const ChatbotLoaded(this.messages, {this.isTyping = false});
 }
 
 class ChatbotError extends ChatbotState {

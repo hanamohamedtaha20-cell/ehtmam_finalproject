@@ -2,7 +2,6 @@ import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/screens/received_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../payment/ui/screens/payment_screen.dart';
 import '../../data/repo/Provider_repo.dart';
 import '../../data/repo/reviews_repo.dart';
 import '../../manager/provider_details_cubit.dart';
@@ -103,37 +102,57 @@ class OfferDetailsScreen extends StatelessWidget {
                             const SizedBox(height: 12),
                             const ReviewsSection(),
                             const SizedBox(height: 20),
-                            ActionButtonsRow(
-                              firstText: 'Other Offers',
-                              secondText: 'Accept',
-                              onFirstTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) => OffersScreen(
-                                      requestId: requestId,
+                            if (provider.status.toUpperCase() == 'ACCEPTED')
+                              Container(
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 14),
+                                decoration: BoxDecoration(
+                                  color: const Color(0xFFE8F5E9),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.check_circle,
+                                        color: Color(0xFF2E7D32)),
+                                    SizedBox(width: 8),
+                                    Text(
+                                      'Offer Accepted',
+                                      style: TextStyle(
+                                        color: Color(0xFF2E7D32),
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 15,
+                                      ),
                                     ),
-                                  ),
-                                );
-                              },
-                              onSecondTap: () async {
-                                await acceptOffer(
-                                  context: context,
-                                  offerId: offerId,
-                                  requestId: requestId,
-                                  offerPrice: provider.price,
-                                  popOnSuccess: false,
-                                );
-                                if (context.mounted) {
-                                  Navigator.pushReplacement(
+                                  ],
+                                ),
+                              )
+                            else
+                              ActionButtonsRow(
+                                firstText: 'Other Offers',
+                                secondText: 'Accept',
+                                onFirstTap: () {
+                                  Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => const PaymentScreen(),
+                                      builder: (_) => OffersScreen(
+                                        requestId: requestId,
+                                      ),
                                     ),
                                   );
-                                }
-                              },
-                            ),
+                                },
+                                onSecondTap: () async {
+                                  await acceptOffer(
+                                    context: context,
+                                    offerId: offerId,
+                                    requestId: requestId,
+                                    offerPrice: provider.price,
+                                    popOnSuccess: false,
+                                  );
+                                },
+                              ),
                           ],
                         ),
                       ),

@@ -16,6 +16,7 @@ class TransactionsCubit
   List<TransactionModel> _allTransactions = [];
 
   Future<void> getTransactions() async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         status: TransactionsStatus.loading,
@@ -28,19 +29,23 @@ class TransactionsCubit
 
       _allTransactions = transactions;
 
-      emit(
-        state.copyWith(
-          status: TransactionsStatus.success,
-          transactions: transactions,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: TransactionsStatus.success,
+            transactions: transactions,
+          ),
+        );
+      }
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: TransactionsStatus.error,
-          errorMessage: e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: TransactionsStatus.error,
+            errorMessage: e.toString(),
+          ),
+        );
+      }
     }
   }
 

@@ -13,11 +13,13 @@ import '../screens/offer_details_screen.dart';
 class OfferCard extends StatelessWidget {
   final String requestId;
   final ProviderModel provider;
+  final VoidCallback? onActioned;
 
   const OfferCard({
     super.key,
     required this.requestId,
     required this.provider,
+    this.onActioned,
   });
 
   @override
@@ -82,13 +84,14 @@ class OfferCard extends StatelessWidget {
               );
             },
 
-            onSecondTap: () {
-              acceptOffer(
+            onSecondTap: () async {
+              await acceptOffer(
                 context: context,
                 offerId: provider.id,
                 requestId: requestId,
                 offerPrice: provider.price,
               );
+              onActioned?.call();
             },
           ),
         ],

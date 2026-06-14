@@ -8,12 +8,17 @@ class TaskProgressCubit extends Cubit<TaskProgressState> {
   TaskProgressCubit(this._repo) : super(TaskProgressInitial());
 
   Future<void> loadTasks() async {
+    if (isClosed) return;
     emit(TaskProgressLoading());
     try {
       final tasks = await _repo.getTasks();
-      emit(TaskProgressLoaded(tasks: tasks));
+      if (!isClosed) {
+        emit(TaskProgressLoaded(tasks: tasks));
+      }
     } catch (e) {
-      emit(TaskProgressError(e.toString()));
+      if (!isClosed) {
+        emit(TaskProgressError(e.toString()));
+      }
     }
   }
 }

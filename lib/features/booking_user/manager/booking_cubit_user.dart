@@ -8,27 +8,30 @@ class BookingCubitUser extends Cubit<BookingStateUser> {
   BookingCubitUser(this._repo) : super(BookingInitial());
 
   Future<void> loadBookings() async {
+    if (isClosed) return;
     emit(BookingLoading());
     try {
       final bookings = await _repo.getBookings();
-      emit(BookingLoaded(bookings: bookings));
+      if (!isClosed) emit(BookingLoaded(bookings: bookings));
     } catch (e) {
-      emit(BookingError(e.toString()));
+      if (!isClosed) emit(BookingError(e.toString()));
     }
   }
 
   void selectTab(int index) {
+    if (isClosed) return;
     if (state is BookingLoaded) {
       final s = state as BookingLoaded;
       emit(BookingLoaded(bookings: s.bookings, selectedTab: index));
     }
   }
-    Future<void> cancelBooking(String bookingId) async {
+
+  Future<void> cancelBooking(String bookingId) async {
     try {
       await _repo.cancelBooking(bookingId);
-      await loadBookings(); 
+      await loadBookings();
     } catch (e) {
-      emit(BookingError(e.toString()));
+      if (!isClosed) emit(BookingError(e.toString()));
     }
   }
 }

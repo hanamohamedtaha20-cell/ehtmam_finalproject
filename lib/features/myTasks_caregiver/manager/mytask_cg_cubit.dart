@@ -12,12 +12,17 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
   MytaskCgCubit(this.repo) : super(MytaskCgInitial());
 
   Future<void> loadBookings() async {
+    if (isClosed) return;
     emit(MytaskCgLoading());
     try {
       final bookings = await repo.getBookings();
-      emit(MytaskCgLoaded(bookings: bookings));
+      if (!isClosed) {
+        emit(MytaskCgLoaded(bookings: bookings));
+      }
     } catch (e) {
-      emit(MytaskCgError(e.toString()));
+      if (!isClosed) {
+        emit(MytaskCgError(e.toString()));
+      }
     }
   }
 
@@ -42,10 +47,10 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
   void checkOut(String bookingId) {
   final current = state as MytaskCgLoaded;
   final booking = current.bookings.firstWhere((b) => b.bookingId == bookingId);
-  
+
   final allHaveMedia = booking.tasks.every((t) => t.mediaProof.isNotEmpty);
   if (!allHaveMedia) return; // مش هيعمل checkout
-  
+
   final updated = current.bookings.map((b) {
     if (b.bookingId == bookingId) return b.copyWith(isCheckedOut: true);
     return b;
@@ -83,7 +88,9 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
     }
     return b;
   }).toList();
-  emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
+  if (!isClosed) {
+    emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
+  }
 }
 void toggleTaskDone(String bookingId, String taskId) {
   final current = state as MytaskCgLoaded;

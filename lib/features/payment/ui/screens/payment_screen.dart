@@ -92,11 +92,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               await context.read<PaymentCubit>().payBooking();
                           if (!context.mounted) return;
 
-                          CustomSnackBar.show(
-                            context,
-                            message: error ??
-                                'Payment completed successfully',
-                          );
+                          if (error != null) {
+                            CustomSnackBar.show(context, message: error);
+                          } else {
+                            CustomSnackBar.show(
+                              context,
+                              message: 'Payment completed successfully',
+                            );
+                            // Pop back with true so callers can refresh
+                            Navigator.of(context).pop(true);
+                          }
                         },
                       ),
 

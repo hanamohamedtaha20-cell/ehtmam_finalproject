@@ -33,34 +33,15 @@ class CreateRequestRemoteDatasourceImpl
     String? budget,
     List<String> tasks = const [],
   }) async {
-    final response = await apiService.createRequest(
-      serviceId: serviceId,
+    await apiService.createRequest(
+      serviceId:   serviceId,
       governorate: governorate,
-      date: date,
-      time: time,
-      duration: duration,
-      notes: notes,
-      budget: budget,
+      date:        date,
+      time:        time,
+      budget:      num.tryParse(budget ?? '') ?? 0,
+      tasks:       tasks,
+      duration:    duration,
+      notes:       notes,
     );
-
-    if (tasks.isEmpty) return;
-
-    final requestId = _extractRequestId(response);
-    if (requestId == null || requestId.isEmpty) {
-      throw Exception('Request created but no request ID returned for tasks');
-    }
-
-    await apiService.createRequestTasks(
-      requestId: requestId,
-      taskDescriptions: tasks,
-    );
-  }
-
-  String? _extractRequestId(Map<String, dynamic> response) {
-    final data = response['data'];
-    if (data is Map<String, dynamic>) {
-      return data['_id']?.toString();
-    }
-    return response['_id']?.toString();
   }
 }

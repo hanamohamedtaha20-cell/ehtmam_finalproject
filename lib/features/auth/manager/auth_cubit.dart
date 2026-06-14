@@ -33,6 +33,7 @@ class AuthCubit extends Cubit<AuthState> {
     String specialization = '',
     String certificateFileName = '', required String street, required String building,
   }) async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         status: AuthStatus.loading,
@@ -69,11 +70,13 @@ class AuthCubit extends Cubit<AuthState> {
       print("PHONE => ${prefs.getString('user_phone')}");
       print("GOV => ${prefs.getString('user_government')}");
 
-      emit(
-        state.copyWith(
-          status: AuthStatus.registered,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.registered,
+          ),
+        );
+      }
     } catch (e) {
       String message = e.toString();
 
@@ -83,12 +86,14 @@ class AuthCubit extends Cubit<AuthState> {
         message = 'Registration failed, please try again';
       }
 
-      emit(
-        state.copyWith(
-          status: AuthStatus.error,
-          errorMessage: message,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.error,
+            errorMessage: message,
+          ),
+        );
+      }
     }
   }
 
@@ -96,6 +101,7 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         status: AuthStatus.loading,
@@ -114,14 +120,16 @@ class AuthCubit extends Cubit<AuthState> {
         await prefs.setString('user_name', 'Admin');
         await prefs.setBool('is_logged_in', true);
 
-        emit(
-          state.copyWith(
-            status: AuthStatus.authenticated,
-            token: 'admin_token',
-            userRole: 'admin',
-            userName: 'Admin',
-          ),
-        );
+        if (!isClosed) {
+          emit(
+            state.copyWith(
+              status: AuthStatus.authenticated,
+              token: 'admin_token',
+              userRole: 'admin',
+              userName: 'Admin',
+            ),
+          );
+        }
 
         return;
       }
@@ -136,23 +144,28 @@ class AuthCubit extends Cubit<AuthState> {
       await prefs.setString('token', loginResponse.token);
       await prefs.setString('user_role', loginResponse.user.role);
       await prefs.setString('user_name', loginResponse.user.fullName);
+      await prefs.setString('userId', loginResponse.user.id);
       await prefs.setBool('is_logged_in', true);
 
-      emit(
-        state.copyWith(
-          status: AuthStatus.authenticated,
-          token: loginResponse.token,
-          userRole: loginResponse.user.role,
-          userName: loginResponse.user.fullName,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.authenticated,
+            token: loginResponse.token,
+            userRole: loginResponse.user.role,
+            userName: loginResponse.user.fullName,
+          ),
+        );
+      }
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: AuthStatus.error,
-          errorMessage: 'Invalid email or password',
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.error,
+            errorMessage: 'Invalid email or password',
+          ),
+        );
+      }
     }
   }
 
@@ -164,14 +177,18 @@ class AuthCubit extends Cubit<AuthState> {
       await prefs.remove('user_role');
       await prefs.setBool('is_logged_in', false);
 
-      emit(const AuthState());
+      if (!isClosed) {
+        emit(const AuthState());
+      }
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: AuthStatus.error,
-          errorMessage: 'Logout failed',
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: AuthStatus.error,
+            errorMessage: 'Logout failed',
+          ),
+        );
+      }
     }
   }
 }

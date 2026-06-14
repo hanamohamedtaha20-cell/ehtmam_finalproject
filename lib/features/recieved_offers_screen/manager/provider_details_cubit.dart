@@ -8,19 +8,24 @@ class ProviderCubit extends Cubit<ProviderState> {
   ProviderCubit(this.repo) : super(ProviderInitial());
 
   Future<void> getOffers(String requestId) async {
+    if (isClosed) return;
     emit(ProviderLoading());
 
     try {
       final offers = await repo.getOffers(requestId);
 
-      if (offers.isEmpty) {
-        emit(ProviderEmpty());
-        return;
-      }
+      if (!isClosed) {
+        if (offers.isEmpty) {
+          emit(ProviderEmpty());
+          return;
+        }
 
-      emit(ProviderLoaded(offers: offers));
+        emit(ProviderLoaded(offers: offers));
+      }
     } catch (e) {
-      emit(ProviderError(e.toString()));
+      if (!isClosed) {
+        emit(ProviderError(e.toString()));
+      }
     }
   }
 
@@ -28,24 +33,29 @@ class ProviderCubit extends Cubit<ProviderState> {
     required String requestId,
     required String offerId,
   }) async {
+    if (isClosed) return;
     emit(ProviderLoading());
 
     try {
       final offers = await repo.getOffers(requestId);
 
-      if (offers.isEmpty) {
-        emit(ProviderEmpty());
-        return;
+      if (!isClosed) {
+        if (offers.isEmpty) {
+          emit(ProviderEmpty());
+          return;
+        }
+
+        final selected = offers.firstWhere(
+          (offer) => offer.id == offerId,
+          orElse: () => offers.first,
+        );
+
+        emit(ProviderLoaded(offers: offers, selectedOffer: selected));
       }
-
-      final selected = offers.firstWhere(
-        (offer) => offer.id == offerId,
-        orElse: () => offers.first,
-      );
-
-      emit(ProviderLoaded(offers: offers, selectedOffer: selected));
     } catch (e) {
-      emit(ProviderError(e.toString()));
+      if (!isClosed) {
+        emit(ProviderError(e.toString()));
+      }
     }
   }
 }

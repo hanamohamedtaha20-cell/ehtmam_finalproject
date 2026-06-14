@@ -16,6 +16,7 @@ class RechargeCubit extends Cubit<RechargeState> {
     required double amount,
     required int selectedMethodIndex,
   }) async {
+    if (isClosed) return;
     emit(RechargeLoading());
     try {
       final paymentMethod = 'CARD';
@@ -25,11 +26,15 @@ class RechargeCubit extends Cubit<RechargeState> {
         amount: amount,
         paymentMethod: paymentMethod,
       );
-      emit(RechargeSuccess(result['iframeUrl'] ?? result['paymentUrl'] ?? ''));
-      print('PAYMENT URL: ${result['paymentUrl']}');
-      emit(RechargeSuccess(result['paymentUrl'] ?? ''));
+      if (!isClosed) {
+        emit(RechargeSuccess(result['iframeUrl'] ?? result['paymentUrl'] ?? ''));
+        print('PAYMENT URL: ${result['paymentUrl']}');
+        emit(RechargeSuccess(result['paymentUrl'] ?? ''));
+      }
     } catch (e) {
-      emit(RechargeError('failed to connect to the sevrver'));
+      if (!isClosed) {
+        emit(RechargeError('failed to connect to the sevrver'));
+      }
     }
   }
 }

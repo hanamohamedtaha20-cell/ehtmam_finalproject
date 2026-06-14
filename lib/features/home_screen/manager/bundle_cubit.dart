@@ -9,13 +9,18 @@ class BundleCubit extends Cubit<BundleState> {
   BundleCubit(this.bundleRepo) : super(BundleInitial());
 
   Future<void> getBundles() async {
+    if (isClosed) return;
     emit(BundleLoading());
 
     try {
       final bundles = await bundleRepo.getBundles();
-      emit(BundleSuccess(bundles));
+      if (!isClosed) {
+        emit(BundleSuccess(bundles));
+      }
     } catch (e) {
-      emit(BundleError(e.toString()));
+      if (!isClosed) {
+        emit(BundleError(e.toString()));
+      }
     }
   }
 }

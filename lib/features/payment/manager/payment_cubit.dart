@@ -11,6 +11,7 @@ class PaymentCubit extends Cubit<PaymentState> {
   PaymentCubit(this.repo) : super(PaymentInitial());
 
   Future<void> loadData({double? offerPrice}) async {
+    if (isClosed) return;
     emit(PaymentLoading());
     try {
       final walletResult = await repo.getPaymentData('');
@@ -46,18 +47,22 @@ class PaymentCubit extends Cubit<PaymentState> {
       final double taxRate = price * 0.14;
       final double total = price + platformFee + taxRate;
 
-      emit(PaymentLoaded(
-        balance: balance,
-        income: income,
-        expense: expense,
-        transactions: transactions,
-        serviceCost: price,
-        platformFee: platformFee,
-        taxRate: taxRate,
-        total: total,
-      ));
+      if (!isClosed) {
+        emit(PaymentLoaded(
+          balance: balance,
+          income: income,
+          expense: expense,
+          transactions: transactions,
+          serviceCost: price,
+          platformFee: platformFee,
+          taxRate: taxRate,
+          total: total,
+        ));
+      }
     } catch (e) {
-      emit(PaymentError(e.toString()));
+      if (!isClosed) {
+        emit(PaymentError(e.toString()));
+      }
     }
   }
 
@@ -77,10 +82,12 @@ class PaymentCubit extends Cubit<PaymentState> {
 
       await repo.payBooking(bookingId);
 
-      emit(current.copyWith(
-        balance: current.balance - current.total,
-        expense: current.expense + current.total,
-      ));
+      if (!isClosed) {
+        emit(current.copyWith(
+          balance: current.balance - current.total,
+          expense: current.expense + current.total,
+        ));
+      }
       return null;
     } catch (e) {
       return e.toString();

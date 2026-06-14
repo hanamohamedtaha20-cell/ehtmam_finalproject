@@ -15,6 +15,7 @@ class RequestsCubit
   Future<void> getRequests() async {
     print("GET REQUESTS CALLED");
 
+    if (isClosed) return;
     emit(RequestsLoading());
 
     try {
@@ -22,12 +23,16 @@ class RequestsCubit
       final requests =
       await repo.getRequests();
 
-      emit(
-        RequestsSuccess(requests),
-      );
+      if (!isClosed) {
+        emit(
+          RequestsSuccess(requests),
+        );
+      }
 
     } catch (e) {
-      emit(RequestsError(apiErrorMessage(e)));
+      if (!isClosed) {
+        emit(RequestsError(apiErrorMessage(e)));
+      }
     }
   }
 }

@@ -31,6 +31,7 @@ class RatingCubit extends Cubit<RatingState> {
     required String serviceId,
     required String requestId,
   }) async {
+    if (isClosed) return;
     emit(RatingLoading());
     try {
       await repo.submitRating(
@@ -46,9 +47,13 @@ class RatingCubit extends Cubit<RatingState> {
         serviceId:   serviceId,
         requestId:   requestId,
       );
-      emit(RatingSuccess());
+      if (!isClosed) {
+        emit(RatingSuccess());
+      }
     } catch (e) {
-      emit(RatingError(e.toString()));
+      if (!isClosed) {
+        emit(RatingError(e.toString()));
+      }
     }
   }
 }

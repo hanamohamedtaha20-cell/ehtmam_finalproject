@@ -5,11 +5,13 @@ import 'offer_card.dart';
 class OffersList extends StatelessWidget {
   final String requestId;
   final List<ProviderModel> offers;
+  final VoidCallback? onOfferActioned;
 
   const OffersList({
     super.key,
     required this.requestId,
     required this.offers,
+    this.onOfferActioned,
   });
 
   @override
@@ -21,6 +23,7 @@ class OffersList extends StatelessWidget {
         return OfferCard(
           requestId: requestId,
           provider: offers[index],
+          onActioned: onOfferActioned,
         );
       },
     );

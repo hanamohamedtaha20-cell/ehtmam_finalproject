@@ -21,18 +21,22 @@ class AdUserCubit extends Cubit<AdUsersState> {
 
       _allUsers = users;
 
-      emit(
-        state.copyWith(
-          allUsers: users,
-          filteredUsers: users,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            allUsers: users,
+            filteredUsers: users,
+          ),
+        );
+      }
     } catch (e) {
-      emit(
-        state.copyWith(
-          errorMessage: e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            errorMessage: e.toString(),
+          ),
+        );
+      }
     }
   }
   void searchUsers(String value) {
@@ -71,11 +75,13 @@ class AdUserCubit extends Cubit<AdUsersState> {
 
       await getUsers();
     } catch (e) {
-      emit(
-        state.copyWith(
-          errorMessage: e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            errorMessage: e.toString(),
+          ),
+        );
+      }
     }
   }
 }

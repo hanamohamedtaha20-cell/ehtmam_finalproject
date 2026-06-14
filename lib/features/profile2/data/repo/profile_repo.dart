@@ -8,7 +8,10 @@ class ProfileRepo {
   Future<UserModel> getUser() async {
     final prefs  = await SharedPreferences.getInstance();
     final userId = prefs.getString('userId') ?? '';
+    if (userId.isEmpty) throw Exception('User ID not found. Please log in again.');
     final result = await _api.getUserProfile(userId);
-    return UserModel.fromJson(result['data']);
+    final data = result['data'];
+    if (data == null) throw Exception('Profile data not found');
+    return UserModel.fromJson(Map<String, dynamic>.from(data));
   }
 }

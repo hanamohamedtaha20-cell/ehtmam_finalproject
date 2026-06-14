@@ -10,13 +10,18 @@ class ReviewCubit extends Cubit<ReviewState> {
   ReviewCubit(this.repo) : super(ReviewInitial());
 
   void getReviews() async {
+    if (isClosed) return;
     emit(ReviewLoading());
 
     try {
       final reviews = await repo.getReviews();
-      emit(ReviewLoaded(reviews));
+      if (!isClosed) {
+        emit(ReviewLoaded(reviews));
+      }
     } catch (e) {
-      emit(ReviewError());
+      if (!isClosed) {
+        emit(ReviewError());
+      }
     }
   }
 }

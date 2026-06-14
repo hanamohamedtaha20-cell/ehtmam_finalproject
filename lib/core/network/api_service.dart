@@ -260,21 +260,20 @@ class ApiService {
     required String governorate,
     required String date,
     required String time,
+    required num budget,
+    required List<String> tasks,
     String? duration,
     String? notes,
-    String? budget,
   }) async {
-    final parsedBudget =
-        budget != null && budget.isNotEmpty ? num.tryParse(budget) : null;
-
     final response = await _dio.post(requestEndpoint, data: {
       'service':     serviceId,
       'governorate': governorate,
       'date':        date,
       'time':        time,
+      'budget':      budget,
+      'tasks':       tasks.map((t) => {'taskDescription': t}).toList(),
       if (duration != null && duration.isNotEmpty) 'duration': duration,
       if (notes    != null && notes.isNotEmpty)    'notes':    notes,
-      if (parsedBudget != null)                    'budget':   parsedBudget,
     });
     return response.data;
   }
@@ -518,28 +517,22 @@ class ApiService {
   //  AI CHAT — /chat
   // ══════════════════════════════════════════════════════════
 
-  Future<Map<String, dynamic>> sendChatMessage({
+  // POST /chat → { success, data: { sessionId, title, createdAt } }
+  Future<String> createChatSession() async {
+    final response = await _dio.post('/chat');
+    return response.data['data']['sessionId'] as String;
+  }
+
+  // POST /chat/:sessionId/messages → { success, data: { sessionId, message: { role, content } } }
+  Future<String> sendChatMessage({
+    required String sessionId,
     required String message,
-    String? sessionId,
   }) async {
-    final response = await _dio.post(chatMessageEndpoint, data: {
-      'message': message,
-      if (sessionId != null) 'sessionId': sessionId,
-    });
-    return response.data;
-  }
-
-  Future<Map<String, dynamic>> getChatHistory({String? sessionId}) async {
-    final response = await _dio.get(
-      chatHistoryEndpoint,
-      queryParameters: sessionId != null ? {'sessionId': sessionId} : null,
+    final response = await _dio.post(
+      '/chat/$sessionId/messages',
+      data: {'message': message},
     );
-    return response.data;
-  }
-
-  Future<Map<String, dynamic>> getChatSessions() async {
-    final response = await _dio.get(chatSessionsEndpoint);
-    return response.data;
+    return response.data['data']['message']['content'] as String;
   }
 
   Future<Map<String, dynamic>> startNewChatSession() async {

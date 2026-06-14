@@ -1,5 +1,6 @@
 import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
 import 'package:ehtemam_final_project/core/utils/api_error_message.dart';
+import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
 import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
@@ -56,7 +57,7 @@ Future<void> acceptOffer({
 
     if (!context.mounted) return;
 
-    await Navigator.of(context).push(
+    final paymentDone = await Navigator.of(context).push<bool>(
       MaterialPageRoute(
         builder: (_) => BlocProvider(
           create: (_) =>
@@ -65,6 +66,16 @@ Future<void> acceptOffer({
         ),
       ),
     );
+
+    // Payment succeeded — go to HomeScreen on the Booking tab (index 2)
+    if (paymentDone == true && context.mounted) {
+      Navigator.of(context).pushAndRemoveUntil(
+        MaterialPageRoute(
+          builder: (_) => const HomeScreen(initialIndex: 2),
+        ),
+        (_) => false,
+      );
+    }
   } catch (e) {
     if (context.mounted) {
       Navigator.pop(context);

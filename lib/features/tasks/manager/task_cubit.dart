@@ -10,12 +10,17 @@ class TaskCubit extends Cubit<TaskState> {
   TaskCubit({required this.requestId}) : super(TaskInitial());
 
   Future<void> loadTasks() async {
+    if (isClosed) return;
     emit(TaskLoading());
     try {
       final tasks = await _repo.getTasksByRequestId(requestId);
-      emit(TaskLoaded(tasks: tasks));
+      if (!isClosed) {
+        emit(TaskLoaded(tasks: tasks));
+      }
     } catch (e) {
-      emit(TaskError(e.toString()));
+      if (!isClosed) {
+        emit(TaskError(e.toString()));
+      }
     }
   }
 
@@ -24,7 +29,9 @@ class TaskCubit extends Cubit<TaskState> {
       await _repo.addTask(requestId, description);
       await loadTasks();
     } catch (e) {
-      emit(TaskError(e.toString()));
+      if (!isClosed) {
+        emit(TaskError(e.toString()));
+      }
     }
   }
 
@@ -55,8 +62,10 @@ class TaskCubit extends Cubit<TaskState> {
       await _repo.updateTaskState(id, newState);
     } catch (e) {
       // لو فشل ارجع للـ state القديم
-      emit(TaskLoaded(tasks: s.tasks, selectedTab: s.selectedTab, searchQuery: s.searchQuery));
-      emit(TaskError('Failed to update task'));
+      if (!isClosed) {
+        emit(TaskLoaded(tasks: s.tasks, selectedTab: s.selectedTab, searchQuery: s.searchQuery));
+        emit(TaskError('Failed to update task'));
+      }
     }
   }
 
@@ -75,8 +84,10 @@ class TaskCubit extends Cubit<TaskState> {
       await _repo.deleteTask(id);
     } catch (e) {
       // لو فشل ارجع للـ state القديم
-      emit(TaskLoaded(tasks: s.tasks, selectedTab: s.selectedTab, searchQuery: s.searchQuery));
-      emit(TaskError('Failed to delete task'));
+      if (!isClosed) {
+        emit(TaskLoaded(tasks: s.tasks, selectedTab: s.selectedTab, searchQuery: s.searchQuery));
+        emit(TaskError('Failed to delete task'));
+      }
     }
   }
 

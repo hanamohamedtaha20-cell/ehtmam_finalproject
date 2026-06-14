@@ -5,6 +5,7 @@ import 'package:ehtemam_final_project/features/home_screen/manager/home_cubit.da
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/crearte_request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../requests_screen_user/ui/screens/requests_screen.dart';
 import '../../data/model/user_model.dart';
 import '../../manager/state/home_state.dart';
@@ -15,10 +16,29 @@ import 'header.dart';
 import 'service_card.dart';
 import 'whyChoose_card.dart';
 
-class HomeContent extends StatelessWidget {
-  HomeContent({super.key});
+class HomeContent extends StatefulWidget {
+  const HomeContent({super.key});
 
-  final user = UserModel(name: "ahmed");
+  @override
+  State<HomeContent> createState() => _HomeContentState();
+}
+
+class _HomeContentState extends State<HomeContent> {
+  UserModel _user = UserModel(name: '');
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUserName();
+  }
+
+  Future<void> _loadUserName() async {
+    final prefs = await SharedPreferences.getInstance();
+    final name = prefs.getString('user_name') ?? '';
+    if (mounted) {
+      setState(() => _user = UserModel(name: name));
+    }
+  }
 
   Widget getServiceIcon(String serviceName) {
     final name = serviceName.toLowerCase();
@@ -67,7 +87,7 @@ class HomeContent extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: ListView(
           children: [
-            HeaderWidget(user: user),
+            HeaderWidget(user: _user),
 
             Container(
               margin: const EdgeInsets.symmetric(vertical: 10),

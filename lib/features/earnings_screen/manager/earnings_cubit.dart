@@ -8,16 +8,21 @@ class EarningsCubit extends Cubit<EarningsState> {
   EarningsCubit(this.repository) : super(EarningsInitial());
 
   Future<void> getEarnings() async {
+    if (isClosed) return;
     emit(EarningsLoading());
 
     try {
       final result = await repository.getEarnings();
-      emit(EarningsLoaded(
-        result.earnings,
-        transactions: result.transactions,
-      ));
+      if (!isClosed) {
+        emit(EarningsLoaded(
+          result.earnings,
+          transactions: result.transactions,
+        ));
+      }
     } catch (e) {
-      emit(EarningsError(e.toString()));
+      if (!isClosed) {
+        emit(EarningsError(e.toString()));
+      }
     }
   }
 }

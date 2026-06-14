@@ -13,6 +13,7 @@ class BundlesCubit extends Cubit<BundlesState> {
         super(const BundlesState());
 
   Future<void> getBundles() async {
+    if (isClosed) return;
     emit(
       state.copyWith(
         status: BundlesStatus.loading,
@@ -23,19 +24,23 @@ class BundlesCubit extends Cubit<BundlesState> {
       final List<BundleModel> bundles =
       await apiService.getBundles();
 
-      emit(
-        state.copyWith(
-          status: BundlesStatus.success,
-          bundles: bundles,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: BundlesStatus.success,
+            bundles: bundles,
+          ),
+        );
+      }
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: BundlesStatus.error,
-          errorMessage: e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: BundlesStatus.error,
+            errorMessage: e.toString(),
+          ),
+        );
+      }
     }
   }
 
@@ -59,12 +64,14 @@ class BundlesCubit extends Cubit<BundlesState> {
 
       await getBundles();
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: BundlesStatus.error,
-          errorMessage: e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: BundlesStatus.error,
+            errorMessage: e.toString(),
+          ),
+        );
+      }
     }
   }
 
@@ -90,12 +97,14 @@ class BundlesCubit extends Cubit<BundlesState> {
 
       await getBundles();
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: BundlesStatus.error,
-          errorMessage: e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: BundlesStatus.error,
+            errorMessage: e.toString(),
+          ),
+        );
+      }
     }
   }
 
@@ -105,12 +114,14 @@ class BundlesCubit extends Cubit<BundlesState> {
 
       await getBundles();
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: BundlesStatus.error,
-          errorMessage: e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: BundlesStatus.error,
+            errorMessage: e.toString(),
+          ),
+        );
+      }
     }
   }
 }

@@ -9,13 +9,18 @@ class CareRequestsCubit extends Cubit<CareRequestsState> {
   CareRequestsCubit(this.repository) : super(CareRequestsInitial());
 
   Future<void> getAllRequests() async {
+    if (isClosed) return;
     emit(CareRequestsLoading());
 
     try {
       final requests = await repository.getAllRequests();
-      emit(CareRequestsLoaded(requests));
+      if (!isClosed) {
+        emit(CareRequestsLoaded(requests));
+      }
     } catch (e) {
-      emit(CareRequestsError(e.toString()));
+      if (!isClosed) {
+        emit(CareRequestsError(e.toString()));
+      }
     }
   }
 
@@ -30,7 +35,9 @@ class CareRequestsCubit extends Cubit<CareRequestsState> {
       );
       await getAllRequests();
     } catch (e) {
-      emit(CareRequestsError(e.toString()));
+      if (!isClosed) {
+        emit(CareRequestsError(e.toString()));
+      }
     }
   }
 }

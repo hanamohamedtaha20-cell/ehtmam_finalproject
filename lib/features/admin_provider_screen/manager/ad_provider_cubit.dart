@@ -14,6 +14,7 @@ class AdProviderCubit extends Cubit<AdProviderState> {
   List<AdProviderModel> _allProviders = [];
 
   Future<void> getProviders() async {
+    if (isClosed) return;
     emit(AdProviderLoading());
 
     try {
@@ -22,18 +23,22 @@ class AdProviderCubit extends Cubit<AdProviderState> {
 
       _allProviders = providers;
 
-      emit(
-        AdProviderLoaded(
-          allProviders: _allProviders,
-          providers: _allProviders,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          AdProviderLoaded(
+            allProviders: _allProviders,
+            providers: _allProviders,
+          ),
+        );
+      }
     } catch (e) {
-      emit(
-        AdProviderError(
-          e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          AdProviderError(
+            e.toString(),
+          ),
+        );
+      }
     }
   }
 
@@ -83,11 +88,13 @@ class AdProviderCubit extends Cubit<AdProviderState> {
 
       await getProviders();
     } catch (e) {
-      emit(
-        AdProviderError(
-          e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          AdProviderError(
+            e.toString(),
+          ),
+        );
+      }
     }
   }
 }

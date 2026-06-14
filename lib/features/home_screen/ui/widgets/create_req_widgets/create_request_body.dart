@@ -61,12 +61,30 @@ class CreateRequestBody extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              AppInputField(
-                title: "Budget (EGP)",
-                hint: "Enter your budget",
-                icon: Icons.attach_money,
-                isRequired: false,
-                controller: context.read<CreateRequestCubit>().budgetController,
+              BlocBuilder<CreateRequestCubit, CreateRequestState>(
+                builder: (context, state) {
+                  final cubit = context.read<CreateRequestCubit>();
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AppInputField(
+                        title: "Budget (EGP)",
+                        hint: "Enter your budget",
+                        icon: Icons.attach_money,
+                        isRequired: true,
+                        controller: cubit.budgetController,
+                      ),
+                      if (cubit.isBudgetEmpty)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 6, left: 4),
+                          child: Text(
+                            'Budget is required',
+                            style: TextStyle(color: Colors.red, fontSize: 12),
+                          ),
+                        ),
+                    ],
+                  );
+                },
               ),
 
               const SizedBox(height: 16),
@@ -80,7 +98,25 @@ class CreateRequestBody extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              TasksSection(),
+              BlocBuilder<CreateRequestCubit, CreateRequestState>(
+                builder: (context, state) {
+                  final cubit = context.read<CreateRequestCubit>();
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const TasksSection(),
+                      if (cubit.isTasksEmpty)
+                        const Padding(
+                          padding: EdgeInsets.only(top: 6, left: 4),
+                          child: Text(
+                            'Please add at least one task',
+                            style: TextStyle(color: Colors.red, fontSize: 12),
+                          ),
+                        ),
+                    ],
+                  );
+                },
+              ),
 
               const SizedBox(height: 24),
 

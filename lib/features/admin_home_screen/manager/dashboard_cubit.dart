@@ -12,6 +12,7 @@ class DashboardCubit
 
   Future<void>
   getDashboardData() async {
+    if (isClosed) return;
     try {
       emit(DashboardLoading());
 
@@ -21,18 +22,22 @@ class DashboardCubit
       final quickActions =
       await repository.getQuickActions();
 
-      emit(
-        DashboardLoaded(
-          activities: activities,
-          quickActions: quickActions,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          DashboardLoaded(
+            activities: activities,
+            quickActions: quickActions,
+          ),
+        );
+      }
     } catch (e) {
-      emit(
-        DashboardError(
-          e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          DashboardError(
+            e.toString(),
+          ),
+        );
+      }
     }
   }
 }

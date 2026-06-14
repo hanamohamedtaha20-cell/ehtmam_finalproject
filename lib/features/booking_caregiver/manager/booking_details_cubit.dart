@@ -10,24 +10,34 @@ class BookingDetailsCubit extends Cubit<BookingDetailsState> {
   BookingDetailsCubit(this.repository) : super(BookingDetailsInitial());
 
   Future<void> loadRequestDetails(String requestId) async {
+    if (isClosed) return;
     emit(BookingDetailsLoading());
 
     try {
       final result = await repository.getRequestDetails(requestId);
-      emit(BookingDetailsLoaded(result));
+      if (!isClosed) {
+        emit(BookingDetailsLoaded(result));
+      }
     } catch (e) {
-      emit(BookingDetailsError(e.toString()));
+      if (!isClosed) {
+        emit(BookingDetailsError(e.toString()));
+      }
     }
   }
 
   Future<void> loadBookingDetails(String bookingId) async {
+    if (isClosed) return;
     emit(BookingDetailsLoading());
 
     try {
       final result = await repository.getBookingDetails(bookingId);
-      emit(BookingDetailsLoaded(result));
+      if (!isClosed) {
+        emit(BookingDetailsLoaded(result));
+      }
     } catch (e) {
-      emit(BookingDetailsError(e.toString()));
+      if (!isClosed) {
+        emit(BookingDetailsError(e.toString()));
+      }
     }
   }
 
@@ -37,9 +47,13 @@ class BookingDetailsCubit extends Cubit<BookingDetailsState> {
 
     try {
       final tasks = await repository.getTasks(requestId);
-      emit(BookingDetailsLoaded(current.booking.copyWith(tasks: tasks)));
+      if (!isClosed) {
+        emit(BookingDetailsLoaded(current.booking.copyWith(tasks: tasks)));
+      }
     } catch (e) {
-      emit(BookingDetailsError(e.toString()));
+      if (!isClosed) {
+        emit(BookingDetailsError(e.toString()));
+      }
     }
   }
 
@@ -55,11 +69,15 @@ class BookingDetailsCubit extends Cubit<BookingDetailsState> {
         }
         return t;
       }).toList();
-      emit(BookingDetailsLoaded(
-        current.booking.copyWith(tasks: updatedTasks),
-      ));
+      if (!isClosed) {
+        emit(BookingDetailsLoaded(
+          current.booking.copyWith(tasks: updatedTasks),
+        ));
+      }
     } catch (e) {
-      emit(BookingDetailsError(e.toString()));
+      if (!isClosed) {
+        emit(BookingDetailsError(e.toString()));
+      }
     }
   }
 

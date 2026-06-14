@@ -12,6 +12,7 @@ class PendingApprovalsCubit extends Cubit<PendingApprovalsState> {
         super(const PendingApprovalsState());
 
   Future<void> getPendingApprovals() async {
+    if (isClosed) return;
     emit(state.copyWith(status: PendingApprovalsStatus.loading));
 
     try {
@@ -43,19 +44,23 @@ class PendingApprovalsCubit extends Cubit<PendingApprovalsState> {
         };
       }).toList();
 
-      emit(
-        state.copyWith(
-          status: PendingApprovalsStatus.success,
-          providers: providers,
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: PendingApprovalsStatus.success,
+            providers: providers,
+          ),
+        );
+      }
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: PendingApprovalsStatus.error,
-          errorMessage: e.toString(),
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: PendingApprovalsStatus.error,
+            errorMessage: e.toString(),
+          ),
+        );
+      }
     }
   }
 
@@ -65,12 +70,14 @@ class PendingApprovalsCubit extends Cubit<PendingApprovalsState> {
 
       await getPendingApprovals();
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: PendingApprovalsStatus.error,
-          errorMessage: 'Approve failed: $e',
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: PendingApprovalsStatus.error,
+            errorMessage: 'Approve failed: $e',
+          ),
+        );
+      }
     }
   }
 
@@ -84,14 +91,18 @@ class PendingApprovalsCubit extends Cubit<PendingApprovalsState> {
       final updated =
       state.providers.where((provider) => provider['id'] != id).toList();
 
-      emit(state.copyWith(providers: updated));
+      if (!isClosed) {
+        emit(state.copyWith(providers: updated));
+      }
     } catch (e) {
-      emit(
-        state.copyWith(
-          status: PendingApprovalsStatus.error,
-          errorMessage: 'Reject failed: $e',
-        ),
-      );
+      if (!isClosed) {
+        emit(
+          state.copyWith(
+            status: PendingApprovalsStatus.error,
+            errorMessage: 'Reject failed: $e',
+          ),
+        );
+      }
     }
   }
 }
