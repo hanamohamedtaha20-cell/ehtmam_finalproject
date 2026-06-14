@@ -36,10 +36,12 @@ class _RechargeScreenState extends State<RechargeScreen> {
         listener: (context, state) {
           if (state is RechargeSuccess) {
             Navigator.pop(context);
-            launchUrl(
-              Uri.parse(state.paymentUrl),
-              mode: LaunchMode.externalApplication,
-            );
+            if (state.paymentUrl.isNotEmpty) {
+              launchUrl(
+                Uri.parse(state.paymentUrl),
+                mode: LaunchMode.externalApplication,
+              );
+            }
           }
           if (state is RechargeError) {
             ScaffoldMessenger.of(context).showSnackBar(

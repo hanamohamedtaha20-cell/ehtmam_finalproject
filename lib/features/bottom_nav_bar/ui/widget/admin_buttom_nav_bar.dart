@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../admin_home_screen/ui/admin_dashboard._screen.dart';
+import '../../../admin_home_screen/ui/screens/admin_dashboard._screen.dart';
 import '../../../admin_provider_screen/ui/screens/ad_provider_screen.dart';
 import '../../../admin_users_screen/ui/ad_user_screen.dart';
 import '../../manager/bottom_nav_bar_cubit.dart';

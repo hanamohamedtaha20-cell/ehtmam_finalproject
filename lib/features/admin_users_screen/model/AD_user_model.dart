@@ -1,31 +1,27 @@
 class AdUserModel {
-  final int id;
+  final String id;
   final String name;
   final String email;
-  final int bookings;
-  final String joinedDate;
-  final bool isActive;
-  final bool isPremium;
+  final int bookingsCount;
+  final String createdAt;
 
   AdUserModel({
     required this.id,
     required this.name,
     required this.email,
-    required this.bookings,
-    required this.joinedDate,
-    required this.isActive,
-    required this.isPremium,
+    required this.bookingsCount,
+    required this.createdAt,
   });
 
-  factory AdUserModel.fromJson(Map<String, dynamic> json) {
+  factory AdUserModel.fromJson(
+      Map<String, dynamic> json,
+      ) {
     return AdUserModel(
-      id: json['id'],
-      name: json['name'],
-      email: json['email'],
-      bookings: json['bookings'],
-      joinedDate: json['joined_date'],
-      isActive: json['is_active'],
-      isPremium: json['is_premium'],
+      id: json['_id'] ?? '',
+      name: json['full_name'] ?? 'Unknown User',
+      email: json['email'] ?? '',
+      bookingsCount: json['bookingsCount'] ?? 0,
+      createdAt: json['createdAt'] ?? '',
     );
   }
 }

@@ -19,6 +19,9 @@ class AdProviderCard extends StatelessWidget {
         ? provider.name.trim().substring(0, 1).toUpperCase()
         : 'P';
 
+    final bool isApproved =
+        provider.status.toLowerCase() == 'approved';
+
     return Container(
       margin: const EdgeInsets.only(bottom: 14),
       padding: const EdgeInsets.all(14),
@@ -39,23 +42,32 @@ class AdProviderCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CircleAvatar(
-                radius: 22,
+                radius: 24,
                 backgroundColor: const Color(0xff2F93E6),
-                child: Text(
+                backgroundImage:
+                provider.profilePicture.isNotEmpty
+                    ? NetworkImage(
+                  provider.profilePicture,
+                )
+                    : null,
+                child: provider.profilePicture.isEmpty
+                    ? Text(
                   initials,
                   style: const TextStyle(
                     color: Colors.white,
-                    fontSize: 13,
+                    fontSize: 14,
                     fontWeight: FontWeight.w700,
                   ),
-                ),
+                )
+                    : null,
               ),
 
               const SizedBox(width: 12),
 
               Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment:
+                  CrossAxisAlignment.start,
                   children: [
                     Text(
                       provider.name,
@@ -66,13 +78,24 @@ class AdProviderCard extends StatelessWidget {
                       ),
                     ),
 
-                    const SizedBox(height: 3),
+                    const SizedBox(height: 4),
+
+                    Text(
+                      provider.email,
+                      style: const TextStyle(
+                        color: Color(0xff6B7280),
+                        fontSize: 11,
+                      ),
+                    ),
+
+                    const SizedBox(height: 4),
 
                     Text(
                       provider.service,
                       style: const TextStyle(
-                        color: Color(0xff6B7280),
-                        fontSize: 11,
+                        color: Color(0xff64748B),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
                       ),
                     ),
 
@@ -97,50 +120,43 @@ class AdProviderCard extends StatelessWidget {
                       ],
                     ),
 
-                    const SizedBox(height: 6),
+                    const SizedBox(height: 10),
 
-                    Row(
-                      children: [
-                        Text(
-                          '${provider.requests} requests',
-                          style: const TextStyle(
-                            color: Color(0xff64748B),
-                            fontSize: 11,
-                          ),
+                    Container(
+                      padding:
+                      const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      decoration: BoxDecoration(
+                        color: isApproved
+                            ? const Color(
+                          0xffDCFCE7,
+                        )
+                            : const Color(
+                          0xffFEF3C7,
                         ),
-                        const SizedBox(width: 8),
-                        Text(
-                          '${provider.earned.toStringAsFixed(0)} earned',
-                          style: const TextStyle(
-                            color: Color(0xff16A34A),
-                            fontSize: 11,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ],
-                    ),
-
-                    const SizedBox(height: 8),
-
-                    if (provider.isVerified)
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xffDCFCE7),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Text(
-                          'Verified',
-                          style: TextStyle(
-                            color: Color(0xff16A34A),
-                            fontSize: 10,
-                            fontWeight: FontWeight.w700,
-                          ),
+                        borderRadius:
+                        BorderRadius.circular(
+                          20,
                         ),
                       ),
+                      child: Text(
+                        provider.status,
+                        style: TextStyle(
+                          color: isApproved
+                              ? const Color(
+                            0xff16A34A,
+                          )
+                              : const Color(
+                            0xffD97706,
+                          ),
+                          fontSize: 10,
+                          fontWeight:
+                          FontWeight.w700,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -166,11 +182,15 @@ class AdProviderCard extends StatelessWidget {
             onPressed: () {
               showDialog(
                 context: context,
-                barrierColor: Colors.black.withOpacity(0.35),
-                builder: (_) => BlockProviderDialog(
-                  provider: provider,
-                  onBlock: onBlockConfirmed,
+                barrierColor:
+                Colors.black.withOpacity(
+                  0.35,
                 ),
+                builder: (_) =>
+                    BlockProviderDialog(
+                      provider: provider,
+                      onBlock: onBlockConfirmed,
+                    ),
               );
             },
             icon: const Icon(

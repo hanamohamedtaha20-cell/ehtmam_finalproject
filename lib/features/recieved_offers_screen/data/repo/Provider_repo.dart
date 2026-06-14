@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/network/api_service.dart';
 import '../model/provider_data.dart';
 
@@ -38,22 +39,20 @@ class ProviderRepository {
   }
 
   Future<void> acceptOffer(
-    String offerId, {
-    String? requestId,
-  }) async {
+      String offerId, {
+        String? requestId,
+      }) async {
     final trimmedOfferId = offerId.trim();
     if (trimmedOfferId.isEmpty) {
       throw Exception('Offer id is missing');
     }
-
     try {
-      await _apiService.respondToOffer(
-        offerId: trimmedOfferId,
-        status: 'accepted',
-      );
-    } on DioException catch (e) {
-      final statusCode = e.response?.statusCode;
-      if (statusCode == 400 || statusCode == 409) return;
+      print('PROCESS PAYMENT: $trimmedOfferId');
+      await _apiService.processPayment(trimmedOfferId);
+      print('PROCESS PAYMENT DONE');
+    } catch (e) {
+      print('ERROR TYPE: ${e.runtimeType}');
+      print('ERROR: $e');
       rethrow;
     }
   }

@@ -2,6 +2,7 @@ import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/screens/received_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../payment/ui/screens/payment_screen.dart';
 import '../../data/repo/Provider_repo.dart';
 import '../../data/repo/reviews_repo.dart';
 import '../../manager/provider_details_cubit.dart';
@@ -115,14 +116,22 @@ class OfferDetailsScreen extends StatelessWidget {
                                   ),
                                 );
                               },
-                              onSecondTap: () {
-                                acceptOffer(
+                              onSecondTap: () async {
+                                await acceptOffer(
                                   context: context,
                                   offerId: offerId,
                                   requestId: requestId,
                                   offerPrice: provider.price,
-                                  popOnSuccess: true,
+                                  popOnSuccess: false,
                                 );
+                                if (context.mounted) {
+                                  Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (_) => const PaymentScreen(),
+                                    ),
+                                  );
+                                }
                               },
                             ),
                           ],

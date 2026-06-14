@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/features/admin_home_screen/manager/state/dashboard_state.dart';
+import 'package:ehtemam_final_project/features/admin_home_screen/manager/dashboard_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../model/repo/dashboard_repository.dart';

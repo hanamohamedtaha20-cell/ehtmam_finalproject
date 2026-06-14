@@ -1,16 +1,17 @@
 class AdProviderModel {
-  final int id;
+  final String id;
   final String name;
   final String email;
   final String service;
 
   final double rating;
   final int reviews;
-  final int requests;
-  final double earned;
 
   final bool isVerified;
   final bool isActive;
+
+  final String status;
+  final String profilePicture;
 
   AdProviderModel({
     required this.id,
@@ -19,42 +20,57 @@ class AdProviderModel {
     required this.service,
     required this.rating,
     required this.reviews,
-    required this.requests,
-    required this.earned,
     required this.isVerified,
     required this.isActive,
+    required this.status,
+    required this.profilePicture,
   });
 
   factory AdProviderModel.fromJson(
       Map<String, dynamic> json,
       ) {
     return AdProviderModel(
-      id: json['id'] ?? 0,
-      name: json['name'] ?? '',
+      id: json['_id'] ?? '',
+
+      name: json['full_name'] ?? '',
+
       email: json['email'] ?? '',
-      service: json['service'] ?? '',
 
-      rating: (json['rating'] ?? 0).toDouble(),
-      reviews: json['reviews'] ?? 0,
-      requests: json['requests'] ?? 0,
-      earned: (json['earned'] ?? 0).toDouble(),
+      service: json['specialty'] ?? '',
 
-      isVerified: json['is_verified'] ?? false,
-      isActive: json['is_active'] ?? true,
+      rating:
+      (json['averageRating'] ?? 0)
+          .toDouble(),
+
+      reviews:
+      json['totalReviewsCount'] ?? 0,
+
+      isVerified:
+      (json['status'] ?? '') ==
+          'Approved',
+
+      isActive:
+      json['active'] ?? false,
+
+      status:
+      json['status'] ?? '',
+
+      profilePicture:
+      json['profile_picture'] ?? '',
     );
   }
 
   AdProviderModel copyWith({
-    int? id,
+    String? id,
     String? name,
     String? email,
     String? service,
     double? rating,
     int? reviews,
-    int? requests,
-    double? earned,
     bool? isVerified,
     bool? isActive,
+    String? status,
+    String? profilePicture,
   }) {
     return AdProviderModel(
       id: id ?? this.id,
@@ -63,10 +79,11 @@ class AdProviderModel {
       service: service ?? this.service,
       rating: rating ?? this.rating,
       reviews: reviews ?? this.reviews,
-      requests: requests ?? this.requests,
-      earned: earned ?? this.earned,
       isVerified: isVerified ?? this.isVerified,
       isActive: isActive ?? this.isActive,
+      status: status ?? this.status,
+      profilePicture:
+      profilePicture ?? this.profilePicture,
     );
   }
 }

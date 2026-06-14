@@ -2,6 +2,9 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../features/admin_features/data/bundle_model.dart';
+import '../../features/admin_features/data/transaction_model.dart';
+import '../../features/admin_users_screen/model/AD_user_model.dart';
 import 'api_constants.dart';
 
 
@@ -11,8 +14,9 @@ class ApiService {
   ApiService() {
     _dio = Dio(BaseOptions(
       baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
+      connectTimeout: const Duration(seconds: 180),
+      receiveTimeout: const Duration(seconds: 180),
+      sendTimeout: const Duration(seconds: 180),
       headers: {'Content-Type': 'application/json'},
     ));
 
@@ -79,16 +83,23 @@ class ApiService {
     return Map<String, dynamic>.from(response.data as Map);
   }
 
-Future<Map<String, dynamic>> postFormData({
-  required String endpoint,
-  required FormData formData,
-}) async {
-  final response = await _dio.post(
-    endpoint,
-    data: formData,
-  );
-  return response.data;
-}
+  Future<Map<String, dynamic>> postFormData({
+    required String endpoint,
+    required FormData formData,
+  }) async {
+    final response = await _dio.post(
+      endpoint,
+      data: formData,
+      options: Options(
+        contentType: 'multipart/form-data',
+        headers: {
+          'Authorization': null,
+        },
+      ),
+    );
+
+    return Map<String, dynamic>.from(response.data as Map);
+  }
 
   Future<Map<String, dynamic>> logout() async {
     final response = await _dio.post(logoutEndpoint);
@@ -402,8 +413,8 @@ Future<Map<String, dynamic>> postFormData({
       'amount':        amount,
       'paymentMethod': paymentMethod,
     });
-    var result;
-    print('FULL RESPONSE: $result');
+    print('FULL RESPONSE: ${response.data}');
+
 
     return response.data;
   }
@@ -613,5 +624,161 @@ Future<Map<String, dynamic>> postFormData({
   Future<Map<String, dynamic>> deleteTask(String id) async {
     final response = await _dio.delete('$tasksEndpoint/$id');
     return response.data;
+  }
+  Future<Map<String, dynamic>> getPendingCaregivers() async {
+    final response = await _dio.get(adminPendingCaregiversEndpoint);
+    return Map<String, dynamic>.from(response.data as Map);
+  }
+
+  Future<Map<String, dynamic>> approveCaregiver(String id) async {
+    final response = await _dio.patch('$adminCaregiversEndpoint/$id/approve');
+    return Map<String, dynamic>.from(response.data as Map);
+  }
+
+  Future<Map<String, dynamic>> rejectCaregiver({
+    required String id,
+    required String reason,
+  }) async {
+    final response = await _dio.patch(
+      '$adminCaregiversEndpoint/$id/reject',
+      data: {
+        'reason': reason,
+      },
+    );
+
+    return Map<String, dynamic>.from(response.data as Map);
+  }
+  Future<Map<String, dynamic>> blockProvider(
+      String id,
+      ) async {
+    final response = await _dio.patch(
+      '$adminBlockEndpoint/$id',
+    );
+
+    return Map<String, dynamic>.from(
+      response.data as Map,
+    );
+  }
+  Future<Map<String, dynamic>> getComplaints() async {
+    final response = await _dio.get(
+      '/admin/complaints',
+    );
+
+    return Map<String, dynamic>.from(
+      response.data as Map,
+    );
+  }
+  Future<List<BundleModel>> getBundles() async {
+    final response = await _dio.get(
+      bundleEndpoint,
+    );
+
+    final List<dynamic> data =
+        response.data['data'] ?? [];
+
+    return data
+        .map<BundleModel>(
+          (e) => BundleModel.fromJson(
+        Map<String, dynamic>.from(e),
+      ),
+    )
+        .toList();
+  }
+  Future<void> createBundle({
+    required String name,
+    required String sessions,
+    required String validity,
+    required String price,
+    required String discount,
+    required List<String> features,
+  }) async {
+    await _dio.post(
+      createBundleEndpoint,
+      data: {
+        "price": int.parse(price),
+        "discount": int.parse(discount),
+        "bundle_name": name,
+        "validity": validity,
+        "sessions": sessions,
+        "features": features,
+      },
+    );
+  }
+
+  Future<void> updateBundle({
+    required String id,
+    required String name,
+    required String sessions,
+    required String validity,
+    required String price,
+    required String discount,
+    required List<String> features,
+  }) async {
+    await _dio.patch(
+      '$updateBundleEndpoint/$id',
+      data: {
+        "price": int.parse(price),
+        "discount": int.parse(discount),
+        "bundle_name": name,
+        "validity": validity,
+        "sessions": sessions,
+        "features": features,
+      },
+    );
+  }
+  Future<void> deleteBundle(
+      String id,
+      ) async {
+    await _dio.delete(
+      '$deleteBundleEndpoint/$id',
+    );
+
+  }
+  Future<List<TransactionModel>>
+  getAllTransactions() async {
+
+    final response = await _dio.get(
+      allTransactionsEndpoint,
+    );
+
+    final List data =
+    response.data['data'];
+
+    return data
+        .map<TransactionModel>(
+          (e) => TransactionModel.fromJson(
+        Map<String, dynamic>.from(e),
+      ),
+    )
+        .toList();
+  }
+  Future<List<AdUserModel>> getAllUsers() async {
+    final response = await _dio.get(
+      allUsersEndpoint,
+    );
+
+    final List data =
+        response.data['data'] ?? [];
+
+    return data
+        .map<AdUserModel>(
+          (e) => AdUserModel.fromJson(
+        Map<String, dynamic>.from(e),
+      ),
+    )
+        .toList();
+  }
+  Future<void> blockUser(String id) async {
+    try {
+      final response = await _dio.patch(
+        '$adminBlockEndpoint/$id',
+      );
+
+      print("SUCCESS => ${response.data}");
+    } on DioException catch (e) {
+      print("URL => ${e.requestOptions.uri}");
+      print("STATUS => ${e.response?.statusCode}");
+      print("DATA => ${e.response?.data}");
+    }
   }
 }

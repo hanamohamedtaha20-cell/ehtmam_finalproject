@@ -1,13 +1,15 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../model/ad_provider_model.dart';
+import '../model/repo/ad_provider_repo.dart';
 import '../model/repo/ad_provider_repository.dart';
 import 'ad_provider_state.dart';
 
 class AdProviderCubit extends Cubit<AdProviderState> {
-  final AdProviderRepositoryImpl repo;
+  final AdProviderRepository repo;
 
-  AdProviderCubit(this.repo) : super(AdProviderInitial());
+  AdProviderCubit(this.repo)
+      : super(AdProviderInitial());
 
   List<AdProviderModel> _allProviders = [];
 
@@ -15,7 +17,8 @@ class AdProviderCubit extends Cubit<AdProviderState> {
     emit(AdProviderLoading());
 
     try {
-      final providers = await repo.getProviders();
+      final providers =
+      await repo.getProviders();
 
       _allProviders = providers;
 
@@ -26,12 +29,19 @@ class AdProviderCubit extends Cubit<AdProviderState> {
         ),
       );
     } catch (e) {
-      emit(AdProviderError(e.toString()));
+      emit(
+        AdProviderError(
+          e.toString(),
+        ),
+      );
     }
   }
 
-  void searchProviders(String value) {
-    final query = value.trim().toLowerCase();
+  void searchProviders(
+      String value,
+      ) {
+    final query =
+    value.trim().toLowerCase();
 
     if (query.isEmpty) {
       emit(
@@ -44,11 +54,14 @@ class AdProviderCubit extends Cubit<AdProviderState> {
       return;
     }
 
-    final filtered = _allProviders.where((provider) {
-      final name = provider.name.toLowerCase();
-      final service = provider.service.toLowerCase();
-
-      return name.contains(query) || service.contains(query);
+    final filtered =
+    _allProviders.where((provider) {
+      return provider.name
+          .toLowerCase()
+          .contains(query) ||
+          provider.service
+              .toLowerCase()
+              .contains(query);
     }).toList();
 
     emit(
@@ -60,14 +73,21 @@ class AdProviderCubit extends Cubit<AdProviderState> {
     );
   }
 
-  void blockProvider(AdProviderModel provider) {
-    _allProviders.remove(provider);
+  Future<void> blockProvider(
+      AdProviderModel provider,
+      ) async {
+    try {
+      await repo.blockProvider(
+        provider.id,
+      );
 
-    emit(
-      AdProviderLoaded(
-        allProviders: _allProviders,
-        providers: _allProviders,
-      ),
-    );
+      await getProviders();
+    } catch (e) {
+      emit(
+        AdProviderError(
+          e.toString(),
+        ),
+      );
+    }
   }
 }

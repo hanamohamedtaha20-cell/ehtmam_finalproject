@@ -114,8 +114,10 @@ class BlockUserDialog extends StatelessWidget {
                 Navigator.pop(context);
               },
               onSecondTap: () {
+
                 onBlock();
                 Navigator.pop(context);
+
               },
             ),
           ],

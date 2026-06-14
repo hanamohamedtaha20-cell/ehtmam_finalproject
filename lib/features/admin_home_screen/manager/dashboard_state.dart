@@ -1,5 +1,5 @@
-import '../../model/activity_model.dart';
-import '../../model/quick_action_model.dart';
+import '../model/activity_model.dart';
+import '../model/quick_action_model.dart';
 
 abstract class DashboardState {}
 

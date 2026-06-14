@@ -55,6 +55,7 @@ class AuthCubit extends Cubit<AuthState> {
         certificateFile: certificateFile,
         careField: careField,
         specialization: specialization,
+        phone: phone,
       );
       final prefs = await SharedPreferences.getInstance();
 
@@ -74,10 +75,18 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
     } catch (e) {
+      String message = e.toString();
+
+      if (message.contains('Email already exists')) {
+        message = 'Email already exists';
+      } else {
+        message = 'Registration failed, please try again';
+      }
+
       emit(
         state.copyWith(
           status: AuthStatus.error,
-          errorMessage: 'Registration failed: $e',
+          errorMessage: message,
         ),
       );
     }
@@ -87,16 +96,46 @@ class AuthCubit extends Cubit<AuthState> {
     required String email,
     required String password,
   }) async {
-    emit(state.copyWith(status: AuthStatus.loading, errorMessage: null));
+    emit(
+      state.copyWith(
+        status: AuthStatus.loading,
+        errorMessage: null,
+      ),
+    );
+
     try {
+      // Admin Login (Temporary)
+      if (email.trim() == 'hana@example.com' &&
+          password.trim() == '123456789') {
+        final prefs = await SharedPreferences.getInstance();
+
+        await prefs.setString('token', 'admin_token');
+        await prefs.setString('user_role', 'admin');
+        await prefs.setString('user_name', 'Admin');
+        await prefs.setBool('is_logged_in', true);
+
+        emit(
+          state.copyWith(
+            status: AuthStatus.authenticated,
+            token: 'admin_token',
+            userRole: 'admin',
+            userName: 'Admin',
+          ),
+        );
+
+        return;
+      }
+
       final loginResponse = await authRepo.login(
         email: email,
         password: password,
       );
+
       final prefs = await SharedPreferences.getInstance();
 
       await prefs.setString('token', loginResponse.token);
       await prefs.setString('user_role', loginResponse.user.role);
+      await prefs.setString('user_name', loginResponse.user.fullName);
       await prefs.setBool('is_logged_in', true);
 
       emit(
@@ -108,8 +147,12 @@ class AuthCubit extends Cubit<AuthState> {
         ),
       );
     } catch (e) {
-      emit(state.copyWith(
-          status: AuthStatus.error, errorMessage: 'Invalid email or password'));
+      emit(
+        state.copyWith(
+          status: AuthStatus.error,
+          errorMessage: 'Invalid email or password',
+        ),
+      );
     }
   }
 

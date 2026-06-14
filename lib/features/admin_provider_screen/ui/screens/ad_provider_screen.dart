@@ -4,6 +4,7 @@ import 'package:ehtemam_final_project/features/admin_provider_screen/ui/widgets/
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../bottom_nav_bar/ui/widget/admin_bottom.dart';
 import '../../manager/ad_provider_cubit.dart';
 import '../../manager/ad_provider_state.dart';
 
@@ -105,6 +106,7 @@ class AdProviderView extends StatelessWidget {
                     }
 
                     return const SizedBox();
+
                   },
                 ),
               ),

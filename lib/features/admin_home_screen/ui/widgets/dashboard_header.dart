@@ -6,65 +6,74 @@ class DashboardHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: const EdgeInsets.fromLTRB(16, 14, 16, 0),
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(
-        16,
-        16,
-        16,
-        24,
-      ),
-      decoration: const BoxDecoration(
-        borderRadius: BorderRadius.only(
-          bottomLeft: Radius.circular(24),
-          bottomRight: Radius.circular(24),
+      padding: const EdgeInsets.fromLTRB(16, 18, 16, 22),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(0).copyWith(
+          bottomLeft: const Radius.circular(20),
+          bottomRight: const Radius.circular(20),
         ),
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
           colors: [
             Color(0xff4A90E2),
-            Color(0xff6BB6FF),
+            Color(0xff76BDFB),
           ],
         ),
       ),
       child: Column(
-        crossAxisAlignment:
-        CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              const Spacer(),
-
-              Container(
-                padding: const EdgeInsets.all(8),
-                decoration: const BoxDecoration(
-                  color: Colors.white24,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.language,
+              const Text(
+                'Admin Dashboard',
+                style: TextStyle(
                   color: Colors.white,
-                  size: 18,
+                  fontSize: 12,
+                ),
+              ),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(.85),
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: const Row(
+                  children: [
+                    Icon(Icons.language, size: 13, color: Color(0xff315A7C)),
+                    SizedBox(width: 6),
+                    Text(
+                      'ع',
+                      style: TextStyle(
+                        color: Color(0xff315A7C),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
-
-          const SizedBox(height: 8),
-
+          const SizedBox(height: 6),
           const Text(
             'Ehtemam',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 28,
-              fontWeight: FontWeight.w600,
+              fontSize: 22,
+              fontWeight: FontWeight.w500,
             ),
           ),
-
-          const SizedBox(height: 8),
-
+          const SizedBox(height: 10),
           const Text(
             'Sunday, March 8, 2026',
             style: TextStyle(
-              color: Colors.white70,
+              color: Colors.white,
+              fontSize: 12,
             ),
           ),
         ],

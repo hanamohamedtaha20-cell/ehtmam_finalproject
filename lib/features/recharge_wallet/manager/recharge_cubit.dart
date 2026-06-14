@@ -25,7 +25,7 @@ class RechargeCubit extends Cubit<RechargeState> {
         amount: amount,
         paymentMethod: paymentMethod,
       );
-      emit(RechargeSuccess(result['paymentUrl'] ?? ''));
+      emit(RechargeSuccess(result['iframeUrl'] ?? result['paymentUrl'] ?? ''));
       print('PAYMENT URL: ${result['paymentUrl']}');
       emit(RechargeSuccess(result['paymentUrl'] ?? ''));
     } catch (e) {

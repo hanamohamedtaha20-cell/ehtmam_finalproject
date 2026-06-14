@@ -11,9 +11,7 @@ class QuickActionModel {
     this.badgeCount,
   });
 
-  factory QuickActionModel.fromJson(
-      Map<String, dynamic> json,
-      ) {
+  factory QuickActionModel.fromJson(Map<String, dynamic> json) {
     return QuickActionModel(
       title: json['title'] ?? '',
       icon: Icons.dashboard,

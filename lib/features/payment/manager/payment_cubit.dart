@@ -27,20 +27,20 @@ class PaymentCubit extends Cubit<PaymentState> {
 
       double price = offerPrice ?? 0;
 
-      final prefs = await SharedPreferences.getInstance();
-      final bookingId = prefs.getString('bookingId') ?? '';
-
-      if (bookingId.isNotEmpty) {
-        try {
-          final bookingResult = await repo.getBookingData(bookingId);
-          final bookingData = bookingResult['data'];
-          if (bookingData is Map<String, dynamic>) {
-            price = _extractPrice(bookingData, fallback: price);
-          }
-        } catch (_) {
-          // Fall back to offer price when booking details are unavailable.
-        }
-      }
+      // final prefs = await SharedPreferences.getInstance();
+      // final bookingId = prefs.getString('bookingId') ?? '';
+      //
+      // if (bookingId.isNotEmpty) {
+      //   try {
+      //     final bookingResult = await repo.getBookingData(bookingId);
+      //     final bookingData = bookingResult['data'];
+      //     if (bookingData is Map<String, dynamic>) {
+      //       price = _extractPrice(bookingData, fallback: price);
+      //     }
+      //   } catch (_) {
+      //     // Fall back to offer price when booking details are unavailable.
+      //   }
+      // }
 
       final double platformFee = price * 0.05;
       final double taxRate = price * 0.14;

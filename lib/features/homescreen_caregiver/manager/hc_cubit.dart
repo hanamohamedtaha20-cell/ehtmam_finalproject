@@ -20,21 +20,19 @@ class HcCubit extends Cubit<HcState> {
         super(const HcState());
 
   Future<void> loadDashboard() async {
+    if (isClosed) return;
     emit(state.copyWith(isLoading: true, errorMessage: null));
-
     try {
       final prefs = await SharedPreferences.getInstance();
       final userName = prefs.getString('userName') ?? 'Caregiver';
-
       final requests = await _requestsRepo.getAllRequests();
       final pending = requests
           .where((request) => request.status == 'Pending')
           .toList();
-
       final earningsResult = await _earningsRepo.getEarnings();
       final weekEarnings = _earningsThisWeek(earningsResult.transactions);
       final hours = earningsResult.earnings.hoursWorked;
-
+      if (isClosed) return;
       emit(
         state.copyWith(
           isLoading: false,
@@ -46,6 +44,7 @@ class HcCubit extends Cubit<HcState> {
         ),
       );
     } catch (e) {
+      if (isClosed) return;
       emit(
         state.copyWith(
           isLoading: false,

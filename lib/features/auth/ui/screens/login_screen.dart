@@ -1,22 +1,21 @@
 import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
 import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
-import 'package:ehtemam_final_project/core/resources/language_chip.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/reset_password_screen.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/select_role_screen.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/auth_background.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/auth_text_field.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
-import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
-import 'package:ehtemam_final_project/features/profile2/ui/screens/profile_screen.dart';
-import 'package:ehtemam_final_project/features/rating/ui/screens/rating_screen.dart';
 import 'package:ehtemam_final_project/features/splash/ui/widgets/next_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/resources/app_colors.dart';
+import '../../../admin_home_screen/ui/screens/admin_dashboard._screen.dart';
 import '../../../bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
+import '../../../bottom_nav_bar/ui/widget/admin_bottom.dart';
 import '../../manager/auth_cubit.dart';
 import '../../manager/auth_state.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -61,6 +60,8 @@ class _LoginScreenState extends State<LoginScreen> {
       homeScreen = const HomeScreen();
     } else if (normalizedRole == 'giver' || normalizedRole == 'caregiver') {
       homeScreen = const CareGiverBottomNavScreen();
+    } else if (normalizedRole == 'admin') {
+      homeScreen = const AdminButtomNavBar();
     } else {
       homeScreen = const HomeScreen();
     }

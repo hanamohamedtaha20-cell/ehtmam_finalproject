@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/login_response_model.dart';
 
 class AuthRepo {
@@ -26,7 +27,7 @@ class AuthRepo {
       }
 
       final loginResponse =
-          LoginResponseModel.fromJson(Map<String, dynamic>.from(data));
+      LoginResponseModel.fromJson(Map<String, dynamic>.from(data));
 
       if (loginResponse.token.isEmpty) {
         throw Exception('Login response missing token');
@@ -38,9 +39,30 @@ class AuthRepo {
     }
   }
 
+  Future<MultipartFile?> _fileToMultipart(PlatformFile? file) async {
+    if (file == null) return null;
+
+    if (file.bytes != null) {
+      return MultipartFile.fromBytes(
+        file.bytes!,
+        filename: file.name,
+      );
+    }
+
+    if (file.path != null) {
+      return MultipartFile.fromFile(
+        file.path!,
+        filename: file.name,
+      );
+    }
+
+    return null;
+  }
+
   Future<void> signup({
     required String fullName,
     required String email,
+    required String phone,
     required String password,
     required String passwordConfirmation,
     required String role,
@@ -56,38 +78,73 @@ class AuthRepo {
     try {
       final bool isCaregiver = role.toLowerCase().contains('care');
 
-      final formData = FormData.fromMap({
-        'full_name':            fullName,
-        'email':                email,
-        'password':             password,
+      final profileMultipart = await _fileToMultipart(profileFile);
+      final nationalIdMultipart = await _fileToMultipart(nationalIdFile);
+      final certificateMultipart = await _fileToMultipart(certificateFile);
+
+      final Map<String, dynamic> map = {
+        'full_name': fullName.trim(),
+        'email': email.trim(),
+        'password': password,
         'passwordConfirmation': passwordConfirmation,
-        if (isCaregiver) ...{
+        'governorate': governorate,
+      };
+
+      if (isCaregiver) {
+        map.addAll({
+          'phoneNumber': phone.trim(),
           'speciality': careField.toLowerCase(),
           'experience': specialization,
-        },
-        if (profileFile?.bytes != null)
-          'profile_picture': MultipartFile.fromBytes(
-            profileFile!.bytes!,
-            filename: profileFile.name,
-          ),
-        if (nationalIdFile?.bytes != null)
-          'national_id': MultipartFile.fromBytes(
-            nationalIdFile!.bytes!,
-            filename: nationalIdFile.name,
-          ),
-        if (governorate.isNotEmpty) 'governorate': governorate,
-        if (street.isNotEmpty) 'address[street]': street,
-        if (building.isNotEmpty) 'address[building]': building,
-        if (isCaregiver && certificateFile?.bytes != null)
-          'certifications': MultipartFile.fromBytes(
-            certificateFile!.bytes!,
-            filename: certificateFile.name,
-          ),
-      });
+          'availability': 'Full-time',
+          'price': '50',
+        });
+
+        if (profileMultipart != null) {
+          map['profile_picture'] = profileMultipart;
+        }
+
+        if (certificateMultipart != null) {
+          map['certifications'] = [certificateMultipart];
+        }
+
+        if (nationalIdMultipart != null) {
+          map['verifcation_documents'] = [nationalIdMultipart];
+        }
+      } else {
+        if (street.isNotEmpty) map['address[street]'] = street;
+        if (building.isNotEmpty) map['address[building]'] = building;
+
+        if (profileMultipart != null) {
+          map['profile_picture'] = profileMultipart;
+        }
+
+        if (nationalIdMultipart != null) {
+          map['national_id'] = nationalIdMultipart;
+        }
+      }
+
+      final formData = FormData.fromMap(map);
 
       final endpoint = isCaregiver ? '/caregiver/signup' : '/userlog/signup';
-      final response = await apiService.postFormData(endpoint: endpoint, formData: formData);
+
+      final response = await apiService.postFormData(
+        endpoint: endpoint,
+        formData: formData,
+      );
+
       print("SIGNUP RESPONSE: $response");
+
+      if (response['status'] != 'success') {
+        throw Exception(response['message'] ?? 'Signup failed');
+      }
+      final prefs = await SharedPreferences.getInstance();
+      final userData = response['data'];
+      if (userData != null) {
+        final userId = userData['_id']?.toString() ?? '';
+        final token = userData['token']?.toString() ?? '';
+        if (userId.isNotEmpty) await prefs.setString('userId', userId);
+        if (token.isNotEmpty) await prefs.setString('token', token);
+      }
     } catch (e) {
       throw Exception('Signup failed: $e');
     }

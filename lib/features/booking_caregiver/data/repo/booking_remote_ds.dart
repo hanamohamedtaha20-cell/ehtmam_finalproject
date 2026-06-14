@@ -83,19 +83,18 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
     required num price,
     String? notes,
   }) async {
+    print('SENDING OFFER: requestId=$requestId, price=$price');
     final response = await apiService.sendOffer(
       requestId: requestId,
       price: price,
       notes: notes,
     );
-
+    print('OFFER RESPONSE: $response');
     final data = response['data'];
     if (data is Map<String, dynamic>) {
       return data;
     }
-
     throw Exception(
       response['message']?.toString() ?? 'Failed to send offer',
     );
-  }
-}
+  }}
