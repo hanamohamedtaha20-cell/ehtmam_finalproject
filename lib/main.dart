@@ -11,6 +11,7 @@ import 'package:ehtemam_final_project/features/myTasks_caregiver/manager/mytask_
 import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
+import 'package:ehtemam_final_project/features/payment_cg/ui/screens/cg_payment_screen.dart';
 import 'package:ehtemam_final_project/features/rating_overview/ui/screens/provider_reviews_screen.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/data/repo/recharge_repo.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_cubit.dart';
@@ -69,7 +70,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
-        home:CareGiverBottomNavScreen(),
+        home:CgPaymentScreen(),
       ),
     );
   }
