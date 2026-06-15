@@ -16,7 +16,7 @@ void main() {
 
     final bundle = BundleModel.fromJson(json);
 
-    expect(bundle.bundle_name, 'Premium Bundle');
+    expect(bundle.bundleName, 'Premium Bundle');
     expect(bundle.price, 249);
     expect(bundle.discount, 0);
     expect(bundle.totalPrice, 0);

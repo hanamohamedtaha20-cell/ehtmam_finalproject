@@ -171,23 +171,19 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> logout() async {
     try {
+      // Best-effort backend logout — ignore errors (token may already be expired).
+      try { await authRepo.apiService.logout(); } catch (_) {}
+
       final prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
 
-      await prefs.remove('token');
-      await prefs.remove('user_role');
-      await prefs.setBool('is_logged_in', false);
-
-      if (!isClosed) {
-        emit(const AuthState());
-      }
+      if (!isClosed) emit(const AuthState());
     } catch (e) {
       if (!isClosed) {
-        emit(
-          state.copyWith(
-            status: AuthStatus.error,
-            errorMessage: 'Logout failed',
-          ),
-        );
+        emit(state.copyWith(
+          status: AuthStatus.error,
+          errorMessage: 'Logout failed',
+        ));
       }
     }
   }

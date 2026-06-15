@@ -1,4 +1,5 @@
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
+import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/widgets/gradient_action_button.dart';
@@ -210,17 +211,12 @@ class RequestCard extends StatelessWidget {
                   height: 46,
                   child: OutlinedButton(
                     onPressed: () {
-                      if (request.bookingId != null) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => BookingCgScreen(
-                              bookingId: request.bookingId!,
-                              initialTab: 1, requestId: '',
-                            ),
-                          ),
-                        );
-                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const MytaskCgScreen(),
+                        ),
+                      );
                     },
                     style: OutlinedButton.styleFrom(
                       side: const BorderSide(color: Colors.blue),

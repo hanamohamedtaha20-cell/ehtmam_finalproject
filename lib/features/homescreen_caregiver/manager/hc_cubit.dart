@@ -24,10 +24,13 @@ class HcCubit extends Cubit<HcState> {
     emit(state.copyWith(isLoading: true, errorMessage: null));
     try {
       final prefs = await SharedPreferences.getInstance();
-      final userName = prefs.getString('userName') ?? 'Caregiver';
+      final userName = prefs.getString('user_name') ?? prefs.getString('userName') ?? 'Caregiver';
       final requests = await _requestsRepo.getAllRequests();
       final pending = requests
           .where((request) => request.status == 'Pending')
+          .toList();
+      final accepted = requests
+          .where((r) => r.status == 'Accepted' || r.status == 'Completed' || r.status == 'In Progress')
           .toList();
       final earningsResult = await _earningsRepo.getEarnings();
       final weekEarnings = _earningsThisWeek(earningsResult.transactions);
@@ -41,6 +44,7 @@ class HcCubit extends Cubit<HcState> {
           earningsThisWeek: weekEarnings,
           activeHours: '${hours}h',
           pendingRequests: pending,
+          acceptedBookings: accepted,
         ),
       );
     } catch (e) {

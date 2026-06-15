@@ -110,9 +110,10 @@ class MytaskCgCheckinBar extends StatelessWidget {
             width: double.infinity,
             child: booking.isCheckedIn
                 ? OutlinedButton.icon(
-                    onPressed: () {
-                      final allHaveMedia = booking.tasks.every((t) => t.mediaProof.isNotEmpty);
-                      if (!allHaveMedia) {
+                    onPressed: () async {
+                      final success = await cubit.checkOut(booking.bookingId);
+                      if (!context.mounted) return;
+                      if (!success) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('All tasks must have photo/video proof before checkout'),
@@ -121,7 +122,6 @@ class MytaskCgCheckinBar extends StatelessWidget {
                         );
                         return;
                       }
-                      cubit.checkOut(booking.bookingId);
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (_) => const RatingGiverScreen()),
@@ -135,7 +135,7 @@ class MytaskCgCheckinBar extends StatelessWidget {
                     ),
                   )
                 : ElevatedButton.icon(
-                    onPressed: () => cubit.checkIn(booking.bookingId),
+                    onPressed: () async => cubit.checkIn(booking.bookingId),
                     icon: const Icon(Icons.login, size: 16,color: Colors.blue,),
                     label: const Text('Check In to Start Work',style: TextStyle(color: Color(0xFF1976D2))),
                     style: ElevatedButton.styleFrom(

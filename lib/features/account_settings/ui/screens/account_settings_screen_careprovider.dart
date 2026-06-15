@@ -4,6 +4,7 @@ import 'package:ehtemam_final_project/features/bottom_nav_bar/manager/bottom_nav
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../auth/manager/auth_cubit.dart';
 import '../../../auth/ui/screens/login_screen.dart';
 import '../../manager/account_settings_cubit.dart';
 import '../../manager/account_settings_state.dart';
@@ -621,14 +622,17 @@ class _CareProviderAccountSettingsScreenState
                                   ),
                                 ),
                                 child: TextButton.icon(
-                                  onPressed: () {
-                                    Navigator.pushAndRemoveUntil(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (_) => LoginScreen(),
-                                      ),
-                                          (route) => false,
-                                    );
+                                  onPressed: () async {
+                                    await context.read<AuthCubit>().logout();
+                                    if (context.mounted) {
+                                      Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => LoginScreen(),
+                                        ),
+                                        (route) => false,
+                                      );
+                                    }
                                   },
                                   icon: Icon(
                                     Icons.logout_rounded,

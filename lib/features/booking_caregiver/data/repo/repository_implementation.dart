@@ -20,6 +20,10 @@ class BookingRepositoryImpl implements BookingRepository {
       datasource.getTasks(requestId);
 
   @override
+  Future<List<TaskModel>> getTasksByBookingId(String bookingId) =>
+      datasource.getTasksByBookingId(bookingId);
+
+  @override
   Future<void> updateTask(String taskId, bool completed) =>
       datasource.updateTask(taskId, completed);
 

@@ -15,8 +15,8 @@ class AddFundsButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         borderRadius: BorderRadius.circular(14),
-        onTap: () async {
-          await showModalBottomSheet(
+        onTap: () {
+          showModalBottomSheet(
             context: context,
             isScrollControlled: true,
             backgroundColor: Colors.transparent,
@@ -28,10 +28,6 @@ class AddFundsButton extends StatelessWidget {
               ),
             ),
           );
-
-          if (context.mounted) {
-            context.read<PaymentCubit>().loadData();
-          }
         },
         child: Container(
           width: double.infinity,

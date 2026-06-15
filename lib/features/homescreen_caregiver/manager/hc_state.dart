@@ -10,6 +10,7 @@ class HcState {
   final double rating;
   final String activeHours;
   final List<CareRequestModel> pendingRequests;
+  final List<CareRequestModel> acceptedBookings;
 
   const HcState({
     this.isLoading = true,
@@ -21,6 +22,7 @@ class HcState {
     this.rating = 4.9,
     this.activeHours = '0h',
     this.pendingRequests = const [],
+    this.acceptedBookings = const [],
   });
 
   int get pendingCount => pendingRequests.length;
@@ -37,6 +39,7 @@ class HcState {
     double? rating,
     String? activeHours,
     List<CareRequestModel>? pendingRequests,
+    List<CareRequestModel>? acceptedBookings,
   }) {
     return HcState(
       isLoading: isLoading ?? this.isLoading,
@@ -48,6 +51,7 @@ class HcState {
       rating: rating ?? this.rating,
       activeHours: activeHours ?? this.activeHours,
       pendingRequests: pendingRequests ?? this.pendingRequests,
+      acceptedBookings: acceptedBookings ?? this.acceptedBookings,
     );
   }
 }

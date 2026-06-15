@@ -1,6 +1,5 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../data/repo/payment_repo.dart';
 import '../data/model/payment_model.dart';
 import 'payment_state.dart';
@@ -13,85 +12,89 @@ class PaymentCubit extends Cubit<PaymentState> {
   Future<void> loadData({double? offerPrice}) async {
     if (isClosed) return;
     emit(PaymentLoading());
+
+    double balance = 0;
+    double income = 0;
+    double expense = 0;
+    List<TransactionModel> transactions = [];
+
     try {
       final walletResult = await repo.getPaymentData('');
-      final walletData = walletResult['data'];
 
-      final double balance = (walletData?['balance'] ?? 0).toDouble();
-      final double income = (walletData?['totalDeposited'] ?? 0).toDouble();
-      final double expense = (walletData?['totalSpent'] ?? 0).toDouble();
+      // Backend may nest wallet under 'data' or 'data.wallet'
+      final raw = walletResult['data'];
+      final walletData = (raw is Map && raw['wallet'] is Map)
+          ? raw['wallet'] as Map
+          : raw as Map?;
 
-      final transactions = (walletData?['transactions'] as List? ?? [])
+      balance = _parseDouble(walletData, const [
+        'balance', 'currentBalance', 'current_balance', 'amount',
+      ]);
+      income = _parseDouble(walletData, const [
+        'totalDeposited', 'total_deposited', 'totalAdded', 'income',
+      ]);
+      expense = _parseDouble(walletData, const [
+        'totalSpent', 'total_spent', 'totalWithdrawn', 'expense',
+      ]);
+
+      final txRaw = walletData?['transactions']
+          ?? walletData?['history']
+          ?? walletResult['transactions']
+          ?? [];
+      transactions = (txRaw as List? ?? [])
           .whereType<Map<String, dynamic>>()
           .map((t) => TransactionModel.fromJson(t))
           .toList();
 
-      double price = offerPrice ?? 0;
-
-      // final prefs = await SharedPreferences.getInstance();
-      // final bookingId = prefs.getString('bookingId') ?? '';
-      //
-      // if (bookingId.isNotEmpty) {
-      //   try {
-      //     final bookingResult = await repo.getBookingData(bookingId);
-      //     final bookingData = bookingResult['data'];
-      //     if (bookingData is Map<String, dynamic>) {
-      //       price = _extractPrice(bookingData, fallback: price);
-      //     }
-      //   } catch (_) {
-      //     // Fall back to offer price when booking details are unavailable.
-      //   }
-      // }
-
-      final double platformFee = price * 0.05;
-      final double taxRate = price * 0.14;
-      final double total = price + platformFee + taxRate;
-
-      if (!isClosed) {
-        emit(PaymentLoaded(
-          balance: balance,
-          income: income,
-          expense: expense,
-          transactions: transactions,
-          serviceCost: price,
-          platformFee: platformFee,
-          taxRate: taxRate,
-          total: total,
-        ));
+      // Derive balance from transactions when the field is missing or zero.
+      if (balance == 0 && transactions.isNotEmpty) {
+        for (final t in transactions) {
+          if (t.isIncome) {
+            balance += t.amount;
+            income += t.amount;
+          } else {
+            balance -= t.amount;
+            expense += t.amount;
+          }
+        }
       }
-    } catch (e) {
-      if (!isClosed) {
-        emit(PaymentError(e.toString()));
-      }
+    } catch (_) {
+      // Wallet may not exist yet — show summary with zero balance.
+    }
+
+    final double price = offerPrice ?? 0;
+    final double platformFee = price * 0.05;
+    final double taxRate = price * 0.14;
+    final double total = price + platformFee + taxRate;
+
+    if (!isClosed) {
+      emit(PaymentLoaded(
+        balance: balance,
+        income: income,
+        expense: expense,
+        transactions: transactions,
+        serviceCost: price,
+        platformFee: platformFee,
+        taxRate: taxRate,
+        total: total,
+      ));
     }
   }
 
+  // Payment was already processed by the backend when the offer was accepted.
+  // This screen is a confirmation summary — nothing left to charge.
   Future<String?> payBooking() async {
-    final current = state;
-    if (current is! PaymentLoaded) {
-      return 'Payment data is not ready';
+    if (state is! PaymentLoaded) return 'Payment data is not ready';
+    return null;
+  }
+
+  static double _parseDouble(Map? data, List<String> keys) {
+    if (data == null) return 0;
+    for (final key in keys) {
+      final val = data[key];
+      if (val is num && val != 0) return val.toDouble();
     }
-
-    try {
-      final prefs = await SharedPreferences.getInstance();
-      final bookingId = prefs.getString('bookingId') ?? '';
-
-      if (bookingId.isEmpty) {
-        return 'No booking selected for payment';
-      }
-
-      await repo.payBooking(bookingId);
-
-      if (!isClosed) {
-        emit(current.copyWith(
-          balance: current.balance - current.total,
-          expense: current.expense + current.total,
-        ));
-      }
-      return null;
-    } catch (e) {
-      return e.toString();
-    }
+    return 0;
   }
 
   double _extractPrice(Map<String, dynamic> bookingData, {double fallback = 0}) {
