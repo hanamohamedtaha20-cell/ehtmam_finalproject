@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TaskItemCard extends StatelessWidget {
 
@@ -18,25 +19,25 @@ class TaskItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 14),
+      padding: EdgeInsets.only(bottom: 14.h),
 
       child: Container(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 18,
+        padding: EdgeInsets.symmetric(
+          horizontal: 14.w,
+          vertical: 18.h,
         ),
 
         decoration: BoxDecoration(
           color: const Color(0xffF8F8F8),
 
           borderRadius:
-          BorderRadius.circular(18),
+          BorderRadius.circular(18.r),
 
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
               offset: Offset(0, 6),
-              blurRadius: 10,
+              blurRadius: 10.r,
             ),
           ],
         ),
@@ -49,15 +50,15 @@ class TaskItemCard extends StatelessWidget {
               onTap: onTap,
 
               child: Container(
-                height: 22,
-                width: 22,
+                height: 22.h,
+                width: 22.w,
 
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
 
                   border: Border.all(
                     color: const Color(0xffD3D7DF),
-                    width: 1.5,
+                    width: 1.5.w,
                   ),
 
                   color: isDone
@@ -66,16 +67,16 @@ class TaskItemCard extends StatelessWidget {
                 ),
 
                 child: isDone
-                    ? const Icon(
+                    ? Icon(
                   Icons.check,
                   color: Colors.white,
-                  size: 14,
+                  size: 14.r,
                 )
                     : null,
               ),
             ),
 
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
 
             /// TITLE
             Expanded(
@@ -85,7 +86,7 @@ class TaskItemCard extends StatelessWidget {
                 style: TextStyle(
                   color: const Color(0xff1F2C44),
 
-                  fontSize: 14,
+                  fontSize: 14.sp,
 
                   fontWeight: FontWeight.w500,
 

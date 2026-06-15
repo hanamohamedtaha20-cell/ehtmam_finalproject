@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class FAQItem extends StatelessWidget {
   final String title;
@@ -13,10 +14,10 @@ class FAQItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(
           color: Colors.grey.shade200,
         ),
@@ -26,10 +27,10 @@ class FAQItem extends StatelessWidget {
           dividerColor: Colors.transparent,
         ),
         child: ExpansionTile(
-          tilePadding: const EdgeInsets.symmetric(
-            horizontal: 16,
+          tilePadding: EdgeInsets.symmetric(
+            horizontal: 16.w,
           ),
-          childrenPadding: const EdgeInsets.fromLTRB(
+          childrenPadding: EdgeInsets.fromLTRB(
             16,
             0,
             16,
@@ -37,8 +38,8 @@ class FAQItem extends StatelessWidget {
           ),
           title: Text(
             title,
-            style: const TextStyle(
-              fontSize: 14,
+            style: TextStyle(
+              fontSize: 14.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -46,9 +47,9 @@ class FAQItem extends StatelessWidget {
             Text(
               answer,
               style: TextStyle(
-                fontSize: 13,
+                fontSize: 13.sp,
                 color: Colors.grey.shade700,
-                height: 1.5,
+                height: 1.5.h,
               ),
             ),
           ],

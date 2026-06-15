@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SectionCard extends StatelessWidget {
   final Widget child;
@@ -8,21 +9,21 @@ class SectionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: const Color(0xFFEEEEEE)),
-        // boxShadow: const [
+        // boxShadow: [
         //   BoxShadow(
         //       color: Color(0x1A000000),
         //       offset: Offset(0, 2),
-        //       blurRadius: 4,
+        //       blurRadius: 4.r,
         //       spreadRadius: 0),
         //   BoxShadow(
         //       color: Color(0x1A000000),
         //       offset: Offset(0, 4),
-        //       blurRadius: 6,
+        //       blurRadius: 6.r,
         //       spreadRadius: 0),
         // ],
       ),

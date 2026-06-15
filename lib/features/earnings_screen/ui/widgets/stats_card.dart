@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StatsCard extends StatelessWidget {
   final String value;
@@ -15,19 +16,19 @@ class StatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        vertical: 18,
+      padding: EdgeInsets.symmetric(
+        vertical: 18.h,
       ),
 
       decoration: BoxDecoration(
         color: Colors.white,
 
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(22.r),
 
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
-            blurRadius: 6,
+            blurRadius: 6.r,
             offset:  Offset(0, 2),
           ),
         ],
@@ -36,22 +37,22 @@ class StatsCard extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 16,
-              vertical: 14,
+            padding: EdgeInsets.symmetric(
+              horizontal: 16.w,
+              vertical: 14.h,
             ),
 
             decoration: BoxDecoration(
               color: color.withOpacity(0.18),
 
               borderRadius:
-              BorderRadius.circular(18),
+              BorderRadius.circular(18.r),
 
               boxShadow: [
                 BoxShadow(
                   color:
                   color.withOpacity(0.2),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset:  Offset(0, 6),
                 ),
               ],
@@ -63,19 +64,19 @@ class StatsCard extends StatelessWidget {
         style: TextStyle(
           color: color,
           fontWeight: FontWeight.w700,
-          fontSize: 16,
+          fontSize: 16.sp,
         ),
        ),
           ),
 
-          const SizedBox(height: 14),
+          SizedBox(height: 14.h),
 
           Text(
             title,
 
             style: TextStyle(
               color: const Color(0xFF475467),
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w500,
             ),
           ),

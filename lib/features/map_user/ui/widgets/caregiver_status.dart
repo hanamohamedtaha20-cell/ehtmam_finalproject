@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CaregiverStatus extends StatelessWidget {
   final String status;
@@ -16,45 +17,45 @@ class CaregiverStatus extends StatelessWidget {
       children: [
          Row(
           children: [
-            const Icon(Icons.circle, color: Colors.green, size: 15),
-            const SizedBox(width: 8),
+            Icon(Icons.circle, color: Colors.green, size: 15.r),
+            SizedBox(width: 8.w),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(status,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontFamily: "Arimo",
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: Colors.black)),
                 Text(statusSubtitle,
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontFamily: "Arimo",
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: Colors.black45)),
               ],
             ),
           ],
         ),
-         SizedBox(height: 4,),
+         SizedBox(height: 4.h,),
 
         Row(
           children: [
-            const Icon(Icons.access_time, color: Colors.blue, size: 15),
-            const SizedBox(width: 8),
+            Icon(Icons.access_time, color: Colors.blue, size: 15.r),
+            SizedBox(width: 8.w),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Arriving Soon",
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontFamily: "Arimo",
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: Colors.black)),
                 Text("Expected in 14 min.",
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontFamily: "Arimo",
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: Colors.black45)),
               ],
             ),

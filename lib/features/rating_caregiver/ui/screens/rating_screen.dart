@@ -1,10 +1,11 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/rating_row.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/review_field.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/section_card.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/submit_button.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/user_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../home_screen/ui/screens/home_screen.dart';
 import '../widgets/custom_header.dart';
@@ -37,74 +38,74 @@ class _RatingScreenState extends State<RatingGiverScreen> {
     return Scaffold(
         backgroundColor: Colors.white,      body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const CustomHeader(),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               Center(
-                child: const Text(
+                child: Text(
                           "Rate Your Experience",
                           style: TextStyle(
                 fontFamily: "Arimo",
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: 24.sp,
                 color: AppColors.textDark),
                         ),
               ),
 
-               const SizedBox(height: 10),
+               SizedBox(height: 10.h),
                 Center(
-                child: const Text(
+                child: Text(
                           "How was your experience with the client and the app?",
                           style: TextStyle(
                 fontFamily: "Arimo",
-                fontSize: 12,
+                fontSize: 12.sp,
                 color: AppColors.textDark),
                         ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
               const UserCard(name: "Gena Shamel", role: "Client"),
-              const SizedBox(height: 20),
+              SizedBox(height: 20.h),
               SectionCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Overall Rating",
-                        style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textDark)),
-                    const SizedBox(height: 8),
-                    Center(child: RatingStars(rating: _overall, onChanged: (v) => setState(() => _overall = v), size: 36)),
-                    const SizedBox(height: 4),
+                    Text("Overall Rating",
+                        style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14.sp, color: AppColors.textDark)),
+                    SizedBox(height: 8.h),
+                    Center(child: RatingStars(rating: _overall, onChanged: (v) => setState(() => _overall = v), size: 36.r)),
+                    SizedBox(height: 4.h),
                     Center(
-                      child: const Text("Tap to rate",
-                          style: TextStyle(fontFamily: "Arimo", fontSize: 11, color: AppColors.textLight)),
+                      child: Text("Tap to rate",
+                          style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: AppColors.textLight)),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               SectionCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Detailed Ratings",
-                        style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textDark)),
-                    const SizedBox(height: 12),
+                    Text("Detailed Ratings",
+                        style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14.sp, color: AppColors.textDark)),
+                    SizedBox(height: 12.h),
                     RatingRow(label: "Communication", rating: _professionalism, onChanged: (v) => setState(() => _professionalism = v)),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     RatingRow(label: "Ease of Use", rating: _serviceQuality, onChanged: (v) => setState(() => _serviceQuality = v)),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     RatingRow(label: "Reliability", rating: _punctuality, onChanged: (v) => setState(() => _punctuality = v)),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     RatingRow(label: "Overall Satisfaction", rating: _communication, onChanged: (v) => setState(() => _communication = v)),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               SectionCard(child: ReviewField(controller: _reviewController)),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
               SubmitButton(
                 onSubmit: () {
                   Navigator.pushAndRemoveUntil(
@@ -116,11 +117,11 @@ class _RatingScreenState extends State<RatingGiverScreen> {
                   );
                 },
               ),
-              const SizedBox(height: 12),
-              const Center(
+              SizedBox(height: 12.h),
+              Center(
                 child: Text(
                   "Your honest feedback helps improve our services",
-                  style: TextStyle(fontFamily: "Arimo", fontSize: 11, color: AppColors.textLight),
+                  style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: AppColors.textLight),
                 ),
               ),
             ],

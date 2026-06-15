@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/provider_data.dart';
 
 
@@ -21,11 +22,11 @@ class PriceRow extends StatelessWidget {
               "Proposed Price",
               style: TextStyle(
                 color: Colors.grey,
-                fontSize: 12,
+                fontSize: 12.sp,
               ),
             ),
 
-            SizedBox(height: 4),
+            SizedBox(height: 4.h),
 
 
             Row(
@@ -38,12 +39,12 @@ class PriceRow extends StatelessWidget {
                       decoration: TextDecoration.lineThrough,
                     ),
                   ),
-                  SizedBox(width: 6),
+                  SizedBox(width: 6.w),
                 ],
                 Text(
                   "${provider.price.toStringAsFixed(0)} EGP",
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -51,12 +52,12 @@ class PriceRow extends StatelessWidget {
               ],
             ),
             if (provider.hourlyRate > 0) ...[
-              SizedBox(height: 4),
+              SizedBox(height: 4.h),
               Text(
                 "${provider.hourlyRate.toStringAsFixed(0)} EGP / hr",
                 style: TextStyle(
                   color: Colors.grey,
-                  fontSize: 12,
+                  fontSize: 12.sp,
                 ),
               ),
             ],
@@ -65,14 +66,14 @@ class PriceRow extends StatelessWidget {
 
         if (provider.bestValue)
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
             decoration: BoxDecoration(
               color: Color(0xFF16A34A),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.green.withOpacity(0.3),
-                  blurRadius: 8,
+                  blurRadius: 8.r,
                   offset: Offset(0, 4),
                 ),
               ],
@@ -82,7 +83,7 @@ class PriceRow extends StatelessWidget {
               style: TextStyle(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
-                fontSize: 12,
+                fontSize: 12.sp,
               ),
             ),
           ),

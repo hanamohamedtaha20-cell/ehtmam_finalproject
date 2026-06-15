@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ehtemam_final_project/features/earnings_screen/data/model/transaction_model.dart';
 import 'transaction_card.dart';
 
@@ -15,8 +16,8 @@ class RecentTransactionsSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text("Recent Transactions"),
-        const SizedBox(height: 14),
+        Text("Recent Transactions"),
+        SizedBox(height: 14.h),
         if (transactions.isEmpty)
           Text(
             'No transactions yet',
@@ -25,7 +26,7 @@ class RecentTransactionsSection extends StatelessWidget {
         else
           ...transactions.map(
             (t) => Padding(
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: EdgeInsets.only(bottom: 12.h),
               child: TransactionCard(
                 title: t.title,
                 subtitle: t.clientName,

@@ -1,6 +1,7 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/booking_user/ui/widgets/booking_status_badge.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/booking_model_user.dart';
 import 'booking_action_buttons.dart';
 import 'booking_info_row.dart';
@@ -18,15 +19,15 @@ final VoidCallback? onCancel;
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.all(8),
+      padding: EdgeInsets.all(16.r),
+      margin: EdgeInsets.all(8.r),
 
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow:  [
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6.r),
 
         ],
       ),
@@ -40,32 +41,32 @@ final VoidCallback? onCancel;
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(booking.title,
-                      style: const TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 15, color: AppColors.textDark)),
+                      style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 15.sp, color: AppColors.textDark)),
                   Text(booking.subtitle,
-                      style: const TextStyle(fontFamily: "Arimo", fontSize: 12, color: AppColors.textLight)),
+                      style: TextStyle(fontFamily: "Arimo", fontSize: 12.sp, color: AppColors.textLight)),
                 ],
               ),
               BookingStatusBadge(status: booking.status),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           BookingInfoRow(icon: Icons.calendar_today_outlined, text: booking.date),
-          const SizedBox(height: 6),
+          SizedBox(height: 6.h),
           BookingInfoRow(icon: Icons.access_time_outlined, text: booking.time),
-          const SizedBox(height: 6),
+          SizedBox(height: 6.h),
           BookingInfoRow(icon: Icons.location_on_outlined, text: booking.location),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           
           Text(
             '${booking.price} EGP',
-            style: const TextStyle(
+            style: TextStyle(
               fontFamily: "Arimo",
               fontWeight: FontWeight.bold,
-              fontSize: 16,
+              fontSize: 16.sp,
               color: AppColors.textDark,
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           BookingActionButtons(status: booking.status,
            onCancel: onCancel, booking: booking,
 ),

@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
 import '../../data/model/provider_review_model.dart';
 import 'service_type_badge.dart';
@@ -21,24 +22,24 @@ class ReviewItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 16),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(horizontal: 16.w),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: const Color(0xFFEEF0F8)
         ),
-        boxShadow: const [
-          BoxShadow(color: Color.fromARGB(61, 0, 0, 0), blurRadius: 6, offset: Offset(0, 2)),
+        boxShadow: [
+          BoxShadow(color: Color.fromARGB(61, 0, 0, 0), blurRadius: 6.r, offset: Offset(0, 2)),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _ReviewerInfo(review: review),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           _ReviewComment(comment: review.comment),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           _ReviewActions(
             isHelpful: isHelpful,
             onHelpfulTap: onHelpfulTap,
@@ -77,24 +78,24 @@ class _ReviewerInfo extends StatelessWidget {
           radius: 21,
           backgroundColor: _avatarBg,
           child: Text(_initials,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w700, )),
+              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700, )),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(review.reviewerName,
-                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w700, color: AppColors.textDark)),
-              const SizedBox(height: 3),
+                  style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700, color: AppColors.textDark)),
+              SizedBox(height: 3.h),
               Row(
                 children: [
                   ServiceTypeBadge(serviceType: review.serviceType),
-                  const SizedBox(width: 6),
-                  const Icon(Icons.calendar_today_outlined, size: 11, color: AppColors.textLight),
-                  const SizedBox(width: 3),
+                  SizedBox(width: 6.w),
+                  Icon(Icons.calendar_today_outlined, size: 11.r, color: AppColors.textLight),
+                  SizedBox(width: 3.w),
                   Text(DateFormat('yyyy-MM-dd').format(review.date),
-                      style: const TextStyle(fontSize: 11, color: AppColors.textLight)),
+                      style: TextStyle(fontSize: 11.sp, color: AppColors.textLight)),
                 ],
               ),
             ],
@@ -104,7 +105,7 @@ class _ReviewerInfo extends StatelessWidget {
           children: List.generate(5, (i) => Icon(
             i < review.rating.round() ? Icons.star_rounded : Icons.star_outline_rounded,
             color: AppColors.yellow,
-            size: 15,
+            size: 15.r,
           )),
         ),
       ],
@@ -119,14 +120,14 @@ class _ReviewComment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
       decoration: BoxDecoration(
         color: Color(0xffF8FAFC),
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(10.r),
       ),
       child: Text(
         '"$comment"',
-        style: const TextStyle(fontSize: 13, color: Color(0xFF555555), height: 1.55),
+        style: TextStyle(fontSize: 13.sp, color: Color(0xFF555555), height: 1.55.h),
       ),
     );
   }
@@ -152,19 +153,19 @@ class _ReviewActions extends StatelessWidget {
           onTap: onHelpfulTap,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 200),
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 6.h),
             decoration: BoxDecoration(
               color: isHelpful ? Color(0xffECFDF5) : Color(0xffECFDF5),
-              borderRadius: BorderRadius.circular(99),
+              borderRadius: BorderRadius.circular(99.r),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Icon(isHelpful ? Icons.thumb_up : Icons.thumb_up_outlined,
-                    size: 14, color: AppColors.primary),
-                const SizedBox(width: 5),
+                    size: 14.r, color: AppColors.primary),
+                SizedBox(width: 5.w),
                 Text(isHelpful ? 'Helpful ✓' : 'Helpful',
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.primary)),
+                    style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600, color: AppColors.primary)),
               ],
             ),
           ),
@@ -172,11 +173,11 @@ class _ReviewActions extends StatelessWidget {
         GestureDetector(
           onTap: onViewBooking,
           child: Row(
-            children: const [
+            children: [
               Text('View Booking',
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500, color: AppColors.textLight)),
-              SizedBox(width: 3),
-              Icon(Icons.arrow_forward_rounded, size: 13, color: AppColors.textLight),
+                  style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: AppColors.textLight)),
+              SizedBox(width: 3.w),
+              Icon(Icons.arrow_forward_rounded, size: 13.r, color: AppColors.textLight),
             ],
           ),
         ),

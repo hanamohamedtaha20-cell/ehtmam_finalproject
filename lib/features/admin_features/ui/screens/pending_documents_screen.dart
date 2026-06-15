@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PendingDocumentsScreen extends StatelessWidget {
   final Map<String, dynamic> provider;
@@ -25,53 +26,53 @@ class PendingDocumentsScreen extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 60,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              height: 60.h,
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               color: Colors.white,
               child: Row(
                 children: [
                   InkWell(
                     onTap: () => Navigator.pop(context),
-                    child: const Row(
+                    child: Row(
                       children: [
                         Icon(
                           Icons.arrow_back_ios,
-                          size: 16,
+                          size: 16.r,
                           color: Color(0xff64748B),
                         ),
-                        SizedBox(width: 2),
+                        SizedBox(width: 2.w),
                         Text(
                           'Back',
                           style: TextStyle(
                             color: Color(0xff64748B),
-                            fontSize: 12,
+                            fontSize: 12.sp,
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Spacer(),
+                  Spacer(),
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 5.h,
                     ),
                     decoration: BoxDecoration(
                       color: const Color(0xffF1F5F9),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
-                    child: const Row(
+                    child: Row(
                       children: [
                         Icon(
                           Icons.language,
-                          size: 14,
+                          size: 14.r,
                           color: Color(0xff64748B),
                         ),
-                        SizedBox(width: 4),
+                        SizedBox(width: 4.w),
                         Text(
                           'العربية',
                           style: TextStyle(
-                            fontSize: 11,
+                            fontSize: 11.sp,
                             color: Color(0xff64748B),
                           ),
                         ),
@@ -83,12 +84,12 @@ class PendingDocumentsScreen extends StatelessWidget {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(24),
+                    borderRadius: BorderRadius.circular(24.r),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,27 +99,27 @@ class PendingDocumentsScreen extends StatelessWidget {
                           Expanded(
                             child: Text(
                               'View Documents -\n$name',
-                              style: const TextStyle(
-                                fontSize: 24,
+                              style: TextStyle(
+                                fontSize: 24.sp,
                                 fontWeight: FontWeight.w700,
                               ),
                             ),
                           ),
                           IconButton(
                             onPressed: () => Navigator.pop(context),
-                            icon: const Icon(Icons.close),
+                            icon: Icon(Icons.close),
                           ),
                         ],
                       ),
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
 
-                      const Text(
+                      Text(
                         'Profile Picture',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.h),
 
                       if (profilePicture != null &&
                           profilePicture.toString().isNotEmpty)
@@ -132,20 +133,20 @@ class PendingDocumentsScreen extends StatelessWidget {
                           text: 'No profile picture uploaded',
                         ),
 
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
 
-                      const Text(
+                      Text(
                         'National ID',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.h),
 
                       if (verificationDocuments.isNotEmpty)
                         ...verificationDocuments.map(
                               (doc) => Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
+                            padding: EdgeInsets.only(bottom: 12.h),
                             child: _imageCard(
                               url: doc.toString(),
                               fallbackIcon: Icons.description_outlined,
@@ -158,20 +159,20 @@ class PendingDocumentsScreen extends StatelessWidget {
                           text: 'No national ID uploaded',
                         ),
 
-                      const SizedBox(height: 24),
+                      SizedBox(height: 24.h),
 
-                      const Text(
+                      Text(
                         'Certificates',
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.h),
 
                       if (certifications.isNotEmpty)
                         ...certifications.map(
                               (doc) => Padding(
-                            padding: const EdgeInsets.only(bottom: 12),
+                            padding: EdgeInsets.only(bottom: 12.h),
                             child: _imageCard(
                               url: doc.toString(),
                               fallbackIcon: Icons.workspace_premium_outlined,
@@ -199,12 +200,12 @@ class PendingDocumentsScreen extends StatelessWidget {
     required IconData fallbackIcon,
   }) {
     return Container(
-      height: 220,
+      height: 220.h,
       width: double.infinity,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         color: const Color(0xffF8FAFC),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Image.network(
         url,
@@ -212,7 +213,7 @@ class PendingDocumentsScreen extends StatelessWidget {
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
 
-          return const Center(
+          return Center(
             child: CircularProgressIndicator(),
           );
         },
@@ -231,25 +232,25 @@ class PendingDocumentsScreen extends StatelessWidget {
     required String text,
   }) {
     return Container(
-      height: 160,
+      height: 160.h,
       width: double.infinity,
       decoration: BoxDecoration(
         color: const Color(0xffF8FAFC),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             icon,
-            size: 56,
+            size: 56.r,
             color: const Color(0xff94A3B8),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Text(
             text,
-            style: const TextStyle(
-              fontSize: 12,
+            style: TextStyle(
+              fontSize: 12.sp,
               color: Color(0xff64748B),
             ),
           ),

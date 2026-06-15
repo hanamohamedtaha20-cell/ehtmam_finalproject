@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/payment/data/model/payment_model.dart';
+﻿import 'package:ehtemam_final_project/features/payment/data/model/payment_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class TransactionItem extends StatelessWidget {
   final TransactionModel transaction;
 
@@ -17,16 +18,16 @@ class TransactionItem extends StatelessWidget {
         : const Color(0xFFFFEBEE);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
+      padding: EdgeInsets.symmetric(vertical: 6.h),
       child: Row(
         children: [
           // Icon
           CircleAvatar(
             radius: 20,
             backgroundColor: bgColor,
-            child: Icon(icon, color: color, size: 18),
+            child: Icon(icon, color: color, size: 18.r),
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10.w),
           // Title & Date
           Expanded(
             child: Column(
@@ -34,18 +35,18 @@ class TransactionItem extends StatelessWidget {
               children: [
                 Text(
                   transaction.title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: "Arimo",
                     fontWeight: FontWeight.bold,
-                    fontSize: 13,
+                    fontSize: 13.sp,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2.h),
                 Text(
                   "${_monthName(transaction.date.month)} ${transaction.date.day}, ${transaction.date.year}",
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: "Arimo",
-                    fontSize: 11,
+                    fontSize: 11.sp,
                     color: Colors.black45,
                   ),
                 ),
@@ -61,16 +62,16 @@ class TransactionItem extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: FontWeight.bold,
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   color: color,
                 ),
               ),
-              const SizedBox(height: 2),
+              SizedBox(height: 2.h),
               Text(
                 transaction.status,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: "Arimo",
-                  fontSize: 11,
+                  fontSize: 11.sp,
                   color: Colors.black45,
                 ),
               ),

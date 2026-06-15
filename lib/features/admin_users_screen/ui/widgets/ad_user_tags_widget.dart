@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AdUserTagsWidget extends StatelessWidget {
   final bool isActive;
@@ -25,7 +26,7 @@ class AdUserTagsWidget extends StatelessWidget {
               : Icons.remove_circle,
         ),
 
-        const SizedBox(width: 8),
+        SizedBox(width: 8.w),
 
         _buildChip(
           text: isPremium ? 'Premium User' : 'User',
@@ -48,28 +49,28 @@ class AdUserTagsWidget extends StatelessWidget {
     required IconData icon,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 8,
-        vertical: 4,
+      padding: EdgeInsets.symmetric(
+        horizontal: 8.w,
+        vertical: 4.h,
       ),
       decoration: BoxDecoration(
         color: backgroundColor,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
           Icon(
             icon,
-            size: 12,
+            size: 12.r,
             color: textColor,
           ),
-          const SizedBox(width: 4),
+          SizedBox(width: 4.w),
           Text(
             text,
             style: TextStyle(
               color: textColor,
-              fontSize: 11,
+              fontSize: 11.sp,
               fontWeight: FontWeight.w500,
             ),
           ),

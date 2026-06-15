@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 
 import 'package:ehtemam_final_project/features/tasks/manager/task_cubit.dart';
 
@@ -13,6 +13,7 @@ import 'package:ehtemam_final_project/features/tasks/ui/widgets/tab_bar.dart';
 import 'package:ehtemam_final_project/features/tasks/ui/widgets/task_list.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,7 +71,7 @@ class _TaskScreenBody extends StatelessWidget {
 
           child: Padding(
 
-            padding:  EdgeInsets.all(16),
+            padding:  EdgeInsets.all(16.r),
 
             child: BlocBuilder<TaskCubit, TaskState>(
 
@@ -78,7 +79,7 @@ class _TaskScreenBody extends StatelessWidget {
 
                 if (state is TaskLoading || state is TaskInitial) {
 
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator());
 
                 }
 
@@ -88,7 +89,7 @@ class _TaskScreenBody extends StatelessWidget {
 
                 }
 
-                if (state is! TaskLoaded) return const SizedBox.shrink();
+                if (state is! TaskLoaded) return SizedBox.shrink();
 
                 return Column(
 
@@ -122,7 +123,7 @@ class _TaskScreenBody extends StatelessWidget {
 
                             child: Icon(Icons.arrow_back)),
 
-                         Text("My Tasks", style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18, color: AppColors.textDark)),
+                         Text("My Tasks", style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18.sp, color: AppColors.textDark)),
 
                          Spacer(),
 
@@ -132,7 +133,7 @@ class _TaskScreenBody extends StatelessWidget {
 
                     ),
 
-                     SizedBox(height: 16),
+                     SizedBox(height: 16.h),
 
 
 
@@ -140,7 +141,7 @@ class _TaskScreenBody extends StatelessWidget {
 
                     StatsRow(activeCount: state.activeCount, completedCount: state.completedCount),
 
-                     SizedBox(height: 16),
+                     SizedBox(height: 16.h),
 
 
 
@@ -162,7 +163,7 @@ class _TaskScreenBody extends StatelessWidget {
 
                       ),
 
-                    const SizedBox(height: 12),
+                    SizedBox(height: 12.h),
 
 
 
@@ -206,7 +207,7 @@ class _TaskScreenBody extends StatelessWidget {
 
           shape: const CircleBorder(),
 
-          child: const Icon(Icons.add, color: Colors.white),
+          child: Icon(Icons.add, color: Colors.white),
 
           onPressed: () => showAddTaskDialog(context),
 

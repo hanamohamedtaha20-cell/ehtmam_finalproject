@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ETABanner extends StatelessWidget {
   final String eta;
@@ -13,9 +14,9 @@ class ETABanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      margin: const EdgeInsets.all(18),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      height: 100.h,
+      margin: EdgeInsets.all(18.r),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
     gradient: LinearGradient(
       colors: [
@@ -26,23 +27,23 @@ class ETABanner extends StatelessWidget {
       end: Alignment.bottomRight,
     ),
   
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         children: [
           Row(
             children: [
-            Icon(Icons.circle, color: Colors.white, size: 10),
-            SizedBox(width: 3),
+            Icon(Icons.circle, color: Colors.white, size: 10.r),
+            SizedBox(width: 3.w),
               Text(
                 "Live Location Tracking",
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                 ),
               ),  ],
           ),
-          SizedBox(height: 6),
+          SizedBox(height: 6.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
@@ -69,18 +70,18 @@ class _ETAItem extends StatelessWidget {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: "Arimo",
-            fontSize: 11,
+            fontSize: 11.sp,
             color: Colors.white70,
           ),
         ),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: "Arimo",
             fontWeight: FontWeight.bold,
-            fontSize: 22,
+            fontSize: 22.sp,
             color: Colors.white,
           ),
         ),

@@ -1,7 +1,8 @@
-import 'package:ehtemam_final_project/core/resources/language_chip.dart';
+﻿import 'package:ehtemam_final_project/core/resources/language_chip.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/pending_info_card.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PendingApprovalScreen extends StatelessWidget {
   final String fullName;
@@ -21,28 +22,28 @@ class PendingApprovalScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF7F9FC),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
           child: Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
             decoration: BoxDecoration(
               color: const Color(0xFFFDFDFD),
-              borderRadius: BorderRadius.circular(22),
+              borderRadius: BorderRadius.circular(22.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.08),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
+                  blurRadius: 20.r,
+                  offset: Offset(0, 8),
                 ),
               ],
             ),
             child: Column(
               children: [
-                const Align(
+                Align(
                   alignment: Alignment.topRight,
                   child: LanguageChip(),
                 ),
-                const SizedBox(height: 18),
+                SizedBox(height: 18.h),
                 Expanded(
                   child: SingleChildScrollView(
                     child: PendingInfoCard(
@@ -52,12 +53,12 @@ class PendingApprovalScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const SizedBox(height: 8),
+                SizedBox(height: 8.h),
                 RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(
-                    style: const TextStyle(
-                      fontSize: 11,
+                    style: TextStyle(
+                      fontSize: 11.sp,
                       color: Color(0xFF98A2B3),
                     ),
                     children: [

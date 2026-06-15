@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BookingTabs extends StatelessWidget {
   final int selectedIndex;
@@ -21,17 +22,17 @@ class BookingTabs extends StatelessWidget {
         : 'Tasks';
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Container(
-        padding: const EdgeInsets.all(4),
+        padding: EdgeInsets.all(4.r),
         decoration: BoxDecoration(
           color: const Color(0xffF4F4F4),
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(18.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(.08),
-              offset: const Offset(0, 4),
-              blurRadius: 6,
+              offset: Offset(0, 4),
+              blurRadius: 6.r,
             ),
           ],
         ),
@@ -42,10 +43,10 @@ class BookingTabs extends StatelessWidget {
                 onTap: () => onTabChanged(0),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 300),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
                   decoration: BoxDecoration(
                     gradient: selectedIndex == 0
-                        ? const LinearGradient(
+                        ? LinearGradient(
                             colors: [
                               Color(0xff2F80ED),
                               Color(0xff7EB6FF),
@@ -56,13 +57,13 @@ class BookingTabs extends StatelessWidget {
                         : null,
                     color:
                         selectedIndex == 0 ? null : Colors.transparent,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(14.r),
                     boxShadow: selectedIndex == 0
                         ? [
                             BoxShadow(
                               color: Colors.blue.withOpacity(.18),
-                              blurRadius: 8,
-                              offset: const Offset(0, 3),
+                              blurRadius: 8.r,
+                              offset: Offset(0, 3),
                             ),
                           ]
                         : [],
@@ -75,7 +76,7 @@ class BookingTabs extends StatelessWidget {
                         color: selectedIndex == 0
                             ? Colors.white
                             : const Color(0xff5C667A),
-                        fontSize: 12,
+                        fontSize: 12.sp,
                       ),
                     ),
                   ),
@@ -87,10 +88,10 @@ class BookingTabs extends StatelessWidget {
                 onTap: () => onTabChanged(1),
                 child: AnimatedContainer(
                   duration: const Duration(milliseconds: 250),
-                  padding: const EdgeInsets.symmetric(vertical: 14),
+                  padding: EdgeInsets.symmetric(vertical: 14.h),
                   decoration: BoxDecoration(
                     gradient: selectedIndex == 1
-                        ? const LinearGradient(
+                        ? LinearGradient(
                             colors: [
                               Color(0xff2F80ED),
                               Color(0xff7EB6FF),
@@ -101,13 +102,13 @@ class BookingTabs extends StatelessWidget {
                         : null,
                     color:
                         selectedIndex == 1 ? null : Colors.transparent,
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(14.r),
                     boxShadow: selectedIndex == 1
                         ? [
                             BoxShadow(
                               color: Colors.blue.withOpacity(.18),
-                              blurRadius: 8,
-                              offset: const Offset(0, 3),
+                              blurRadius: 8.r,
+                              offset: Offset(0, 3),
                             ),
                           ]
                         : [],
@@ -120,7 +121,7 @@ class BookingTabs extends StatelessWidget {
                         color: selectedIndex == 1
                             ? Colors.white
                             : const Color(0xff5C667A),
-                        fontSize: 12,
+                        fontSize: 12.sp,
                       ),
                     ),
                   ),

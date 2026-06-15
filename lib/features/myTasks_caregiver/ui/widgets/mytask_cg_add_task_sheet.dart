@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/mytask_cg_task_model.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -54,7 +55,7 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: 20, right: 20, top: 20,
+        left: 20.w, right: 20.w, top: 20.h,
         bottom: MediaQuery.of(context).viewInsets.bottom + 20,
       ),
       child: Column(
@@ -64,26 +65,26 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text('Add New Task', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
-              IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
+              Text('Add New Task', style: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.bold)),
+              IconButton(icon: Icon(Icons.close), onPressed: () => Navigator.pop(context)),
             ],
           ),
-          const SizedBox(height: 16),
-          const Text('Task Name', style: TextStyle(fontWeight: FontWeight.w500)),
-          const SizedBox(height: 8),
+          SizedBox(height: 16.h),
+          Text('Task Name', style: TextStyle(fontWeight: FontWeight.w500)),
+          SizedBox(height: 8.h),
           TextField(
             controller: _nameController,
             decoration: InputDecoration(
               hintText: 'Enter task name',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
             ),
           ),
-          const SizedBox(height: 16),
-          const Text('Photo of Receipt/Result', style: TextStyle(fontWeight: FontWeight.w500)),
-          const SizedBox(height: 8),
+          SizedBox(height: 16.h),
+          Text('Photo of Receipt/Result', style: TextStyle(fontWeight: FontWeight.w500)),
+          SizedBox(height: 8.h),
           OutlinedButton.icon(
             onPressed: _pickMedia,
-            icon: const Icon(Icons.add_photo_alternate_outlined),
+            icon: Icon(Icons.add_photo_alternate_outlined),
             label: Text(
               _mediaPaths.isEmpty
                   ? 'Add Photo/Video Proof'
@@ -97,18 +98,18 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
               foregroundColor: _mediaPaths.isEmpty ? Colors.grey.shade700 : const Color(0xFF1976D2),
             ),
           ),
-          const SizedBox(height: 16),
-          const Text('Price', style: TextStyle(fontWeight: FontWeight.w500)),
-          const SizedBox(height: 8),
+          SizedBox(height: 16.h),
+          Text('Price', style: TextStyle(fontWeight: FontWeight.w500)),
+          SizedBox(height: 8.h),
           TextField(
             controller: _priceController,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               hintText: 'Enter price',
-              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r)),
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton(
@@ -116,18 +117,18 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1976D2),
                 foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                padding: EdgeInsets.symmetric(vertical: 14.h),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
               ),
-              child: const Text('Add Task', style: TextStyle(fontSize: 16)),
+              child: Text('Add Task', style: TextStyle(fontSize: 16.sp)),
             ),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           SizedBox(
             width: double.infinity,
             child: TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('Cancel', style: TextStyle(color: Colors.red)),
+              child: Text('Cancel', style: TextStyle(color: Colors.red)),
             ),
           ),
         ],

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app_card.dart';
 
@@ -23,22 +24,22 @@ class RequestDescriptionField
 
               Icon(
                 Icons.description_outlined,
-                size: 18,
+                size: 18.r,
                 color: Colors.blueGrey,
               ),
 
-              const SizedBox(width: 6),
+              SizedBox(width: 6.w),
 
-              const Text(
+              Text(
                 "Description",
 
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w600,
                 ),
               ),
 
-              const Text(
+              Text(
                 " *",
 
                 style: TextStyle(
@@ -49,7 +50,7 @@ class RequestDescriptionField
             ],
           ),
 
-          const SizedBox(height: 14),
+          SizedBox(height: 14.h),
 
           TextFormField(
             maxLines: 5,
@@ -72,7 +73,7 @@ class RequestDescriptionField
 
               hintStyle: TextStyle(
                 color: Colors.grey.shade500,
-                fontSize: 14,
+                fontSize: 14.sp,
               ),
 
               filled: true,
@@ -81,11 +82,11 @@ class RequestDescriptionField
               const Color(0xFFF5F7FA),
 
               contentPadding:
-              const EdgeInsets.all(16),
+              EdgeInsets.all(16.r),
 
               border: OutlineInputBorder(
                 borderRadius:
-                BorderRadius.circular(14),
+                BorderRadius.circular(14.r),
 
                 borderSide:
                 BorderSide.none,
@@ -94,7 +95,7 @@ class RequestDescriptionField
               enabledBorder:
               OutlineInputBorder(
                 borderRadius:
-                BorderRadius.circular(14),
+                BorderRadius.circular(14.r),
 
                 borderSide:
                 BorderSide.none,
@@ -103,21 +104,21 @@ class RequestDescriptionField
               focusedBorder:
               OutlineInputBorder(
                 borderRadius:
-                BorderRadius.circular(14),
+                BorderRadius.circular(14.r),
 
                 borderSide: BorderSide(
                   color: Colors.blue.shade300,
-                  width: 1.5,
+                  width: 1.5.w,
                 ),
               ),
 
               errorBorder:
               OutlineInputBorder(
                 borderRadius:
-                BorderRadius.circular(14),
+                BorderRadius.circular(14.r),
 
                 borderSide:
-                const BorderSide(
+                BorderSide(
                   color: Colors.red,
                 ),
               ),
@@ -125,12 +126,12 @@ class RequestDescriptionField
               focusedErrorBorder:
               OutlineInputBorder(
                 borderRadius:
-                BorderRadius.circular(14),
+                BorderRadius.circular(14.r),
 
                 borderSide:
-                const BorderSide(
+                BorderSide(
                   color: Colors.red,
-                  width: 1.5,
+                  width: 1.5.w,
                 ),
               ),
             ),

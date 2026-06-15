@@ -1,6 +1,7 @@
-import 'package:ehtemam_final_project/core/resources/language_chip.dart';
+﻿import 'package:ehtemam_final_project/core/resources/language_chip.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/register_form.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterScreen extends StatelessWidget {
   final String role;
@@ -16,28 +17,28 @@ class RegisterScreen extends StatelessWidget {
       backgroundColor: const Color(0xFFF7F9FC),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+          padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
           child: Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+            padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
             decoration: BoxDecoration(
               color: const Color(0xFFFDFDFD),
-              borderRadius: BorderRadius.circular(22),
+              borderRadius: BorderRadius.circular(22.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.08),
-                  blurRadius: 20,
-                  offset: const Offset(0, 8),
+                  blurRadius: 20.r,
+                  offset: Offset(0, 8),
                 ),
               ],
             ),
             child: Column(
               children: [
-                const Align(
+                Align(
                   alignment: Alignment.topRight,
                   child: LanguageChip(),
                 ),
-                const SizedBox(height: 18),
+                SizedBox(height: 18.h),
                 Expanded(
                   child: SingleChildScrollView(
                     child: RegisterForm(role: role),

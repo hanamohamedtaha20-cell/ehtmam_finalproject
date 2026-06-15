@@ -1,8 +1,9 @@
-import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
+﻿import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/data/repo/recharge_repo.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_cubit.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/ui/screens/recharge_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
@@ -14,7 +15,7 @@ class AddFundsButton extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
         onTap: () {
           showModalBottomSheet(
             context: context,
@@ -31,12 +32,12 @@ class AddFundsButton extends StatelessWidget {
         },
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: EdgeInsets.symmetric(vertical: 12.h),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(14.r),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
               "+ Add Funds",
               style: TextStyle(

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../manager/pending_approvals/pending_approvals_cubit.dart';
 import '../../manager/pending_approvals/pending_approvals_state.dart';
@@ -29,38 +30,38 @@ class PendingApprovalsView extends StatelessWidget {
           children: [
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(12, 10, 18, 16),
+              padding: EdgeInsets.fromLTRB(12, 10, 18, 16),
               color: Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   OutlinedButton.icon(
                     onPressed: () => Navigator.maybePop(context),
-                    icon: const Icon(Icons.arrow_back_ios_new, size: 13),
-                    label: const Text('Back'),
+                    icon: Icon(Icons.arrow_back_ios_new, size: 13.r),
+                    label: Text('Back'),
                     style: OutlinedButton.styleFrom(
                       foregroundColor: const Color(0xff64748B),
-                      side: const BorderSide(color: Color(0xffE2E8F0)),
+                      side: BorderSide(color: Color(0xffE2E8F0)),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(18.r),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14),
-                  const Text(
+                  SizedBox(height: 14.h),
+                  Text(
                     'Pending Approvals',
                     style: TextStyle(
                       color: Color(0xff111827),
-                      fontSize: 27,
+                      fontSize: 27.sp,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
-                  const SizedBox(height: 6),
-                  const Text(
+                  SizedBox(height: 6.h),
+                  Text(
                     'Review and approve provider registrations',
                     style: TextStyle(
                       color: Color(0xff2F93E6),
-                      fontSize: 13,
+                      fontSize: 13.sp,
                     ),
                   ),
                 ],
@@ -73,13 +74,13 @@ class PendingApprovalsView extends StatelessWidget {
                 builder: (context, state) {
                   if (state.status ==
                       PendingApprovalsStatus.loading) {
-                    return const Center(
+                    return Center(
                       child: CircularProgressIndicator(),
                     );
                   }
 
                   return ListView.builder(
-                    padding: const EdgeInsets.all(12),
+                    padding: EdgeInsets.all(12.r),
                     itemCount: state.providers.length,
                     itemBuilder: (context, index) {
                       final provider = state.providers[index];

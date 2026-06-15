@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RegisterHeader extends StatelessWidget {
   final String role;
@@ -14,11 +15,11 @@ class RegisterHeader extends StatelessWidget {
     return Column(
       children: [
         Container(
-          width: 62,
-          height: 62,
+          width: 62.w,
+          height: 62.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(18),
-            gradient: const LinearGradient(
+            borderRadius: BorderRadius.circular(18.r),
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
@@ -29,32 +30,32 @@ class RegisterHeader extends StatelessWidget {
             boxShadow: [
               BoxShadow(
                 color: const Color(0xFF4A8BC3).withOpacity(0.35),
-                blurRadius: 14,
-                offset: const Offset(0, 6),
+                blurRadius: 14.r,
+                offset: Offset(0, 6),
               ),
             ],
           ),
-          child: const Icon(
+          child: Icon(
             Icons.person,
             color: Colors.white,
-            size: 28,
+            size: 28.r,
           ),
         ),
-        const SizedBox(height: 14),
+        SizedBox(height: 14.h),
         Text(
           '$role Register',
           textAlign: TextAlign.center,
           style: AppTextStyle.bold.copyWith(
-            fontSize: 28,
+            fontSize: 28.sp,
             color: const Color(0xFF22304A),
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           'Documents Required',
           textAlign: TextAlign.center,
           style: AppTextStyle.regular.copyWith(
-            fontSize: 12,
+            fontSize: 12.sp,
             color: const Color(0xFFFB2C36),
           ),
         ),

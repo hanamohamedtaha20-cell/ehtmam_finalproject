@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app_card.dart';
 
@@ -25,7 +26,7 @@ class AppTextAreaField extends StatelessWidget {
         children: [
           Text(title),
 
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
 
           TextFormField(
             controller: controller,
@@ -50,7 +51,7 @@ class AppTextAreaField extends StatelessWidget {
 
               border: OutlineInputBorder(
                 borderRadius:
-                BorderRadius.circular(14),
+                BorderRadius.circular(14.r),
 
                 borderSide:
                 BorderSide.none,

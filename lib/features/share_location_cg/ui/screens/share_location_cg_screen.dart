@@ -1,6 +1,7 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -102,7 +103,7 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
   void _toggleSharing() {
     if (!_locationReady) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Waiting for GPS location...')),
+        SnackBar(content: Text('Waiting for GPS location...')),
       );
       return;
     }
@@ -148,15 +149,15 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           "Share Location",
           style: TextStyle(
             fontFamily: "Arimo",
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 18.sp,
             color: Colors.black,
           ),
         ),
@@ -170,17 +171,17 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
           ),
           if (_errorMessage.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
               child: Text(
                 _errorMessage,
-                style: const TextStyle(color: Colors.red, fontSize: 13),
+                style: TextStyle(color: Colors.red, fontSize: 13.sp),
                 textAlign: TextAlign.center,
               ),
             ),
           SizedBox(
-            height: 220,
+            height: 220.h,
             child: Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16.0.r),
               child: FlutterMap(
                 mapController: _mapController,
                 options: MapOptions(
@@ -197,12 +198,12 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                     markers: [
                       Marker(
                         point: _myLocation,
-                        width: 40,
-                        height: 40,
-                        child: const Icon(
+                        width: 40.w,
+                        height: 40.h,
+                        child: Icon(
                           Icons.location_pin,
                           color: Colors.green,
-                          size: 40,
+                          size: 40.r,
                         ),
                       ),
                     ],
@@ -213,7 +214,7 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
           ),
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -227,17 +228,17 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                     isSharing: _isSharing,
                     onShareToggle: _toggleSharing,
                   ),
-                  const SizedBox(height: 16),
-                  const Text(
+                  SizedBox(height: 16.h),
+                  Text(
                     "Location Details",
                     style: TextStyle(
                       fontFamily: "Arimo",
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       color: Colors.black,
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   LocationDetailsCg(
                     clientLocation: 'Client location',
                     caregiverLocation: _locationReady
@@ -246,17 +247,17 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                     distance: '—',
                     eta: '—',
                   ),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   Container(
-                    margin: const EdgeInsets.all(8),
-                    padding: const EdgeInsets.all(12),
+                    margin: EdgeInsets.all(8.r),
+                    padding: EdgeInsets.all(12.r),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      boxShadow: const [
+                      borderRadius: BorderRadius.circular(16.r),
+                      boxShadow: [
                         BoxShadow(
                           color: Color.fromARGB(55, 0, 0, 0),
-                          blurRadius: 6,
+                          blurRadius: 6.r,
                           offset: Offset(0, 2),
                         ),
                       ],
@@ -266,24 +267,24 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.circle, color: Colors.blue, size: 10),
-                            const SizedBox(width: 4),
+                            Icon(Icons.circle, color: Colors.blue, size: 10.r),
+                            SizedBox(width: 4.w),
                             Text(
                               "Privacy Notice",
                               style: TextStyle(
                                 fontFamily: "Arimo",
-                                fontSize: 13,
+                                fontSize: 13.sp,
                                 color: Colors.blue[900],
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Text(
                           'Your location is only shared with the client while sharing is active. You can stop at any time.',
                           style: TextStyle(
                             fontFamily: "Arimo",
-                            fontSize: 13,
+                            fontSize: 13.sp,
                             color: Colors.blue[900],
                           ),
                         ),

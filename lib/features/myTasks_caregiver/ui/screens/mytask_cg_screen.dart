@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repo/mytask_cg_repo.dart';
 import '../../manager/mytask_cg_cubit.dart';
@@ -31,15 +32,15 @@ class _MytaskCgView extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () {},
         ),
-        title: const Text('My Tasks', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+        title: Text('My Tasks', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
       ),
       body: BlocBuilder<MytaskCgCubit, MytaskCgState>(
         builder: (context, state) {
           if (state is MytaskCgLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
           if (state is MytaskCgError) {
             return Center(child: Text(state.message));
@@ -49,19 +50,19 @@ class _MytaskCgView extends StatelessWidget {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                  padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
                   child: Column(
                     children: [
                       MytaskCgStatsHeader(
                         pendingCount: state.pendingCount,
                         completedCount: state.completedCount,
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.h),
                       ...state.bookings.where((b) => b.isCheckedIn).map((booking) => Padding(
-                        padding: const EdgeInsets.only(bottom: 12),
+                        padding: EdgeInsets.only(bottom: 12.h),
                         child: MytaskCgCheckinBar(booking: booking),
                       )),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.h),
                       MytaskCgFilterTabs(
                         selected: state.filter,
                         allCount: state.allTasks.length,
@@ -69,17 +70,17 @@ class _MytaskCgView extends StatelessWidget {
                         doneCount: state.completedCount,
                         onFilter: cubit.filterBookings,
                       ),
-                      const SizedBox(height: 12),
+                      SizedBox(height: 12.h),
                     ],
                   ),
                 ),
                 Expanded(
                   child: ListView(
-                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 16),
                     children: [
                       ...state.filteredTasks.map((task) {
                         final booking = state.getBookingForTask(task.id);
-                        if (booking == null) return const SizedBox();
+                        if (booking == null) return SizedBox();
                         return MytaskCgTaskItem(
                           task: task,
                           bookingId: booking.bookingId,
@@ -92,12 +93,12 @@ class _MytaskCgView extends StatelessWidget {
               ],
             );
           }
-          return const SizedBox();
+          return SizedBox();
         },
       ),
       floatingActionButton: BlocBuilder<MytaskCgCubit, MytaskCgState>(
         builder: (context, state) {
-          if (state is! MytaskCgLoaded) return const SizedBox();
+          if (state is! MytaskCgLoaded) return SizedBox();
           return FloatingActionButton(
             onPressed: () {
               final bookings = state.bookings;
@@ -105,7 +106,7 @@ class _MytaskCgView extends StatelessWidget {
               showModalBottomSheet(
                 context: context,
                 isScrollControlled: true,
-                shape: const RoundedRectangleBorder(
+                shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
                 ),
                 builder: (_) => MytaskCgAddTaskSheet(
@@ -115,7 +116,7 @@ class _MytaskCgView extends StatelessWidget {
               );
             },
             backgroundColor: const Color(0xFF1976D2),
-            child: const Icon(Icons.add, color: Colors.white),
+            child: Icon(Icons.add, color: Colors.white),
           );
         },
       ),

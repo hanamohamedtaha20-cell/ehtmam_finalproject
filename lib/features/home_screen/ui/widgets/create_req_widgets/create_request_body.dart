@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/home_screen/ui/widgets/create_req_widgets/submit_request.dart';
+﻿import 'package:ehtemam_final_project/features/home_screen/ui/widgets/create_req_widgets/submit_request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../requests_screen_user/ui/screens/requests_screen.dart';
 import '../../../manager/create_request_cubit.dart';
@@ -28,11 +29,11 @@ class CreateRequestBody extends StatelessWidget {
 
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: const Text("Create Request "),
+        title: Text("Create Request "),
       ),
 
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
 
         child: Form(
           key: context
@@ -43,11 +44,11 @@ class CreateRequestBody extends StatelessWidget {
             children: [
               RequestDescriptionField(),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               DateTimeSection(),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               AppInputField(
                 title: "Duration",
@@ -55,11 +56,11 @@ class CreateRequestBody extends StatelessWidget {
                 controller: context.read<CreateRequestCubit>().durationController,
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               const GovernorateField(),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               BlocBuilder<CreateRequestCubit, CreateRequestState>(
                 builder: (context, state) {
@@ -75,11 +76,11 @@ class CreateRequestBody extends StatelessWidget {
                         controller: cubit.budgetController,
                       ),
                       if (cubit.isBudgetEmpty)
-                        const Padding(
-                          padding: EdgeInsets.only(top: 6, left: 4),
+                        Padding(
+                          padding: EdgeInsets.only(top: 6.h, left: 4.w),
                           child: Text(
                             'Budget is required',
-                            style: TextStyle(color: Colors.red, fontSize: 12),
+                            style: TextStyle(color: Colors.red, fontSize: 12.sp),
                           ),
                         ),
                     ],
@@ -87,7 +88,7 @@ class CreateRequestBody extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               AppTextAreaField(
                 title: "Special Requirements",
@@ -96,7 +97,7 @@ class CreateRequestBody extends StatelessWidget {
                 controller: context.read<CreateRequestCubit>().notesController,
               ),
 
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
 
               BlocBuilder<CreateRequestCubit, CreateRequestState>(
                 builder: (context, state) {
@@ -106,11 +107,11 @@ class CreateRequestBody extends StatelessWidget {
                     children: [
                       const TasksSection(),
                       if (cubit.isTasksEmpty)
-                        const Padding(
-                          padding: EdgeInsets.only(top: 6, left: 4),
+                        Padding(
+                          padding: EdgeInsets.only(top: 6.h, left: 4.w),
                           child: Text(
                             'Please add at least one task',
-                            style: TextStyle(color: Colors.red, fontSize: 12),
+                            style: TextStyle(color: Colors.red, fontSize: 12.sp),
                           ),
                         ),
                     ],
@@ -118,7 +119,7 @@ class CreateRequestBody extends StatelessWidget {
                 },
               ),
 
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
 
               BlocConsumer<CreateRequestCubit,
                   CreateRequestState>(
@@ -126,7 +127,7 @@ class CreateRequestBody extends StatelessWidget {
 
                   if (state is CreateRequestSuccess) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
+                      SnackBar(
                         content: Text("Request Created Successfully"),
                       ),
                     );
@@ -153,7 +154,7 @@ class CreateRequestBody extends StatelessWidget {
 
                   if (state
                   is CreateRequestLoading) {
-                    return const Center(
+                    return Center(
                       child:
                       CircularProgressIndicator(),
                     );

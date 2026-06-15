@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DateTimeCard extends StatelessWidget {
   final String date;
@@ -18,37 +19,37 @@ class DateTimeCard extends StatelessWidget {
     required String value,
   }) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 15),
+      padding: EdgeInsets.only(bottom: 15.h),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 2),
+            padding: EdgeInsets.only(top: 2.h),
             child: Icon(
               icon,
               color: const Color(0xff2F80ED),
-              size: 20,
+              size: 20.r,
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xff6B7A90),
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                const SizedBox(height: 2),
+                SizedBox(height: 2.h),
                 Text(
                   value.isNotEmpty ? value : '—',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xff1F2C44),
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
@@ -64,18 +65,18 @@ class DateTimeCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 18,
-        vertical: 18,
+      padding: EdgeInsets.symmetric(
+        horizontal: 18.w,
+        vertical: 18.h,
       ),
       decoration: BoxDecoration(
         color: const Color(0xffF8F8F8),
-        borderRadius: BorderRadius.circular(28),
+        borderRadius: BorderRadius.circular(28.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
-            offset: const Offset(0, 4),
-            blurRadius: 6,
+            offset: Offset(0, 4),
+            blurRadius: 6.r,
           ),
         ],
       ),
@@ -83,24 +84,24 @@ class DateTimeCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
+            children: [
               Icon(
                 Icons.calendar_today_outlined,
                 color: Color(0xff4B5A75),
-                size: 18,
+                size: 18.r,
               ),
-              SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 "DATE & TIME",
                 style: TextStyle(
                   color: Color(0xff4B5A75),
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   fontWeight: FontWeight.w700,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 15),
+          SizedBox(height: 15.h),
           infoItem(
             icon: Icons.calendar_month_outlined,
             title: "Date",

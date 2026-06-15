@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/cg_payment_model.dart';
 
 class CgTransactionItem extends StatelessWidget {
@@ -25,32 +26,32 @@ class CgTransactionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(14),
+      margin: EdgeInsets.only(bottom: 12.h),
+      padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: const [
-          BoxShadow(color: Color.fromARGB(61, 0, 0, 0), blurRadius: 6, offset: Offset(0, 2)),
+        borderRadius: BorderRadius.circular(14.r),
+        boxShadow: [
+          BoxShadow(color: Color.fromARGB(61, 0, 0, 0), blurRadius: 6.r, offset: Offset(0, 2)),
         ],
       ),
       child: Column(
         children: [
           Row(
             children: [
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 22,
                 backgroundColor: Color(0xFFE3F2FD),
-                child: Icon(Icons.person, color: Color(0xFF3A8BD7), size: 24),
+                child: Icon(Icons.person, color: Color(0xFF3A8BD7), size: 24.r),
               ),
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(transaction.clientName, style: const TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14)),
-                    Text(transaction.serviceType, style: const TextStyle(fontFamily: "Arimo", fontSize: 12, color: Colors.black87)),
-                    Text(transaction.date, style: const TextStyle(fontFamily: "Arimo", fontSize: 11, color: Colors.black87)),
+                    Text(transaction.clientName, style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14.sp)),
+                    Text(transaction.serviceType, style: TextStyle(fontFamily: "Arimo", fontSize: 12.sp, color: Colors.black87)),
+                    Text(transaction.date, style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: Colors.black87)),
                   ],
                 ),
               ),
@@ -59,21 +60,21 @@ class CgTransactionItem extends StatelessWidget {
                 children: [
                   Text(
                     '${transaction.amount.toStringAsFixed(2)}',
-                    style: const TextStyle(color: Color(0xff3A8BD7)  ,fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 16),
+                    style: TextStyle(color: Color(0xff3A8BD7)  ,fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 16.sp),
                   ),
-                  const SizedBox(height: 5),
+                  SizedBox(height: 5.h),
 
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                    padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
                     decoration: BoxDecoration(
                       color: _statusColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Row(
                       children: [
-                        Icon(Icons.check_circle, color: _statusColor, size: 12),
-                        const SizedBox(width: 4),
-                        Text(_statusLabel, style: TextStyle(fontFamily: "Arimo", fontSize: 11, color: _statusColor)),
+                        Icon(Icons.check_circle, color: _statusColor, size: 12.r),
+                        SizedBox(width: 4.w),
+                        Text(_statusLabel, style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: _statusColor)),
                       ],
                     ),
                   ),
@@ -81,18 +82,18 @@ class CgTransactionItem extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 5),
+          SizedBox(height: 5.h),
           Divider(),
-          const SizedBox(height: 5),
+          SizedBox(height: 5.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text('Transaction ID: ${transaction.id.substring(0, 8)}',
-                  style: const TextStyle(fontFamily: "Arimo", fontSize: 11, color: Colors.black87)),
+                  style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: Colors.black87)),
               GestureDetector(
                 onTap: () {},
-                child: const Text('View Details →',
-                    style: TextStyle(fontFamily: "Arimo", fontSize: 11, color: Color(0xFF3A8BD7))),
+                child: Text('View Details →',
+                    style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: Color(0xFF3A8BD7))),
               ),
             ],
           ),

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app_card.dart';
 
@@ -27,12 +28,12 @@ class AppInputField extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontWeight: FontWeight.w600,
             ),
           ),
 
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
 
           TextFormField(
             controller: controller,
@@ -58,7 +59,7 @@ class AppInputField extends StatelessWidget {
 
               border: OutlineInputBorder(
                 borderRadius:
-                BorderRadius.circular(14),
+                BorderRadius.circular(14.r),
                 borderSide:
                 BorderSide.none,
               ),

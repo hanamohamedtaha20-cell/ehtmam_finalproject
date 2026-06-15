@@ -6,20 +6,16 @@ class RatingRepo {
 
   Future<void> submitRating({
     required RatingModel model,
-    required String caregiverId,
-    required String serviceId,
-    required String requestId,
+    required String bookingId,
   }) async {
     await _api.createReview(
-      caregiverId: caregiverId,
-      serviceId:   serviceId,
-      requestId:   requestId,
-      rating:      model.overall,
-      review:      model.review,
-      feedback:    'Professionalism: ${model.professionalism}, '
-                   'Service Quality: ${model.serviceQuality}, '
-                   'Punctuality: ${model.punctuality}, '
-                   'Communication: ${model.communication}',
+      bookingId: bookingId,
+      rating:    model.overall,
+      review:    model.review,
+      feedback:  'Professionalism: ${model.professionalism}, '
+                 'Service Quality: ${model.serviceQuality}, '
+                 'Punctuality: ${model.punctuality}, '
+                 'Communication: ${model.communication}',
     );
   }
 }

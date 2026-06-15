@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/home_screen/ui/widgets/language_switcher.dart';
+﻿import 'package:ehtemam_final_project/features/home_screen/ui/widgets/language_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RequestHeader extends StatelessWidget {
   const RequestHeader({super.key});
@@ -7,19 +8,19 @@ class RequestHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.only(
-        top: 18,
-        left: 16,
-        right: 16,
-        bottom: 12,
+      padding: EdgeInsets.only(
+        top: 18.h,
+        left: 16.w,
+        right: 16.w,
+        bottom: 12.h,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.03),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
+            blurRadius: 6.r,
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -33,19 +34,19 @@ class RequestHeader extends StatelessWidget {
                 onTap: () {
                   Navigator.pop(context);
                 },
-                child: const Icon(
+                child: Icon(
                   Icons.arrow_back_ios_new_rounded,
-                  size: 20,
+                  size: 20.r,
                   color: Color(0xFF222222),
                 ),
               ),
 
-              const SizedBox(width: 10),
+              SizedBox(width: 10.w),
 
-              const Text(
+              Text(
                 "Care Requests",
                 style: TextStyle(
-                  fontSize: 22,
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF222222),
                 ),

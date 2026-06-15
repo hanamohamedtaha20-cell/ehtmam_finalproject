@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
+﻿import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HcRequestCard extends StatelessWidget {
   final CareRequestModel request;
@@ -27,16 +28,16 @@ class HcRequestCard extends StatelessWidget {
 
     return Container(
       margin: EdgeInsets.fromLTRB(16 * s, 0, 16 * s, 14 * s),
-      padding: EdgeInsets.all(16 * s),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16 * s),
+        borderRadius: BorderRadius.circular(16.r),
         border: Border.all(color: const Color(0xFFE4E7EC)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.03),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            blurRadius: 8.r,
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -51,7 +52,7 @@ class HcRequestCard extends StatelessWidget {
                   request.serviceName,
                   style: TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 18 * s,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF0B2B5A),
                   ),
@@ -61,34 +62,34 @@ class HcRequestCard extends StatelessWidget {
                 request.price,
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 18 * s,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w800,
                   color: const Color(0xFF3A8BD7),
                 ),
               ),
             ],
           ),
-          SizedBox(height: 6 * s),
+          SizedBox(height: 6.h),
           Text(
             _subtitle,
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 13 * s,
+              fontSize: 13.sp,
               color: const Color(0xFF667085),
             ),
           ),
           if (request.clientName.isNotEmpty) ...[
-            SizedBox(height: 2 * s),
+            SizedBox(height: 2.h),
             Text(
               'Requested by: ${request.clientName}',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 12 * s,
+                fontSize: 12.sp,
                 color: const Color(0xFF98A2B3),
               ),
             ),
           ],
-          SizedBox(height: 12 * s),
+          SizedBox(height: 12.h),
           if (request.date.isNotEmpty)
             _InfoRow(
               scale: s,
@@ -102,26 +103,26 @@ class HcRequestCard extends StatelessWidget {
               text: request.location,
             ),
           if (request.notes.isNotEmpty) ...[
-            SizedBox(height: 10 * s),
+            SizedBox(height: 10.h),
             Container(
               width: double.infinity,
-              padding: EdgeInsets.all(12 * s),
+              padding: EdgeInsets.all(12.r),
               decoration: BoxDecoration(
                 color: const Color(0xFFEAF4FF),
-                borderRadius: BorderRadius.circular(12 * s),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: Text(
                 'Special Requirements: ${request.notes}',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 12 * s,
+                  fontSize: 12.sp,
                   color: const Color(0xFF3A8BD7),
-                  height: 1.4,
+                  height: 1.4.h,
                 ),
               ),
             ),
           ],
-          SizedBox(height: 16 * s),
+          SizedBox(height: 16.h),
           Row(
             children: [
               Expanded(
@@ -130,7 +131,7 @@ class HcRequestCard extends StatelessWidget {
                   onTap: onAccept,
                 ),
               ),
-              SizedBox(width: 12 * s),
+              SizedBox(width: 12.w),
               Expanded(
                 child: _DeclineButton(
                   scale: s,
@@ -159,17 +160,17 @@ class _InfoRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8 * scale),
+      padding: EdgeInsets.only(bottom: 8.h * scale),
       child: Row(
         children: [
-          Icon(icon, size: 16 * scale, color: const Color(0xFF98A2B3)),
-          SizedBox(width: 8 * scale),
+          Icon(icon, size: 16.r * scale, color: const Color(0xFF98A2B3)),
+          SizedBox(width: 8.w * scale),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 13 * scale,
+                fontSize: 13.sp * scale,
                 color: const Color(0xFF667085),
               ),
             ),
@@ -195,25 +196,25 @@ class _AcceptButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(14 * scale),
+        borderRadius: BorderRadius.circular(14.r * scale),
         child: Ink(
-          height: 44 * scale,
+          height: 44.h * scale,
           decoration: BoxDecoration(
-            gradient: const LinearGradient(
+            gradient: LinearGradient(
               colors: [Color(0xFF3A8BD7), Color(0xFF6CB4F5)],
             ),
-            borderRadius: BorderRadius.circular(14 * scale),
+            borderRadius: BorderRadius.circular(14.r * scale),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.check_rounded, color: Colors.white, size: 18 * scale),
-              SizedBox(width: 6 * scale),
+              Icon(Icons.check_rounded, color: Colors.white, size: 18.r * scale),
+              SizedBox(width: 6.w * scale),
               Text(
                 'Accept',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 14 * scale,
+                  fontSize: 14.sp * scale,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
@@ -239,26 +240,26 @@ class _DeclineButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(14 * scale),
+      borderRadius: BorderRadius.circular(14.r * scale),
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(14 * scale),
+        borderRadius: BorderRadius.circular(14.r * scale),
         child: Container(
-          height: 44 * scale,
+          height: 44.h * scale,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14 * scale),
+            borderRadius: BorderRadius.circular(14.r * scale),
             border: Border.all(color: const Color(0xFFD0D5DD)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.close_rounded, color: const Color(0xFF667085), size: 18 * scale),
-              SizedBox(width: 6 * scale),
+              Icon(Icons.close_rounded, color: const Color(0xFF667085), size: 18.r * scale),
+              SizedBox(width: 6.w * scale),
               Text(
                 'Decline',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 14 * scale,
+                  fontSize: 14.sp * scale,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF667085),
                 ),

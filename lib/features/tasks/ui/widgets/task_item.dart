@@ -1,6 +1,7 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/tasks/data/model/task_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TaskItem extends StatelessWidget {
   final TaskModel task;
@@ -59,46 +60,46 @@ class TaskItem extends StatelessWidget {
       secondaryBackground: Container(
         alignment: Alignment.centerRight,
 
-        margin: const EdgeInsets.all(2),
+        margin: EdgeInsets.all(2.r),
 
-        padding: const EdgeInsets.symmetric(
-          horizontal: 24,
+        padding: EdgeInsets.symmetric(
+          horizontal: 24.w,
         ),
 
         decoration: BoxDecoration(
           color: const Color(0xFFFFEAEA),
 
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(14.r),
         ),
 
-        child: const Icon(
+        child: Icon(
           Icons.delete_outline,
           color: Colors.red,
-          size: 28,
+          size: 28.r,
         ),
       ),
 
       child: Container(
-        margin: const EdgeInsets.all(2),
+        margin: EdgeInsets.all(2.r),
 
-        padding: const EdgeInsets.all(14),
+        padding: EdgeInsets.all(14.r),
 
         decoration: BoxDecoration(
           color: Colors.white,
 
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(14.r),
 
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               color: Color(0x1A000000),
               offset: Offset(0, 2),
-              blurRadius: 4,
+              blurRadius: 4.r,
             ),
 
             BoxShadow(
               color: Color(0x1A000000),
               offset: Offset(0, 4),
-              blurRadius: 6,
+              blurRadius: 6.r,
             ),
           ],
         ),
@@ -112,8 +113,8 @@ class TaskItem extends StatelessWidget {
               onTap: () => onToggle(task.id),
 
               child: Container(
-                width: 22,
-                height: 22,
+                width: 22.w,
+                height: 22.h,
 
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
@@ -123,7 +124,7 @@ class TaskItem extends StatelessWidget {
                         ? AppColors.blue
                         : Colors.grey.shade300,
 
-                    width: 2,
+                    width: 2.w,
                   ),
 
                   color: isCompleted
@@ -132,16 +133,16 @@ class TaskItem extends StatelessWidget {
                 ),
 
                 child: isCompleted
-                    ? const Icon(
+                    ? Icon(
                   Icons.check,
-                  size: 14,
+                  size: 14.r,
                   color: Colors.white,
                 )
                     : null,
               ),
             ),
 
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
 
             /// TEXTS
             Expanded(
@@ -155,7 +156,7 @@ class TaskItem extends StatelessWidget {
 
                     style: TextStyle(
                       fontFamily: "Arimo",
-                      fontSize: 13,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w500,
                       color: AppColors.textDark,
 
@@ -165,20 +166,20 @@ class TaskItem extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
 
                   Container(
                     padding:
-                    const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
+                    EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 5.h,
                     ),
 
                     decoration: BoxDecoration(
                       color: _categoryColor,
 
                       borderRadius:
-                      BorderRadius.circular(20),
+                      BorderRadius.circular(20.r),
                     ),
 
                     child: Text(
@@ -186,7 +187,7 @@ class TaskItem extends StatelessWidget {
 
                       style: TextStyle(
                         fontFamily: "Arimo",
-                        fontSize: 10,
+                        fontSize: 10.sp,
                         color: _categoryTextColor,
                         fontWeight: FontWeight.bold,
                       ),

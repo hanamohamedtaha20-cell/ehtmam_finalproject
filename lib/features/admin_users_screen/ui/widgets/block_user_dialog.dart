@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
+﻿import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BlockUserDialog extends StatelessWidget {
   final String name;
@@ -18,69 +19,69 @@ class BlockUserDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.r),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.warning_amber_rounded,
                   color: Colors.red,
                 ),
-                const SizedBox(width: 8),
-                const Text(
+                SizedBox(width: 8.w),
+                Text(
                   'Block User',
                   style: TextStyle(
                     color: Colors.red,
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 IconButton(
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  icon: const Icon(Icons.close),
+                  icon: Icon(Icons.close),
                 ),
               ],
             ),
 
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
 
-            const Text(
+            Text(
               'User:',
               style: TextStyle(color: Colors.grey),
             ),
 
-            const SizedBox(height: 4),
+            SizedBox(height: 4.h),
 
             Text(
               name,
-              style: const TextStyle(
-                fontSize: 18,
+              style: TextStyle(
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
 
             Text(
               email,
-              style: const TextStyle(color: Colors.grey),
+              style: TextStyle(color: Colors.grey),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
-            const Text(
+            Text(
               'Reason for Blocking *',
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
 
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
 
             TextField(
               maxLines: 4,
@@ -89,23 +90,23 @@ class BlockUserDialog extends StatelessWidget {
                 filled: true,
                 fillColor: const Color(0xffE5E7EB),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
 
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
 
-            const Text(
+            Text(
               'This reason will be stored for record keeping and may be shared with the user.',
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 11.sp,
                 color: Colors.grey,
               ),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             ActionButtonsRow(
               firstText: "Cancel",

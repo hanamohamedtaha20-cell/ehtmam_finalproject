@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'client_header.dart';
 import 'client_status.dart';
 import 'start_sharing_button.dart';
@@ -24,47 +25,47 @@ class ClientInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(color: Color.fromARGB(55, 0, 0, 0), blurRadius: 6, offset: Offset(0, 2)),
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(color: Color.fromARGB(55, 0, 0, 0), blurRadius: 6.r, offset: Offset(0, 2)),
         ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ClientHeader(name: name, serviceType: serviceType),
-          const SizedBox(height: 12),
-          const Divider(),
-          const SizedBox(height: 8),
+          SizedBox(height: 12.h),
+          Divider(),
+          SizedBox(height: 8.h),
           Container(
-            margin: EdgeInsets.only(left: 8, right: 8),
-          padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 8),
+            margin: EdgeInsets.only(left: 8.w, right: 8.w),
+          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
           decoration: BoxDecoration(
             color: Color(0xffF8FAFC),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
                   children: [
-                    const Text('Distance', style: TextStyle(fontFamily: "Arimo", fontSize: 11, color: Colors.grey)),
-                    const Text('2.3 km', style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)),
+                    Text('Distance', style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: Colors.grey)),
+                    Text('2.3 km', style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18.sp, color: Colors.black)),
                   ],
                 ),
                 Column(
                   children: [
-                    const Text('Est. Time', style: TextStyle(fontFamily: "Arimo", fontSize: 11, color: Colors.grey)),
-                    const Text('15 min', style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)),
+                    Text('Est. Time', style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: Colors.grey)),
+                    Text('15 min', style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18.sp, color: Colors.black)),
                   ],
                 ),
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           StartSharingButton(isSharing: isSharing, onTap: onShareToggle),
         ],
       ),

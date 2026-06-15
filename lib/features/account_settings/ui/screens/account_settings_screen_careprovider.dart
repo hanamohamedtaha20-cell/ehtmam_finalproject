@@ -1,7 +1,8 @@
-import 'package:ehtemam_final_project/features/account_settings/manager/account_settings_cubit.dart';
+﻿import 'package:ehtemam_final_project/features/account_settings/manager/account_settings_cubit.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/screens/change_password_screen.dart';
 import 'package:ehtemam_final_project/features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../auth/manager/auth_cubit.dart';
@@ -42,15 +43,15 @@ class _CareProviderAccountSettingsScreenState
 
     return Padding(
       padding: EdgeInsets.only(
-        top: 14 * s,
-        bottom: 7 * s,
-        left: 2 * s,
+        top: 14.h,
+        bottom: 7.h,
+        left: 2.w,
       ),
       child: Text(
         title,
         style: TextStyle(
           fontFamily: 'Inter',
-          fontSize: 11 * s,
+          fontSize: 11.sp,
           fontWeight: FontWeight.w800,
           letterSpacing: 0.4,
           color: color,
@@ -73,25 +74,25 @@ class _CareProviderAccountSettingsScreenState
     final s = scale(context);
 
     return InkWell(
-      borderRadius: BorderRadius.circular(18 * s),
+      borderRadius: BorderRadius.circular(18.r),
       onTap: onTap,
       child: Padding(
         padding: EdgeInsets.symmetric(
-          horizontal: 14 * s,
-          vertical: 11 * s,
+          horizontal: 14.w,
+          vertical: 11.h,
         ),
         child: Row(
           children: [
             Container(
-              width: 38 * s,
-              height: 38 * s,
+              width: 38.w,
+              height: 38.h,
               decoration: BoxDecoration(
                 color: bg,
-                borderRadius: BorderRadius.circular(12 * s),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: Icon(icon, size: 19 * s, color: iconColor),
+              child: Icon(icon, size: 19.r, color: iconColor),
             ),
-            SizedBox(width: 12 * s),
+            SizedBox(width: 12.w),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -102,19 +103,19 @@ class _CareProviderAccountSettingsScreenState
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 13 * s,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w700,
                       color: titleColor,
                     ),
                   ),
-                  SizedBox(height: 3 * s),
+                  SizedBox(height: 3.h),
                   Text(
                     subtitle.isEmpty ? 'Not added yet' : subtitle,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 10.5 * s,
+                      fontSize: 10.5.sp,
                       fontWeight: FontWeight.w500,
                       color: const Color(0xFF667085),
                     ),
@@ -125,7 +126,7 @@ class _CareProviderAccountSettingsScreenState
             if (arrow)
               Icon(
                 Icons.chevron_right_rounded,
-                size: 20 * s,
+                size: 20.r,
                 color: const Color(0xFF98A2B3),
               ),
           ],
@@ -138,14 +139,14 @@ class _CareProviderAccountSettingsScreenState
     final s = scale(context);
 
     return Container(
-      margin: EdgeInsets.only(bottom: 10 * s),
+      margin: EdgeInsets.only(bottom: 10.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18 * s),
+        borderRadius: BorderRadius.circular(18.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.08),
-            blurRadius: 14 * s,
+            blurRadius: 14.r,
             offset: Offset(0, 5 * s),
           ),
         ],
@@ -161,18 +162,18 @@ class _CareProviderAccountSettingsScreenState
     final s = scale(context);
 
     return Container(
-      margin: EdgeInsets.only(bottom: 10 * s),
+      margin: EdgeInsets.only(bottom: 10.h),
       padding: EdgeInsets.symmetric(
-        horizontal: 14 * s,
-        vertical: 11 * s,
+        horizontal: 14.w,
+        vertical: 11.h,
       ),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18 * s),
+        borderRadius: BorderRadius.circular(18.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.08),
-            blurRadius: 14 * s,
+            blurRadius: 14.r,
             offset: Offset(0, 5 * s),
           ),
         ],
@@ -180,11 +181,11 @@ class _CareProviderAccountSettingsScreenState
       child: Row(
         children: [
           Container(
-            width: 38 * s,
-            height: 38 * s,
+            width: 38.w,
+            height: 38.h,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(12 * s),
-              gradient: const LinearGradient(
+              borderRadius: BorderRadius.circular(12.r),
+              gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
@@ -196,10 +197,10 @@ class _CareProviderAccountSettingsScreenState
             child: Icon(
               Icons.notifications_none_rounded,
               color: Colors.white,
-              size: 20 * s,
+              size: 20.r,
             ),
           ),
-          SizedBox(width: 12 * s),
+          SizedBox(width: 12.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -208,17 +209,17 @@ class _CareProviderAccountSettingsScreenState
                   'Push Notifications',
                   style: TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 13 * s,
+                    fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF1D2939),
                   ),
                 ),
-                SizedBox(height: 3 * s),
+                SizedBox(height: 3.h),
                 Text(
                   'New request alerts',
                   style: TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 10.5 * s,
+                    fontSize: 10.5.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
@@ -254,11 +255,11 @@ class _CareProviderAccountSettingsScreenState
 
     return Container(
       padding: EdgeInsets.symmetric(
-        horizontal: 14 * s,
-        vertical: 12 * s,
+        horizontal: 14.w,
+        vertical: 12.h,
       ),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
@@ -266,11 +267,11 @@ class _CareProviderAccountSettingsScreenState
             Color(0xFFEAF6FF),
           ],
         ),
-        borderRadius: BorderRadius.circular(18 * s),
+        borderRadius: BorderRadius.circular(18.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.10),
-            blurRadius: 16 * s,
+            blurRadius: 16.r,
             offset: Offset(0, 7 * s),
           ),
         ],
@@ -278,27 +279,27 @@ class _CareProviderAccountSettingsScreenState
       child: Row(
         children: [
           Container(
-            width: 58 * s,
-            height: 58 * s,
+            width: 58.w,
+            height: 58.h,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15 * s),
+              borderRadius: BorderRadius.circular(15.r),
             ),
             child: Stack(
               clipBehavior: Clip.none,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(15 * s),
+                  borderRadius: BorderRadius.circular(15.r),
                   child: state.profileImagePath.isNotEmpty
                       ? Image.file(
                     File(state.profileImagePath),
-                    width: 58 * s,
-                    height: 58 * s,
+                    width: 58.w,
+                    height: 58.h,
                     fit: BoxFit.cover,
                   )
                       : Container(
-                    width: 58 * s,
-                    height: 58 * s,
-                    decoration: const BoxDecoration(
+                    width: 58.w,
+                    height: 58.h,
+                    decoration: BoxDecoration(
                       gradient: LinearGradient(
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -312,7 +313,7 @@ class _CareProviderAccountSettingsScreenState
                       child: Icon(
                         Icons.person_outline_rounded,
                         color: Colors.white,
-                        size: 29 * s,
+                        size: 29.r,
                       ),
                     ),
                   ),
@@ -327,26 +328,26 @@ class _CareProviderAccountSettingsScreenState
                       context.read<AccountSettingsCubit>().pickProfileImage();
                     },
                     child: Container(
-                      width: 18 * s,
-                      height: 18 * s,
+                      width: 18.w,
+                      height: 18.h,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
                         border: Border.all(
                           color: Colors.white,
-                          width: 1.5,
+                          width: 1.5.w,
                         ),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.15),
-                            blurRadius: 4 * s,
+                            blurRadius: 4.r,
                           ),
                         ],
                       ),
                       child: Center(
                         child: Icon(
                           Icons.camera_alt_rounded,
-                          size: 10 * s,
+                          size: 10.r,
                           color: const Color(0xFF1687E8),
                         ),
                       ),
@@ -356,7 +357,7 @@ class _CareProviderAccountSettingsScreenState
               ],
             ),
           ),
-          SizedBox(width: 13 * s),
+          SizedBox(width: 13.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -367,12 +368,12 @@ class _CareProviderAccountSettingsScreenState
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 14.5 * s,
+                    fontSize: 14.5.sp,
                     fontWeight: FontWeight.w800,
                     color: const Color(0xFF1D2939),
                   ),
                 ),
-                SizedBox(height: 4 * s),
+                SizedBox(height: 4.h),
                 Text(
                   state.email.isEmpty
                       ? 'fatma.adel@email.com'
@@ -381,17 +382,17 @@ class _CareProviderAccountSettingsScreenState
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 10.5 * s,
+                    fontSize: 10.5.sp,
                     fontWeight: FontWeight.w500,
                     color: const Color(0xFF667085),
                   ),
                 ),
-                SizedBox(height: 3 * s),
+                SizedBox(height: 3.h),
                 Text(
                   'Certified Provider',
                   style: TextStyle(
                     fontFamily: 'Inter',
-                    fontSize: 10 * s,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF1687E8),
                   ),
@@ -416,8 +417,8 @@ class _CareProviderAccountSettingsScreenState
             child: Column(
               children: [
                 Container(
-                  height: 54 * s,
-                  padding: EdgeInsets.symmetric(horizontal: 6 * s),
+                  height: 54.h,
+                  padding: EdgeInsets.symmetric(horizontal: 6.w),
                   color: Colors.white,
                   child: Row(
                     children: [
@@ -427,7 +428,7 @@ class _CareProviderAccountSettingsScreenState
                         },
                         icon: Icon(
                           Icons.arrow_back_ios_new_rounded,
-                          size: 17 * s,
+                          size: 17.r,
                           color: const Color(0xFF1D2939),
                         ),
                       ),
@@ -435,28 +436,28 @@ class _CareProviderAccountSettingsScreenState
                         'Account Settings',
                         style: TextStyle(
                           fontFamily: 'Inter',
-                          fontSize: 16 * s,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w800,
                           color: const Color(0xFF1D2939),
                         ),
                       ),
-                      const Spacer(),
+                      Spacer(),
                       Icon(
                         Icons.language_rounded,
-                        size: 15 * s,
+                        size: 15.r,
                         color: const Color(0xFF667085),
                       ),
-                      SizedBox(width: 4 * s),
+                      SizedBox(width: 4.w),
                       Text(
                         'E',
                         style: TextStyle(
                           fontFamily: 'Inter',
-                          fontSize: 12 * s,
+                          fontSize: 12.sp,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xFF344054),
                         ),
                       ),
-                      SizedBox(width: 14 * s),
+                      SizedBox(width: 14.w),
                     ],
                   ),
                 ),
@@ -609,14 +610,14 @@ class _CareProviderAccountSettingsScreenState
                                 ),
                               ]),
 
-                              SizedBox(height: 2 * s),
+                              SizedBox(height: 2.h),
 
                               Container(
                                 width: double.infinity,
-                                height: 45 * s,
+                                height: 45.h,
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFFFFBFB),
-                                  borderRadius: BorderRadius.circular(14 * s),
+                                  borderRadius: BorderRadius.circular(14.r),
                                   border: Border.all(
                                     color: const Color(0xFFFFCFCF),
                                   ),
@@ -637,21 +638,21 @@ class _CareProviderAccountSettingsScreenState
                                   icon: Icon(
                                     Icons.logout_rounded,
                                     color: const Color(0xFFF04438),
-                                    size: 17 * s,
+                                    size: 17.r,
                                   ),
                                   label: Text(
                                     'Logout',
                                     style: TextStyle(
                                       fontFamily: 'Inter',
                                       color: const Color(0xFFF04438),
-                                      fontSize: 13 * s,
+                                      fontSize: 13.sp,
                                       fontWeight: FontWeight.w700,
                                     ),
                                   ),
                                 ),
                               ),
 
-                              SizedBox(height: 28 * s),
+                              SizedBox(height: 28.h),
 
                               Center(
                                 child: Text(
@@ -659,14 +660,14 @@ class _CareProviderAccountSettingsScreenState
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontFamily: 'Inter',
-                                    fontSize: 9.5 * s,
-                                    height: 1.4,
+                                    fontSize: 9.5.sp,
+                                    height: 1.4.h,
                                     color: const Color(0xFF98A2B3),
                                   ),
                                 ),
                               ),
 
-                              SizedBox(height: 10 * s),
+                              SizedBox(height: 10.h),
                             ],
                           ),
                         ),

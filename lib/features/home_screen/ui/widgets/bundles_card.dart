@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BundlesCard extends StatelessWidget {
   final VoidCallback onTap;
@@ -12,13 +13,13 @@ class BundlesCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(
-        horizontal: 3,
+        horizontal: 3.w,
       ),
 
-      padding:  EdgeInsets.all(15),
+      padding:  EdgeInsets.all(15.r),
 
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24.r),
 
         gradient:  LinearGradient(
           begin: Alignment.topLeft,
@@ -33,7 +34,7 @@ class BundlesCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
-            blurRadius: 6,
+            blurRadius: 6.r,
             offset: Offset(0, 4),
           ),
         ],
@@ -46,24 +47,24 @@ class BundlesCard extends StatelessWidget {
             children: [
               /// ICON BOX
               Container(
-                width: 55,
-                height: 55,
+                width: 55.w,
+                height: 55.h,
 
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.14),
 
                   borderRadius:
-                  BorderRadius.circular(20),
+                  BorderRadius.circular(20.r),
                 ),
 
                 child:  Icon(
                   Icons.inventory_2_outlined,
                   color: Colors.white,
-                  size: 25,
+                  size: 25.r,
                 ),
               ),
 
-              SizedBox(width: 13),
+              SizedBox(width: 13.w),
 
               /// TEXTS
               Expanded(
@@ -76,20 +77,20 @@ class BundlesCard extends StatelessWidget {
                       "Save with Bundles",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 17,
+                        fontSize: 17.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
 
-                    SizedBox(height: 4),
+                    SizedBox(height: 4.h),
 
                     Text(
                       "Get up to 40% off with service packages",
 
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 12,
-                        height: 1.35,
+                        fontSize: 12.sp,
+                        height: 1.35.h,
                         fontWeight: FontWeight.w400,
                       ),
                     ),
@@ -99,27 +100,27 @@ class BundlesCard extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: 12),
+          SizedBox(height: 12.h),
 
           /// BUTTON
           InkWell(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(20.r),
             onTap: onTap,
 
             child: Container(
-              height: 45,
+              height: 45.h,
 
               decoration: BoxDecoration(
                 color: Colors.white,
 
                 borderRadius:
-                BorderRadius.circular(16),
+                BorderRadius.circular(16.r),
 
                 boxShadow: [
                   BoxShadow(
                     color:
                     Colors.black.withOpacity(0.3),
-                    blurRadius: 6,
+                    blurRadius: 6.r,
                     offset: Offset(0, 2),
                   ),
                 ],
@@ -133,17 +134,17 @@ class BundlesCard extends StatelessWidget {
                   Icon(
                     Icons.inventory_2_outlined,
                     color: Color(0xFF00A86B),
-                    size: 20,
+                    size: 20.r,
                   ),
 
-                  SizedBox(width: 9),
+                  SizedBox(width: 9.w),
 
                   Text(
                     "View Bundles",
 
                     style: TextStyle(
                       color: Color(0xFF00A86B),
-                      fontSize: 15,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w700,
                     ),
                   ),

@@ -1,6 +1,7 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/profile_caregiver/ui/screens/caregiver_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repo/provider_review_repo.dart';
 import '../../manager/provider_review_cubit.dart';
@@ -44,14 +45,14 @@ class _ProviderReviewsView extends StatelessWidget {
             },
             child: Icon(Icons.arrow_back)),
 
-        title: const Text('My Ratings',
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: Colors.black)),
+        title: Text('My Ratings',
+            style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold, color: Colors.black)),
         
       ),
       body: BlocBuilder<ProviderReviewCubit, ProviderReviewState>(
         builder: (context, state) {
           if (state is ProviderReviewLoading || state is ProviderReviewInitial) {
-            return const Center(child: CircularProgressIndicator(color: AppColors.primary));
+            return Center(child: CircularProgressIndicator(color: AppColors.primary));
           }
 
           if (state is ProviderReviewError) {
@@ -63,7 +64,7 @@ class _ProviderReviewsView extends StatelessWidget {
             );
           }
 
-          if (state is! ProviderReviewLoaded) return const SizedBox();
+          if (state is! ProviderReviewLoaded) return SizedBox();
 
         return Column(
           children: [
@@ -74,7 +75,7 @@ class _ProviderReviewsView extends StatelessWidget {
                   context.read<ProviderReviewCubit>().filterByStar(star as int?),
             ),
             Padding(
-              padding: const EdgeInsets.only(bottom: 12),
+              padding: EdgeInsets.only(bottom: 12.h),
               child: ReviewFilterTabs(
                 activeFilter: state.activeStarFilter,
                 onFilterChanged: (star) =>
@@ -85,12 +86,12 @@ class _ProviderReviewsView extends StatelessWidget {
               child: state.reviews.isEmpty
                   ? const ReviewEmptyState(message: 'No reviews for this filter yet.')
                   : ListView.builder(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w),
                       itemCount: state.reviews.length,
                       itemBuilder: (context, index) {
                         final review = state.reviews[index];
                         return Padding(
-                          padding: const EdgeInsets.only(bottom: 12),
+                          padding: EdgeInsets.only(bottom: 12.h),
                           child: ReviewItemCard(
                             review: review,
                             isHelpful: state.helpfulIds.contains(review.id),

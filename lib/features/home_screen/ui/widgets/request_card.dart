@@ -1,5 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RequestCardWidget extends StatelessWidget {
   final String title;
@@ -22,12 +23,12 @@ class RequestCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 12, right: 8, left: 8),
-      padding: EdgeInsets.all(14),
+      margin: EdgeInsets.only(bottom: 12.h, right: 8.w, left: 8.w),
+      padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5)],
+        borderRadius: BorderRadius.circular(14.r),
+        boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 5.r)],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -40,22 +41,22 @@ class RequestCardWidget extends StatelessWidget {
                   title,
                   style:  TextStyle(fontWeight: FontWeight.bold),
                 ),
-                 SizedBox(height: 6),
+                 SizedBox(height: 6.h),
                 Text(
                   description.tr(),
-                  style:  TextStyle(fontSize: 12, color: Colors.grey),
+                  style:  TextStyle(fontSize: 12.sp, color: Colors.grey),
                 ),
-                 SizedBox(height: 6),
+                 SizedBox(height: 6.h),
                 Text(
                   "starts".tr(args: [date]),
-                  style:  TextStyle(fontSize: 12, color: Colors.grey),
+                  style:  TextStyle(fontSize: 12.sp, color: Colors.grey),
                 ),
 
-                SizedBox(height: 6),
+                SizedBox(height: 6.h),
 
                 Text(
                   provider.isEmpty ? "" : "provider".tr(args: [provider]),
-                  style: TextStyle(fontSize: 12, color: Color(0xFF39DAF6)),
+                  style: TextStyle(fontSize: 12.sp, color: Color(0xFF39DAF6)),
                 ),
               ],
             ),
@@ -69,14 +70,14 @@ class RequestCardWidget extends StatelessWidget {
 
                 children: [
                   Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                    padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
                     decoration: BoxDecoration(
                       color: statusColor.withOpacity(0.2),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
                       status.tr(),
-                      style: TextStyle(color: statusColor, fontSize: 10),
+                      style: TextStyle(color: statusColor, fontSize: 10.sp),
                     ),
                   ),
                 ],

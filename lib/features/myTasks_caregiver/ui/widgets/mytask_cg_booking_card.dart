@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/myTasks_caregiver/manager/mytask_cg_cubit.dart';
+﻿import 'package:ehtemam_final_project/features/myTasks_caregiver/manager/mytask_cg_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/mytask_cg_booking_model.dart';
 import 'mytask_cg_task_item.dart';
@@ -21,8 +22,8 @@ class MytaskCgBookingCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      margin: EdgeInsets.only(bottom: 16.h),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
       elevation: 2,
       child: Column(
         children: [
@@ -43,10 +44,10 @@ class MytaskCgBookingCard extends StatelessWidget {
   Widget _buildHeader() {
     final isCheckedIn = booking.isCheckedIn;
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
         color: isCheckedIn ? const Color(0xFF1976D2) : Colors.white,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -58,16 +59,16 @@ class MytaskCgBookingCard extends StatelessWidget {
                 'Booking ${booking.bookingId}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 15,
+                  fontSize: 15.sp,
                   color: isCheckedIn ? Colors.white : Colors.black,
                 ),
               ),
               Row(
                 children: [
-                  Icon(Icons.person_outline, size: 13, color: isCheckedIn ? Colors.white70 : Colors.grey),
+                  Icon(Icons.person_outline, size: 13.r, color: isCheckedIn ? Colors.white70 : Colors.grey),
                   Text(
                     ' ${booking.clientName}  •  ${booking.category}',
-                    style: TextStyle(fontSize: 12, color: isCheckedIn ? Colors.white70 : Colors.grey),
+                    style: TextStyle(fontSize: 12.sp, color: isCheckedIn ? Colors.white70 : Colors.grey),
                   ),
                 ],
               ),
@@ -76,7 +77,7 @@ class MytaskCgBookingCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('Tasks', style: TextStyle(fontSize: 11, color: isCheckedIn ? Colors.white70 : Colors.grey)),
+              Text('Tasks', style: TextStyle(fontSize: 11.sp, color: isCheckedIn ? Colors.white70 : Colors.grey)),
               Text(
                 '${booking.completedTasks}/${booking.totalTasks}',
                 style: TextStyle(fontWeight: FontWeight.bold, color: isCheckedIn ? Colors.white : Colors.black),
@@ -91,38 +92,38 @@ class MytaskCgBookingCard extends StatelessWidget {
  Widget _buildCheckInOutSection() {
   if (booking.isCheckedIn) {
     return Container(
-      margin: const EdgeInsets.all(12),
-      padding: const EdgeInsets.all(12),
+      margin: EdgeInsets.all(12.r),
+      padding: EdgeInsets.all(12.r),
       decoration: BoxDecoration(
         color: Colors.green.shade50,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: Colors.green.shade200),
       ),
       child: Column(
         children: [
           Row(
             children: [
-              const Icon(Icons.check_circle, color: Colors.green, size: 16),
-              const Text(' Checked In', style: TextStyle(color: Colors.green, fontSize: 13, fontWeight: FontWeight.bold)),
-              const Spacer(),
-              const Icon(Icons.access_time, size: 13, color: Colors.grey),
-              Text(' ${booking.checkInTime}', style: const TextStyle(fontSize: 12, color: Colors.grey)),
+              Icon(Icons.check_circle, color: Colors.green, size: 16.r),
+              Text(' Checked In', style: TextStyle(color: Colors.green, fontSize: 13.sp, fontWeight: FontWeight.bold)),
+              Spacer(),
+              Icon(Icons.access_time, size: 13.r, color: Colors.grey),
+              Text(' ${booking.checkInTime}', style: TextStyle(fontSize: 12.sp, color: Colors.grey)),
             ],
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Row(
             children: [
-              const Icon(Icons.location_on, color: Colors.blue, size: 13),
-              const Text(' Location tracked', style: TextStyle(fontSize: 12, color: Colors.grey)),
+              Icon(Icons.location_on, color: Colors.blue, size: 13.r),
+              Text(' Location tracked', style: TextStyle(fontSize: 12.sp, color: Colors.grey)),
             ],
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           SizedBox(
             width: double.infinity,
             child: OutlinedButton.icon(
               onPressed: onCheckOut,
-              icon: const Icon(Icons.logout, size: 16),
-              label: const Text('Check Out'),
+              icon: Icon(Icons.logout, size: 16.r),
+              label: Text('Check Out'),
               style: OutlinedButton.styleFrom(foregroundColor: const Color(0xFF1976D2)),
             ),
           ),
@@ -131,25 +132,25 @@ class MytaskCgBookingCard extends StatelessWidget {
     );
   }
   return Padding(
-    padding: const EdgeInsets.all(12),
+    padding: EdgeInsets.all(12.r),
     child: Column(
       children: [
         SizedBox(
           width: double.infinity,
           child: ElevatedButton.icon(
             onPressed: onCheckIn,
-            icon: const Icon(Icons.login, size: 16),
-            label: const Text('Check In to Start Work'),
+            icon: Icon(Icons.login, size: 16.r),
+            label: Text('Check In to Start Work'),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF1976D2),
               foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
             ),
           ),
         ),
-        const SizedBox(height: 4),
-        const Text('You must check in before completing tasks',
-            style: TextStyle(fontSize: 11, color: Colors.grey)),
+        SizedBox(height: 4.h),
+        Text('You must check in before completing tasks',
+            style: TextStyle(fontSize: 11.sp, color: Colors.grey)),
       ],
     ),
   );

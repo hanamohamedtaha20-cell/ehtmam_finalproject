@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../manager/provider_details_cubit.dart';
@@ -35,24 +36,24 @@ class AboutProviderCard extends StatelessWidget {
                 "About Provider",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: Color(0xFF374151),
                 ),
               ),
 
-              SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
               /// 🔹 Card
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 decoration: BoxDecoration(
                   color: Color(0xFFF5F7FA),
-                  borderRadius: BorderRadius.circular(18),
+                  borderRadius: BorderRadius.circular(18.r),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withOpacity(0.08),
-                      blurRadius: 12,
+                      blurRadius: 12.r,
                       offset: Offset(0, 6),
                     ),
                   ],
@@ -66,20 +67,20 @@ class AboutProviderCard extends StatelessWidget {
                     Text(
                       p.description,
                       style: TextStyle(
-                        fontSize: 13,
+                        fontSize: 13.sp,
                         color: Color(0xFF6B7280),
-                        height: 1.5,
+                        height: 1.5.h,
                       ),
                     ),
 
-                    SizedBox(height: 16),
+                    SizedBox(height: 16.h),
 
                     /// 🔹 Stats
                     Container(
-                      padding: EdgeInsets.symmetric(vertical: 12),
+                      padding: EdgeInsets.symmetric(vertical: 12.h),
                       decoration: BoxDecoration(
                         color: Color(0xFFEFF2F6),
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(14.r),
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -91,12 +92,12 @@ class AboutProviderCard extends StatelessWidget {
                                 p.experience,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                 ),
                               ),
-                              SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Text("Experience",
-                                  style: TextStyle(fontSize: 12)),
+                                  style: TextStyle(fontSize: 12.sp)),
                             ],
                           ),
 
@@ -106,39 +107,39 @@ class AboutProviderCard extends StatelessWidget {
                                 p.completed.toString(),
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                 ),
                               ),
-                              SizedBox(height: 4),
+                              SizedBox(height: 4.h),
                               Text("Completed Services",
-                                  style: TextStyle(fontSize: 12)),
+                                  style: TextStyle(fontSize: 12.sp)),
                             ],
                           ),
                         ],
                       ),
                     ),
 
-                    SizedBox(height: 16),
+                    SizedBox(height: 16.h),
 
                     /// 🔹 Qualifications
                     Text("Qualifications",
                         style: TextStyle(fontWeight: FontWeight.bold)),
 
-                    SizedBox(height: 8),
+                    SizedBox(height: 8.h),
 
                     ...p.qualifications.map((q) => _item(q)),
 
-                    SizedBox(height: 16),
+                    SizedBox(height: 16.h),
 
                     Divider(),
 
-                    SizedBox(height: 12),
+                    SizedBox(height: 12.h),
 
                     /// 🔹 Contact
                     Text("Contact Information",
                         style: TextStyle(fontWeight: FontWeight.bold)),
 
-                    SizedBox(height: 10),
+                    SizedBox(height: 10.h),
 
                     _contactItem(Icons.phone, p.phone),
                     _contactItem(Icons.email, p.email),
@@ -156,11 +157,11 @@ class AboutProviderCard extends StatelessWidget {
 
   Widget _item(String text) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8.h),
       child: Row(
         children: [
-          Icon(Icons.verified_outlined, size: 16, color: Colors.blue),
-          SizedBox(width: 8),
+          Icon(Icons.verified_outlined, size: 16.r, color: Colors.blue),
+          SizedBox(width: 8.w),
           Expanded(child: Text(text)),
         ],
       ),
@@ -169,11 +170,11 @@ class AboutProviderCard extends StatelessWidget {
 
   Widget _contactItem(IconData icon, String text) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: EdgeInsets.only(bottom: 8.h),
       child: Row(
         children: [
-          Icon(icon, size: 16, color: Colors.blue),
-          SizedBox(width: 8),
+          Icon(icon, size: 16.r, color: Colors.blue),
+          SizedBox(width: 8.w),
           Text(text),
         ],
       ),

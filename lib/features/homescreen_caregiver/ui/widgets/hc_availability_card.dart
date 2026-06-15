@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HcAvailabilityCard extends StatelessWidget {
   final bool isAvailable;
@@ -18,10 +19,10 @@ class HcAvailabilityCard extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.fromLTRB(16 * s, 16 * s, 16 * s, 0),
       child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 16 * s, vertical: 14 * s),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         decoration: BoxDecoration(
           color: const Color(0xFFE8FBF3),
-          borderRadius: BorderRadius.circular(16 * s),
+          borderRadius: BorderRadius.circular(16.r),
           border: Border.all(color: const Color(0xFFD1F2E3)),
         ),
         child: Row(
@@ -34,19 +35,19 @@ class HcAvailabilityCard extends StatelessWidget {
                     'Availability Status',
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 15 * s,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF0B2B5A),
                     ),
                   ),
-                  SizedBox(height: 2 * s),
+                  SizedBox(height: 2.h),
                   Text(
                     isAvailable
                         ? 'You are currently accepting requests'
                         : 'You are currently unavailable',
                     style: TextStyle(
                       fontFamily: 'Inter',
-                      fontSize: 12 * s,
+                      fontSize: 12.sp,
                       color: const Color(0xFF667085),
                     ),
                   ),

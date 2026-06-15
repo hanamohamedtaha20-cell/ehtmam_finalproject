@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_text_style.dart';
 import '../../../splash/ui/widgets/next_button.dart';
@@ -11,9 +12,9 @@ class ResetPasswordCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 22, vertical: 24),
+      padding: EdgeInsets.symmetric(horizontal: 22.w, vertical: 24.h),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24.r),
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -25,8 +26,8 @@ class ResetPasswordCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.10),
-            blurRadius: 30,
-            offset: const Offset(0, 16),
+            blurRadius: 30.r,
+            offset: Offset(0, 16),
           ),
         ],
       ),
@@ -40,16 +41,16 @@ class ResetPasswordCard extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.arrow_back,
-                    size: 18,
+                    size: 18.r,
                     color: Color(0xFF465A76),
                   ),
-                  const SizedBox(width: 8),
+                  SizedBox(width: 8.w),
                   Text(
                     'Back to Login',
                     style: AppTextStyle.medium.copyWith(
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       color: const Color(0xFF465A76),
                     ),
                   ),
@@ -57,13 +58,13 @@ class ResetPasswordCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 26),
+          SizedBox(height: 26.h),
           Container(
-            width: 74,
-            height: 74,
+            width: 74.w,
+            height: 74.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
@@ -74,42 +75,42 @@ class ResetPasswordCard extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: const Color(0xFF358BFF).withOpacity(0.30),
-                  blurRadius: 18,
-                  offset: const Offset(0, 8),
+                  blurRadius: 18.r,
+                  offset: Offset(0, 8),
                 ),
               ],
             ),
-            child: const Icon(
+            child: Icon(
               Icons.mail_outline_rounded,
               color: Colors.white,
-              size: 38,
+              size: 38.r,
             ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: 24.h),
           Text(
             'Reset Password',
             textAlign: TextAlign.center,
             style: AppTextStyle.extraBold.copyWith(
-              fontSize: 24,
+              fontSize: 24.sp,
               color: const Color(0xFF22304A),
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Text(
             "Enter your email address and we'll\nsend you a link to reset your\npassword",
             textAlign: TextAlign.center,
             style: AppTextStyle.regular.copyWith(
-              fontSize: 16,
-              height: 1.5,
+              fontSize: 16.sp,
+              height: 1.5.h,
               color: const Color(0xFF5E6E86),
             ),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
            AuthTextField(
             hintText: 'Email',
             prefixIcon: Icons.mail_outline_rounded,
           ),
-          SizedBox(height: 20),
+          SizedBox(height: 20.h),
           NextButton(
             text: 'Send Reset Link',
             onTap:(){

@@ -1,8 +1,9 @@
-import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart';
 import 'package:ehtemam_final_project/features/splash/ui/widgets/next_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 class PendingInfoCard extends StatelessWidget {
   final String fullName;
   final String email;
@@ -19,10 +20,10 @@ class PendingInfoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.fromLTRB(16, 22, 16, 18),
+      padding: EdgeInsets.fromLTRB(16, 22, 16, 18),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(22),
-        gradient: const LinearGradient(
+        borderRadius: BorderRadius.circular(22.r),
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
@@ -36,11 +37,11 @@ class PendingInfoCard extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            width: 92,
-            height: 92,
+            width: 92.w,
+            height: 92.h,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              gradient: const LinearGradient(
+              gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
                 colors: [
@@ -51,54 +52,54 @@ class PendingInfoCard extends StatelessWidget {
               boxShadow: [
                 BoxShadow(
                   color: const Color(0xFF5DBAF7).withOpacity(0.35),
-                  blurRadius: 16,
-                  offset: const Offset(0, 8),
+                  blurRadius: 16.r,
+                  offset: Offset(0, 8),
                 ),
               ],
             ),
-            child: const Icon(
+            child: Icon(
               Icons.access_time_rounded,
               color: Colors.white,
-              size: 48,
+              size: 48.r,
             ),
           ),
-          const SizedBox(height: 18),
+          SizedBox(height: 18.h),
           Text(
             'Pending\nApproval',
             textAlign: TextAlign.center,
             style: AppTextStyle.extraBold.copyWith(
-              fontSize: 24,
-              height: 1.15,
+              fontSize: 24.sp,
+              height: 1.15.h,
               color: const Color(0xFF1263B8),
             ),
           ),
-          const SizedBox(height: 14),
+          SizedBox(height: 14.h),
           Text(
             'Your account is under review',
             textAlign: TextAlign.center,
             style: AppTextStyle.medium.copyWith(
-              fontSize: 18,
+              fontSize: 18.sp,
               color: const Color(0xFF5B6D83),
             ),
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           Text(
             'Please wait while our admin team\nreviews your documents. You will\nbe notified once approved.',
             textAlign: TextAlign.center,
             style: AppTextStyle.regular.copyWith(
-              fontSize: 15,
-              height: 1.6,
+              fontSize: 15.sp,
+              height: 1.6.h,
               color: const Color(0xFF6A7C93),
             ),
           ),
-          const SizedBox(height: 26),
+          SizedBox(height: 26.h),
 
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 18),
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 18.h),
             decoration: BoxDecoration(
               color: Colors.white.withOpacity(0.45),
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(18.r),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -106,40 +107,40 @@ class PendingInfoCard extends StatelessWidget {
                 Text(
                   'Registration Complete!',
                   style: AppTextStyle.bold.copyWith(
-                    fontSize: 16,
+                    fontSize: 16.sp,
                     color: const Color(0xFF46566B),
                   ),
                 ),
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
                 _infoRow('Full Name:', fullName),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 _infoRow('Email:', email),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 _infoRow('Phone Number:', phoneNumber),
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
                 Row(
                   children: [
                     Text(
                       'Approval Status:',
                       style: AppTextStyle.medium.copyWith(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: const Color(0xFF667085),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    SizedBox(width: 10.w),
                     Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 5,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 12.w,
+                        vertical: 5.h,
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFE7BF),
-                        borderRadius: BorderRadius.circular(20),
+                        borderRadius: BorderRadius.circular(20.r),
                       ),
                       child: Text(
                         'Pending',
                         style: AppTextStyle.semiBold.copyWith(
-                          fontSize: 13,
+                          fontSize: 13.sp,
                           color: const Color(0xFFDD8A00),
                         ),
                       ),
@@ -150,18 +151,18 @@ class PendingInfoCard extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 26),
+          SizedBox(height: 26.h),
           NextButton(
             text: 'Pending...',
             onTap: () {},
           ),
 
-          const SizedBox(height: 18),
+          SizedBox(height: 18.h),
 
           RichText(
             text: TextSpan(
               style: AppTextStyle.regular.copyWith(
-                fontSize: 15,
+                fontSize: 15.sp,
                 color: Colors.red,
               ),
               children: [
@@ -191,11 +192,11 @@ class PendingInfoCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 105,
+          width: 105.w,
           child: Text(
             label,
             style: AppTextStyle.medium.copyWith(
-              fontSize: 14,
+              fontSize: 14.sp,
               color: const Color(0xFF667085),
             ),
           ),
@@ -204,7 +205,7 @@ class PendingInfoCard extends StatelessWidget {
           child: Text(
             value,
             style: AppTextStyle.medium.copyWith(
-              fontSize: 14,
+              fontSize: 14.sp,
               color: const Color(0xFF344054),
             ),
           ),

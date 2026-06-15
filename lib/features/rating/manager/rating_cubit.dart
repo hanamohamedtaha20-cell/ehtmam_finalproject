@@ -27,9 +27,7 @@ class RatingCubit extends Cubit<RatingState> {
 
   Future<void> submit({
     required String review,
-    required String caregiverId,
-    required String serviceId,
-    required String requestId,
+    required String bookingId,
   }) async {
     if (isClosed) return;
     emit(RatingLoading());
@@ -43,9 +41,7 @@ class RatingCubit extends Cubit<RatingState> {
           communication:   communication,
           review:          review,
         ),
-        caregiverId: caregiverId,
-        serviceId:   serviceId,
-        requestId:   requestId,
+        bookingId: bookingId,
       );
       if (!isClosed) {
         emit(RatingSuccess());

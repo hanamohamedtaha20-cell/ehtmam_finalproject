@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class ActionButtonsRow extends StatelessWidget {
   final String firstText;
@@ -58,7 +58,7 @@ class ActionButtonsRow extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(width: 10),
+        SizedBox(width: 10),
 
         /// RIGHT BUTTON
         Expanded(

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class EarningsHeaderCard extends StatelessWidget {
   final double totalEarnings;
@@ -24,13 +25,13 @@ class EarningsHeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 16,
-        vertical: 25,
+      padding: EdgeInsets.symmetric(
+        horizontal: 16.w,
+        vertical: 25.h,
       ),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
-        gradient: const LinearGradient(
+        borderRadius: BorderRadius.circular(18.r),
+        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
           colors: [
@@ -46,45 +47,45 @@ class EarningsHeaderCard extends StatelessWidget {
             "Total Earnings",
             style: TextStyle(
               color: Colors.white.withOpacity(0.85),
-              fontSize: 12,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w400,
             ),
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6.h),
           Text(
             _formattedTotal,
-            style: const TextStyle(
-              fontSize: 40,
+            style: TextStyle(
+              fontSize: 40.sp,
               color: Colors.white,
               fontWeight: FontWeight.w700,
-              height: 1,
+              height: 1.h,
             ),
           ),
           if (trendText != null) ...[
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
             Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 12,
-                vertical: 6,
+              padding: EdgeInsets.symmetric(
+                horizontal: 12.w,
+                vertical: 6.h,
               ),
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.15),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.trending_up,
                     color: Colors.white,
-                    size: 12,
+                    size: 12.r,
                   ),
-                  const SizedBox(width: 4),
+                  SizedBox(width: 4.w),
                   Text(
                     trendText!,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Colors.white,
-                      fontSize: 12,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),

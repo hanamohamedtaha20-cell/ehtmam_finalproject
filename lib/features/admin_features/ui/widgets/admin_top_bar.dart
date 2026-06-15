@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AdminTopBar extends StatelessWidget {
   final String title;
@@ -15,14 +16,14 @@ class AdminTopBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 72,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      decoration: const BoxDecoration(
+      height: 72.h,
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
+      decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
           BoxShadow(
             color: Color(0x11000000),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: Offset(0, 3),
           ),
         ],
@@ -32,13 +33,13 @@ class AdminTopBar extends StatelessWidget {
           if (showBack)
             InkWell(
               onTap: () => Navigator.pop(context),
-              child: const Icon(
+              child: Icon(
                 Icons.arrow_back_ios_new,
-                size: 18,
+                size: 18.r,
                 color: Color(0xff1F2937),
               ),
             ),
-          if (showBack) const SizedBox(width: 14),
+          if (showBack) SizedBox(width: 14.w),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -46,18 +47,18 @@ class AdminTopBar extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xff111827),
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
-                const SizedBox(height: 3),
+                SizedBox(height: 3.h),
                 Text(
                   subtitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xff6B7280),
-                    fontSize: 11,
+                    fontSize: 11.sp,
                     fontWeight: FontWeight.w400,
                   ),
                 ),
@@ -65,21 +66,21 @@ class AdminTopBar extends StatelessWidget {
             ),
           ),
           Container(
-            height: 26,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            height: 26.h,
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
             decoration: BoxDecoration(
               color: const Color(0xffF3F7FB),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
             ),
-            child: const Row(
+            child: Row(
               children: [
-                Icon(Icons.language, size: 14, color: Color(0xff64748B)),
-                SizedBox(width: 4),
+                Icon(Icons.language, size: 14.r, color: Color(0xff64748B)),
+                SizedBox(width: 4.w),
                 Text(
                   'ع',
                   style: TextStyle(
                     color: Color(0xff64748B),
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

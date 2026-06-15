@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CaregiverHeader extends StatelessWidget {
   final String name;
@@ -18,36 +19,36 @@ class CaregiverHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const CircleAvatar(
+        CircleAvatar(
           radius: 28,
           backgroundColor: Color(0xFFE3F2FD),
-          child: Icon(Icons.person, color: Color(0xFF3A8BD7), size: 30),
+          child: Icon(Icons.person, color: Color(0xFF3A8BD7), size: 30.r),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: 12.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(name,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: "Arimo",
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       color: Colors.black)),
               Text(speciality,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: "Arimo",
-                      fontSize: 12,
+                      fontSize: 12.sp,
                       color: Colors.black45)),
               Row(
                 children: [
-                  const Icon(Icons.star, color: Colors.amber, size: 14),
-                  const SizedBox(width: 4),
+                  Icon(Icons.star, color: Colors.amber, size: 14.r),
+                  SizedBox(width: 4.w),
                   Text(
                     "$rating ($reviewCount reviews)",
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontFamily: "Arimo",
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: Colors.black),
                   ),
                 ],

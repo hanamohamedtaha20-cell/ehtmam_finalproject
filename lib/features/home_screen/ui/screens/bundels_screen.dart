@@ -1,8 +1,9 @@
-import 'package:ehtemam_final_project/core/network/api_service.dart';
+﻿import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/home_screen/data/repo/bundle_repo.dart';
 import 'package:ehtemam_final_project/features/home_screen/manager/bundle_cubit.dart';
 import 'package:ehtemam_final_project/features/home_screen/manager/state/bundle_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/bundels_widgets/bundels_card.dart';
@@ -29,27 +30,27 @@ class _ServiceBundlesBody extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           child: Column(
             children: [
               const WhyChooseUsCard(),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               BlocBuilder<BundleCubit, BundleState>(
                 builder: (context, state) {
                   if (state is BundleLoading) {
-                    return const Center(child: CircularProgressIndicator());
+                    return Center(child: CircularProgressIndicator());
                   }
 
                   if (state is BundleError) {
                     return Text(
                       state.message,
-                      style: const TextStyle(color: Colors.red),
+                      style: TextStyle(color: Colors.red),
                     );
                   }
 
                   if (state is BundleSuccess) {
                     if (state.bundles.isEmpty) {
-                      return const Text('No bundles available');
+                      return Text('No bundles available');
                     }
 
                     return ListView.builder(
@@ -61,10 +62,10 @@ class _ServiceBundlesBody extends StatelessWidget {
                     );
                   }
 
-                  return const SizedBox.shrink();
+                  return SizedBox.shrink();
                 },
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               const FAQSection(),
             ],
           ),

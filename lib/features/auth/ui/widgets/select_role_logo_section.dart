@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectRoleLogoSection extends StatelessWidget {
   const SelectRoleLogoSection({super.key});
@@ -10,42 +11,42 @@ class SelectRoleLogoSection extends StatelessWidget {
       children: [
         Image.asset(
           'assets/images/logo.png',
-          width: 120,
-          height: 120,
+          width: 120.w,
+          height: 120.h,
           fit: BoxFit.contain,
         ),
-        const SizedBox(height: 18),
+        SizedBox(height: 18.h),
         Text(
           'Select Your Role',
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'InriaSerif',
             fontWeight: FontWeight.w700,
-            fontSize: 40,
+            fontSize: 40.sp,
             color: Color(0xff45556C),
 
             shadows: [
               Shadow(
                 color: Color(0x40000000),
                 offset: Offset(0, 4),
-                blurRadius: 4,
+                blurRadius: 4.r,
               ),
             ],
           ),
         ),
-        const SizedBox(height: 8),
+        SizedBox(height: 8.h),
         Text(
           'Trusted Care Services Platform',
           textAlign: TextAlign.center,
           style: AppTextStyle.regular.copyWith(
-            fontSize: 14,
+            fontSize: 14.sp,
             color:  Color(0xFF3A8BD7),
             fontWeight: FontWeight.w400,
             shadows: [
               Shadow(
                 color: Color(0x40000000),
                 offset: Offset(0, 4),
-                blurRadius: 4,
+                blurRadius: 4.r,
               ),
             ],
           ),

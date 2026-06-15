@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AdUserStatsCard extends StatelessWidget {
   final int total;
@@ -11,28 +12,28 @@ class AdUserStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 88,
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+      width: 88.w,
+      padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 10.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
       ),
       child: Column(
         children: [
           Text(
             total.toString(),
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xff2F93E6),
-              fontSize: 22,
+              fontSize: 22.sp,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 4),
-          const Text(
+          SizedBox(height: 4.h),
+          Text(
             'Total Users',
             style: TextStyle(
               color: Color(0xff111827),
-              fontSize: 10,
+              fontSize: 10.sp,
             ),
           ),
         ],

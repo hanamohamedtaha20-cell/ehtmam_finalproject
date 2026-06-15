@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LocationDetails extends StatelessWidget {
   final String userLocation;
@@ -17,14 +18,14 @@ class LocationDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-       padding: const EdgeInsets.all(16.0),
+       padding: EdgeInsets.all(16.0.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
           BoxShadow(
             color: Color.fromARGB(55, 0, 0, 0),
-            blurRadius: 6,
+            blurRadius: 6.r,
             offset: Offset(0, 2),
           ),
         ],
@@ -37,7 +38,7 @@ class LocationDetails extends StatelessWidget {
               title: "Your Location",
               subtitle: userLocation,
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
             _LocationRow(
               icon: Icons.person_pin_circle,
               iconColor: Colors.green,
@@ -70,36 +71,36 @@ class _LocationRow extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, color: iconColor, size: 22),
-        const SizedBox(width: 10),
+        Icon(icon, color: iconColor, size: 22.r),
+        SizedBox(width: 10.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: FontWeight.bold,
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   color: Colors.black,
                 ),
               ),
               if (subtitle != null)
               Text(
                 subtitle!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: "Arimo",
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   color: Colors.grey,
                 ),
               ),
                if (distance != null)
               Text(
                 distance!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: "Arimo",
-                  fontSize: 11,
+                  fontSize: 11.sp,
                   color: Colors.grey,
                 ),
               ),

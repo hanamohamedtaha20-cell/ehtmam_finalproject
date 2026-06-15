@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/complaint_model.dart';
 
@@ -16,22 +17,22 @@ class ComplaintDetailsDialog extends StatelessWidget {
     final isResolved = complaint.status.toLowerCase() == 'resolved';
 
     return Dialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 28),
+      insetPadding: EdgeInsets.symmetric(horizontal: 28.w),
       backgroundColor: Colors.transparent,
       child: Container(
         width: double.infinity,
         constraints: const BoxConstraints(maxWidth: 360),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(18.r),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              height: 72,
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              decoration: const BoxDecoration(
+              height: 72.h,
+              padding: EdgeInsets.symmetric(horizontal: 20.w),
+              decoration: BoxDecoration(
                 color: Color(0xff2F93E6),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(18),
@@ -40,22 +41,22 @@ class ComplaintDetailsDialog extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Expanded(
+                  Expanded(
                     child: Text(
                       'Complaint Details',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),
                   InkWell(
                     onTap: () => Navigator.pop(context),
-                    child: const Icon(
+                    child: Icon(
                       Icons.close,
                       color: Colors.white,
-                      size: 20,
+                      size: 20.r,
                     ),
                   ),
                 ],
@@ -63,20 +64,20 @@ class ComplaintDetailsDialog extends StatelessWidget {
             ),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(20, 18, 20, 22),
+              padding: EdgeInsets.fromLTRB(20, 18, 20, 22),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10,
-                      vertical: 5,
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 10.w,
+                      vertical: 5.h,
                     ),
                     decoration: BoxDecoration(
                       color: isResolved
                           ? const Color(0xffDCFCE7)
                           : const Color(0xffFEF3C7),
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20.r),
                     ),
                     child: Text(
                       complaint.status,
@@ -84,43 +85,43 @@ class ComplaintDetailsDialog extends StatelessWidget {
                         color: isResolved
                             ? const Color(0xff16A34A)
                             : const Color(0xffF59E0B),
-                        fontSize: 10,
+                        fontSize: 10.sp,
                         fontWeight: FontWeight.w700,
                       ),
                     ),
                   ),
 
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
 
                   Text(
                     complaint.title,
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Color(0xff1E293B),
-                      fontSize: 15,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w800,
-                      height: 1.25,
+                      height: 1.25.h,
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
 
                   Text(
                     'Category: ${complaint.category}',
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Color(0xff64748B),
-                      fontSize: 11,
+                      fontSize: 11.sp,
                       fontWeight: FontWeight.w500,
                     ),
                   ),
 
-                  const SizedBox(height: 18),
+                  SizedBox(height: 18.h),
 
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(14),
+                    padding: EdgeInsets.all(14.r),
                     decoration: BoxDecoration(
                       color: const Color(0xffF8FAFC),
-                      borderRadius: BorderRadius.circular(14),
+                      borderRadius: BorderRadius.circular(14.r),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -130,13 +131,13 @@ class ComplaintDetailsDialog extends StatelessWidget {
                           value:
                           '${complaint.fromName} (${complaint.fromRole})',
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         _detailsText(
                           title: 'Against',
                           value:
                           '${complaint.againstName} (${complaint.againstRole})',
                         ),
-                        const SizedBox(height: 10),
+                        SizedBox(height: 10.h),
                         _detailsText(
                           title: 'Date Submitted',
                           value: complaint.date,
@@ -145,36 +146,36 @@ class ComplaintDetailsDialog extends StatelessWidget {
                     ),
                   ),
 
-                  const SizedBox(height: 18),
+                  SizedBox(height: 18.h),
 
-                  const Text(
+                  Text(
                     'Description',
                     style: TextStyle(
                       color: Color(0xff334155),
-                      fontSize: 12,
+                      fontSize: 12.sp,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
 
-                  const SizedBox(height: 8),
+                  SizedBox(height: 8.h),
 
                   Container(
                     width: double.infinity,
-                    padding: const EdgeInsets.all(13),
+                    padding: EdgeInsets.all(13.r),
                     decoration: BoxDecoration(
                       color: const Color(0xffFFFBEA),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(12.r),
                       border: Border.all(
                         color: const Color(0xffFACC15),
                       ),
                     ),
                     child: Text(
                       complaint.description,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(0xff334155),
-                        fontSize: 11,
+                        fontSize: 11.sp,
                         fontWeight: FontWeight.w500,
-                        height: 1.35,
+                        height: 1.35.h,
                       ),
                     ),
                   ),
@@ -196,18 +197,18 @@ class ComplaintDetailsDialog extends StatelessWidget {
       children: [
         Text(
           title,
-          style: const TextStyle(
+          style: TextStyle(
             color: Color(0xff64748B),
-            fontSize: 10,
+            fontSize: 10.sp,
             fontWeight: FontWeight.w600,
           ),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           value,
-          style: const TextStyle(
+          style: TextStyle(
             color: Color(0xff1E293B),
-            fontSize: 11,
+            fontSize: 11.sp,
             fontWeight: FontWeight.w600,
           ),
         ),

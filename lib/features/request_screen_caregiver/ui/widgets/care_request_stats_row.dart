@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RequestStatsRow extends StatelessWidget {
   final int pendingCount;
@@ -23,7 +24,7 @@ class RequestStatsRow extends StatelessWidget {
             color: const Color(0xFFFFC857),
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10.w),
         Expanded(
           child: _buildCard(
             count: activeCount.toString(),
@@ -31,7 +32,7 @@ class RequestStatsRow extends StatelessWidget {
             color: const Color(0xFF4A90E2),
           ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10.w),
         Expanded(
           child: _buildCard(
             count: completedCount.toString(),
@@ -49,15 +50,15 @@ class RequestStatsRow extends StatelessWidget {
     required Color color,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 14),
+      padding: EdgeInsets.symmetric(vertical: 14.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
-            blurRadius: 8,
-            offset: const Offset(0, 3),
+            blurRadius: 8.r,
+            offset: Offset(0, 3),
           ),
         ],
       ),
@@ -67,16 +68,16 @@ class RequestStatsRow extends StatelessWidget {
             count,
             style: TextStyle(
               color: color,
-              fontSize: 22,
+              fontSize: 22.sp,
               fontWeight: FontWeight.bold,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             label,
             style: TextStyle(
               color: Colors.grey.shade600,
-              fontSize: 12,
+              fontSize: 12.sp,
             ),
           ),
         ],

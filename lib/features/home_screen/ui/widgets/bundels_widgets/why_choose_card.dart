@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+﻿import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WhyChooseUsCard extends StatelessWidget {
   const WhyChooseUsCard({super.key});
@@ -15,15 +16,15 @@ class WhyChooseUsCard extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [
             Color(0xFF2F80ED),
             Color(0xFF1C6DD0),
           ],
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -33,21 +34,21 @@ class WhyChooseUsCard extends StatelessWidget {
               Icon(
                 Icons.bolt,
                 color: Colors.white,
-                size: 20,
+                size: 20.r,
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 "Why Choose Bundles?",
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.w700,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           GridView.builder(
             shrinkWrap: true,
@@ -63,18 +64,18 @@ class WhyChooseUsCard extends StatelessWidget {
             itemBuilder: (_, index) {
               return Row(
                 children: [
-                  const Icon(
+                  Icon(
                     Icons.check_circle,
                     color: Colors.white,
-                    size: 16,
+                    size: 16.r,
                   ),
-                  const SizedBox(width: 6),
+                  SizedBox(width: 6.w),
                   Expanded(
                     child: Text(
                       features[index],
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 12,
+                        fontSize: 12.sp,
                       ),
                     ),
                   ),

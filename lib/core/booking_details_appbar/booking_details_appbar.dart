@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 
 class BookingDetailsAppBar extends StatelessWidget {
   final String bookingId;
@@ -66,7 +66,7 @@ class BookingDetailsAppBar extends StatelessWidget {
                   size: 18,
                 ),
               ),
-              const Text(
+              Text(
                 "Booking Details",
                 style: TextStyle(
                   color: Colors.white,
@@ -104,7 +104,7 @@ class BookingDetailsAppBar extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 18),
+          SizedBox(height: 18),
           Container(
             width: double.infinity,
             padding: const EdgeInsets.symmetric(
@@ -124,14 +124,14 @@ class BookingDetailsAppBar extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text(
+                    Text(
                       "Booking ID",
                       style: TextStyle(
                         color: Colors.white70,
                         fontSize: 10,
                       ),
                     ),
-                    const SizedBox(height: 3),
+                    SizedBox(height: 3),
                     Text(
                       bookingId,
                       style: const TextStyle(
@@ -158,7 +158,7 @@ class BookingDetailsAppBar extends StatelessWidget {
                         color: Colors.white,
                         size: 14,
                       ),
-                      const SizedBox(width: 4),
+                      SizedBox(width: 4),
                       Text(
                         statusLabel,
                         style: const TextStyle(

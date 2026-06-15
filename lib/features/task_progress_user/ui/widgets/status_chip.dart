@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StatusChip extends StatelessWidget {
   final IconData icon;
@@ -16,11 +17,11 @@ class StatusChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-      Icon(icon, color: iconColor, size: 16),        const SizedBox(width: 6),
+      Icon(icon, color: iconColor, size: 16.r),        SizedBox(width: 6.w),
         Text(
           text,
-          style: const TextStyle(
-              fontFamily: "Arimo", fontSize: 12, color: Color(0xFF3A8BD7)),
+          style: TextStyle(
+              fontFamily: "Arimo", fontSize: 12.sp, color: Color(0xFF3A8BD7)),
         ),
       ],
     );

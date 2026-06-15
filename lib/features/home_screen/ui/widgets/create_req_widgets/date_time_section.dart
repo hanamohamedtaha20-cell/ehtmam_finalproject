@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/home_screen/manager/state/create_request_state.dart';
+﻿import 'package:ehtemam_final_project/features/home_screen/manager/state/create_request_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../manager/create_request_cubit.dart';
@@ -64,7 +65,7 @@ class DateTimeSection extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(width: 12),
+            SizedBox(width: 12.w),
 
             /// TIME
             Expanded(
@@ -137,7 +138,7 @@ class _DateTimeCard extends StatelessWidget {
 
       child: InkWell(
         borderRadius:
-        BorderRadius.circular(20),
+        BorderRadius.circular(20.r),
 
         onTap: onTap,
 
@@ -146,13 +147,13 @@ class _DateTimeCard extends StatelessWidget {
           const Duration(milliseconds: 250),
 
           padding:
-          const EdgeInsets.all(16),
+          EdgeInsets.all(16.r),
 
           decoration: BoxDecoration(
             color: Colors.white,
 
             borderRadius:
-            BorderRadius.circular(20),
+            BorderRadius.circular(20.r),
 
             border: Border.all(
               color:
@@ -160,7 +161,7 @@ class _DateTimeCard extends StatelessWidget {
                   ? Colors.red
                   : Colors.transparent,
 
-              width: 2,
+              width: 2.w,
             ),
 
             boxShadow: [
@@ -168,10 +169,10 @@ class _DateTimeCard extends StatelessWidget {
                 color:
                 Colors.black.withOpacity(0.2),
 
-                blurRadius: 6,
+                blurRadius: 6.r,
 
                 offset:
-                const Offset(0, 4),
+                Offset(0, 4),
               ),
             ],
           ),
@@ -187,18 +188,18 @@ class _DateTimeCard extends StatelessWidget {
 
                   Icon(
                     icon,
-                    size: 18,
+                    size: 18.r,
                     color: Colors.blueGrey,
                   ),
 
-                  const SizedBox(width: 6),
+                  SizedBox(width: 6.w),
 
                   Text(
                     title,
 
                     style:
-                    const TextStyle(
-                      fontSize: 14,
+                    TextStyle(
+                      fontSize: 14.sp,
                       fontWeight:
                       FontWeight.w600,
                     ),
@@ -206,15 +207,15 @@ class _DateTimeCard extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 18),
+              SizedBox(height: 18.h),
 
               Container(
                 width: double.infinity,
 
                 padding:
-                const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 14,
+                EdgeInsets.symmetric(
+                  horizontal: 12.w,
+                  vertical: 14.h,
                 ),
 
                 decoration: BoxDecoration(
@@ -234,7 +235,7 @@ class _DateTimeCard extends StatelessWidget {
                     color:
                     Colors.grey.shade600,
 
-                    fontSize: 13,
+                    fontSize: 13.sp,
                   ),
                 ),
               ),

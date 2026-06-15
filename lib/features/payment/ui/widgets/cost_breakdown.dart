@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ehtemam_final_project/features/payment/ui/widgets/pay_button.dart';
 // ─── Main Widget ───────────────────────────────────────────────────────────────
 class CostBreakdown extends StatelessWidget {
@@ -48,21 +49,21 @@ class _CostBreakdownCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
           BoxShadow(
             color: Color(0x1A000000), // #000000 10%
             offset: Offset(0, 2),
-            blurRadius: 4,
+            blurRadius: 4.r,
             spreadRadius: 0,
           ),
           BoxShadow(
             color: Color(0x1A000000), // #000000 10%
             offset: Offset(0, 4),
-            blurRadius: 6,
+            blurRadius: 6.r,
             spreadRadius: 0,
           ),
         ],
@@ -71,11 +72,11 @@ class _CostBreakdownCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const _CostBreakdownTitle(),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
          _CostBreakdownRow(label: "Service Cost", amount: serviceCost, isBold: false),
         _CostBreakdownRow(label: "Platform Fee (5%)", amount: platformFee, isBold: false),
         _CostBreakdownRow(label: "Tax (14%)", amount: taxRate, isBold: false),
-        const Divider(),
+        Divider(),
         _CostBreakdownRow(
           label: "Total Amount",
           amount: total,
@@ -83,7 +84,7 @@ class _CostBreakdownCard extends StatelessWidget {
           color: Colors.black,
           valueColor: const Color(0xFF3A8BD7)
         ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           PayButton(total: total, onPay: onPay),
         ],
       ),
@@ -97,12 +98,12 @@ class _CostBreakdownTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Text(
+    return Text(
       "Cost Breakdown",
       style: TextStyle(
         fontFamily: "Arimo",
         fontWeight: FontWeight.bold,
-        fontSize: 16,
+        fontSize: 16.sp,
       ),
     );
   }
@@ -127,7 +128,7 @@ class _CostBreakdownRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 2),
+      padding: EdgeInsets.symmetric(vertical: 2.h),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -136,7 +137,7 @@ class _CostBreakdownRow extends StatelessWidget {
             style: TextStyle(
               fontFamily: "Arimo",
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              fontSize: 14,
+              fontSize: 14.sp,
               color: color,
             ),
           ),
@@ -145,7 +146,7 @@ class _CostBreakdownRow extends StatelessWidget {
             style: TextStyle(
               fontFamily: "Arimo",
               fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              fontSize: 14,
+              fontSize: 14.sp,
               color: valueColor ?? color,
             ),
           ),

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'features/home_screen/ui/widgets/language_switcher.dart';
 
@@ -28,7 +29,7 @@ class AppLayout extends StatelessWidget {
           ),
 
           Positioned(
-            top: 40,
+            top: 40.h,
             right: Directionality.of(context) == TextDirection.ltr ? 16 : null,
             left: Directionality.of(context) == TextDirection.rtl ? 16 : null,
             child: LanguageSwitcher(),

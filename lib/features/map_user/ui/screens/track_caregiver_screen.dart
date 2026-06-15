@@ -1,6 +1,7 @@
-import 'dart:async';
+﻿import 'dart:async';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 import '../widgets/eta_banner.dart';
@@ -83,28 +84,28 @@ class _TrackCaregiverScreenState extends State<TrackCaregiverScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
+        title: Text(
           "Track Caregiver",
           style: TextStyle(
             fontFamily: "Arimo",
             fontWeight: FontWeight.bold,
-            fontSize: 18,
+            fontSize: 18.sp,
             color: Colors.black,
           ),
         ),
       ),
       body: _loading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(child: CircularProgressIndicator())
           : Column(
               children: [
                 const ETABanner(eta: "—", distance: "—"),
                 SizedBox(
-                  height: 250,
+                  height: 250.h,
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding: EdgeInsets.all(16.0.r),
                     child: FlutterMap(
                       mapController: _mapController,
                       options: MapOptions(
@@ -121,22 +122,22 @@ class _TrackCaregiverScreenState extends State<TrackCaregiverScreen> {
                           markers: [
                             Marker(
                               point: _caregiverLocation,
-                              width: 40,
-                              height: 40,
-                              child: const Icon(
+                              width: 40.w,
+                              height: 40.h,
+                              child: Icon(
                                 Icons.location_pin,
                                 color: Colors.green,
-                                size: 40,
+                                size: 40.r,
                               ),
                             ),
                             Marker(
                               point: _defaultUser,
-                              width: 40,
-                              height: 40,
-                              child: const Icon(
+                              width: 40.w,
+                              height: 40.h,
+                              child: Icon(
                                 Icons.person_pin_circle,
                                 color: Color(0xFF3A8BD7),
-                                size: 40,
+                                size: 40.r,
                               ),
                             ),
                           ],
@@ -147,7 +148,7 @@ class _TrackCaregiverScreenState extends State<TrackCaregiverScreen> {
                 ),
                 Expanded(
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.r),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -167,7 +168,7 @@ class _TrackCaregiverScreenState extends State<TrackCaregiverScreen> {
                               ? "-"
                               : widget.phoneNumber,
                         ),
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         LocationDetails(
                           userLocation: widget.userLocation.isEmpty
                               ? "Your Location"
@@ -177,11 +178,11 @@ class _TrackCaregiverScreenState extends State<TrackCaregiverScreen> {
                           eta: "—",
                         ),
                         if (_lastUpdated.isNotEmpty) ...[
-                          const SizedBox(height: 8),
+                          SizedBox(height: 8.h),
                           Text(
                             'Last updated: ${_formatUpdated(_lastUpdated)}',
-                            style: const TextStyle(
-                              fontSize: 11,
+                            style: TextStyle(
+                              fontSize: 11.sp,
                               color: Colors.grey,
                             ),
                           ),

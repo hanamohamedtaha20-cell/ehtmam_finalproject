@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/login_required_screen/ui/widgets/pirmary.dart';
+﻿import 'package:ehtemam_final_project/features/login_required_screen/ui/widgets/pirmary.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../home_screen/ui/screens/home_screen.dart';
 import 'outline_bottom.dart';
 
@@ -10,15 +11,15 @@ class LoginRequiredCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 25),
-        padding: const EdgeInsets.all(16),
+        margin: EdgeInsets.symmetric(horizontal: 25.w),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(24.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.2),
-              blurRadius: 20,
+              blurRadius: 20.r,
               offset: Offset(0, 10),
             ),
           ],
@@ -29,42 +30,42 @@ class LoginRequiredCard extends StatelessWidget {
           children: [
             /// 🔹 Icon
             Container(
-              padding: const EdgeInsets.all(6),
-              child: Image.asset("assets/images/lock.png", height: 80),
+              padding: EdgeInsets.all(6.r),
+              child: Image.asset("assets/images/lock.png", height: 80.h),
             ),
 
             /// 🔹 Title
-            const Text(
+            Text(
               "Login Required",
               style: TextStyle(
                 color: Colors.red,
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
+                fontSize: 18.sp,
               ),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
 
             /// 🔹 Description
-            const Text(
+            Text(
               "You need to login or create an account to create service requests",
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             /// 🔹 Info box
             Container(
-              padding: EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               decoration: BoxDecoration(
                 color: Color(0xFFF1F3F8),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(16.r),
               ),
               child: Column(
                 children: [
-                  Image.asset("images/lock2.png", height: 50),
-                  SizedBox(height: 10),
+                  Image.asset("images/lock2.png", height: 50.h),
+                  SizedBox(height: 10.h),
 
                   Text(
                     "As a guest, you can browse the app but cannot create requests",
@@ -75,7 +76,7 @@ class LoginRequiredCard extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             /// 🔹 Login Button
             PrimaryButton(
@@ -84,7 +85,7 @@ class LoginRequiredCard extends StatelessWidget {
               onTap: () {},
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
 
             /// 🔹 Create Account
             OutlineButton(
@@ -93,7 +94,7 @@ class LoginRequiredCard extends StatelessWidget {
               onTap: () {},
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
 
             /// 🔹 Back
             TextButton(

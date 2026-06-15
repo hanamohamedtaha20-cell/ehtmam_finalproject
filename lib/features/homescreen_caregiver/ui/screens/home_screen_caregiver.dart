@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
+﻿import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
 import 'package:ehtemam_final_project/features/homescreen_caregiver/manager/hc_cubit.dart';
 import 'package:ehtemam_final_project/features/homescreen_caregiver/manager/hc_state.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
@@ -8,6 +8,7 @@ import 'package:ehtemam_final_project/features/homescreen_caregiver/ui/widgets/h
 import 'package:ehtemam_final_project/features/homescreen_caregiver/ui/widgets/hc_request_card.dart';
 import 'package:ehtemam_final_project/features/homescreen_caregiver/ui/widgets/hc_stats_grid.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HcHomeScreen extends StatelessWidget {
@@ -32,7 +33,7 @@ class _HcHomeView extends StatelessWidget {
       body: BlocBuilder<HcCubit, HcState>(
         builder: (context, state) {
           if (state.isLoading && state.pendingRequests.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
 
           return RefreshIndicator(
@@ -65,12 +66,12 @@ class _HcHomeView extends StatelessWidget {
                 if (state.pendingRequests.isEmpty)
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
                       child: Center(
                         child: Text(
                           state.errorMessage ?? 'No pending requests right now',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontFamily: 'Inter',
                             color: Color(0xFF667085),
                           ),
@@ -117,39 +118,39 @@ class _HcHomeView extends StatelessWidget {
                 if (state.acceptedBookings.isNotEmpty) ...[
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
+                      padding: EdgeInsets.fromLTRB(16, 24, 16, 12),
                       child: Row(
                         children: [
                           Container(
-                            width: 4,
-                            height: 20,
+                            width: 4.w,
+                            height: 20.h,
                             decoration: BoxDecoration(
                               color: const Color(0xFF3A8BD7),
-                              borderRadius: BorderRadius.circular(2),
+                              borderRadius: BorderRadius.circular(2.r),
                             ),
                           ),
-                          const SizedBox(width: 10),
-                          const Text(
+                          SizedBox(width: 10.w),
+                          Text(
                             'Active Bookings',
                             style: TextStyle(
                               fontFamily: 'Inter',
-                              fontSize: 18,
+                              fontSize: 18.sp,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF0B2B5A),
                             ),
                           ),
-                          const SizedBox(width: 8),
+                          SizedBox(width: 8.w),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
                             decoration: BoxDecoration(
                               color: const Color(0xFF3A8BD7),
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(10.r),
                             ),
                             child: Text(
                               '${state.acceptedBookings.length}',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontFamily: 'Inter',
-                                fontSize: 12,
+                                fontSize: 12.sp,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
                               ),
@@ -175,67 +176,67 @@ class _HcHomeView extends StatelessWidget {
                             ),
                           ),
                           child: Container(
-                            margin: const EdgeInsets.fromLTRB(16, 0, 16, 14),
-                            padding: const EdgeInsets.all(16),
+                            margin: EdgeInsets.fromLTRB(16, 0, 16, 14),
+                            padding: EdgeInsets.all(16.r),
                             decoration: BoxDecoration(
                               color: Colors.white,
-                              borderRadius: BorderRadius.circular(16),
+                              borderRadius: BorderRadius.circular(16.r),
                               border: Border.all(color: const Color(0xFF3A8BD7).withValues(alpha: 0.3)),
                               boxShadow: [
                                 BoxShadow(
                                   color: Colors.black.withValues(alpha: 0.03),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 2),
+                                  blurRadius: 8.r,
+                                  offset: Offset(0, 2),
                                 ),
                               ],
                             ),
                             child: Row(
                               children: [
                                 Container(
-                                  width: 48,
-                                  height: 48,
+                                  width: 48.w,
+                                  height: 48.h,
                                   decoration: BoxDecoration(
                                     color: const Color(0xFFEAF4FF),
-                                    borderRadius: BorderRadius.circular(12),
+                                    borderRadius: BorderRadius.circular(12.r),
                                   ),
-                                  child: const Icon(
+                                  child: Icon(
                                     Icons.medical_services_outlined,
                                     color: Color(0xFF3A8BD7),
-                                    size: 24,
+                                    size: 24.r,
                                   ),
                                 ),
-                                const SizedBox(width: 12),
+                                SizedBox(width: 12.w),
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         booking.serviceName,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontFamily: 'Inter',
-                                          fontSize: 15,
+                                          fontSize: 15.sp,
                                           fontWeight: FontWeight.w700,
                                           color: Color(0xFF0B2B5A),
                                         ),
                                       ),
-                                      const SizedBox(height: 2),
+                                      SizedBox(height: 2.h),
                                       Text(
                                         booking.clientName.isNotEmpty
                                             ? 'Client: ${booking.clientName}'
                                             : booking.date,
-                                        style: const TextStyle(
+                                        style: TextStyle(
                                           fontFamily: 'Inter',
-                                          fontSize: 13,
+                                          fontSize: 13.sp,
                                           color: Color(0xFF667085),
                                         ),
                                       ),
                                       if (booking.date.isNotEmpty) ...[
-                                        const SizedBox(height: 2),
+                                        SizedBox(height: 2.h),
                                         Text(
                                           booking.date,
-                                          style: const TextStyle(
+                                          style: TextStyle(
                                             fontFamily: 'Inter',
-                                            fontSize: 12,
+                                            fontSize: 12.sp,
                                             color: Color(0xFF98A2B3),
                                           ),
                                         ),
@@ -248,27 +249,27 @@ class _HcHomeView extends StatelessWidget {
                                   children: [
                                     Text(
                                       booking.price.isNotEmpty ? 'EGP ${booking.price}' : '',
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         fontFamily: 'Inter',
-                                        fontSize: 14,
+                                        fontSize: 14.sp,
                                         fontWeight: FontWeight.w700,
                                         color: Color(0xFF3A8BD7),
                                       ),
                                     ),
-                                    const SizedBox(height: 4),
+                                    SizedBox(height: 4.h),
                                     Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
                                       decoration: BoxDecoration(
                                         color: booking.status == 'Completed'
                                             ? const Color(0xFFE8F5E9)
                                             : const Color(0xFFEAF4FF),
-                                        borderRadius: BorderRadius.circular(8),
+                                        borderRadius: BorderRadius.circular(8.r),
                                       ),
                                       child: Text(
                                         booking.status,
                                         style: TextStyle(
                                           fontFamily: 'Inter',
-                                          fontSize: 11,
+                                          fontSize: 11.sp,
                                           fontWeight: FontWeight.w600,
                                           color: booking.status == 'Completed'
                                               ? const Color(0xFF2E7D32)
@@ -278,8 +279,8 @@ class _HcHomeView extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-                                const SizedBox(width: 4),
-                                const Icon(Icons.chevron_right, color: Color(0xFF98A2B3)),
+                                SizedBox(width: 4.w),
+                                Icon(Icons.chevron_right, color: Color(0xFF98A2B3)),
                               ],
                             ),
                           ),
@@ -289,7 +290,7 @@ class _HcHomeView extends StatelessWidget {
                     ),
                   ),
                 ],
-                const SliverToBoxAdapter(child: SizedBox(height: 100)),
+                SliverToBoxAdapter(child: SizedBox(height: 100.h)),
               ],
             ),
           );

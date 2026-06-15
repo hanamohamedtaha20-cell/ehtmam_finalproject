@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class PendingApprovalCard extends StatelessWidget {
   final Map<String, dynamic> provider;
@@ -23,15 +24,15 @@ class PendingApprovalCard extends StatelessWidget {
     final isApproved = status == 'Approved';
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 18),
-      padding: const EdgeInsets.all(18),
+      margin: EdgeInsets.only(bottom: 18.h),
+      padding: EdgeInsets.all(18.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(18.r),
+        boxShadow: [
           BoxShadow(
             color: Color(0x18000000),
-            blurRadius: 14,
+            blurRadius: 14.r,
             offset: Offset(0, 6),
           ),
         ],
@@ -42,20 +43,20 @@ class PendingApprovalCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
-                width: 58,
-                height: 58,
+                width: 58.w,
+                height: 58.h,
                 decoration: BoxDecoration(
                   color: const Color(0xff97CCFD),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.favorite_border_rounded,
                   color: Colors.white,
-                  size: 32,
+                  size: 32.r,
                 ),
               ),
 
-              const SizedBox(width: 14),
+              SizedBox(width: 14.w),
 
               Expanded(
                 child: Column(
@@ -63,19 +64,19 @@ class PendingApprovalCard extends StatelessWidget {
                   children: [
                     Text(
                       provider['name'],
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(0xff111827),
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.w800,
-                        height: 1.15,
+                        height: 1.15.h,
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6.h),
                     Text(
                       provider['type'],
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Color(0xff2F93E6),
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -92,69 +93,69 @@ class PendingApprovalCard extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 18),
+          SizedBox(height: 18.h),
 
           _InfoText(
             title: 'Email',
             value: provider['email'],
           ),
 
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
 
           _InfoText(
             title: 'Phone Number',
             value: provider['phone'],
           ),
 
-          const SizedBox(height: 18),
+          SizedBox(height: 18.h),
 
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(14),
+            padding: EdgeInsets.all(14.r),
             decoration: BoxDecoration(
               color: const Color(0xffF8FAFC),
-              borderRadius: BorderRadius.circular(14),
+              borderRadius: BorderRadius.circular(14.r),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
+                Text(
                   'Documents Required',
                   style: TextStyle(
                     color: Color(0xff111827),
-                    fontSize: 13,
+                    fontSize: 13.sp,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Wrap(
                   spacing: 8,
                   runSpacing: 8,
                   children: (provider['documents'] as List)
                       .map(
                         (doc) => Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 9,
-                        vertical: 6,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 9.w,
+                        vertical: 6.h,
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0xffEEF6FF),
-                        borderRadius: BorderRadius.circular(8),
+                        borderRadius: BorderRadius.circular(8.r),
                       ),
                       child: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(
+                          Icon(
                             Icons.image_outlined,
-                            size: 13,
+                            size: 13.r,
                             color: Color(0xff2F93E6),
                           ),
-                          const SizedBox(width: 5),
+                          SizedBox(width: 5.w),
                           Text(
                             doc,
-                            style: const TextStyle(
+                            style: TextStyle(
                               color: Color(0xff2F93E6),
-                              fontSize: 11,
+                              fontSize: 11.sp,
                               fontWeight: FontWeight.w500,
                             ),
                           ),
@@ -168,29 +169,29 @@ class PendingApprovalCard extends StatelessWidget {
             ),
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
           SizedBox(
             width: double.infinity,
-            height: 48,
+            height: 48.h,
             child: DecoratedBox(
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                   colors: [
                     Color(0xff2F93E6),
                     Color(0xff74BDF8),
                   ],
                 ),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
               child: ElevatedButton.icon(
                 onPressed: onViewDocuments,
-                icon: const Icon(
+                icon: Icon(
                   Icons.remove_red_eye_outlined,
-                  size: 18,
+                  size: 18.r,
                   color: Colors.white,
                 ),
-                label: const Text(
+                label: Text(
                   'View Documents',
                   style: TextStyle(
                     color: Colors.white,
@@ -202,7 +203,7 @@ class PendingApprovalCard extends StatelessWidget {
                   shadowColor: Colors.transparent,
                   elevation: 0,
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                 ),
               ),
@@ -210,34 +211,34 @@ class PendingApprovalCard extends StatelessWidget {
           ),
 
           if (isPending) ...[
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
 
             SizedBox(
               width: double.infinity,
-              height: 45,
+              height: 45.h,
               child: OutlinedButton.icon(
                 onPressed: onApprove,
-                icon: const Icon(Icons.check_circle_outline, size: 17),
-                label: const Text('Approve'),
+                icon: Icon(Icons.check_circle_outline, size: 17.r),
+                label: Text('Approve'),
                 style: OutlinedButton.styleFrom(
                   foregroundColor: const Color(0xff059669),
-                  side: const BorderSide(color: Color(0xff059669)),
+                  side: BorderSide(color: Color(0xff059669)),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(12.r),
                   ),
                 ),
               ),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
 
             SizedBox(
               width: double.infinity,
-              height: 45,
+              height: 45.h,
               child: TextButton.icon(
                 onPressed: onReject,
-                icon: const Icon(Icons.cancel_outlined, size: 17),
-                label: const Text('Reject'),
+                icon: Icon(Icons.cancel_outlined, size: 17.r),
+                label: Text('Reject'),
                 style: TextButton.styleFrom(
                   foregroundColor: Colors.red,
                 ),
@@ -280,17 +281,17 @@ class _StatusTag extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         border: Border.all(color: color.withOpacity(0.35)),
       ),
       child: Text(
         text,
         style: TextStyle(
           color: color,
-          fontSize: 12,
+          fontSize: 12.sp,
           fontWeight: FontWeight.w700,
         ),
       ),
@@ -316,18 +317,18 @@ class _InfoText extends StatelessWidget {
         children: [
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xff64748B),
-              fontSize: 11,
+              fontSize: 11.sp,
               fontWeight: FontWeight.w500,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             value,
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xff111827),
-              fontSize: 12,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w700,
             ),
           ),

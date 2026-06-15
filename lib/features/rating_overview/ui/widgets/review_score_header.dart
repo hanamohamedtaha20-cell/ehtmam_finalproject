@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/provider_review_model.dart';
 
 class ReviewScoreHeader extends StatelessWidget {
@@ -15,11 +16,11 @@ final ValueChanged<int?> onFilterChanged;
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(24),
-      padding: const EdgeInsets.all(20),
+      margin: EdgeInsets.all(24.r),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
         color: Color(0xFF3A8BD7),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +29,7 @@ final ValueChanged<int?> onFilterChanged;
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               _BigScore(summary: summary),
-              const SizedBox(width: 20),
+              SizedBox(width: 20.w),
               Expanded(
               child: _StarFilterBars(
                 starCounts: summary.starCounts,
@@ -39,13 +40,13 @@ final ValueChanged<int?> onFilterChanged;
             ),
              ],
           ),
-         const SizedBox(height: 12),
+         SizedBox(height: 12.h),
           Divider(
             color: Colors.white.withOpacity(0.3),
             thickness: 1,
-            height: 1,
+            height: 1.h,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           _SummaryStatRow(summary: summary),
                   ],
                 ),
@@ -65,14 +66,14 @@ class _BigScore extends StatelessWidget {
       children: [
         Text(
           summary.averageRating.toStringAsFixed(1),
-          style: const TextStyle(
-            fontSize: 52,
+          style: TextStyle(
+            fontSize: 52.sp,
             fontWeight: FontWeight.w800,
             color: Colors.white,
-            height: 1,
+            height: 1.h,
           ),
         ),
-        const SizedBox(height: 6),
+        SizedBox(height: 6.h),
         Row(
           children: List.generate(5, (i) {
             final full = i < summary.averageRating.floor();
@@ -80,14 +81,14 @@ class _BigScore extends StatelessWidget {
             return Icon(
               half ? Icons.star_half_rounded : Icons.star_rounded,
               color: full || half ? Color(0xFFFF7E22) : const Color.fromARGB(0, 255, 255, 255),
-              size: 18,
+              size: 18.r,
             );
           }),
         ),
-        const SizedBox(height: 4),
+        SizedBox(height: 4.h),
         Text(
           '${summary.totalReviews} Reviews',
-          style: const TextStyle(fontSize: 12, color: Colors.white70),
+          style: TextStyle(fontSize: 12.sp, color: Colors.white70),
         ),
       ],
     );
@@ -115,23 +116,23 @@ class _StarFilterBars extends StatelessWidget {
         final fraction = total == 0 ? 0.0 : count / total;
 
         return  Padding(
-          padding: const EdgeInsets.only(bottom: 5),
+          padding: EdgeInsets.only(bottom: 5.h),
           child: Row(
               children: [
                 Text(
                   '$star',
-                  style: const TextStyle(
-                    fontSize: 11,
+                  style: TextStyle(
+                    fontSize: 11.sp,
                     fontWeight: FontWeight.w600,
                     color: Colors.white,
                   ),
                 ),
-                const SizedBox(width: 3),
-                const Icon(Icons.star_rounded, color: AppColors.yellow, size: 12),
-                const SizedBox(width: 5),
+                SizedBox(width: 3.w),
+                Icon(Icons.star_rounded, color: AppColors.yellow, size: 12.r),
+                SizedBox(width: 5.w),
                 Expanded(
                 child: ClipRRect(
-                  borderRadius: BorderRadius.circular(99),
+                  borderRadius: BorderRadius.circular(99.r),
                   child: LinearProgressIndicator(
                     value: fraction,
                     minHeight: 9,
@@ -140,13 +141,13 @@ class _StarFilterBars extends StatelessWidget {
                   ),
                 ),
               ),
-              const SizedBox(width: 5),
+              SizedBox(width: 5.w),
               SizedBox(
-                width: 12,
+                width: 12.w,
                 child: Text(
                   '$count',
-                  style: const TextStyle(
-                    fontSize: 11,
+                  style: TextStyle(
+                    fontSize: 11.sp,
                     color: Colors.white,
                     fontWeight: FontWeight.w500,
                   ),
@@ -174,7 +175,7 @@ class _SummaryStatRow extends StatelessWidget {
           value: '${summary.positivePercentage}%',
           label: 'Positive',
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: 12.w),
         _StatChip(
           icon: Icons.workspace_premium_rounded,
           value: 'Top ${summary.providerRankPercentage}%',
@@ -196,7 +197,7 @@ class _StatChip extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 10.h),
         decoration: BoxDecoration(
          color: Colors.transparent,        ),
         child: 
@@ -206,17 +207,17 @@ class _StatChip extends StatelessWidget {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const SizedBox(width: 20),
-                    Icon(icon, color: Colors.white, size: 20),
-                     const SizedBox(width: 5),
+                    SizedBox(width: 20.w),
+                    Icon(icon, color: Colors.white, size: 20.r),
+                     SizedBox(width: 5.w),
                     Text(value,
-                        style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w700, color: Colors.white)),
+                        style: TextStyle(
+                            fontSize: 14.sp, fontWeight: FontWeight.w700, color: Colors.white)),
                   ],
                 ),
-               const SizedBox(height: 4),
+               SizedBox(height: 4.h),
                 Text(label,
-                    style: const TextStyle(fontSize: 12, color: Colors.white70)),
+                    style: TextStyle(fontSize: 12.sp, color: Colors.white70)),
               ],
             ),
         ),

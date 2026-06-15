@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CustomAmountField extends StatelessWidget {
   final TextEditingController controller;
@@ -10,9 +11,9 @@ class CustomAmountField extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        boxShadow: const [
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
+        borderRadius: BorderRadius.circular(12.r),
+        boxShadow: [
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
         ],
       ),
       child: TextField(
@@ -20,14 +21,14 @@ class CustomAmountField extends StatelessWidget {
         keyboardType: TextInputType.number,
         decoration: InputDecoration(
           contentPadding:
-              const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              EdgeInsets.symmetric(horizontal: 14.w, vertical: 12.h),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(12.r),
               borderSide: BorderSide.none),
           filled: true,
           fillColor: Colors.white,
         ),
-        style: const TextStyle(fontFamily: "Arimo", fontSize: 14),
+        style: TextStyle(fontFamily: "Arimo", fontSize: 14.sp),
       ),
     );
   }

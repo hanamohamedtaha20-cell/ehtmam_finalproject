@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LocationStatusBanner extends StatelessWidget {
   final String eta;
@@ -15,33 +16,33 @@ class LocationStatusBanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100,
-      margin: const EdgeInsets.all(18),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      height: 100.h,
+      margin: EdgeInsets.all(18.r),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [Color(0xFF3A8BD7), Color(0xFF97CCFD)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         children: [
           Row(
             children: [
-              Icon(Icons.circle, color: isSharing ? Colors.greenAccent : Colors.white54, size: 10),
-              const SizedBox(width: 3),
+              Icon(Icons.circle, color: isSharing ? Colors.greenAccent : Colors.white54, size: 10.r),
+              SizedBox(width: 3.w),
               Text(
                 isSharing ? "Location Sharing Active" : "Location Sharing Inactive",
-                style: const TextStyle(color: Colors.white, fontSize: 16),
+                style: TextStyle(color: Colors.white, fontSize: 16.sp),
               ),
             ],
           ),
-          const SizedBox(height: 6),
+          SizedBox(height: 6.h),
           Text(
             "Start sharing your location to let the client track your arrival"
-              ,style: const TextStyle(color: Colors.white70, fontSize: 14),
+              ,style: TextStyle(color: Colors.white70, fontSize: 14.sp),
 
           )
         ],
@@ -59,8 +60,8 @@ class _Item extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text(label, style: const TextStyle(fontFamily: "Arimo", fontSize: 11, color: Colors.white70)),
-        Text(value, style: const TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white)),
+        Text(label, style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: Colors.white70)),
+        Text(value, style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 22.sp, color: Colors.white)),
       ],
     );
   }

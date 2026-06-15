@@ -1,6 +1,7 @@
-import 'package:ehtemam_final_project/features/tasks/data/model/task_model.dart';
+﻿import 'package:ehtemam_final_project/features/tasks/data/model/task_model.dart';
 import 'package:ehtemam_final_project/features/tasks/ui/widgets/task_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TaskList extends StatelessWidget {
   final List<TaskModel> tasks;
@@ -27,14 +28,14 @@ class TaskList extends StatelessWidget {
               return Column(
                 children: [
                   TaskItem(task: tasks[i], onToggle: onToggle, onDelete: onDelete),
-                  if (!isLast) const SizedBox(height: 10),
+                  if (!isLast) SizedBox(height: 10.h),
                 ],
               );
             },
             childCount: tasks.length,
           ),
         ),
-        SliverToBoxAdapter(child: SizedBox(height: 16)),
+        SliverToBoxAdapter(child: SizedBox(height: 16.h)),
 
       ],
     );

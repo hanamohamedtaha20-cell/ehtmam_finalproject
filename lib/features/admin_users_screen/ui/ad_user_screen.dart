@@ -1,7 +1,8 @@
-import 'package:ehtemam_final_project/features/admin_users_screen/manager/ad_user_state.dart';
+﻿import 'package:ehtemam_final_project/features/admin_users_screen/manager/ad_user_state.dart';
 import 'package:ehtemam_final_project/features/admin_users_screen/ui/widgets/ad_user_card.dart';
 import 'package:ehtemam_final_project/features/admin_users_screen/ui/widgets/block_user_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../manager/ad_user_cubit.dart';
@@ -30,40 +31,40 @@ class UsersView extends StatelessWidget {
           children: [
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.fromLTRB(16, 18, 16, 14),
+              padding: EdgeInsets.fromLTRB(16, 18, 16, 14),
               color: Colors.white,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Users',
                     style: TextStyle(
-                      fontSize: 20,
+                      fontSize: 20.sp,
                       fontWeight: FontWeight.w800,
                       color: Color(0xff111827),
                     ),
                   ),
-                  const SizedBox(height: 16),
+                  SizedBox(height: 16.h),
                   TextField(
                     onChanged: (value) {
                       context.read<AdUserCubit>().searchUsers(value);
                     },
                     decoration: InputDecoration(
                       hintText: 'Search users...',
-                      hintStyle: const TextStyle(
+                      hintStyle: TextStyle(
                         color: Color(0xff94A3B8),
-                        fontSize: 13,
+                        fontSize: 13.sp,
                       ),
-                      prefixIcon: const Icon(
+                      prefixIcon: Icon(
                         Icons.search,
                         color: Color(0xff94A3B8),
-                        size: 20,
+                        size: 20.r,
                       ),
                       filled: true,
                       fillColor: const Color(0xffF8FAFC),
                       contentPadding: EdgeInsets.zero,
                       border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(14.r),
                         borderSide: BorderSide.none,
                       ),
                     ),
@@ -76,23 +77,23 @@ class UsersView extends StatelessWidget {
               child: BlocBuilder<AdUserCubit, AdUsersState>(
                 builder: (context, state) {
                   return ListView(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.r),
                     children: [
                       StatTotalCard(
                         number: state.allUsers.length.toString(),
                         title: 'Total Users',
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
 
                       if (state.filteredUsers.isEmpty)
-                        const Center(
+                        Center(
                           child: Padding(
-                            padding: EdgeInsets.only(top: 40),
+                            padding: EdgeInsets.only(top: 40.h),
                             child: Text(
                               'No users found',
                               style: TextStyle(
                                 color: Color(0xff64748B),
-                                fontSize: 14,
+                                fontSize: 14.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -129,15 +130,15 @@ class StatTotalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 88,
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+      width: 88.w,
+      padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 10.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(14.r),
+        boxShadow: [
           BoxShadow(
             color: Color(0x12000000),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: Offset(0, 4),
           ),
         ],
@@ -146,18 +147,18 @@ class StatTotalCard extends StatelessWidget {
         children: [
           Text(
             number,
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xff2F93E6),
-              fontSize: 22,
+              fontSize: 22.sp,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xff6B7280),
-              fontSize: 10,
+              fontSize: 10.sp,
             ),
           ),
         ],

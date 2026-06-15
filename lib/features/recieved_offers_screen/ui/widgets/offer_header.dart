@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OffersHeader extends StatelessWidget {
   const OffersHeader({super.key});
@@ -6,7 +7,7 @@ class OffersHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding:  EdgeInsets.all(16),
+      padding:  EdgeInsets.all(16.r),
       child: Row(
         children:  [
           IconButton(
@@ -15,7 +16,7 @@ class OffersHeader extends StatelessWidget {
               },
               icon:Icon(Icons.arrow_back)
           ),
-          SizedBox(width: 10),
+          SizedBox(width: 10.w),
           Text(
             "Received Offers",
             style: TextStyle(fontWeight: FontWeight.bold),

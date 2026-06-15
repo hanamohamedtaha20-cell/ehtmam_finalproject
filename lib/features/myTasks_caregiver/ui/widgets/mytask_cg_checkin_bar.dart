@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/rating_caregiver/ui/screens/rating_screen.dart';
+﻿import 'package:ehtemam_final_project/features/rating_caregiver/ui/screens/rating_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/mytask_cg_booking_model.dart';
 import '../../manager/mytask_cg_cubit.dart';
@@ -14,16 +15,16 @@ class MytaskCgCheckinBar extends StatelessWidget {
     final cubit = context.read<MytaskCgCubit>();
 
     return Container(
-      margin: EdgeInsets.only(left: 8, right: 8),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(left: 8.w, right: 8.w),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color:  const Color(0xFF3A8BD7),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.06),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            blurRadius: 8.r,
+            offset: Offset(0, 2),
           ),
         ],
       ),
@@ -33,29 +34,29 @@ class MytaskCgCheckinBar extends StatelessWidget {
           Row(
             children: [
               
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 'Booking ${booking.bookingId}',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 15,
+                  fontSize: 15.sp,
                   color: Colors.white,
                 ),
               ),
-              const Spacer(),
+              Spacer(),
               Text(
                 'Tasks',
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   color: booking.isCheckedIn ? Colors.white : Colors.white,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Row(
             children: [
-              Icon(Icons.person_outline, size: 13, color: booking.isCheckedIn ? Colors.white : Colors.white),
+              Icon(Icons.person_outline, size: 13.r, color: booking.isCheckedIn ? Colors.white : Colors.white),
               Expanded(child:
               Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -64,48 +65,48 @@ class MytaskCgCheckinBar extends StatelessWidget {
                   
                   Text(
                     ' ${booking.clientName}  •  ${booking.category}',
-                    style: TextStyle(fontSize: 12, color: booking.isCheckedIn ? Colors.white : Colors.white),
+                    style: TextStyle(fontSize: 12.sp, color: booking.isCheckedIn ? Colors.white : Colors.white),
                   ),
               
                   Text('${booking.completedTasks}/${booking.totalTasks}',
-                    style: TextStyle(fontSize: 18, color: Colors.white , fontWeight: FontWeight.bold),),
+                    style: TextStyle(fontSize: 18.sp, color: Colors.white , fontWeight: FontWeight.bold),),
                 ],
               ),),
             ],
           ),
           if (booking.isCheckedIn) ...[
-              const SizedBox(height: 8),
+              SizedBox(height: 8.h),
               Container(
                 width: double.infinity,
-                padding: const EdgeInsets.all(10),
+                padding: EdgeInsets.all(10.r),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10.r),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
                       children: [
-                        const Icon(Icons.check_circle, color: Colors.green, size: 14),
-                        const Text(' Checked In', style: TextStyle(color: Colors.blue, fontSize: 12, fontWeight: FontWeight.bold)),
+                        Icon(Icons.check_circle, color: Colors.green, size: 14.r),
+                        Text(' Checked In', style: TextStyle(color: Colors.blue, fontSize: 12.sp, fontWeight: FontWeight.bold)),
                       ],
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6.h),
                     Row(
                       children: [
-                        const Icon(Icons.access_time, color: Colors.blue, size: 13),
-                        Text(' ${booking.checkInTime}', style: const TextStyle(color: Colors.blue, fontSize: 12)),
-                        const SizedBox(width: 12),
-                        const Icon(Icons.location_on, color: Colors.blue, size: 13),
-                        const Text(' Location tracked', style: TextStyle(color: Colors.blue, fontSize: 12)),
+                        Icon(Icons.access_time, color: Colors.blue, size: 13.r),
+                        Text(' ${booking.checkInTime}', style: TextStyle(color: Colors.blue, fontSize: 12.sp)),
+                        SizedBox(width: 12.w),
+                        Icon(Icons.location_on, color: Colors.blue, size: 13.r),
+                        Text(' Location tracked', style: TextStyle(color: Colors.blue, fontSize: 12.sp)),
                       ],
                     ),
                   ],
                 ),
               ),
             ],
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           SizedBox(
             width: double.infinity,
             child: booking.isCheckedIn
@@ -115,7 +116,7 @@ class MytaskCgCheckinBar extends StatelessWidget {
                       if (!context.mounted) return;
                       if (!success) {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
+                          SnackBar(
                             content: Text('All tasks must have photo/video proof before checkout'),
                             backgroundColor: Colors.red,
                           ),
@@ -127,31 +128,31 @@ class MytaskCgCheckinBar extends StatelessWidget {
                         MaterialPageRoute(builder: (_) => const RatingGiverScreen()),
                       );
                     },
-                    icon: const Icon(Icons.logout, size: 16, color: Colors.white),
-                    label: const Text('Check Out', style: TextStyle(color: Colors.white)),
+                    icon: Icon(Icons.logout, size: 16.r, color: Colors.white),
+                    label: Text('Check Out', style: TextStyle(color: Colors.white)),
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.white),
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      side: BorderSide(color: Colors.white),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
                     ),
                   )
                 : ElevatedButton.icon(
                     onPressed: () async => cubit.checkIn(booking.bookingId),
-                    icon: const Icon(Icons.login, size: 16,color: Colors.blue,),
-                    label: const Text('Check In to Start Work',style: TextStyle(color: Color(0xFF1976D2))),
+                    icon: Icon(Icons.login, size: 16.r,color: Colors.blue,),
+                    label: Text('Check In to Start Work',style: TextStyle(color: Color(0xFF1976D2))),
                     style: ElevatedButton.styleFrom(
                       backgroundColor:  Colors.white,
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
                     ),
                   ),
           ),
           if (!booking.isCheckedIn)
-            const Padding(
-              padding: EdgeInsets.only(top: 4),
+            Padding(
+              padding: EdgeInsets.only(top: 4.h),
               child: Center(
                 child: Text(
                   'You must check in before completing tasks',
-                  style: TextStyle(fontSize: 11, color: Colors.white),
+                  style: TextStyle(fontSize: 11.sp, color: Colors.white),
                 ),
               ),
             ),

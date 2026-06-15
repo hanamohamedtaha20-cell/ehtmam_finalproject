@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/payment/ui/widgets/balance_card.dart';
+﻿import 'package:ehtemam_final_project/features/payment/ui/widgets/balance_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repo/cg_payment_repo.dart';
 import '../../manager/cg_payment_cubit.dart';
@@ -31,16 +32,16 @@ class _CgPaymentView extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
+          icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text('Payments Received',
-            style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18, color: Colors.black)),
+        title: Text('Payments Received',
+            style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18.sp, color: Colors.black)),
       ),
       body: BlocBuilder<CgPaymentCubit, CgPaymentState>(
         builder: (context, state) {
           if (state is CgPaymentLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
           if (state is CgPaymentError) {
             return Center(child: Text(state.message));
@@ -50,17 +51,17 @@ class _CgPaymentView extends StatelessWidget {
             return Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   child: Column(
                     children: [
                       BalanceCard(balance: state.balance),
 
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
                       CgEarningsHeader(
                         totalEarned: state.totalEarned,
                         pending: state.pending,
                       ),
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
                       CgFilterTabs(
                         selected: state.filter,
                         onFilter: cubit.filterBy,
@@ -70,7 +71,7 @@ class _CgPaymentView extends StatelessWidget {
                 ),
                 Expanded(
                   child: ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    padding: EdgeInsets.symmetric(horizontal: 16.w),
                     children: state.filteredTransactions
                         .map((t) => CgTransactionItem(transaction: t))
                         .toList(),
@@ -79,7 +80,7 @@ class _CgPaymentView extends StatelessWidget {
               ],
             );
           }
-          return const SizedBox();
+          return SizedBox();
         },
       ),
     );

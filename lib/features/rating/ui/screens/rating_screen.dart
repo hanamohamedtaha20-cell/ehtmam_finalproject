@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
 import 'package:ehtemam_final_project/features/rating/manager/rating_cubit.dart';
 import 'package:ehtemam_final_project/features/rating/manager/rating_state.dart';
@@ -10,24 +10,20 @@ import 'package:ehtemam_final_project/features/rating/ui/widgets/user_card.dart'
 import 'package:ehtemam_final_project/features/rating_caregiver/ui/widgets/custom_header.dart';
 import 'package:ehtemam_final_project/features/rating_caregiver/ui/widgets/rating_stars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class RatingScreen extends StatefulWidget {
-  final String caregiverId;
-  final String serviceId;
-  final String requestId;
-  final String caregiverName;  
+  final String bookingId;
+  final String caregiverName;
   final String caregiverRole;
 
   const RatingScreen({
     super.key,
-    required this.caregiverId,
-    required this.serviceId,
-    required this.requestId,
-    required this.caregiverName,  
+    required this.bookingId,
+    required this.caregiverName,
     required this.caregiverRole,
-    
   });
 
   @override
@@ -69,97 +65,95 @@ class _RatingScreenState extends State<RatingScreen> {
             }
           },
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const CustomHeader(),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               Center(
-                child: const Text(
+                child: Text(
                           "Rate Your Experience",
                           style: TextStyle(
                 fontFamily: "Arimo",
                 fontWeight: FontWeight.bold,
-                fontSize: 24,
+                fontSize: 24.sp,
                 color: AppColors.textDark),
                         ),
               ),
 
-               const SizedBox(height: 10),
+               SizedBox(height: 10.h),
                 Center(
-                child: const Text(
+                child: Text(
                           "How Was Your Service Experience",
                           style: TextStyle(
                 fontFamily: "Arimo",
-                fontSize: 12,
+                fontSize: 12.sp,
                 color: AppColors.textDark),
                         ),
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
 
                 UserCard(
                   name: widget.caregiverName,
                   role: widget.caregiverRole,
                 ),              
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
               SectionCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Overall Rating",
-                        style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textDark)),
-                    const SizedBox(height: 8),
-                    Center(child: RatingStars(rating: _overall, onChanged: (v) => setState(() => _overall = v), size: 36)),
-                    const SizedBox(height: 4),
+                    Text("Overall Rating",
+                        style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14.sp, color: AppColors.textDark)),
+                    SizedBox(height: 8.h),
+                    Center(child: RatingStars(rating: _overall, onChanged: (v) => setState(() => _overall = v), size: 36.r)),
+                    SizedBox(height: 4.h),
                     Center(
-                      child: const Text("Tap to rate",
-                          style: TextStyle(fontFamily: "Arimo", fontSize: 11, color: AppColors.textLight)),
+                      child: Text("Tap to rate",
+                          style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: AppColors.textLight)),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               SectionCard(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Text("Detailed Ratings",
-                        style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14, color: AppColors.textDark)),
-                    const SizedBox(height: 12),
+                    Text("Detailed Ratings",
+                        style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14.sp, color: AppColors.textDark)),
+                    SizedBox(height: 12.h),
                     RatingRow(label: "Professionalism", rating: _professionalism, onChanged: (v) => setState(() => _professionalism = v)),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     RatingRow(label: "Service Quality", rating: _serviceQuality, onChanged: (v) => setState(() => _serviceQuality = v)),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     RatingRow(label: "Punctuality", rating: _punctuality, onChanged: (v) => setState(() => _punctuality = v)),
-                    const SizedBox(height: 8),
+                    SizedBox(height: 8.h),
                     RatingRow(label: "Communication", rating: _communication, onChanged: (v) => setState(() => _communication = v)),
                   ],
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               SectionCard(child: ReviewField(controller: _reviewController)),
-              const SizedBox(height: 24),
+              SizedBox(height: 24.h),
                BlocBuilder<RatingCubit, RatingState>(
                   builder: (context, state) {
                     if (state is RatingLoading) {
-                      return const Center(child: CircularProgressIndicator());
+                      return Center(child: CircularProgressIndicator());
                     }
               return SubmitButton(
                       onSubmit: () {
                         context.read<RatingCubit>().submit(
-                          review:      _reviewController.text,
-                          caregiverId: widget.caregiverId,
-                          serviceId:   widget.serviceId,
-                          requestId:   widget.requestId,
+                          review:    _reviewController.text,
+                          bookingId: widget.bookingId,
                   );
                 },
               );}),
-              const SizedBox(height: 12),
-              const Center(
+              SizedBox(height: 12.h),
+              Center(
                 child: Text(
                   "Your honest feedback helps improve our services",
-                  style: TextStyle(fontFamily: "Arimo", fontSize: 11, color: AppColors.textLight),
+                  style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: AppColors.textLight),
                 ),
               ),
             ],

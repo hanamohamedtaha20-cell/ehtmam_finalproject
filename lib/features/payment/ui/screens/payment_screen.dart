@@ -1,10 +1,11 @@
-import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
+﻿import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_state.dart';
 import 'package:ehtemam_final_project/features/payment/ui/widgets/balance_card.dart';
 import 'package:ehtemam_final_project/features/payment/ui/widgets/cost_breakdown.dart';
 import 'package:ehtemam_final_project/features/payment/ui/widgets/income_expense_row.dart';
 import 'package:ehtemam_final_project/features/payment/ui/widgets/transaction_history.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -45,7 +46,7 @@ class _PaymentScreenState extends State<PaymentScreen>
         child: BlocBuilder<PaymentCubit, PaymentState>(
           builder: (context, state) {
             if (state is PaymentLoading) {
-              return const Center(child: CircularProgressIndicator());
+              return Center(child: CircularProgressIndicator());
             }
 
             if (state is PaymentError) {
@@ -58,7 +59,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Padding(
-                    padding: const EdgeInsets.all(16),
+                    padding: EdgeInsets.all(16.r),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -66,30 +67,30 @@ class _PaymentScreenState extends State<PaymentScreen>
                           children: [
                             IconButton(
                               onPressed: () => Navigator.pop(context),
-                              icon: const Icon(Icons.arrow_back),
+                              icon: Icon(Icons.arrow_back),
                             ),
-                            const SizedBox(width: 10),
-                            const Text(
+                            SizedBox(width: 10.w),
+                            Text(
                               "My Wallet",
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
-                            const Spacer(),
+                            Spacer(),
                             IconButton(
                               onPressed: () =>
                                   context.read<PaymentCubit>().loadData(),
-                              icon: const Icon(Icons.refresh),
+                              icon: Icon(Icons.refresh),
                               tooltip: 'Refresh',
                             ),
                           ],
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20.h),
                         BalanceCard(balance: state.balance),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         IncomeExpenseRow(
                           income: state.income,
                           expense: state.expense,
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20.h),
                         CostBreakdown(
                           serviceCost: state.serviceCost,
                           platformFee: state.platformFee,
@@ -110,7 +111,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                             }
                           },
                         ),
-                        const SizedBox(height: 20),
+                        SizedBox(height: 20.h),
                         TransactionHistory(transactions: state.transactions),
                       ],
                     ),
@@ -119,7 +120,7 @@ class _PaymentScreenState extends State<PaymentScreen>
               );
             }
 
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           },
         ),
       ),

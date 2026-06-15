@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../model/ad_provider_model.dart';
 
@@ -19,53 +20,53 @@ class BlockProviderDialog extends StatelessWidget {
     return Dialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20.r),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                const Icon(
+                Icon(
                   Icons.warning_amber_rounded,
                   color: Colors.red,
                 ),
-                const SizedBox(width: 8),
-                const Text(
+                SizedBox(width: 8.w),
+                Text(
                   'Block Provider',
                   style: TextStyle(
                     color: Colors.red,
-                    fontSize: 20,
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const Spacer(),
+                Spacer(),
                 IconButton(
                   onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close),
+                  icon: Icon(Icons.close),
                 ),
               ],
             ),
 
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
 
-            const Text(
+            Text(
               'Provider:',
               style: TextStyle(
                 color: Color(0xff64748B),
-                fontSize: 12,
+                fontSize: 12.sp,
               ),
             ),
 
-            const SizedBox(height: 4),
+            SizedBox(height: 4.h),
 
             Text(
               provider.name,
-              style: const TextStyle(
-                fontSize: 18,
+              style: TextStyle(
+                fontSize: 18.sp,
                 fontWeight: FontWeight.w700,
                 color: Color(0xff111827),
               ),
@@ -73,15 +74,15 @@ class BlockProviderDialog extends StatelessWidget {
 
             Text(
               provider.service,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Color(0xff64748B),
-                fontSize: 12,
+                fontSize: 12.sp,
               ),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
-            const Text(
+            Text(
               'Reason for Blocking *',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
@@ -89,51 +90,51 @@ class BlockProviderDialog extends StatelessWidget {
               ),
             ),
 
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
 
             TextField(
               controller: reasonController,
               maxLines: 4,
               decoration: InputDecoration(
                 hintText: 'Explain why you are blocking this provider...',
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   color: Color(0xff94A3B8),
-                  fontSize: 13,
+                  fontSize: 13.sp,
                 ),
                 filled: true,
                 fillColor: const Color(0xffF8FAFC),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide(
                     color: Color(0xffE2E8F0),
                   ),
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide(
                     color: Color(0xffE2E8F0),
                   ),
                 ),
               ),
             ),
 
-            const SizedBox(height: 12),
+            SizedBox(height: 12.h),
 
-            const Text(
+            Text(
               'This reason will be stored for record keeping and may be shared with the provider.',
               style: TextStyle(
-                fontSize: 11,
+                fontSize: 11.sp,
                 color: Color(0xff64748B),
               ),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             Row(
               children: [
                 Expanded(
                   child: SizedBox(
-                    height: 48,
+                    height: 48.h,
                     child: ElevatedButton(
                       onPressed: () => Navigator.pop(context),
                       style: ElevatedButton.styleFrom(
@@ -141,17 +142,17 @@ class BlockProviderDialog extends StatelessWidget {
                         foregroundColor: const Color(0xff334155),
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13),
+                          borderRadius: BorderRadius.circular(13.r),
                         ),
                       ),
-                      child: const Text('Cancel'),
+                      child: Text('Cancel'),
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                SizedBox(width: 12.w),
                 Expanded(
                   child: SizedBox(
-                    height: 48,
+                    height: 48.h,
                     child: ElevatedButton(
                       onPressed: () {
                         onBlock();
@@ -162,10 +163,10 @@ class BlockProviderDialog extends StatelessWidget {
                         foregroundColor: Colors.white,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(13),
+                          borderRadius: BorderRadius.circular(13.r),
                         ),
                       ),
-                      child: const Text('Block'),
+                      child: Text('Block'),
                     ),
                   ),
                 ),

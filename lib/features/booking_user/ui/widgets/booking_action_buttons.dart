@@ -1,10 +1,11 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/map_user/ui/screens/track_caregiver_screen.dart';
 import 'package:ehtemam_final_project/features/rating/data/repo/rating_repo.dart';
 import 'package:ehtemam_final_project/features/rating/manager/rating_cubit.dart';
 import 'package:ehtemam_final_project/features/rating/ui/screens/rating_screen.dart';
 import 'package:ehtemam_final_project/features/task_progress_user/ui/screens/task_progress_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../requests_screen_user/ui/screens/requests_screen.dart';
@@ -47,7 +48,7 @@ class BookingActionButtons extends StatelessWidget {
                 },
               ),
             ),
-            const SizedBox(width: 8),
+            SizedBox(width: 8.w),
             Expanded(
               child: _FilledButton(
                 label: "Tasks",
@@ -57,7 +58,7 @@ class BookingActionButtons extends StatelessWidget {
                    Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (_) => const TaskProgressScreen(),
+                    builder: (_) => TaskProgressScreen(bookingId: booking.id),
                   ),
                 );
                 },
@@ -65,16 +66,16 @@ class BookingActionButtons extends StatelessWidget {
             ),
           ],
         ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           GestureDetector(
             onTap:  onCancel,
-            child: const Center(
+            child: Center(
             child: Center(
               child:  Text(
                 "Cancel Booking",
                 style: TextStyle(
                   fontFamily: "Arimo",
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   color: Colors.red,
                 ),
               ),
@@ -93,11 +94,9 @@ class BookingActionButtons extends StatelessWidget {
           builder: (_) => BlocProvider(
             create: (_) => RatingCubit(RatingRepo()),
             child: RatingScreen(
-              caregiverId: '',
-              serviceId: '',
-              requestId: '',
-              caregiverName: '',
-              caregiverRole: '',
+              bookingId:     booking.id,
+              caregiverName: booking.subtitle,
+              caregiverRole: booking.speciality,
             ),
           ),
         ),
@@ -105,17 +104,17 @@ class BookingActionButtons extends StatelessWidget {
     },
     child: Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       decoration: BoxDecoration(
         border: Border.all(color: Color(0xFFFEE685)),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(8.r),
       ),
-      child: const Center(
+      child: Center(
         child: Text(
           "Rate the service",
           style: TextStyle(
             fontFamily: "Arimo",
-            fontSize: 12,
+            fontSize: 12.sp,
             fontWeight: FontWeight.bold,
             color: Color.fromARGB(255, 235, 189, 6),
           ),
@@ -128,10 +127,10 @@ class BookingActionButtons extends StatelessWidget {
     if (status == 'cancelled') {
       return Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 8),
+        padding: EdgeInsets.symmetric(vertical: 8.h),
         decoration: BoxDecoration(
           border: Border.all(color: AppColors.orange),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(8.r),
         ),
         child: GestureDetector(
           onTap: () {
@@ -142,12 +141,12 @@ class BookingActionButtons extends StatelessWidget {
               ),
             );
           },
-          child: const Center(
+          child: Center(
             child: Text(
               "Rebook",
               style: TextStyle(
                 fontFamily: "Arimo",
-                fontSize: 12,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.bold,
                 color: AppColors.orange,
               ),
@@ -157,7 +156,7 @@ class BookingActionButtons extends StatelessWidget {
       );
     }
 
-    return const SizedBox();
+    return SizedBox();
   }
 }
 class _FilledButton extends StatelessWidget {
@@ -178,12 +177,12 @@ class _FilledButton extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 36,
+        height: 36.h,
           width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 14),
+        padding: EdgeInsets.symmetric(horizontal: 14.w),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
         ),
           child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -191,14 +190,14 @@ class _FilledButton extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             if (icon != null) ...[
-              Icon(icon, color: Colors.white, size: 14),
-              const SizedBox(width: 4),
+              Icon(icon, color: Colors.white, size: 14.r),
+              SizedBox(width: 4.w),
             ],
                 Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: "Arimo",
-                    fontSize: 13,
+                    fontSize: 13.sp,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),

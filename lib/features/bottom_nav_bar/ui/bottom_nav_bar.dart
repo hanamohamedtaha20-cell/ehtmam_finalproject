@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserBottomNavScreen extends StatelessWidget {
   final int currentIndex;
@@ -16,8 +17,8 @@ class UserBottomNavScreen extends StatelessWidget {
     final s = (width / 390).clamp(0.85, 1.15);
 
     return Container(
-      height: 88 * s,
-      decoration: const BoxDecoration(
+      height: 88.h,
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
@@ -83,8 +84,8 @@ class UserBottomNavScreen extends StatelessWidget {
       },
 
       child: SizedBox(
-        width: 80 * scale,
-        height: 88 * scale,
+        width: 80.w * scale,
+        height: 88.h * scale,
 
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -92,14 +93,14 @@ class UserBottomNavScreen extends StatelessWidget {
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               width: isSelected ? 36 * scale : 0,
-              height: 4 * scale,
+              height: 4.h * scale,
               decoration: BoxDecoration(
                 color: const Color(0xFF3A8BD7),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
               ),
             ),
 
-            SizedBox(height: 8 * scale),
+            SizedBox(height: 8.h * scale),
 
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
@@ -120,13 +121,13 @@ class UserBottomNavScreen extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 6 * scale),
+            SizedBox(height: 6.h * scale),
 
             Text(
               label,
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 12 * scale,
+                fontSize: 12.sp * scale,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
               ),

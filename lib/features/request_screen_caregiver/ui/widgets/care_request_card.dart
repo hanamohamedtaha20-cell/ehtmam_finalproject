@@ -1,7 +1,8 @@
-import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
+﻿import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/widgets/gradient_action_button.dart';
 
 class RequestCard extends StatelessWidget {
@@ -32,15 +33,15 @@ class RequestCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.04),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
+            blurRadius: 10.r,
+            offset: Offset(0, 4),
           ),
         ],
       ),
@@ -52,49 +53,49 @@ class RequestCard extends StatelessWidget {
             children: [
               Text(
                 request.serviceName,
-                style: const TextStyle(
-                  fontSize: 18,
+                style: TextStyle(
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 12.w,
+                  vertical: 6.h,
                 ),
                 decoration: BoxDecoration(
                   color: statusColor.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Text(
                   request.status,
                   style: TextStyle(
                     color: statusColor,
                     fontWeight: FontWeight.w600,
-                    fontSize: 11,
+                    fontSize: 11.sp,
                   ),
                 ),
               ),
             ],
           ),
           if (request.duration.isNotEmpty) ...[
-            const SizedBox(height: 8),
+            SizedBox(height: 8.h),
             Text(
               request.duration,
               style: TextStyle(color: Colors.grey.shade600),
             ),
           ],
           if (request.clientName.isNotEmpty) ...[
-            const SizedBox(height: 4),
+            SizedBox(height: 4.h),
             Text(
               "Client: ${request.clientName}",
               style: TextStyle(
                 color: Colors.grey.shade500,
-                fontSize: 14,
+                fontSize: 14.sp,
               ),
             ),
           ],
-          const SizedBox(height: 18),
+          SizedBox(height: 18.h),
           if (request.date.isNotEmpty)
             _info(Icons.calendar_today_outlined, "Start: ${request.date}"),
           if (request.duration.isNotEmpty)
@@ -103,12 +104,12 @@ class RequestCard extends StatelessWidget {
             _info(Icons.location_on_outlined, request.location),
           if (request.price.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.only(bottom: 10),
+              padding: EdgeInsets.only(bottom: 10.h),
               child: Text(
                 request.price,
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.blue,
-                  fontSize: 18,
+                  fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
                 ),
               ),
@@ -117,24 +118,24 @@ class RequestCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(
+                Icon(
                   Icons.info_outline,
                   color: Colors.blue,
-                  size: 18,
+                  size: 18.r,
                 ),
-                const SizedBox(width: 8),
+                SizedBox(width: 8.w),
                 Expanded(
                   child: Text(
                     request.notes,
                     style: TextStyle(
                       color: Colors.grey.shade700,
-                      fontSize: 13,
+                      fontSize: 13.sp,
                     ),
                   ),
                 ),
               ],
             ),
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
           _buildActions(context),
         ],
       ),
@@ -150,32 +151,32 @@ class RequestCard extends StatelessWidget {
               Expanded(
                 child: GradientActionButton(
                   text: "View Details",
-                  height: 46,
-                  fontSize: 13,
-                  colors: const [
+                  height: 46.h,
+                  fontSize: 13.sp,
+                  colors: [
                     Color(0xFF4CAF50),
                     Color(0xFF7DDE92),
                   ],
                   onTap: () => _openBookingDetails(context),
                 ),
               ),
-              const SizedBox(width: 15),
+              SizedBox(width: 15.w),
               Expanded(
                 child: SizedBox(
-                  height: 46,
+                  height: 46.h,
                   child: OutlinedButton(
                     onPressed: onDecline,
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.red),
+                      side: BorderSide(color: Colors.red),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(18.r),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       "Decline",
                       style: TextStyle(
                         color: Colors.red,
-                        fontSize: 13,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -196,19 +197,19 @@ class RequestCard extends StatelessWidget {
               Expanded(
                 child: GradientActionButton(
                   text: "Share Location",
-                  height: 46,
-                  fontSize: 13,
-                  colors: const [
+                  height: 46.h,
+                  fontSize: 13.sp,
+                  colors: [
                     Color(0xFF4CAF50),
                     Color(0xFF7DDE92),
                   ],
                   onTap: () {},
                 ),
               ),
-              const SizedBox(width: 15),
+              SizedBox(width: 15.w),
               Expanded(
                 child: SizedBox(
-                  height: 46,
+                  height: 46.h,
                   child: OutlinedButton(
                     onPressed: () {
                       Navigator.push(
@@ -219,16 +220,16 @@ class RequestCard extends StatelessWidget {
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.blue),
+                      side: BorderSide(color: Colors.blue),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18),
+                        borderRadius: BorderRadius.circular(18.r),
                       ),
                     ),
-                    child: const Text(
+                    child: Text(
                       "View Tasks",
                       style: TextStyle(
                         color: Colors.blue,
-                        fontSize: 13,
+                        fontSize: 13.sp,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -244,20 +245,20 @@ class RequestCard extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: SizedBox(
-        height: 46,
+        height: 46.h,
         child: OutlinedButton(
           onPressed: () {},
           style: OutlinedButton.styleFrom(
-            side: const BorderSide(color: Colors.orange),
+            side: BorderSide(color: Colors.orange),
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(18.r),
             ),
           ),
-          child: const Text(
+          child: Text(
             "Rate Client",
             style: TextStyle(
               color: Colors.orange,
-              fontSize: 13,
+              fontSize: 13.sp,
               fontWeight: FontWeight.w600,
             ),
           ),
@@ -281,17 +282,17 @@ class RequestCard extends StatelessWidget {
 
   Widget _info(IconData icon, String text) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: EdgeInsets.only(bottom: 10.h),
       child: Row(
         children: [
-          Icon(icon, size: 17, color: Colors.grey),
-          const SizedBox(width: 8),
+          Icon(icon, size: 17.r, color: Colors.grey),
+          SizedBox(width: 8.w),
           Expanded(
             child: Text(
               text,
               style: TextStyle(
                 color: Colors.grey.shade700,
-                fontSize: 14,
+                fontSize: 14.sp,
               ),
             ),
           ),

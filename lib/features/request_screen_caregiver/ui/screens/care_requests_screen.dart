@@ -1,9 +1,10 @@
-import 'package:ehtemam_final_project/core/network/api_service.dart';
+﻿import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/data/repo/repository_implementation.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/manager/care_request_cubit.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/manager/state/care_request_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/widgets/filter.dart';
@@ -52,7 +53,7 @@ class _CareRequestsViewState extends State<CareRequestsView> {
             child: BlocBuilder<CareRequestsCubit, CareRequestsState>(
               builder: (context, state) {
                 if (state is CareRequestsLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator());
                 }
 
                 if (state is CareRequestsError) {
@@ -61,11 +62,11 @@ class _CareRequestsViewState extends State<CareRequestsView> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(state.message),
-                        const SizedBox(height: 12),
+                        SizedBox(height: 12.h),
                         ElevatedButton(
                           onPressed: () =>
                               context.read<CareRequestsCubit>().getAllRequests(),
-                          child: const Text('Retry'),
+                          child: Text('Retry'),
                         ),
                       ],
                     ),
@@ -73,7 +74,7 @@ class _CareRequestsViewState extends State<CareRequestsView> {
                 }
 
                 if (state is! CareRequestsLoaded) {
-                  return const SizedBox.shrink();
+                  return SizedBox.shrink();
                 }
 
                 final allRequests = state.requests;
@@ -90,14 +91,14 @@ class _CareRequestsViewState extends State<CareRequestsView> {
                 }).toList();
 
                 if (filteredRequests.isEmpty) {
-                  return const Center(child: Text('No requests found'));
+                  return Center(child: Text('No requests found'));
                 }
 
                 return Padding(
-                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  padding: EdgeInsets.only(left: 16.w, right: 16.w),
                   child: ListView.separated(
                     itemCount: filteredRequests.length + 1,
-                    separatorBuilder: (_, __) => const SizedBox(height: 10),
+                    separatorBuilder: (_, __) => SizedBox(height: 10.h),
                     itemBuilder: (context, index) {
                       if (index == 0) {
                         return Column(
@@ -107,7 +108,7 @@ class _CareRequestsViewState extends State<CareRequestsView> {
                               activeCount: activeCount,
                               completedCount: completedCount,
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 10.h),
                           ],
                         );
                       }

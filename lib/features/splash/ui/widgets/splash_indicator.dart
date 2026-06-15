@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SplashIndicator extends StatelessWidget {
   const SplashIndicator({super.key});
@@ -6,10 +7,10 @@ class SplashIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      width: 8,
-      height: 8,
-      decoration: const BoxDecoration(
+      margin: EdgeInsets.symmetric(horizontal: 4.w),
+      width: 8.w,
+      height: 8.h,
+      decoration: BoxDecoration(
         color: Colors.white70,
         shape: BoxShape.circle,
       ),

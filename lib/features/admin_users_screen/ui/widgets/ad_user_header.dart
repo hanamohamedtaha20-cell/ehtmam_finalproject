@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AdUserHeader extends StatelessWidget {
   final Function(String)? onSearch;
@@ -13,7 +14,7 @@ class AdUserHeader extends StatelessWidget {
     return Container(
       width: double.infinity,
       color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(
+      padding: EdgeInsets.fromLTRB(
         16,
         16,
         16,
@@ -22,55 +23,55 @@ class AdUserHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Users',
             style: TextStyle(
-              fontSize: 32,
+              fontSize: 32.sp,
               fontWeight: FontWeight.w700,
               color: Color(0xff1F2937),
             ),
           ),
 
-          const SizedBox(height: 20),
+          SizedBox(height: 20.h),
 
           SizedBox(
-            height: 56,
+            height: 56.h,
             child: TextField(
               onChanged: onSearch,
               decoration: InputDecoration(
                 hintText: 'Search users...',
-                hintStyle: const TextStyle(
+                hintStyle: TextStyle(
                   color: Color(0xff9CA3AF),
-                  fontSize: 15,
+                  fontSize: 15.sp,
                 ),
-                prefixIcon: const Icon(
+                prefixIcon: Icon(
                   Icons.search,
-                  size: 28,
+                  size: 28.r,
                   color: Color(0xff6B7280),
                 ),
                 filled: true,
                 fillColor: const Color(0xffF3F4F6),
                 contentPadding: EdgeInsets.zero,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(30.r),
                   borderSide: BorderSide.none,
                 ),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(30.r),
                   borderSide: BorderSide.none,
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(30.r),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
 
-          const Divider(
-            height: 1,
+          Divider(
+            height: 1.h,
             thickness: 1,
             color: Color(0xffE5E7EB),
           ),

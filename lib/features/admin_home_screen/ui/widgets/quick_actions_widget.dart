@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../admin_features/ui/screens/bundles_screen.dart';
 import '../../../admin_features/ui/screens/manage_complaints_screen.dart';
 import '../../../admin_features/ui/screens/pending_approvals_screen.dart';
@@ -37,19 +38,19 @@ class QuickActionsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             'Quick Actions',
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w700,
               color: Color(0xff172033),
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           GridView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
@@ -64,18 +65,18 @@ class QuickActionsWidget extends StatelessWidget {
               final action = actions[index];
 
               return InkWell(
-                borderRadius: BorderRadius.circular(18),
+                borderRadius: BorderRadius.circular(18.r),
                 onTap: () => _navigate(context, action.title),
                 child: Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(16.r),
                   decoration: BoxDecoration(
                     color: const Color(0xffEAF4FF),
-                    borderRadius: BorderRadius.circular(18),
+                    borderRadius: BorderRadius.circular(18.r),
                     boxShadow: [
                       BoxShadow(
                         color: Colors.black.withOpacity(.12),
-                        blurRadius: 7,
-                        offset: const Offset(0, 3),
+                        blurRadius: 7.r,
+                        offset: Offset(0, 3),
                       ),
                     ],
                   ),
@@ -83,21 +84,21 @@ class QuickActionsWidget extends StatelessWidget {
                     children: [
                       if (action.badgeCount != null && action.badgeCount! > 0)
                         Positioned(
-                          top: 0,
-                          right: 0,
+                          top: 0.h,
+                          right: 0.w,
                           child: Container(
-                            width: 24,
-                            height: 24,
-                            decoration: const BoxDecoration(
+                            width: 24.w,
+                            height: 24.h,
+                            decoration: BoxDecoration(
                               color: Colors.red,
                               shape: BoxShape.circle,
                             ),
                             child: Center(
                               child: Text(
                                 action.badgeCount.toString(),
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 11,
+                                  fontSize: 11.sp,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -109,15 +110,15 @@ class QuickActionsWidget extends StatelessWidget {
                         children: [
                           Icon(
                             action.icon,
-                            size: 30,
+                            size: 30.r,
                             color: const Color(0xff111827),
                           ),
-                          const Spacer(),
+                          Spacer(),
                           Text(
                             action.title,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              height: 1.3,
+                            style: TextStyle(
+                              fontSize: 12.sp,
+                              height: 1.3.h,
                               fontWeight: FontWeight.w700,
                               color: Color(0xff24324A),
                             ),

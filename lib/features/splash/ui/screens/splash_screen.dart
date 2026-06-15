@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_fonts.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../manager/splash_cubit.dart';
 import '../../manager/splash_state.dart';
@@ -22,18 +23,13 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> textAnim;
   late Animation<double> dotsAnim;
 
-  double scale(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    return (width / 393).clamp(0.85, 1.15);
-  }
-
   @override
   void initState() {
     super.initState();
 
     _controller = AnimationController(
       vsync: this,
-      duration:  Duration(seconds: 5),
+      duration: const Duration(seconds: 5),
     );
 
     logoAnim = CurvedAnimation(
@@ -59,12 +55,13 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   @override
-
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final s = scale(context);
-
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
         if (state.navigate) {
@@ -76,64 +73,59 @@ class _SplashScreenState extends State<SplashScreen>
           );
         }
       },
-      child: Center(
-        child: Scaffold(
-          body: SplashBackground(
-            child: SafeArea(
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 24 * s,
-                  vertical: 18 * s,
-                ),
-                child: Column(
-                  children: [
-                    const Spacer(),
+      child: Scaffold(
+        body: SplashBackground(
+          child: SafeArea(
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 24.w,
+                vertical: 18.h,
+              ),
+              child: Column(
+                children: [
+                  Spacer(),
 
-                    FadeTransition(
-                      opacity: logoAnim,
-                      child: ScaleTransition(
-                        scale: logoAnim,
-                        child: const Center(
-                          child: SplashLogo(),
+                  FadeTransition(
+                    opacity: logoAnim,
+                    child: ScaleTransition(
+                      scale: logoAnim,
+                      child: Center(child: SplashLogo()),
+                    ),
+                  ),
+
+                  SizedBox(height: 45.h),
+
+                  FadeTransition(
+                    opacity: textAnim,
+                    child: ScaleTransition(
+                      scale: textAnim,
+                      child: Text(
+                        'Connecting families with\ntrusted care services',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyle.body16.copyWith(
+                          fontFamily: AppFonts.inter,
+                          fontSize: 17.sp,
+                          fontWeight: FontWeight.w600,
+                          color: const Color(0xFF252E68),
+                          height: 1.45,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withValues(alpha: 0.25),
+                              offset: Offset(0, 4),
+                              blurRadius: 4,
+                            ),
+                          ],
                         ),
                       ),
                     ),
+                  ),
 
-                    SizedBox(height: 45 * s),
+                  SizedBox(height: 26.h),
 
-                    FadeTransition(
-                      opacity: textAnim,
-                      child: ScaleTransition(
-                        scale: textAnim,
-                        child: Text(
-                          'Connecting families with\ntrusted care services',
-                          textAlign: TextAlign.center,
-                          style: AppTextStyle.body16.copyWith(
-                            fontFamily: AppFonts.inter,
-                            fontSize: 17 * s,
-                            fontWeight: FontWeight.w600,
-                            color: const Color(0xFF252E68),
-                            height: 1.45,
-                            shadows: [
-                              Shadow(
-                                color: Colors.black.withOpacity(0.25),
-                                offset: const Offset(0, 4),
-                                blurRadius: 4,
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
+                  Spacer(),
 
-                    SizedBox(height: 26 * s),
-
-
-                    const Spacer(),
-
-                    SizedBox(height: 30 * s),
-                  ],
-                ),
+                  SizedBox(height: 30.h),
+                ],
               ),
             ),
           ),

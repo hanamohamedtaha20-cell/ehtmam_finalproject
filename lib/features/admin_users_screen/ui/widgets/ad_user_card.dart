@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../manager/ad_user_cubit.dart';
@@ -17,15 +18,15 @@ class AdUserCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(14),
+      margin: EdgeInsets.only(bottom: 14.h),
+      padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(18.r),
+        boxShadow: [
           BoxShadow(
             color: Color(0x12000000),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: Offset(0, 4),
           ),
         ],
@@ -41,14 +42,14 @@ class AdUserCard extends StatelessWidget {
                   user.name.length >= 2
                       ? user.name.substring(0, 2).toUpperCase()
                       : user.name.toUpperCase(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
 
-              const SizedBox(width: 12),
+              SizedBox(width: 12.w),
 
               Expanded(
                 child: Column(
@@ -57,65 +58,65 @@ class AdUserCard extends StatelessWidget {
                   children: [
                     Text(
                       user.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 15,
+                        fontSize: 15.sp,
                         color: Color(0xff111827),
                       ),
                     ),
 
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
 
                     Text(
                       user.email,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.grey,
-                        fontSize: 12,
+                        fontSize: 12.sp,
                       ),
                     ),
                   ],
                 ),
               ),
 
-              const Icon(
+              Icon(
                 Icons.more_vert,
                 color: Color(0xff94A3B8),
               ),
             ],
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
 
           Row(
             children: [
               Text(
                 '${user.bookingsCount} bookings',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.grey,
-                  fontSize: 12,
+                  fontSize: 12.sp,
                 ),
               ),
 
-              const Spacer(),
+              Spacer(),
 
               Text(
                 'Joined ${user.createdAt.split("T").first}',
-                style: const TextStyle(
+                style: TextStyle(
                   color: Colors.grey,
-                  fontSize: 12,
+                  fontSize: 12.sp,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
 
           const AdUserTagsWidget(
             isActive: true,
             isPremium: false,
           ),
 
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
 
           TextButton.icon(
             onPressed: () {
@@ -132,12 +133,12 @@ class AdUserCard extends StatelessWidget {
                 ),
               );
             },
-            icon: const Icon(
+            icon: Icon(
               Icons.block,
               color: Colors.red,
-              size: 18,
+              size: 18.r,
             ),
-            label: const Text(
+            label: Text(
               'Block User',
               style: TextStyle(
                 color: Colors.red,

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../account_settings/ui/screens/account_settings_screen_careprovider.dart';
@@ -41,8 +42,8 @@ class _CareGiverBottomNavView extends StatelessWidget {
           extendBody: true,
           body: screens[state.currentIndex],
           bottomNavigationBar: Container(
-            height: 88 * s,
-            decoration: const BoxDecoration(
+            height: 88.h,
+            decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
@@ -116,21 +117,21 @@ class _CareGiverBottomNavView extends StatelessWidget {
         context.read<BottomNavCubit>().changeTab(index);
       },
       child: SizedBox(
-        width: 80 * scale,
-        height: 88 * scale,
+        width: 80.w * scale,
+        height: 88.h * scale,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               width: isSelected ? 36 * scale : 0,
-              height: 4 * scale,
+              height: 4.h * scale,
               decoration: BoxDecoration(
                 color: const Color(0xFF3A8BD7),
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(20.r),
               ),
             ),
-            SizedBox(height: 8 * scale),
+            SizedBox(height: 8.h * scale),
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
               width: isSelected ? 38 * scale : 26 * scale,
@@ -147,14 +148,14 @@ class _CareGiverBottomNavView extends StatelessWidget {
                     : Colors.white,
               ),
             ),
-            SizedBox(height: 6 * scale),
+            SizedBox(height: 6.h * scale),
             Text(
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 12 * scale,
+                fontSize: 12.sp * scale,
                 fontWeight: FontWeight.w500,
                 color: Colors.white,
               ),

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'hc_stat_card.dart';
 
@@ -22,7 +23,7 @@ class HcStatsGrid extends StatelessWidget {
     final s = (width / 390).clamp(0.85, 1.15);
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16 * s),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Column(
         children: [
           Row(
@@ -35,7 +36,7 @@ class HcStatsGrid extends StatelessWidget {
                   label: 'Requests Today',
                 ),
               ),
-              SizedBox(width: 12 * s),
+              SizedBox(width: 12.w),
               Expanded(
                 child: HcStatCard(
                   icon: Icons.attach_money_rounded,
@@ -46,7 +47,7 @@ class HcStatsGrid extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: 12 * s),
+          SizedBox(height: 12.h),
           Row(
             children: [
               Expanded(
@@ -57,7 +58,7 @@ class HcStatsGrid extends StatelessWidget {
                   label: 'Rating',
                 ),
               ),
-              SizedBox(width: 12 * s),
+              SizedBox(width: 12.w),
               Expanded(
                 child: HcStatCard(
                   icon: Icons.schedule_rounded,

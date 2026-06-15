@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReviewFilterTabs extends StatelessWidget {
   final int? activeFilter;
@@ -14,12 +15,12 @@ class ReviewFilterTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-  height: 40,
+  height: 40.h,
   color: Colors.white,
   child: ListView(
     scrollDirection: Axis.horizontal,
     shrinkWrap: true,
-    padding: const EdgeInsets.symmetric(horizontal: 10),
+    padding: EdgeInsets.symmetric(horizontal: 10.w),
         children: [
           _FilterChip(
             label: 'All',
@@ -57,11 +58,11 @@ class _FilterChip extends StatelessWidget {
       onTap: onTap,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        margin: const EdgeInsets.only(right: 8),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        margin: EdgeInsets.only(right: 8.w),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         decoration: BoxDecoration(
           color: isActive ? Color(0xff3A8BD7) : Colors.white,
-            borderRadius: BorderRadius.circular(99),
+            borderRadius: BorderRadius.circular(99.r),
            
         ),
         child: Row(
@@ -70,22 +71,22 @@ class _FilterChip extends StatelessWidget {
             if (label == 'All') ...[
                 Icon(
                   Icons.filter_list_rounded,
-                  size: 14,
+                  size: 14.r,
                   color: isActive ? Colors.white : AppColors.textLight,
                 ),
-                const SizedBox(width: 2),
+                SizedBox(width: 2.w),
                   ],
                   Text(
                     label,
                     style: TextStyle(
-                      fontSize: 13,
+                      fontSize: 13.sp,
                       fontWeight: FontWeight.w600,
                       color: isActive ? Colors.white : AppColors.textLight,
                     ),
                   ),
             if (showStar) ...[
-              const SizedBox(width: 1),
-              const Icon(Icons.star_rounded, color: AppColors.yellow, size: 13),
+              SizedBox(width: 1.w),
+              Icon(Icons.star_rounded, color: AppColors.yellow, size: 13.r),
             ],
           ],
         ),

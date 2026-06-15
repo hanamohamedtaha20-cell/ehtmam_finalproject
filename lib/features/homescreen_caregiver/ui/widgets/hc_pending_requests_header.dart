@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HcPendingRequestsHeader extends StatelessWidget {
   final int pendingCount;
@@ -21,23 +22,23 @@ class HcPendingRequestsHeader extends StatelessWidget {
             'New Care Requests',
             style: TextStyle(
               fontFamily: 'Inter',
-              fontSize: 18 * s,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF0B2B5A),
             ),
           ),
-          SizedBox(width: 10 * s),
+          SizedBox(width: 10.w),
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 10 * s, vertical: 4 * s),
+            padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 4.h),
             decoration: BoxDecoration(
               color: const Color(0xFFFFE8EC),
-              borderRadius: BorderRadius.circular(20 * s),
+              borderRadius: BorderRadius.circular(20.r),
             ),
             child: Text(
               '$pendingCount pending',
               style: TextStyle(
                 fontFamily: 'Inter',
-                fontSize: 11 * s,
+                fontSize: 11.sp,
                 fontWeight: FontWeight.w600,
                 color: const Color(0xFFE53935),
               ),

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AuthTextField extends StatelessWidget {
   final String hintText;
@@ -19,10 +20,10 @@ class AuthTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 54,
+      height: 54.h,
       decoration: BoxDecoration(
         color: Colors.white.withOpacity(0.75),
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
       ),
       child: TextField(
         controller: controller,
@@ -34,12 +35,12 @@ class AuthTextField extends StatelessWidget {
           ),
           suffixIcon: suffixIcon,
           hintText: hintText,
-          hintStyle: const TextStyle(
+          hintStyle: TextStyle(
             color: Color(0xFF8A94A6),
-            fontSize: 16,
+            fontSize: 16.sp,
           ),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(vertical: 16),
+          contentPadding: EdgeInsets.symmetric(vertical: 16.h),
         ),
       ),
     );

@@ -1,8 +1,9 @@
-import 'package:ehtemam_final_project/core/resources/language_chip.dart';
+﻿import 'package:ehtemam_final_project/core/resources/language_chip.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/register_screen.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/select_role_card.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/select_role_logo_section.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../onboarding/ui/widgets/onboarding_background.dart';
 import '../../../../core/resources/app_text_style.dart';
 
@@ -15,12 +16,12 @@ class SelectRoleScreen extends StatelessWidget {
       body: OnboardingBackground(
         child: SafeArea(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 18.h),
             child: Column(
               children: [
                 const SelectRoleLogoSection(),
 
-                const SizedBox(height: 34),
+                SizedBox(height: 34.h),
 
                 SelectRoleCard(
                   title: 'User',
@@ -39,7 +40,7 @@ class SelectRoleScreen extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(height: 18),
+                SizedBox(height: 18.h),
 
                 SelectRoleCard(
                   title: 'Care giver',
@@ -58,7 +59,7 @@ class SelectRoleScreen extends StatelessWidget {
                   },
                 ),
 
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
 
                 GestureDetector(
                   onTap: () {
@@ -67,7 +68,7 @@ class SelectRoleScreen extends StatelessWidget {
                   child:  Text(
                     'Back to Login',
                     style: AppTextStyle.bold.copyWith(
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       color: Colors.red,
                       fontWeight: FontWeight.w500,
                     ),

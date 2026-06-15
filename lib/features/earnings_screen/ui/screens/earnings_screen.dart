@@ -1,8 +1,9 @@
-import 'package:ehtemam_final_project/core/network/api_service.dart';
+﻿import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/earnings_screen/data/repo/earnings_repo.dart';
 import 'package:ehtemam_final_project/features/earnings_screen/manager/earnings_cubit.dart';
 import 'package:ehtemam_final_project/features/earnings_screen/manager/state/earning_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/earnings_header_card.dart';
 import '../widgets/recent_transactions.dart';
@@ -31,7 +32,7 @@ class EarningsView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
+        title: Text(
           "Earnings",
           style: TextStyle(
             color: Color(0xFF2B2D42),
@@ -42,7 +43,7 @@ class EarningsView extends StatelessWidget {
       body: BlocBuilder<EarningsCubit, EarningsState>(
         builder: (context, state) {
           if (state is EarningsLoading) {
-            return const Center(child: CircularProgressIndicator());
+            return Center(child: CircularProgressIndicator());
           }
 
           if (state is EarningsError) {
@@ -51,11 +52,11 @@ class EarningsView extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(state.message),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   ElevatedButton(
                     onPressed: () =>
                         context.read<EarningsCubit>().getEarnings(),
-                    child: const Text('Retry'),
+                    child: Text('Retry'),
                   ),
                 ],
               ),
@@ -63,19 +64,19 @@ class EarningsView extends StatelessWidget {
           }
 
           if (state is! EarningsLoaded) {
-            return const SizedBox.shrink();
+            return SizedBox.shrink();
           }
 
           final earnings = state.earnings;
 
           return SingleChildScrollView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             child: Column(
               children: [
                 EarningsHeaderCard(
                   totalEarnings: earnings.totalEarnings,
                 ),
-                const SizedBox(height: 18),
+                SizedBox(height: 18.h),
                 Row(
                   children: [
                     Expanded(
@@ -85,7 +86,7 @@ class EarningsView extends StatelessWidget {
                         color: const Color(0xFF4A90E2),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: StatsCard(
                         value: earnings.avgJob.toString(),
@@ -93,7 +94,7 @@ class EarningsView extends StatelessWidget {
                         color: const Color(0xFF4CAF50),
                       ),
                     ),
-                    const SizedBox(width: 12),
+                    SizedBox(width: 12.w),
                     Expanded(
                       child: StatsCard(
                         value: '${earnings.hoursWorked}h',
@@ -103,7 +104,7 @@ class EarningsView extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 24),
+                SizedBox(height: 24.h),
                 RecentTransactionsSection(
                   transactions: state.transactions,
                 ),

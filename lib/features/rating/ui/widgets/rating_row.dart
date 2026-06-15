@@ -1,6 +1,7 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/rating_caregiver/ui/widgets/rating_stars.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RatingRow extends StatelessWidget {
   final String label;
@@ -17,27 +18,27 @@ class RatingRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
       decoration: BoxDecoration(
         color: const Color(0xFFF8FAFC),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(12.r),
         border: Border.all(color: const Color(0xFFEEEEEE)),
-      //   boxShadow: const [
+      //   boxShadow: [
       //     BoxShadow(
       //         color: Color(0x1A000000),
       //         offset: Offset(0, 2),
-      //         blurRadius: 4),
+      //         blurRadius: 4.r),
       //   ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(label,
-              style: const TextStyle(
+              style: TextStyle(
                   fontFamily: "Arimo",
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   color: AppColors.textDark)),
-          RatingStars(rating: rating, onChanged: onChanged, size: 22),
+          RatingStars(rating: rating, onChanged: onChanged, size: 22.r),
         ],
       ),
     );

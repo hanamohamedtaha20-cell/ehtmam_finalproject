@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StatTotalCard extends StatelessWidget {
   final String number;
@@ -13,15 +14,15 @@ class StatTotalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 88,
-      padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 10),
+      width: 88.w,
+      padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 10.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(14.r),
+        boxShadow: [
           BoxShadow(
             color: Color(0x12000000),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: Offset(0, 4),
           ),
         ],
@@ -30,18 +31,18 @@ class StatTotalCard extends StatelessWidget {
         children: [
           Text(
             number,
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xff2F93E6),
-              fontSize: 22,
+              fontSize: 22.sp,
               fontWeight: FontWeight.w700,
             ),
           ),
-          const SizedBox(height: 4),
+          SizedBox(height: 4.h),
           Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               color: Color(0xff6B7280),
-              fontSize: 10,
+              fontSize: 10.sp,
             ),
           ),
         ],

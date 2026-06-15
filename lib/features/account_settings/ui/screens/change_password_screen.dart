@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/language_chip.dart';
+﻿import 'package:ehtemam_final_project/core/resources/language_chip.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../manager/account_settings_cubit.dart';
 import '../../manager/account_settings_state.dart';
@@ -45,9 +46,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
       controller: controller,
       obscureText: true,
       validator: validator,
-      style: const TextStyle(
+      style: TextStyle(
         fontFamily: 'Inter',
-        fontSize: 12,
+        fontSize: 12.sp,
         fontWeight: FontWeight.w500,
         color: Color(0xFF1D2939),
       ),
@@ -55,29 +56,29 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
         filled: true,
         fillColor: Colors.white.withOpacity(0.9),
         hintText: hint,
-        hintStyle: const TextStyle(
+        hintStyle: TextStyle(
           fontFamily: 'Inter',
-          fontSize: 11,
+          fontSize: 11.sp,
           color: Color(0xFF98A2B3),
         ),
-        prefixIcon: const Icon(
+        prefixIcon: Icon(
           Icons.lock_outline_rounded,
-          size: 18,
+          size: 18.r,
           color: Color(0xFF98A2B3),
         ),
-        errorStyle: const TextStyle(
+        errorStyle: TextStyle(
           fontFamily: 'Inter',
-          fontSize: 9,
+          fontSize: 9.sp,
         ),
         contentPadding:
-        const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        EdgeInsets.symmetric(horizontal: 12.w, vertical: 10.h),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
           borderSide: BorderSide.none,
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Colors.red),
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(color: Colors.red),
         ),
       ),
     );
@@ -86,22 +87,22 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   Widget gradientButton(bool isLoading) {
     return SizedBox(
       width: double.infinity,
-      height: 46,
+      height: 46.h,
       child: ElevatedButton(
         onPressed: isLoading ? null : submitPassword,
         style: ElevatedButton.styleFrom(
           elevation: 6,
           shadowColor: const Color(0xFF3A8BD7).withOpacity(0.35),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: BorderRadius.circular(22.r),
           ),
           padding: EdgeInsets.zero,
           backgroundColor: Colors.transparent,
         ),
         child: Ink(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(22),
-            gradient: const LinearGradient(
+            borderRadius: BorderRadius.circular(22.r),
+            gradient: LinearGradient(
               colors: [
                 Color(0xFF3A8BD7), // الأزرق
                 Color(0xFFBFDBFF), // الفاتح
@@ -115,23 +116,23 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
             child: AnimatedSwitcher(
               duration: const Duration(milliseconds: 200),
               child: isLoading
-                  ? const SizedBox(
+                  ? SizedBox(
                 key: ValueKey('loading'),
-                width: 18,
-                height: 18,
+                width: 18.w,
+                height: 18.h,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
                   color: Colors.white,
                 ),
               )
-                  : const Text(
+                  : Text(
                 key: ValueKey('text'),
                 'Change Password',
                 style: TextStyle(
                   fontFamily: 'Inter',
-                  fontSize: 16,           // 👈 زي Figma
+                  fontSize: 16.sp,           // 👈 زي Figma
                   fontWeight: FontWeight.w600, // SemiBold = 600
-                  height: 24 / 16,        // 👈 line height 24px
+                  height: 24.h / 16,        // 👈 line height 24px
                   letterSpacing: 0,       // 👈 زي Figma
                   color: Colors.white,
                 ),
@@ -161,21 +162,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
           backgroundColor: const Color(0xFFF5F8FC),
           body: SafeArea(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14),
+              padding: EdgeInsets.symmetric(horizontal: 14.w),
               child: Stack(
                 children: [
                   Center(
                     child: SingleChildScrollView(
                       child: Container(
-                        padding: const EdgeInsets.all(20),
+                        padding: EdgeInsets.all(20.r),
                         decoration: BoxDecoration(
                           color: const Color(0xFFEAF4FF),
-                          borderRadius: BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(24.r),
                           boxShadow: [
                             BoxShadow(
                               color: Colors.black.withOpacity(0.1),
-                              blurRadius: 20,
-                              offset: const Offset(0, 8),
+                              blurRadius: 20.r,
+                              offset: Offset(0, 8),
                             ),
                           ],
                         ),
@@ -187,13 +188,13 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 alignment: Alignment.centerLeft,
                                 child: TextButton.icon(
                                   onPressed: () => Navigator.pop(context),
-                                  icon: const Icon(Icons.arrow_back,
-                                      color: Colors.red, size: 16),
-                                  label: const Text(
+                                  icon: Icon(Icons.arrow_back,
+                                      color: Colors.red, size: 16.r),
+                                  label: Text(
                                     'Back to Login',
                                     style: TextStyle(
                                       fontFamily: 'Inter',
-                                      fontSize: 11,
+                                      fontSize: 11.sp,
                                       fontWeight: FontWeight.w600,
                                       color: Colors.red,
                                     ),
@@ -201,40 +202,40 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 ),
                               ),
 
-                              const SizedBox(height: 16),
+                              SizedBox(height: 16.h),
 
-                              const CircleAvatar(
+                              CircleAvatar(
                                 radius: 34,
                                 backgroundColor: Color(0xFF4EA3F1),
                                 child: Icon(Icons.mail_outline_rounded,
-                                    color: Colors.white, size: 30),
+                                    color: Colors.white, size: 30.r),
                               ),
 
-                              const SizedBox(height: 16),
+                              SizedBox(height: 16.h),
 
-                              const Text(
+                              Text(
                                 'Change Password',
                                 style: TextStyle(
                                   fontFamily: 'Inter',
-                                  fontSize: 30,
+                                  fontSize: 30.sp,
                                   fontWeight: FontWeight.w700,
                                 ),
                               ),
 
-                              const SizedBox(height: 6),
+                              SizedBox(height: 6.h),
 
-                              const Text(
+                              Text(
                                 'Enter your current password and\nchoose a new password',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontFamily: 'Inter',
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,
                                   color: Color(0xFF667085),
                                 ),
                               ),
 
-                              const SizedBox(height: 20),
+                              SizedBox(height: 20.h),
 
                               passwordField(
                                 controller: oldPasswordController,
@@ -243,7 +244,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 v!.isEmpty ? 'Required' : null,
                               ),
 
-                              const SizedBox(height: 10),
+                              SizedBox(height: 10.h),
 
                               passwordField(
                                 controller: newPasswordController,
@@ -255,7 +256,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 },
                               ),
 
-                              const SizedBox(height: 10),
+                              SizedBox(height: 10.h),
 
                               passwordField(
                                 controller: confirmPasswordController,
@@ -268,21 +269,21 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                 },
                               ),
 
-                              const SizedBox(height: 16),
+                              SizedBox(height: 16.h),
 
                               gradientButton(state.isLoading),
 
-                              const SizedBox(height: 16),
+                              SizedBox(height: 16.h),
 
                               Container(
-                                height: 14,
+                                height: 14.h,
                                 alignment: Alignment.center,
                                 color: Colors.white.withOpacity(0.3),
-                                child: const Text(
+                                child: Text(
                                   'User Access',
                                   style: TextStyle(
                                     fontFamily: 'Inter',
-                                    fontSize: 9,
+                                    fontSize: 9.sp,
                                     color: Color(0xFF98A2B3),
                                   ),
                                 ),

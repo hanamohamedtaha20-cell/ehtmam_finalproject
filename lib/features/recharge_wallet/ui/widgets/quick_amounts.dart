@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class QuickAmounts extends StatelessWidget {
   final double selectedAmount;
@@ -22,15 +23,15 @@ class QuickAmounts extends StatelessWidget {
         return GestureDetector(
           onTap: () => onSelected(amount),
           child: Container(
-            width: 70,
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            width: 70.w,
+            padding: EdgeInsets.symmetric(vertical: 10.h),
             decoration: BoxDecoration(
               color: isSelected ? AppColors.blue : Colors.white,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
               border: Border.all(
                   color: isSelected ? AppColors.blue : Colors.grey.shade300),
-              boxShadow: const [
-                BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
+              boxShadow: [
+                BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
               ],
             ),
             child: Center(
@@ -39,7 +40,7 @@ class QuickAmounts extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: isSelected ? Colors.white : AppColors.textDark,
                 ),
               ),

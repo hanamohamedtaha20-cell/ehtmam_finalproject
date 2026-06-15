@@ -411,7 +411,7 @@ class ApiService {
     required double latitude,
     required double longitude,
   }) async {
-    final response = await _dio.put(
+    final response = await _dio.post(
       '$bookingEndpoint/$bookingId/location',
       data: {'latitude': latitude, 'longitude': longitude},
     );
@@ -488,26 +488,29 @@ class ApiService {
   // ══════════════════════════════════════════════════════════
 
   Future<Map<String, dynamic>> createReview({
-    required String caregiverId,
-    required String serviceId,
-    required String requestId,
+    required String bookingId,
     required int rating,
     required String review,
     String? feedback,
   }) async {
-    final response = await _dio.post(reviewEndpoint, data: {
-      'caregiver': caregiverId,
-      'service':   serviceId,
-      'request':   requestId,
-      'rating':    rating,
-      'review':    review,
-      if (feedback != null) 'feedback': feedback,
-    });
+    final response = await _dio.post(
+      '$reviewEndpoint/create_review/$bookingId',
+      data: {
+        'rating': rating,
+        'review': review,
+        if (feedback != null) 'feedback': feedback,
+      },
+    );
     return response.data;
   }
 
   Future<Map<String, dynamic>> getReviewById(String id) async {
     final response = await _dio.get('$reviewEndpoint/$id');
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> getCaregiverReviews(String caregiverId) async {
+    final response = await _dio.get('$reviewEndpoint/caregiver/$caregiverId');
     return response.data;
   }
 
@@ -539,8 +542,8 @@ class ApiService {
     return response.data;
   }
 
-  Future<Map<String, dynamic>> payBundle(String clientBundleId) async {
-    final response = await _dio.patch('$clientBundleEndpoint/$clientBundleId');
+  Future<Map<String, dynamic>> payBundle(String bundleId) async {
+    final response = await _dio.post('$clientBundlePayEndpoint/$bundleId');
     return response.data;
   }
 
@@ -828,5 +831,42 @@ class ApiService {
     return ChatMessageModel.fromJson(
       response.data['data']['message'],
     );
+  }
+
+  // ══════════════════════════════════════════════════════════
+  //  TASK PROOF — /tasks/upload-proof
+  // ══════════════════════════════════════════════════════════
+
+  Future<Map<String, dynamic>> uploadTaskProof({
+    required String taskId,
+    required File proofFile,
+  }) async {
+    final formData = FormData.fromMap({
+      'proof': await MultipartFile.fromFile(proofFile.path),
+    });
+    final response = await _dio.post(
+      '$tasksEndpoint/upload-proof/$taskId',
+      data: formData,
+      options: Options(contentType: 'multipart/form-data'),
+    );
+    return response.data;
+  }
+
+  // ══════════════════════════════════════════════════════════
+  //  TASK PROGRESS — /booking/:bookingId/progress
+  // ══════════════════════════════════════════════════════════
+
+  Future<Map<String, dynamic>> getTaskProgress(String bookingId) async {
+    final response = await _dio.get('$bookingEndpoint/$bookingId/progress');
+    return response.data;
+  }
+
+  // ══════════════════════════════════════════════════════════
+  //  NOTIFICATIONS — /notifications
+  // ══════════════════════════════════════════════════════════
+
+  Future<Map<String, dynamic>> getNotifications() async {
+    final response = await _dio.get(notificationsEndpoint);
+    return response.data;
   }
 }

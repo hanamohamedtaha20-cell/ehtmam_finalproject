@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../manager/dashboard_cubit.dart';
 import '../../manager/dashboard_state.dart';
@@ -22,7 +23,7 @@ class AdminDashboardScreen extends StatelessWidget {
             builder: (context, state) {
               if (state
               is DashboardLoading) {
-                return const Center(
+                return Center(
                   child:
                   CircularProgressIndicator(),
                 );
@@ -35,8 +36,8 @@ class AdminDashboardScreen extends StatelessWidget {
                     children: [
                       const DashboardHeader(),
 
-                      const SizedBox(
-                        height: 20,
+                      SizedBox(
+                        height: 20.h,
                       ),
 
                       QuickActionsWidget(
@@ -44,8 +45,8 @@ class AdminDashboardScreen extends StatelessWidget {
                         state.quickActions,
                       ),
 
-                      const SizedBox(
-                        height: 20,
+                      SizedBox(
+                        height: 20.h,
                       ),
                     ],
                   ),
@@ -61,7 +62,7 @@ class AdminDashboardScreen extends StatelessWidget {
                 );
               }
 
-              return const SizedBox();
+              return SizedBox();
             },
           ),
         ),

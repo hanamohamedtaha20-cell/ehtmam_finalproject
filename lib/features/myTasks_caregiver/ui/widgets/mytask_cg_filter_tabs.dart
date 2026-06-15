@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MytaskCgFilterTabs extends StatelessWidget {
   final String selected;
@@ -49,10 +50,10 @@ class _FilterChip extends StatelessWidget {
       onTap: () => onTap(value),
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 6.h),
         decoration: BoxDecoration(
           color: Colors.transparent,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           border: isSelected ? Border.all(color: const Color(0xFF1976D2)) : null,
         ),
         child: Center(
@@ -60,14 +61,14 @@ class _FilterChip extends StatelessWidget {
            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               if (isSelected) ...[
-                const Icon(Icons.filter_alt_outlined, size: 14, color: Color(0xFF1976D2)),
-                const SizedBox(width: 4),
+                Icon(Icons.filter_alt_outlined, size: 14.r, color: Color(0xFF1976D2)),
+                SizedBox(width: 4.w),
               ],
               Text(
                 label,
                 style: TextStyle(
                   color: isSelected ? const Color(0xFF1976D2) : Color(0xFF45556C),
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
               ),

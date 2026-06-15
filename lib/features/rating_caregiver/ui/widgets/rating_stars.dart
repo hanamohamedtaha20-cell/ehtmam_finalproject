@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RatingStars extends StatelessWidget {
   final int rating;
@@ -20,7 +21,7 @@ class RatingStars extends StatelessWidget {
         return GestureDetector(
           onTap: () => onChanged(i + 1),
           child: Padding(
-            padding: const EdgeInsets.only(right: 4),
+            padding: EdgeInsets.only(right: 4.w),
             child: Icon(
               i < rating ? Icons.star_rounded : Icons.star_outline_rounded,
               color: const Color(0xFFFFC107),

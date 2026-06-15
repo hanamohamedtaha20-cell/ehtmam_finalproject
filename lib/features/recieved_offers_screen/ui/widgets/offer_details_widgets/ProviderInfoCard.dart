@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/recieved_offers_screen/manager/provider_details_cubit.dart';
+﻿import 'package:ehtemam_final_project/features/recieved_offers_screen/manager/provider_details_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../manager/state/provider_state.dart';
@@ -29,14 +30,14 @@ class ProviderInfoCard extends StatelessWidget {
 
           return Container(
             width: double.infinity,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               color: Color(0xFFF5F7FA),
-              borderRadius: BorderRadius.circular(18),
+              borderRadius: BorderRadius.circular(18.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.08),
-                  blurRadius: 12,
+                  blurRadius: 12.r,
                   offset: Offset(0, 6),
                 ),
               ],
@@ -53,7 +54,7 @@ class ProviderInfoCard extends StatelessWidget {
                   value: p.location.isNotEmpty ? p.location : 'Not specified',
                 ),
 
-                SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 /// 🔹 Availability
                 _item(
@@ -62,7 +63,7 @@ class ProviderInfoCard extends StatelessWidget {
                   value: p.availability,
                 ),
 
-                SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 /// 🔹 Response Time
                 _item(
@@ -89,8 +90,8 @@ class ProviderInfoCard extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Icon(icon, size: 20, color: Color(0xFF3A8BD7)),
-        SizedBox(width: 10),
+        Icon(icon, size: 20.r, color: Color(0xFF3A8BD7)),
+        SizedBox(width: 10.w),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,16 +99,16 @@ class ProviderInfoCard extends StatelessWidget {
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   fontWeight: FontWeight.w600,
                   color: Color(0xFF374151),
                 ),
               ),
-              SizedBox(height: 4),
+              SizedBox(height: 4.h),
               Text(
                 value,
                 style: TextStyle(
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   color: Color(0xFF6B7280),
                 ),
               ),

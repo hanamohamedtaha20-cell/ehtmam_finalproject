@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../manager/create_request_cubit.dart';
@@ -20,22 +21,22 @@ class GovernorateField extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 'Governorate',
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               DropdownButtonFormField<String>(
                 value: cubit.selectedGovernorate,
                 decoration: InputDecoration(
                   hintText: 'Select governorate',
-                  prefixIcon: const Icon(Icons.map_outlined),
+                  prefixIcon: Icon(Icons.map_outlined),
                   filled: true,
                   fillColor: const Color(0xFFF5F7FA),
                   errorText:
                       cubit.isGovernorateEmpty ? 'This field is required' : null,
                   border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(14.r),
                     borderSide: BorderSide.none,
                   ),
                 ),

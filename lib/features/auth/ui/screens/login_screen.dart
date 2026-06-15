@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
 import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/reset_password_screen.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/select_role_screen.dart';
@@ -8,6 +8,7 @@ import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_scree
 import 'package:ehtemam_final_project/features/splash/ui/widgets/next_button.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../admin_home_screen/ui/screens/admin_dashboard._screen.dart';
@@ -91,13 +92,13 @@ class _LoginScreenState extends State<LoginScreen> {
         return Scaffold(
           body: AuthBackground(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+              padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 10.h),
               child: Container(
                 width: double.infinity,
                 padding:
-                const EdgeInsets.symmetric(horizontal: 22, vertical: 18),
+                EdgeInsets.symmetric(horizontal: 22.w, vertical: 18.h),
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(28),
+                  borderRadius: BorderRadius.circular(28.r),
 
                 ),
                 child: Column(
@@ -109,58 +110,58 @@ class _LoginScreenState extends State<LoginScreen> {
                           children: [
                             Image.asset(
                               'assets/images/logo.png',
-                              width: 120,
-                              height: 120,
+                              width: 120.w,
+                              height: 120.h,
                               fit: BoxFit.contain,
                             ),
-                            const SizedBox(height: 14),
+                            SizedBox(height: 14.h),
                             Text(
                               'Welcome back',
                               textAlign: TextAlign.center,
                               style: AppTextStyle.extraBold.copyWith(
-                                fontSize: 36,
+                                fontSize: 36.sp,
                                 color: const Color(0xFF22304A),
                                 shadows: [
                                   Shadow(
                                     color: Colors.black.withOpacity(0.25),
-                                    offset: const Offset(0, 2),
-                                    blurRadius: 3,
+                                    offset: Offset(0, 2),
+                                    blurRadius: 3.r,
                                   ),
                                 ],
                               ),
                             ),
-                            const SizedBox(height: 30),
+                            SizedBox(height: 30.h),
 
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 'Email',
                                 style: AppTextStyle.medium.copyWith(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   color: const Color(0xFF3F4D63),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 10.h),
                             AuthTextField(
                               controller: emailController,
                               hintText: 'your@email.com',
                               prefixIcon: Icons.mail_outline_rounded,
                             ),
 
-                            const SizedBox(height: 20),
+                            SizedBox(height: 20.h),
 
                             Align(
                               alignment: Alignment.centerLeft,
                               child: Text(
                                 'Password',
                                 style: AppTextStyle.medium.copyWith(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   color: const Color(0xFF3F4D63),
                                 ),
                               ),
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 10.h),
                             AuthTextField(
                               controller: passwordController,
                               hintText: '••••••••',
@@ -181,17 +182,17 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
 
-                            const SizedBox(height: 20),
+                            SizedBox(height: 20.h),
 
                             state.status == AuthStatus.loading
-                                ? const CircularProgressIndicator()
+                                ? CircularProgressIndicator()
                                 : NextButton(
                               text: 'Sign In',
                               onTap: _login,
                               withArrow: false,
                             ),
 
-                            const SizedBox(height: 8),
+                            SizedBox(height: 8.h),
 
                             Align(
                               alignment: Alignment.centerRight,
@@ -208,19 +209,19 @@ class _LoginScreenState extends State<LoginScreen> {
                                 child: Text(
                                   'Forgot Password?',
                                   style: AppTextStyle.medium.copyWith(
-                                    fontSize: 13,
+                                    fontSize: 13.sp,
                                     color: AppColors.primaryBlue,
                                   ),
                                 ),
                               ),
                             ),
 
-                            const SizedBox(height: 30),
+                            SizedBox(height: 30.h),
 
                             RichText(
                               text: TextSpan(
                                 style: AppTextStyle.regular.copyWith(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   color: const Color(0xFF667085),
                                 ),
                                 children: [
@@ -230,7 +231,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   TextSpan(
                                     text: 'Sign Up',
                                     style: AppTextStyle.semiBold.copyWith(
-                                      fontSize: 16,
+                                      fontSize: 16.sp,
                                       color: AppColors.primaryBlue,
                                     ),
                                     recognizer: TapGestureRecognizer()
@@ -248,7 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
 
-                            const SizedBox(height: 30),
+                            SizedBox(height: 30.h),
 
                             GestureDetector(
                               onTap: () {
@@ -260,20 +261,20 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text(
                                 'Continue as a Guest!',
                                 style: AppTextStyle.semiBold.copyWith(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   color: const Color(0xFF2EA63A),
                                   shadows: [
                                     Shadow(
                                       color: Colors.black.withOpacity(0.25),
-                                      offset: const Offset(0, 4),
-                                      blurRadius: 4,
+                                      offset: Offset(0, 4),
+                                      blurRadius: 4.r,
                                     ),
                                   ],
                                 ),
                               ),
                             ),
 
-                            const SizedBox(height: 18),
+                            SizedBox(height: 18.h),
                           ],
                         ),
                       ),

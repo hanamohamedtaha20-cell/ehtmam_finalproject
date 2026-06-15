@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class UserCard extends StatelessWidget {
   final String name;
@@ -11,13 +12,13 @@ class UserCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
         color: const Color(0xFFD3E1EF),
-        borderRadius: BorderRadius.circular(16),
-        // boxShadow: const [
-        //   BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
-        //   BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+        borderRadius: BorderRadius.circular(16.r),
+        // boxShadow: [
+        //   BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
+        //   BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6.r),
         // ],
       ),
       child: Row(
@@ -26,9 +27,9 @@ class UserCard extends StatelessWidget {
             radius: 26,
             backgroundColor: Colors.transparent,
             child: Container(
-              width: 52,
-              height: 52,
-              decoration: const BoxDecoration(
+              width: 52.w,
+              height: 52.h,
+              decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
                   colors: [Color(0xFF3A8BD7), Color(0xFF97CCFD)],
@@ -37,27 +38,27 @@ class UserCard extends StatelessWidget {
                 ),
               ),
               
-              child: const Icon(
+              child: Icon(
                 Icons.person_outline,
-                size: 28,
+                size: 28.r,
                 color: Colors.white,
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: 12.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(name,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: "Arimo",
                       fontWeight: FontWeight.bold,
-                      fontSize: 15,
+                      fontSize: 15.sp,
                       color: AppColors.textDark)),
               Text("Client",
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: "Arimo",
-                      fontSize: 12,
+                      fontSize: 12.sp,
                       color: AppColors.textLight)),
             ],
           ),

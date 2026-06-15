@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectRoleCard extends StatelessWidget {
   final String title;
@@ -27,43 +28,43 @@ class SelectRoleCard extends StatelessWidget {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        borderRadius: BorderRadius.circular(22),
+        borderRadius: BorderRadius.circular(22.r),
         onTap: onTap,
         child: Container(
           width: double.infinity,
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 18),
+          padding: EdgeInsets.symmetric(horizontal: 18.w, vertical: 18.h),
           decoration: BoxDecoration(
             color: cardColor,
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: BorderRadius.circular(22.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.10),
-                blurRadius: 14,
-                offset: const Offset(0, 8),
+                blurRadius: 14.r,
+                offset: Offset(0, 8),
               ),
             ],
           ),
           child: Row(
             children: [
               Container(
-                width: 52,
-                height: 52,
+                width: 52.w,
+                height: 52.h,
                 decoration: BoxDecoration(
                   color: iconBackgroundColor,
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: BorderRadius.circular(14.r),
                   boxShadow: [
                     BoxShadow(
                       color: iconBackgroundColor.withOpacity(0.28),
-                      blurRadius: 12,
-                      offset: const Offset(0, 6),
+                      blurRadius: 12.r,
+                      offset: Offset(0, 6),
                     ),
                   ],
                 ),
                 child: imagePath != null
                     ? Image.asset(
                   imagePath!,
-                  width: 5,
-                  height: 5,
+                  width: 5.w,
+                  height: 5.h,
                   //fit: BoxFit.contain,
                 )
                     : Icon(
@@ -71,7 +72,7 @@ class SelectRoleCard extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(width: 14),
+              SizedBox(width: 14.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -79,26 +80,26 @@ class SelectRoleCard extends StatelessWidget {
                     Text(
                       title,
                       style: AppTextStyle.bold.copyWith(
-                        fontSize: 18,
+                        fontSize: 18.sp,
                         color: const Color(0xFF1D293D),
                       ),
                     ),
-                    const SizedBox(height: 6),
+                    SizedBox(height: 6.h),
                     Text(
                       description,
                       style: AppTextStyle.regular.copyWith(
-                        fontSize: 16,
-                        height: 1.35,
+                        fontSize: 16.sp,
+                        height: 1.35.h,
                         color: const Color(0xFF506177),
                       ),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(width: 8),
-              const Icon(
+              SizedBox(width: 8.w),
+              Icon(
                 Icons.arrow_forward_ios_rounded,
-                size: 18,
+                size: 18.r,
                 color: Color(0xFF8B98AA),
               ),
             ],

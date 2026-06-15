@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ReviewEmptyState extends StatelessWidget {
   final String message;
@@ -19,32 +20,32 @@ class ReviewEmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 32),
+        padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 32.w),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              padding: const EdgeInsets.all(20),
+              padding: EdgeInsets.all(20.r),
               decoration: BoxDecoration(
                 color: isError ? AppColors.lightPink : AppColors.lightPurple,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, size: 36, color: isError ? Colors.redAccent : AppColors.primary),
+              child: Icon(icon, size: 36.r, color: isError ? Colors.redAccent : AppColors.primary),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16.h),
             Text(message,
                 textAlign: TextAlign.center,
-                style: const TextStyle(fontSize: 14, color: AppColors.textLight, height: 1.5)),
+                style: TextStyle(fontSize: 14.sp, color: AppColors.textLight, height: 1.5.h)),
             if (isError && onRetry != null) ...[
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               ElevatedButton.icon(
                 onPressed: onRetry,
-                icon: const Icon(Icons.refresh_rounded, size: 16),
-                label: const Text('Retry'),
+                icon: Icon(Icons.refresh_rounded, size: 16.r),
+                label: Text('Retry'),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   foregroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(99)),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(99.r)),
                 ),
               ),
             ],

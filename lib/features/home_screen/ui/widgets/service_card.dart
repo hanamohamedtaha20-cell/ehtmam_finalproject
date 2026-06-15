@@ -1,4 +1,5 @@
-import "package:flutter/material.dart";
+﻿import "package:flutter/material.dart";
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ServiceCardWidget extends StatelessWidget {
   final Widget icon;
@@ -22,10 +23,10 @@ class ServiceCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Material(
       color: Colors.transparent,
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(24.r),
 
       child: InkWell(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(24.r),
 
         onTap: () {
           Navigator.push(
@@ -38,11 +39,11 @@ class ServiceCardWidget extends StatelessWidget {
 
         child: Container(
           margin:  EdgeInsets.symmetric(
-            vertical: 8,
-            horizontal: 8,
+            vertical: 8.h,
+            horizontal: 8.w,
           ),
 
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
 
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -51,12 +52,12 @@ class ServiceCardWidget extends StatelessWidget {
               colors: gradientBGColors,
             ),
 
-            borderRadius: BorderRadius.circular(24),
+            borderRadius: BorderRadius.circular(24.r),
 
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
-                blurRadius: 6,
+                blurRadius: 6.r,
                 offset:  Offset(0, 4),
               ),
             ],
@@ -66,11 +67,11 @@ class ServiceCardWidget extends StatelessWidget {
             children: [
               // Icon Box
               Container(
-                width: 60,
-                height: 60,
+                width: 60.w,
+                height: 60.h,
 
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
 
                   gradient: LinearGradient(
                     begin: Alignment.topLeft,
@@ -82,7 +83,7 @@ class ServiceCardWidget extends StatelessWidget {
                 child: Center(child: icon),
               ),
 
-              const SizedBox(width: 16),
+              SizedBox(width: 16.w),
 
               // Text
               Expanded(
@@ -92,22 +93,22 @@ class ServiceCardWidget extends StatelessWidget {
                     Text(
                       title,
 
-                      style: const TextStyle(
-                        fontSize: 18,
+                      style: TextStyle(
+                        fontSize: 18.sp,
                         fontWeight: FontWeight.bold,
                         color: Color(0xFF1A1C2E),
                       ),
                     ),
 
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
 
                     Text(
                       subtitle,
 
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: Colors.grey.shade600,
-                        height: 1.3,
+                        height: 1.3.h,
                       ),
                     ),
                   ],
@@ -117,7 +118,7 @@ class ServiceCardWidget extends StatelessWidget {
               // Arrow
               Icon(
                 Icons.arrow_forward_ios_rounded,
-                size: 18,
+                size: 18.r,
                 color: Colors.grey.shade500,
               ),
             ],

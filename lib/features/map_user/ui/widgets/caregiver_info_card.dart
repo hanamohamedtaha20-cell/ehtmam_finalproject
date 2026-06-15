@@ -1,7 +1,8 @@
-import 'package:ehtemam_final_project/features/map_user/ui/widgets/caregiver_header.dart';
+﻿import 'package:ehtemam_final_project/features/map_user/ui/widgets/caregiver_header.dart';
 import 'package:ehtemam_final_project/features/map_user/ui/widgets/caregiver_status.dart';
 import 'package:ehtemam_final_project/features/map_user/ui/widgets/contact_button.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'contact_dialog.dart';
 
 class CaregiverInfoCard extends StatelessWidget {
@@ -27,14 +28,14 @@ class CaregiverInfoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
           BoxShadow(
             color: Color.fromARGB(55, 0, 0, 0),
-            blurRadius: 6,
+            blurRadius: 6.r,
             offset: Offset(0, 2),
           ),
         ],
@@ -48,14 +49,14 @@ class CaregiverInfoCard extends StatelessWidget {
             rating: rating,
             reviewCount: reviewCount,
           ),
-          const SizedBox(height: 12),
-          const Divider(),
-          const SizedBox(height: 8),
+          SizedBox(height: 12.h),
+          Divider(),
+          SizedBox(height: 8.h),
           CaregiverStatus(
             status: status,
             statusSubtitle: statusSubtitle,
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           ContactButton(
             name: name,
             speciality: speciality,

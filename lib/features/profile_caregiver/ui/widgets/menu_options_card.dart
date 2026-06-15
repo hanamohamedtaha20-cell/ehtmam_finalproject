@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuOptionsCard extends StatelessWidget {
   const MenuOptionsCard({super.key});
@@ -34,14 +35,14 @@ class MenuOptionsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.all(12),
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      margin: EdgeInsets.all(12.r),
+      padding: EdgeInsets.symmetric(vertical: 8.h),
       decoration: BoxDecoration(
         color: Color.fromARGB(255, 241, 245, 249),
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6.r),
         ],
       ),
       child: Column(
@@ -51,8 +52,8 @@ class MenuOptionsCard extends StatelessWidget {
               _MenuOptionTile(option: _options[index]),
               // ✅ divider between items, not after last
               if (index < _options.length - 1)
-                const Divider(
-                  height: 1,
+                Divider(
+                  height: 1.h,
                   thickness: 0.5,
                   indent: 16,
                   endIndent: 16,
@@ -90,36 +91,36 @@ class _MenuOptionTile extends StatelessWidget {
     return GestureDetector(
       onTap: () {},
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         child: Row(
           children: [
             Container(
-              width: 36,
-              height: 36,
+              width: 36.w,
+              height: 36.h,
               decoration: BoxDecoration(
                 color: option.bgColor,       // ✅ light color as background
-                borderRadius: BorderRadius.circular(10),
+                borderRadius: BorderRadius.circular(10.r),
               ),
               child: Center(
                 child: Icon(
                   option.icon,
-                  size: 18,
+                  size: 18.r,
                   color: option.iconColor,   // ✅ colored icon on light bg
                 ),
               ),
             ),
-            const SizedBox(width: 16),
+            SizedBox(width: 16.w),
             Expanded(
               child: Text(
                 option.label,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: "Arimo",
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: AppColors.textDark,
                 ),
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, size: 14, color: AppColors.textLight),
+            Icon(Icons.arrow_forward_ios, size: 14.r, color: AppColors.textLight),
           ],
         ),
       ),

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/resources/app_text_style.dart';
 
@@ -23,11 +24,11 @@ class OnboardingContent extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Container(
-          width: 128,
-          height: 128,
+          width: 128.w,
+          height: 128.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(22),
-            gradient: const LinearGradient(
+            borderRadius: BorderRadius.circular(22.r),
+            gradient: LinearGradient(
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
               colors: [
@@ -41,24 +42,24 @@ class OnboardingContent extends StatelessWidget {
           ),
         ),
 
-        const SizedBox(height: 34),
+        SizedBox(height: 34.h),
 
         Text(
           title,
           textAlign: TextAlign.center,
           style: AppTextStyle.bold.copyWith(
-            fontSize: 30,
+            fontSize: 30.sp,
             color: AppColors.onboardingTitle,
           ),
         ),
 
-        const SizedBox(height: 20),
+        SizedBox(height: 20.h),
 
         Text(
           description,
           textAlign: TextAlign.center,
           style: AppTextStyle.regular.copyWith(
-            fontSize: 18,
+            fontSize: 18.sp,
             color: AppColors.cardBlueStart,
           ),
         ),
@@ -79,12 +80,12 @@ class OnboardingContent extends StatelessWidget {
     if (icon != null) {
       return Icon(
         icon,
-        size: 58,
+        size: 58.r,
         color: Colors.white,
       );
     }
 
     // fallback
-    return const SizedBox();
+    return SizedBox();
   }
 }

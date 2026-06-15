@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../manager/provider_details_cubit.dart';
@@ -27,7 +28,7 @@ class ProviderCard extends StatelessWidget {
           final p = state.provider;
 
           return Container(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(16.r),
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
@@ -38,11 +39,11 @@ class ProviderCard extends StatelessWidget {
                   Color(0xFFFFFFFF),
                 ],
               ),
-              borderRadius: BorderRadius.circular(20),
+              borderRadius: BorderRadius.circular(20.r),
               boxShadow: [
                 BoxShadow(
                   color: Colors.black.withOpacity(0.3),
-                  blurRadius: 10,
+                  blurRadius: 10.r,
                   offset: Offset(0, 10),
                 ),
               ],
@@ -57,25 +58,25 @@ class ProviderCard extends StatelessWidget {
                   children: [
 
                     Container(
-                      width: 60,
-                      height: 60,
+                      width: 60.w,
+                      height: 60.h,
                       decoration: BoxDecoration(
                         color: Color(0xFF8FB9EC),
-                        borderRadius: BorderRadius.circular(16),
+                        borderRadius: BorderRadius.circular(16.r),
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.15),
-                            blurRadius: 10,
+                            blurRadius: 10.r,
                             offset: Offset(0, 5),
                           ),
                         ],
                       ),
                       child: Center(
-                        child: Text("👩‍🦱", style: TextStyle(fontSize: 28)),
+                        child: Text("👩‍🦱", style: TextStyle(fontSize: 28.sp)),
                       ),
                     ),
 
-                    SizedBox(width: 12),
+                    SizedBox(width: 12.w),
 
                     Expanded(
                       child: Column(
@@ -87,22 +88,22 @@ class ProviderCard extends StatelessWidget {
                             p.name,
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 16,
+                              fontSize: 16.sp,
                               fontWeight: FontWeight.bold,
                             ),
                           ),
 
-                          SizedBox(height: 4),
+                          SizedBox(height: 4.h),
 
                           Text(
                             p.service,
                             style: TextStyle(
                               color: Colors.white70,
-                              fontSize: 13,
+                              fontSize: 13.sp,
                             ),
                           ),
 
-                          SizedBox(height: 8),
+                          SizedBox(height: 8.h),
 
                           Row(
                             children: [
@@ -114,7 +115,7 @@ class ProviderCard extends StatelessWidget {
                                 bg: Colors.white.withOpacity(0.2),
                               ),
 
-                              SizedBox(width: 6),
+                              SizedBox(width: 6.w),
 
                               if (p.isVerified)
                                 _badge(
@@ -126,7 +127,7 @@ class ProviderCard extends StatelessWidget {
                             ],
                           ),
 
-                          SizedBox(height: 6),
+                          SizedBox(height: 6.h),
 
                           if (p.isCertified)
                             _badge(
@@ -141,14 +142,14 @@ class ProviderCard extends StatelessWidget {
                   ],
                 ),
 
-                SizedBox(height: 16),
+                SizedBox(height: 16.h),
 
                 Container(
-                  height: 1,
+                  height: 1.h,
                   color: Colors.white.withOpacity(0.3),
                 ),
 
-                SizedBox(height: 12),
+                SizedBox(height: 12.h),
 
                 /// 🔹 Bottom Row
                 Row(
@@ -162,11 +163,11 @@ class ProviderCard extends StatelessWidget {
                           "Proposed Price",
                           style: TextStyle(
                             color: Colors.white70,
-                            fontSize: 12,
+                            fontSize: 12.sp,
                           ),
                         ),
 
-                        SizedBox(height: 4),
+                        SizedBox(height: 4.h),
 
                         Row(
                           children: [
@@ -178,25 +179,25 @@ class ProviderCard extends StatelessWidget {
                                   decoration: TextDecoration.lineThrough,
                                 ),
                               ),
-                              SizedBox(width: 6),
+                              SizedBox(width: 6.w),
                             ],
                             Text(
                               "${p.price.toStringAsFixed(0)} EGP",
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 22,
+                                fontSize: 22.sp,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                           ],
                         ),
                         if (p.hourlyRate > 0) ...[
-                          SizedBox(height: 4),
+                          SizedBox(height: 4.h),
                           Text(
                             "${p.hourlyRate.toStringAsFixed(0)} EGP / hr",
                             style: TextStyle(
                               color: Colors.white70,
-                              fontSize: 12,
+                              fontSize: 12.sp,
                             ),
                           ),
                         ],
@@ -211,10 +212,10 @@ class ProviderCard extends StatelessWidget {
                             "Location",
                             style: TextStyle(
                               color: Colors.white70,
-                              fontSize: 12,
+                              fontSize: 12.sp,
                             ),
                           ),
-                          SizedBox(height: 4),
+                          SizedBox(height: 4.h),
                           Text(
                             p.location,
                             style: TextStyle(
@@ -243,20 +244,20 @@ class ProviderCard extends StatelessWidget {
     required Color bg,
   }) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 4.h),
       decoration: BoxDecoration(
         color: bg,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 14, color: color),
-          SizedBox(width: 4),
+          Icon(icon, size: 14.r, color: color),
+          SizedBox(width: 4.w),
           Text(
             text,
             style: TextStyle(
               color: color,
-              fontSize: 11,
+              fontSize: 11.sp,
             ),
           ),
         ],

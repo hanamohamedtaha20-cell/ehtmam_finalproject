@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TaskTabs extends StatelessWidget {
   final int selectedIndex;
@@ -22,9 +23,9 @@ class TaskTabs extends StatelessWidget {
     return Row(
       children: [
         _Tab(label: "All Tasks ($allCount)", selected: selectedIndex == 0, onTap: () => onTap(0)),
-        const SizedBox(width: 8),
+        SizedBox(width: 8.w),
         _Tab(label: "Active ($activeCount)", selected: selectedIndex == 1, onTap: () => onTap(1)),
-        const SizedBox(width: 8),
+        SizedBox(width: 8.w),
         _Tab(label: "Completed ($completedCount)", selected: selectedIndex == 2, onTap: () => onTap(2)),
       ],
     );
@@ -43,19 +44,19 @@ class _Tab extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
         decoration: BoxDecoration(
           color: selected ? AppColors.blue : Colors.white,
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: const [
-            BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
+          borderRadius: BorderRadius.circular(20.r),
+          boxShadow: [
+            BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
           ],
         ),
         child: Text(
           label,
           style: TextStyle(
             fontFamily: "Arimo",
-            fontSize: 11,
+            fontSize: 11.sp,
             fontWeight: FontWeight.bold,
             color: selected ? AppColors.lightBlue : AppColors.textLight,
           ),

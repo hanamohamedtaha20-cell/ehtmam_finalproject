@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/repo/Provider_repo.dart';
@@ -47,7 +48,7 @@ class _OffersScreenState extends State<OffersScreen> with RouteAware {
           child: BlocBuilder<ProviderCubit, ProviderState>(
             builder: (context, state) {
               if (state is ProviderLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator());
               }
 
               if (state is ProviderLoaded) {
@@ -73,9 +74,9 @@ class _OffersScreenState extends State<OffersScreen> with RouteAware {
                 return RefreshIndicator(
                   onRefresh: () async => _refresh(),
                   child: ListView(
-                    children: const [
+                    children: [
                       OffersHeader(),
-                      SizedBox(height: 80),
+                      SizedBox(height: 80.h),
                       Center(child: Text('No offers received yet')),
                     ],
                   ),
@@ -89,15 +90,15 @@ class _OffersScreenState extends State<OffersScreen> with RouteAware {
                     Expanded(
                       child: Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(24),
+                          padding: EdgeInsets.all(24.r),
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(state.message, textAlign: TextAlign.center),
-                              const SizedBox(height: 16),
+                              SizedBox(height: 16.h),
                               ElevatedButton(
                                 onPressed: _refresh,
-                                child: const Text('Retry'),
+                                child: Text('Retry'),
                               ),
                             ],
                           ),
@@ -108,7 +109,7 @@ class _OffersScreenState extends State<OffersScreen> with RouteAware {
                 );
               }
 
-              return const SizedBox();
+              return SizedBox();
             },
           ),
         ),

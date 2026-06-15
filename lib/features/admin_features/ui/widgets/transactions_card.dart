@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/transaction_model.dart';
 
@@ -34,15 +35,15 @@ class TransactionCard extends StatelessWidget {
     }
 
     return Container(
-      margin: const EdgeInsets.only(bottom: 14),
-      padding: const EdgeInsets.all(14),
+      margin: EdgeInsets.only(bottom: 14.h),
+      padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
           BoxShadow(
             color: Color(0x12000000),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: Offset(0, 4),
           ),
         ],
@@ -54,44 +55,44 @@ class TransactionCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   transaction.clientName,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xff111827),
-                    fontSize: 11,
+                    fontSize: 11.sp,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
               ),
               Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 3,
+                padding: EdgeInsets.symmetric(
+                  horizontal: 8.w,
+                  vertical: 3.h,
                 ),
                 decoration: BoxDecoration(
                   color: statusBg,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(20.r),
                 ),
                 child: Text(
                   transaction.status,
                   style: TextStyle(
                     color: statusText,
-                    fontSize: 9,
+                    fontSize: 9.sp,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
               ),
-              const SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(
                 transaction.amount.toString(),
                 style: TextStyle(
                   color: amountColor,
-                  fontSize: 24,
+                  fontSize: 24.sp,
                   fontWeight: FontWeight.w800,
                 ),
               ),
             ],
           ),
 
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
 
           Align(
             alignment: Alignment.centerLeft,
@@ -99,37 +100,37 @@ class TransactionCard extends StatelessWidget {
               transaction.bundleName.isNotEmpty
                   ? transaction.bundleName
                   : transaction.type,
-              style: const TextStyle(
+              style: TextStyle(
                 color: Color(0xff334155),
-                fontSize: 12,
+                fontSize: 12.sp,
                 fontWeight: FontWeight.w600,
               ),
             ),
           ),
 
-          const SizedBox(height: 5),
+          SizedBox(height: 5.h),
 
           Row(
             children: [
-              const Icon(
+              Icon(
                 Icons.calendar_today_outlined,
-                size: 12,
+                size: 12.r,
                 color: Color(0xff94A3B8),
               ),
-              const SizedBox(width: 4),
+              SizedBox(width: 4.w),
               Expanded(
                 child: Text(
                   transaction.transactionDate,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xff64748B),
-                    fontSize: 10,
+                    fontSize: 10.sp,
                   ),
                 ),
               ),
             ],
           ),
 
-          const Divider(height: 22),
+          Divider(height: 22.h),
 
           Row(
             children: [
@@ -176,10 +177,10 @@ class _NameInfo extends StatelessWidget {
       children: [
         Icon(
           icon,
-          size: 13,
+          size: 13.r,
           color: iconColor,
         ),
-        const SizedBox(width: 4),
+        SizedBox(width: 4.w),
         Expanded(
           child: RichText(
             overflow: TextOverflow.ellipsis,
@@ -187,17 +188,17 @@ class _NameInfo extends StatelessWidget {
               children: [
                 TextSpan(
                   text: '$label ',
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xff334155),
-                    fontSize: 10,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.w800,
                   ),
                 ),
                 TextSpan(
                   text: name,
-                  style: const TextStyle(
+                  style: TextStyle(
                     color: Color(0xff334155),
-                    fontSize: 10,
+                    fontSize: 10.sp,
                     fontWeight: FontWeight.w600,
                   ),
                 ),

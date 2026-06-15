@@ -1,7 +1,8 @@
-import 'package:ehtemam_final_project/features/account_settings/ui/screens/change_password_screen.dart';
+﻿import 'package:ehtemam_final_project/features/account_settings/ui/screens/change_password_screen.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/widgets/settings_title.dart';
 import 'package:ehtemam_final_project/features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../auth/manager/auth_cubit.dart';
@@ -25,12 +26,12 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
 
   Widget sectionTitle(String title, {Color color = const Color(0xFF475467)}) {
     return Padding(
-      padding: const EdgeInsets.only(top: 18, bottom: 8, left: 4),
+      padding: EdgeInsets.only(top: 18.h, bottom: 8.h, left: 4.w),
       child: Text(
         title,
         style: TextStyle(
           fontFamily: 'Inter',
-          fontSize: 11,
+          fontSize: 11.sp,
           fontWeight: FontWeight.w700,
           color: color,
           letterSpacing: 0.2,
@@ -42,12 +43,12 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
   BoxDecoration cardDecoration() {
     return BoxDecoration(
       color: Colors.white,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(20.r),
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(0.04),
-          blurRadius: 18,
-          offset: const Offset(0, 6),
+          blurRadius: 18.r,
+          offset: Offset(0, 6),
         ),
       ],
     );
@@ -68,9 +69,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
           color: const Color(0xFFF5F8FC),
           child: SafeArea(
             child: state.isLoading
-                ? const Center(child: CircularProgressIndicator())
+                ? Center(child: CircularProgressIndicator())
                 : ListView(
-                    padding: const EdgeInsets.fromLTRB(18, 16, 18, 24),
+                    padding: EdgeInsets.fromLTRB(18, 16, 18, 24),
                     children: [
                       Row(
                         children: [
@@ -82,44 +83,44 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                 context.read<BottomNavCubit>().changeTab(3);
                               }
                             },
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.arrow_back,
-                              size: 22,
+                              size: 22.r,
                               color: Color(0xFF1D2939),
                             ),
                           ),
-                          const Text(
+                          Text(
                             'Account Settings',
                             style: TextStyle(
                               fontFamily: 'Inter',
-                              fontSize: 20,
+                              fontSize: 20.sp,
                               fontWeight: FontWeight.w700,
                               color: Color(0xFF1D2939),
                             ),
                           ),
-                          const Spacer(),
+                          Spacer(),
                         ],
                       ),
 
-                      const SizedBox(height: 20),
+                      SizedBox(height: 20.h),
 
                       // ── Profile Card ──
                       Container(
-                        height: 90,
-                        padding: const EdgeInsets.all(16),
+                        height: 90.h,
+                        padding: EdgeInsets.all(16.r),
                         decoration: cardDecoration(),
                         child: Row(
                           children: [
-                            const CircleAvatar(
+                            CircleAvatar(
                               radius: 31,
                               backgroundColor: Color(0xFF8EC5FF),
                               child: Icon(
                                 Icons.person_outline_rounded,
                                 color: Colors.white,
-                                size: 34,
+                                size: 34.r,
                               ),
                             ),
-                            const SizedBox(width: 15),
+                            SizedBox(width: 15.w),
                             Expanded(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -129,21 +130,21 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                     state.name.isEmpty
                                         ? 'User Name'
                                         : state.name,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontFamily: 'Inter',
-                                      fontSize: 14,
+                                      fontSize: 14.sp,
                                       fontWeight: FontWeight.w700,
                                       color: Color(0xFF1D2939),
                                     ),
                                   ),
-                                  const SizedBox(height: 4),
+                                  SizedBox(height: 4.h),
                                   Text(
                                     state.email.isEmpty
                                         ? 'user@email.com'
                                         : state.email,
-                                    style: const TextStyle(
+                                    style: TextStyle(
                                       fontFamily: 'Inter',
-                                      fontSize: 11,
+                                      fontSize: 11.sp,
                                       fontWeight: FontWeight.w400,
                                       color: Color(0xFF667085),
                                     ),
@@ -209,11 +210,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
 
                       // ── Fix: Material wrapper around SwitchListTile ──
                       Container(
-                        height: 66,
+                        height: 66.h,
                         decoration: cardDecoration(),
                         child: Material(
                           color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(20.r),
                           child: SwitchListTile(
                             value: state.notifications,
                             activeColor: const Color(0xFF4EA3F1),
@@ -223,30 +224,30 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                                   .toggleNotifications(value);
                             },
                             contentPadding:
-                                const EdgeInsets.symmetric(horizontal: 14),
-                            secondary: const CircleAvatar(
+                                EdgeInsets.symmetric(horizontal: 14.w),
+                            secondary: CircleAvatar(
                               radius: 20,
                               backgroundColor: Color(0xFFFFF0C2),
                               child: Icon(
                                 Icons.notifications_none_rounded,
                                 color: Colors.orange,
-                                size: 22,
+                                size: 22.r,
                               ),
                             ),
-                            title: const Text(
+                            title: Text(
                               'Push Notifications',
                               style: TextStyle(
                                 fontFamily: 'Inter',
-                                fontSize: 13,
+                                fontSize: 13.sp,
                                 fontWeight: FontWeight.w700,
                                 color: Color(0xFF1D2939),
                               ),
                             ),
-                            subtitle: const Text(
+                            subtitle: Text(
                               'Receive app notifications',
                               style: TextStyle(
                                 fontFamily: 'Inter',
-                                fontSize: 10.5,
+                                fontSize: 10.5.sp,
                                 color: Color(0xFF98A2B3),
                               ),
                             ),
@@ -266,11 +267,11 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         titleColor: Colors.red,
                       ),
 
-                      const SizedBox(height: 10),
+                      SizedBox(height: 10.h),
 
                       // ── Logout Button ──
                       Container(
-                        height: 50,
+                        height: 50.h,
                         decoration: cardDecoration(),
                         child: TextButton.icon(
                           onPressed: () async {
@@ -285,16 +286,16 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                               );
                             }
                           },
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.logout_rounded,
                             color: Colors.red,
-                            size: 18,
+                            size: 18.r,
                           ),
-                          label: const Text(
+                          label: Text(
                             'Logout',
                             style: TextStyle(
                               fontFamily: 'Inter',
-                              fontSize: 13,
+                              fontSize: 13.sp,
                               fontWeight: FontWeight.w700,
                               color: Colors.red,
                             ),

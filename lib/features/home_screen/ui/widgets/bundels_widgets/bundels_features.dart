@@ -1,5 +1,6 @@
-import 'package:flutter/cupertino.dart';
+﻿import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BundleFeatures extends StatelessWidget {
   final List<String> features;
@@ -14,17 +15,17 @@ class BundleFeatures extends StatelessWidget {
     return Column(
       children: features.map(
             (feature) => Padding(
-          padding: const EdgeInsets.symmetric(
-            vertical: 4,
+          padding: EdgeInsets.symmetric(
+            vertical: 4.h,
           ),
           child: Row(
             children: [
               Icon(
                 Icons.check_circle,
                 color: Colors.green,
-                size: 18,
+                size: 18.r,
               ),
-              SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Expanded(
                 child: Text(feature),
               ),

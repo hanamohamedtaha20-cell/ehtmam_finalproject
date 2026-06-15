@@ -1,6 +1,7 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/profile_caregiver/data/model/caregiver_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CaregiverProfileCard extends StatelessWidget {
   final CaregiverModel profile;
@@ -10,19 +11,19 @@ class CaregiverProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(12),
+      margin: EdgeInsets.all(12.r),
       width: double.infinity,
-      padding: const EdgeInsets.all(24), // 23.99px ≈ 24
+      padding: EdgeInsets.all(24.r), // 23.99px ≈ 24
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [AppColors.blue,AppColors.blue,Colors.white],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(24), // radius 24px
-        boxShadow: const [
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+        borderRadius: BorderRadius.circular(24.r), // radius 24px
+        boxShadow: [
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6.r),
         ],
       ),
       child: Column(
@@ -33,41 +34,41 @@ class CaregiverProfileCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
-              margin: EdgeInsets.all(8),
-              width: 60,
-              height: 60,
+              margin: EdgeInsets.all(8.r),
+              width: 60.w,
+              height: 60.h,
               decoration: BoxDecoration(
                 color: Color(0xFF00A6F4),
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
               ),
-              child: const Icon(Icons.favorite, size: 28, color: Colors.white),
+              child: Icon(Icons.favorite, size: 28.r, color: Colors.white),
             ),
-              const SizedBox(width: 24),
+              SizedBox(width: 24.w),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(profile.name,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontFamily: "Arimo",
                             fontWeight: FontWeight.bold,
-                            fontSize: 20,
+                            fontSize: 20.sp,
                             color: Colors.white)),
                     Text(profile.specialty,
-                        style: const TextStyle(
+                        style: TextStyle(
                             fontFamily: "Arimo",
-                            fontSize: 12,
+                            fontSize: 12.sp,
                             color: Color.fromARGB(158, 255, 255, 255))),
-                    const SizedBox(height: 4),
+                    SizedBox(height: 4.h),
                     Row(
                       children: [
-                        const Icon(Icons.star, size: 14, color: Colors.white),
-                        const SizedBox(width: 4),
+                        Icon(Icons.star, size: 14.r, color: Colors.white),
+                        SizedBox(width: 4.w),
                         Text(
                           "${profile.rating} (${profile.reviews} reviews)",
-                          style: const TextStyle(
+                          style: TextStyle(
                               fontFamily: "Arimo",
-                              fontSize: 12,
+                              fontSize: 12.sp,
                               color: Colors.white),
                         ),
                       ],
@@ -77,23 +78,23 @@ class CaregiverProfileCard extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 10),
+          SizedBox(height: 10.h),
           GestureDetector(
             onTap: () {},
             child: Container(
-              margin: EdgeInsets.all(10),
+              margin: EdgeInsets.all(10.r),
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(vertical: 10),
+              padding: EdgeInsets.symmetric(vertical: 10.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(14),
+                borderRadius: BorderRadius.circular(14.r),
               ),
-              child: const Center(
+              child: Center(
                 child: Text("Edit Profile",
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: Colors.black)),
               ),
             ),

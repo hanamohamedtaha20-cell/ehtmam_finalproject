@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CgEarningsHeader extends StatelessWidget {
   final double totalEarned;
@@ -20,7 +21,7 @@ class CgEarningsHeader extends StatelessWidget {
           value: '${totalEarned.toStringAsFixed(2)}',
           color: const Color(0xFF3A8BD7),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: 12.w),
         _StatCard(
           icon: Icons.access_time,
           label: 'Pending',
@@ -49,23 +50,23 @@ class _StatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
-                Icon(icon, color: Colors.white, size: 20),
-                const SizedBox(width: 3),
-                 Text(label, style: const TextStyle(fontFamily: "Arimo", fontSize: 12, color: Colors.white70)),
+                Icon(icon, color: Colors.white, size: 20.r),
+                SizedBox(width: 3.w),
+                 Text(label, style: TextStyle(fontFamily: "Arimo", fontSize: 12.sp, color: Colors.white70)),
              ],
             ),
-            const SizedBox(height: 8,),
-            Text(value, style: const TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 22, color: Colors.white)),
+            SizedBox(height: 8.h,),
+            Text(value, style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 22.sp, color: Colors.white)),
           ],
         ),
       ),

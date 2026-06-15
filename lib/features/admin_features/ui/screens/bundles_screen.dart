@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/admin_features/data/bundle_model.dart';
+﻿import 'package:ehtemam_final_project/features/admin_features/data/bundle_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../manager/bundles/bundles_cubit.dart';
@@ -28,7 +29,7 @@ class BundlesView extends StatelessWidget {
       backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 72),
+        padding: EdgeInsets.only(bottom: 72.h),
         child: FloatingActionButton(
           backgroundColor: const Color(0xff2F93E6),
           elevation: 6,
@@ -36,10 +37,10 @@ class BundlesView extends StatelessWidget {
 
             _showCreateBundleDialog(context);
           },
-          child: const Icon(
+          child: Icon(
             Icons.add,
             color: Colors.white,
-            size: 30,
+            size: 30.r,
           ),
         ),
       ),
@@ -47,8 +48,8 @@ class BundlesView extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 86,
-              padding: const EdgeInsets.symmetric(horizontal: 18),
+              height: 86.h,
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
               color: Colors.white,
               child: Row(
                 children: [
@@ -56,14 +57,14 @@ class BundlesView extends StatelessWidget {
                     onTap: () {
                       Navigator.maybePop(context);
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.arrow_back_ios_new,
-                      size: 18,
+                      size: 18.r,
                       color: Color(0xff334155),
                     ),
                   ),
-                  const SizedBox(width: 14),
-                  const Expanded(
+                  SizedBox(width: 14.w),
+                  Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -72,18 +73,18 @@ class BundlesView extends StatelessWidget {
                           'Manage\nBundles',
                           style: TextStyle(
                             color: Color(0xff1E293B),
-                            fontSize: 20,
+                            fontSize: 20.sp,
                             fontWeight: FontWeight.w800,
-                            height: 1.05,
+                            height: 1.05.h,
                           ),
                         ),
-                        SizedBox(height: 5),
+                        SizedBox(height: 5.h),
                         Text(
                           'Create and manage\nservice packages',
                           style: TextStyle(
                             color: Color(0xff64748B),
-                            fontSize: 11,
-                            height: 1.2,
+                            fontSize: 11.sp,
+                            height: 1.2.h,
                           ),
                         ),
                       ],
@@ -97,18 +98,18 @@ class BundlesView extends StatelessWidget {
               child: BlocBuilder<BundlesCubit, BundlesState>(
                 builder: (context, state) {
                   if (state.status == BundlesStatus.loading) {
-                    return const Center(
+                    return Center(
                       child: CircularProgressIndicator(),
                     );
                   }
 
                   if (state.bundles.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: Text(
                         'No bundles found',
                         style: TextStyle(
                           color: Color(0xff64748B),
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -116,7 +117,7 @@ class BundlesView extends StatelessWidget {
                   }
 
                   return ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(18, 18, 18, 130),
+                    padding: EdgeInsets.fromLTRB(18, 18, 18, 130),
                     itemCount: state.bundles.length,
                     itemBuilder: (context, index) {
                       final bundle = state.bundles[index];

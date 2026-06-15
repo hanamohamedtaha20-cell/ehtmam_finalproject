@@ -1,7 +1,8 @@
-import 'package:ehtemam_final_project/features/home_screen/manager/chatbot_cubit.dart';
+﻿import 'package:ehtemam_final_project/features/home_screen/manager/chatbot_cubit.dart';
 import 'package:ehtemam_final_project/features/home_screen/manager/state/chatbot_state.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/widgets/language_switcher.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/network/api_service.dart';
@@ -61,7 +62,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           child: Column(
             children: [
               _buildAppBar(context),
-              const SizedBox(height: 18),
+              SizedBox(height: 18.h),
               Expanded(
                 child: BlocConsumer<ChatCubit, ChatbotState>(
                   listener: (context, state) {
@@ -76,7 +77,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                     if (state is ChatbotLoaded) {
                       return ListView.builder(
                         controller: _scrollController,
-                        padding: const EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16.r),
                         itemCount:
                             state.messages.length + (state.isTyping ? 1 : 0),
                         itemBuilder: (context, index) {
@@ -88,7 +89,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                         },
                       );
                     }
-                    return const SizedBox();
+                    return SizedBox();
                   },
                 ),
               ),
@@ -102,8 +103,8 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
 
   Widget _buildAppBar(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      decoration: const BoxDecoration(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+      decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [Color(0xff2B7CD3), Color(0xff3A8BE0)],
         ),
@@ -112,18 +113,18 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           bottomRight: Radius.circular(18),
         ),
         boxShadow: [
-          BoxShadow(color: Colors.black12, blurRadius: 10, offset: Offset(0, 4)),
+          BoxShadow(color: Colors.black12, blurRadius: 10.r, offset: Offset(0, 4)),
         ],
       ),
       child: Row(
         children: [
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const Icon(Icons.arrow_back_ios_new_rounded,
-                color: Colors.white, size: 18),
+            child: Icon(Icons.arrow_back_ios_new_rounded,
+                color: Colors.white, size: 18.r),
           ),
-          const SizedBox(width: 10),
-          const Expanded(
+          SizedBox(width: 10.w),
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -131,14 +132,14 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                   "✨ AI Assistant",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 18.sp,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 4),
+                SizedBox(height: 4.h),
                 Text(
                   "Powered by Artificial Intelligence",
-                  style: TextStyle(color: Colors.white70, fontSize: 11),
+                  style: TextStyle(color: Colors.white70, fontSize: 11.sp),
                 ),
               ],
             ),
@@ -154,12 +155,12 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       alignment:
           message.isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.all(14),
+        margin: EdgeInsets.only(bottom: 10.h),
+        padding: EdgeInsets.all(14.r),
         constraints: const BoxConstraints(maxWidth: 280),
         decoration: BoxDecoration(
           color: message.isUser ? const Color(0xff3A8BE0) : Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
         ),
         child: Text(
           message.message,
@@ -175,19 +176,19 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     return Align(
       alignment: Alignment.centerLeft,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        margin: EdgeInsets.only(bottom: 10.h),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(16.r),
         ),
-        child: const Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             _Dot(delay: 0),
-            SizedBox(width: 4),
+            SizedBox(width: 4.w),
             _Dot(delay: 150),
-            SizedBox(width: 4),
+            SizedBox(width: 4.w),
             _Dot(delay: 300),
           ],
         ),
@@ -197,17 +198,17 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
 
   Widget _buildInput() {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16.r),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+        padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 6.h),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(30.r),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: .08),
-              blurRadius: 12,
-              offset: const Offset(0, 4),
+              blurRadius: 12.r,
+              offset: Offset(0, 4),
             ),
           ],
         ),
@@ -221,30 +222,30 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 decoration: InputDecoration(
                   hintText: "Type message",
                   hintStyle:
-                      TextStyle(color: Colors.grey.shade500, fontSize: 13),
+                      TextStyle(color: Colors.grey.shade500, fontSize: 13.sp),
                   border: InputBorder.none,
                   contentPadding:
-                      const EdgeInsets.symmetric(horizontal: 14),
+                      EdgeInsets.symmetric(horizontal: 14.w),
                 ),
               ),
             ),
             GestureDetector(
               onTap: _sendMessage,
               child: Container(
-                height: 46,
-                width: 46,
+                height: 46.h,
+                width: 46.w,
                 decoration: BoxDecoration(
                   color: const Color(0xff3A8BE0),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(16.r),
                   boxShadow: [
                     BoxShadow(
                       color: const Color(0xff3A8BE0).withValues(alpha: .4),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
+                      blurRadius: 10.r,
+                      offset: Offset(0, 4),
                     ),
                   ],
                 ),
-                child: const Icon(Icons.send_rounded, color: Colors.white),
+                child: Icon(Icons.send_rounded, color: Colors.white),
               ),
             ),
           ],
@@ -289,7 +290,7 @@ class _DotState extends State<_Dot> with SingleTickerProviderStateMixin {
   Widget build(BuildContext context) {
     return FadeTransition(
       opacity: _anim,
-      child: const CircleAvatar(
+      child: CircleAvatar(
         radius: 4,
         backgroundColor: Color(0xff3A8BE0),
       ),

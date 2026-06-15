@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart ';
+﻿import 'package:flutter/material.dart ';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OutlineButton extends StatelessWidget {
   final String text;
@@ -14,20 +15,20 @@ class OutlineButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(14),
+      borderRadius: BorderRadius.circular(14.r),
       onTap: onTap,
       child: Container(
-        height: 50,
+        height: 50.h,
         decoration: BoxDecoration(
           border: Border.all(color: Colors.blue),
-          borderRadius: BorderRadius.circular(14),
+          borderRadius: BorderRadius.circular(14.r),
         ),
         child: Center(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon, color: Colors.blue),
-              SizedBox(width: 8),
+              SizedBox(width: 8.w),
               Text(text, style: TextStyle(color: Colors.blue)),
             ],
           ),

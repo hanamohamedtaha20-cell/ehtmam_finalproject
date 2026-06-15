@@ -1,6 +1,7 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/profile2/data/model/profile_model.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProfileCard extends StatelessWidget {
   final UserModel user;
@@ -10,17 +11,17 @@ class ProfileCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: EdgeInsets.all(20.r),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [Color(0xff3A8BD7), Color(0xff97CCFD)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
         boxShadow:  [
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6.r),
         ],
       ),
       child: Column(
@@ -28,52 +29,52 @@ class ProfileCard extends StatelessWidget {
           Row(
             children: [
               Container(
-                width: 60,
-                height: 60,
+                width: 60.w,
+                height: 60.h,
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(12.r),
                 ),
-                child: const Icon(
+                child: Icon(
                   Icons.person_outline,
-                  size: 36,
+                  size: 36.r,
                   color: Colors.white,
                 ),
               ),
-              const SizedBox(width: 14),
+              SizedBox(width: 14.w),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(user.name,
-                      style: const TextStyle(
+                      style: TextStyle(
                           fontFamily: "Arimo",
                           fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                          fontSize: 18.sp,
                           color: Colors.white)),
                   Text(user.email,
-                      style: const TextStyle(
-                          fontFamily: "Arimo", fontSize: 12, color: Colors.white70)),
+                      style: TextStyle(
+                          fontFamily: "Arimo", fontSize: 12.sp, color: Colors.white70)),
                   Text(user.phone,
-                      style: const TextStyle(
-                          fontFamily: "Arimo", fontSize: 12, color: Colors.white70)),
+                      style: TextStyle(
+                          fontFamily: "Arimo", fontSize: 12.sp, color: Colors.white70)),
                 ],
               ),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.symmetric(vertical: 10),
+            padding: EdgeInsets.symmetric(vertical: 10.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
-            child: const Center(
+            child: Center(
               child: Text("Edit Profile",
                   style: TextStyle(
                       fontFamily: "Arimo",
                       fontWeight: FontWeight.bold,
-                      fontSize: 14,
+                      fontSize: 14.sp,
                       color: Colors.black)),
             ),
           ),

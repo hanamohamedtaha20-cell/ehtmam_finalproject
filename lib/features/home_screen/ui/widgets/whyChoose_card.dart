@@ -1,5 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class WhyChooseCardWidget extends StatelessWidget {
   final String icon;
@@ -16,15 +17,15 @@ class WhyChooseCardWidget extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: double.infinity,
-      margin: EdgeInsets.all(10),
-      padding: EdgeInsets.all(10),
+      margin: EdgeInsets.all(10.r),
+      padding: EdgeInsets.all(10.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
+            blurRadius: 10.r,
             offset: Offset(0, 4),
           ),
         ],
@@ -35,7 +36,7 @@ class WhyChooseCardWidget extends StatelessWidget {
           Text(
             title.tr(),
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.bold),
           ),
         ],
       ),

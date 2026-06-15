@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/resources/app_images.dart';
 
 class SplashLogo extends StatelessWidget {
@@ -8,8 +9,8 @@ class SplashLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       AppImages.logo,
-      width: 219,
-      height: 210,
+      width: 219.w,
+      height: 210.h,
       fit: BoxFit.contain,
     );
   }

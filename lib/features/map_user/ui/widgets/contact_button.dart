@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'contact_dialog.dart';
 
 class ContactButton extends StatelessWidget {
@@ -25,22 +26,22 @@ class ContactButton extends StatelessWidget {
           phoneNumber: phoneNumber,
         ),
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: EdgeInsets.symmetric(vertical: 12.h),
           decoration: BoxDecoration(
             color: const Color(0xFF3A8BD7),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(12.r),
           ),
-          child: const Row(
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.contact_phone, color: Colors.white, size: 18),
-              SizedBox(width: 6),
+              Icon(Icons.contact_phone, color: Colors.white, size: 18.r),
+              SizedBox(width: 6.w),
               Text(
                 "Contact",
                 style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: Colors.white,
                 ),
               ),

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'reviews.dart';
 import '../../../manager/reviews_cubit.dart';
@@ -33,11 +34,11 @@ class ReviewsSection extends StatelessWidget {
                 "Reviews (${reviews.length})",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16,
+                  fontSize: 16.sp,
                 ),
               ),
 
-              SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
               /// 🔹 List
               ...reviews.map((r) => ReviewCard(review: r)),

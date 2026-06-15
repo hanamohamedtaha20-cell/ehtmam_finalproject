@@ -1,9 +1,10 @@
-import 'package:easy_localization/easy_localization.dart';
+﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/home_screen/data/repo/home_repo.dart';
 import 'package:ehtemam_final_project/features/home_screen/manager/home_cubit.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/crearte_request.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../requests_screen_user/ui/screens/requests_screen.dart';
@@ -44,15 +45,15 @@ class _HomeContentState extends State<HomeContent> {
     final name = serviceName.toLowerCase();
 
     if (name.contains('pet')) {
-      return const Text('🐾', style: TextStyle(fontSize: 24));
+      return Text('🐾', style: TextStyle(fontSize: 24.sp));
     } else if (name.contains('elderly')) {
-      return const Text('👵', style: TextStyle(fontSize: 24));
+      return Text('👵', style: TextStyle(fontSize: 24.sp));
     } else if (name.contains('child')) {
-      return const Text('👶', style: TextStyle(fontSize: 24));
+      return Text('👶', style: TextStyle(fontSize: 24.sp));
     } else if (name.contains('plant')) {
-      return const Text('🌿', style: TextStyle(fontSize: 24));
+      return Text('🌿', style: TextStyle(fontSize: 24.sp));
     } else {
-      return const Text('🩺', style: TextStyle(fontSize: 24));
+      return Text('🩺', style: TextStyle(fontSize: 24.sp));
     }
   }
 
@@ -84,53 +85,53 @@ class _HomeContentState extends State<HomeContent> {
       create: (context) => HomeCubit(
         HomeRepo(ApiService()),)..getServices(),
       child: Padding(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16.r),
         child: ListView(
           children: [
             HeaderWidget(user: _user),
 
             Container(
-              margin: const EdgeInsets.symmetric(vertical: 10),
-              height: 1,
+              margin: EdgeInsets.symmetric(vertical: 10.h),
+              height: 1.h,
               decoration: BoxDecoration(
                 color: Colors.grey.shade300,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.05),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
+                    blurRadius: 4.r,
+                    offset: Offset(0, 2),
                   ),
                 ],
               ),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             Text(
               "Select a Service".tr(),
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: 16.sp,
               ),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
 
             BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) {
                 if (state is HomeLoading) {
-                  return const Center(child: CircularProgressIndicator());
+                  return Center(child: CircularProgressIndicator());
                 }
 
                 if (state is HomeError) {
                   return Text(
                     state.message,
-                    style: const TextStyle(color: Colors.red),
+                    style: TextStyle(color: Colors.red),
                   );
                 }
                 if (state is HomeSuccess) {
                   if (state.services.isEmpty) {
-                    return const Text("No services available");
+                    return Text("No services available");
                   }
 
                   return Column(
@@ -144,14 +145,14 @@ class _HomeContentState extends State<HomeContent> {
                         Colors.blue.shade300,
                       ];
 
-                      List<Color> bgColors = const [
+                      List<Color> bgColors = [
                         Color(0xFFF5F3FF),
                         Color(0xFFFAF5FF),
                       ];
 
-                      Widget icon = const Text(
+                      Widget icon = Text(
                         '🐾',
-                        style: TextStyle(fontSize: 24),
+                        style: TextStyle(fontSize: 24.sp),
                       );
 
                       if (name.contains('elderly')) {
@@ -160,14 +161,14 @@ class _HomeContentState extends State<HomeContent> {
                           Colors.blue.shade600,
                         ];
 
-                        bgColors = const [
+                        bgColors = [
                           Color(0xFFEEF2FF),
                           Color(0xFFF5F3FF),
                         ];
 
-                        icon = const Text(
+                        icon = Text(
                           '👵',
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(fontSize: 24.sp),
                         );
                       }
 
@@ -177,14 +178,14 @@ class _HomeContentState extends State<HomeContent> {
                           Colors.pink,
                         ];
 
-                        bgColors = const [
+                        bgColors = [
                           Color(0xFFFAF5FF),
                           Color(0xFFFDF2F8),
                         ];
 
-                        icon = const Text(
+                        icon = Text(
                           '👶',
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(fontSize: 24.sp),
                         );
                       }
 
@@ -194,14 +195,14 @@ class _HomeContentState extends State<HomeContent> {
                           Colors.green.shade700,
                         ];
 
-                        bgColors = const [
+                        bgColors = [
                           Color(0xFFF1F2FF),
                           Color(0xFFF1F2FF),
                         ];
 
-                        icon = const Text(
+                        icon = Text(
                           '🌿',
-                          style: TextStyle(fontSize: 24),
+                          style: TextStyle(fontSize: 24.sp),
                         );
                       }
 
@@ -220,11 +221,11 @@ class _HomeContentState extends State<HomeContent> {
                   );
                 }
 
-                return const SizedBox();
+                return SizedBox();
               },
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             BundlesCard(onTap: () {
               Navigator.push(
@@ -235,16 +236,16 @@ class _HomeContentState extends State<HomeContent> {
               );
             }),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   "Active Requests".tr(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: 16.sp,
                   ),
                 ),
                 GestureDetector(
@@ -258,7 +259,7 @@ class _HomeContentState extends State<HomeContent> {
                   },
                   child: Text(
                     "View All".tr(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       color: Color(0xFF6C63FF),
                     ),
                   ),
@@ -266,7 +267,7 @@ class _HomeContentState extends State<HomeContent> {
               ],
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
 
             RequestCardWidget(
               title: "Pet Care".tr(),
@@ -286,17 +287,17 @@ class _HomeContentState extends State<HomeContent> {
               provider: "Provider: Fatma Medical Care".tr(),
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
 
             Text(
               "Why Choose Ehtemam".tr(),
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: 16.sp,
               ),
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
 
             GridView.count(
               crossAxisCount: 2,
@@ -325,7 +326,7 @@ class _HomeContentState extends State<HomeContent> {
               ],
             ),
 
-            const SizedBox(height: 20),
+            SizedBox(height: 20.h),
           ],
         ),
       ),

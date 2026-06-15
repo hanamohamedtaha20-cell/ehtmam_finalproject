@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ProviderNotes extends StatelessWidget {
   final String description;
@@ -18,25 +19,25 @@ class ProviderNotes extends StatelessWidget {
         Text(
           "Provider Proposal",
           style: TextStyle(
-            fontSize: 14,
+            fontSize: 14.sp,
             fontWeight: FontWeight.w600,
             color: Color(0xFF374151),
           ),
         ),
 
-        SizedBox(height: 10),
+        SizedBox(height: 10.h),
 
         /// 🔹 الكارد
         Container(
           width: double.infinity,
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Color(0xFFF5F7FA),
-            borderRadius: BorderRadius.circular(18),
+            borderRadius: BorderRadius.circular(18.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.08),
-                blurRadius: 12,
+                blurRadius: 12.r,
                 offset: Offset(0, 6),
               ),
             ],
@@ -50,20 +51,20 @@ class ProviderNotes extends StatelessWidget {
                 "Provider Notes",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: Color(0xFF374151),
                 ),
               ),
 
-              SizedBox(height: 8),
+              SizedBox(height: 8.h),
 
               /// 🔹 Description
               Text(
                 description,
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: 13.sp,
                   color: Color(0xFF6B7280),
-                  height: 1.5,
+                  height: 1.5.h,
                 ),
               ),
             ],

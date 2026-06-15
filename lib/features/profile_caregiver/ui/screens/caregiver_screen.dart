@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/profile_caregiver/data/repo/caregiver_repo.dart';
 import 'package:ehtemam_final_project/features/profile_caregiver/manager/caregiver_cubit.dart';
 import 'package:ehtemam_final_project/features/profile_caregiver/manager/caregiver_state.dart';
@@ -9,6 +9,7 @@ import 'package:ehtemam_final_project/features/profile_caregiver/ui/widgets/menu
 import 'package:ehtemam_final_project/features/profile_caregiver/ui/widgets/performance_card.dart';
 import 'package:ehtemam_final_project/features/profile_caregiver/ui/widgets/screen_header.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CaregiverScreen extends StatelessWidget {
@@ -27,20 +28,20 @@ class CaregiverScreen extends StatelessWidget {
                 return  Center(child: CircularProgressIndicator());
               }
               return SingleChildScrollView(
-                padding:  EdgeInsets.all(16),
+                padding:  EdgeInsets.all(16.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const ProfileHeader(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     CaregiverProfileCard(profile: state.profile),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     ContactInfoCard(profile: state.profile),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     PerformanceCard(profile: state.profile),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     const MenuOptionsCard(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     const LogoutRow(),
                   ],
                 ),

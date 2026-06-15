@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/core/resources/app_fonts.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_fonts.dart';
 import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
 import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
 import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
@@ -10,6 +10,7 @@ import 'package:ehtemam_final_project/features/splash/ui/widgets/next_button.dar
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/register_header.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/register_input_field.dart';
@@ -197,10 +198,10 @@ class _RegisterFormState extends State<RegisterForm> {
           child: Column(
             children: [
               RegisterHeader(role: widget.role),
-              const SizedBox(height: 22),
+              SizedBox(height: 22.h),
 
               _label('Full Name'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
               RegisterInputField(
                 controller: fullNameController,
                 hintText: 'Enter your full name',
@@ -216,10 +217,10 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
               _label('Email'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
               RegisterInputField(
                 controller: emailController,
                 hintText: 'Enter your email',
@@ -240,16 +241,16 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
               if (isCareGiver) ...[
                 _label('Care Field'),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
                 _dropdownField(
                   value: selectedCareField,
                   hintText: 'Select Care Field...',
                   icon: Icons.medical_services_outlined,
-                  items: const [
+                  items: [
                     'Pet Care',
                     'Elderly Care',
                     'Child Care',
@@ -264,10 +265,10 @@ class _RegisterFormState extends State<RegisterForm> {
                   validatorText: 'Care field is required',
                 ),
 
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
 
                 _label('Specialization'),
-                const SizedBox(height: 6),
+                SizedBox(height: 6.h),
                 _dropdownField(
                   value: selectedSpecialization,
                   hintText: 'Select Specialization...',
@@ -281,16 +282,16 @@ class _RegisterFormState extends State<RegisterForm> {
                   validatorText: 'Specialization is required',
                 ),
 
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
               ],
 
               _label('Government'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
               _dropdownField(
                 value: selectedGovernment,
                 hintText: 'Select your Government',
                 icon: Icons.location_on_outlined,
-                items: const [
+                items: [
                   'Giza',
                   'Cairo',
                 ],
@@ -304,9 +305,9 @@ class _RegisterFormState extends State<RegisterForm> {
 
 
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               _label('Street'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
               RegisterInputField(
                 controller: streetController,
                 hintText: 'Enter your street',
@@ -316,9 +317,9 @@ class _RegisterFormState extends State<RegisterForm> {
                   return null;
                 },
               ),
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
               _label('Building'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
               RegisterInputField(
                 controller: buildingController,
                 hintText: 'Enter your building number',
@@ -330,7 +331,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
 
               _label('Phone Number'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
               RegisterInputField(
                 controller: phoneController,
                 hintText: 'Enter your phone number',
@@ -355,10 +356,10 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
               _label('Password'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
               RegisterInputField(
                 controller: passwordController,
                 hintText: 'Enter your password',
@@ -375,7 +376,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,
                     color: const Color(0xFFB0BAC8),
-                    size: 18,
+                    size: 18.r,
                   ),
                 ),
                 validator: (value) {
@@ -391,10 +392,10 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
               _label('Confirm Password'),
-              const SizedBox(height: 6),
+              SizedBox(height: 6.h),
               RegisterInputField(
                 controller: confirmPasswordController,
                 hintText: 'Confirm your password',
@@ -411,7 +412,7 @@ class _RegisterFormState extends State<RegisterForm> {
                         ? Icons.visibility_outlined
                         : Icons.visibility_off_outlined,
                     color: const Color(0xFFB0BAC8),
-                    size: 18,
+                    size: 18.r,
                   ),
                 ),
                 validator: (value) {
@@ -427,7 +428,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 },
               ),
 
-              const SizedBox(height: 14),
+              SizedBox(height: 14.h),
 
               UploadBox(
                 title: 'Upload Profile Picture',
@@ -439,7 +440,7 @@ class _RegisterFormState extends State<RegisterForm> {
               ),
               if (profileUploadError != null) _errorText(profileUploadError!),
 
-              const SizedBox(height: 12),
+              SizedBox(height: 12.h),
 
               UploadBox(
                 title: 'Upload National ID',
@@ -453,7 +454,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 _errorText(nationalIdUploadError!),
 
               if (isCareGiver) ...[
-                const SizedBox(height: 12),
+                SizedBox(height: 12.h),
                 UploadBox(
                   title: 'Upload Certificate',
                   isRequired: true,
@@ -466,22 +467,22 @@ class _RegisterFormState extends State<RegisterForm> {
                   _errorText(certificateUploadError!),
               ],
 
-              const SizedBox(height: 18),
+              SizedBox(height: 18.h),
 
               state.status == AuthStatus.loading
-                  ? const CircularProgressIndicator()
+                  ? CircularProgressIndicator()
                   : NextButton(
                 text: 'Sign Up',
                 onTap: _submitForm,
               ),
 
-              const SizedBox(height: 14),
+              SizedBox(height: 14.h),
 
               RichText(
                 textAlign: TextAlign.center,
                 text: TextSpan(
                   style: AppTextStyle.regular.copyWith(
-                    fontSize: 12,
+                    fontSize: 12.sp,
                     color: const Color(0xFF98A2B3),
                   ),
                   children: [
@@ -491,7 +492,7 @@ class _RegisterFormState extends State<RegisterForm> {
                     TextSpan(
                       text: 'Sign In',
                       style: AppTextStyle.semiBold.copyWith(
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: const Color(0xFF1AA34A),
                       ),
                       recognizer: TapGestureRecognizer()
@@ -525,58 +526,58 @@ class _RegisterFormState extends State<RegisterForm> {
     return DropdownButtonFormField<String>(
       value: value,
       dropdownColor: Colors.white,
-      style: const TextStyle(
+      style: TextStyle(
         color: Colors.black,
-        fontSize: 14,
+        fontSize: 14.sp,
       ),
-      icon: const Icon(
+      icon: Icon(
         Icons.keyboard_arrow_down_rounded,
         color: Color(0xFF98A2B3),
       ),
       decoration: InputDecoration(
         hintText: hintText,
-        hintStyle: const TextStyle(
+        hintStyle: TextStyle(
           color: Color(0xFF98A2B3),
-          fontSize: 14,
+          fontSize: 14.sp,
         ),
         prefixIcon: Icon(
           icon,
           color: const Color(0xFFB0BAC8),
-          size: 18,
+          size: 18.r,
         ),
         filled: true,
         fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 14,
-          vertical: 16,
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: 14.w,
+          vertical: 16.h,
         ),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(
             color: Color(0xFFE4E7EC),
           ),
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(
             color: Color(0xFFE4E7EC),
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(
             color: Color(0xFF4A90E2),
           ),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(
             color: Colors.red,
           ),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(
+          borderRadius: BorderRadius.circular(12.r),
+          borderSide: BorderSide(
             color: Colors.red,
           ),
         ),
@@ -586,7 +587,7 @@ class _RegisterFormState extends State<RegisterForm> {
           value: item,
           child: Text(
             item,
-            style: const TextStyle(color: Colors.black),
+            style: TextStyle(color: Colors.black),
           ),
         );
       }).toList(),
@@ -602,13 +603,13 @@ class _RegisterFormState extends State<RegisterForm> {
 
   Widget _errorText(String text) {
     return Padding(
-      padding: const EdgeInsets.only(top: 6),
+      padding: EdgeInsets.only(top: 6.h),
       child: Align(
         alignment: Alignment.centerLeft,
         child: Text(
           text,
           style: AppTextStyle.regular.copyWith(
-            fontSize: 11,
+            fontSize: 11.sp,
             color: Colors.red,
           ),
         ),
@@ -623,7 +624,7 @@ class _RegisterFormState extends State<RegisterForm> {
         text,
         style: AppTextStyle.medium.copyWith(
           fontFamily: AppFonts.inter,
-          fontSize: 14,
+          fontSize: 14.sp,
           fontWeight: FontWeight.w500,
           color: const Color(0xFF314158),
         ),

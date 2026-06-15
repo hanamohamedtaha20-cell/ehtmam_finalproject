@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'status_chip.dart';
 
 class ProgressCard extends StatelessWidget {
@@ -18,15 +19,15 @@ class ProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(left: 10, right: 10),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(left: 10.w, right: 10.w),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           colors: [Color(0xFF3A8BD7), Color(0xFF5A9FE0)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(16.r),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,7 +36,7 @@ class ProgressCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Column(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
@@ -43,7 +44,7 @@ class ProgressCard extends StatelessWidget {
                     style: TextStyle(
                       fontFamily: "Arimo",
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 18.sp,
                       color: Colors.white,
                     ),
                   ),
@@ -52,48 +53,48 @@ class ProgressCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  const Text(
+                  Text(
                     "Progress",
                     style: TextStyle(
                         fontFamily: "Arimo",
-                        fontSize: 13,
+                        fontSize: 13.sp,
                         color: Colors.white70),
                   ),
                   Text(
                     progressPercent,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: "Arimo",
                       fontWeight: FontWeight.bold,
-                      fontSize: 22,
+                      fontSize: 22.sp,
                       color: Colors.white,
                     ),
                   ),
                   Text(
                     "$completedCount/$totalCount tasks",
-                    style: const TextStyle(
+                    style: TextStyle(
                         fontFamily: "Arimo",
-                        fontSize: 12,
+                        fontSize: 12.sp,
                         color: Colors.white70),
                   ),
                 ],
               ),
             ],
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(
               color: Colors.white,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(10.r),
             ),
-            child: const Column(
+            child: Column(
               children: [
                 StatusChip(
                   icon: Icons.circle,
                   text: "Caregiver is currently working",
                   iconColor: Color(0xFF4CAF50),
                 ),
-                SizedBox(height: 6),
+                SizedBox(height: 6.h),
                 StatusChip(
                   icon: Icons.location_pin,
                   text: "Checked in at 09:00 AM",
@@ -101,9 +102,9 @@ class ProgressCard extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           ClipRRect(
-            borderRadius: BorderRadius.circular(8),
+            borderRadius: BorderRadius.circular(8.r),
             child: LinearProgressIndicator(
               value: progressValue,
               backgroundColor: Colors.white30,

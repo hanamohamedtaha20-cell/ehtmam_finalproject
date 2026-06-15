@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../manager/create_request_cubit.dart';
 import '../../../manager/state/create_request_state.dart';
@@ -33,15 +34,15 @@ class _TasksSectionState extends State<TasksSection> {
 
         return Container(
           width: double.infinity,
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16.r),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(22),
+            borderRadius: BorderRadius.circular(22.r),
             boxShadow: [
               BoxShadow(
                 color: Colors.black.withOpacity(0.2),
-                blurRadius: 6,
-                offset: const Offset(0, 4),
+                blurRadius: 6.r,
+                offset: Offset(0, 4),
               ),
             ],
           ),
@@ -52,38 +53,38 @@ class _TasksSectionState extends State<TasksSection> {
                 children: [
                   Icon(
                     Icons.checklist_rounded,
-                    size: 18,
+                    size: 18.r,
                     color: const Color(0xFF4A90E2),
                   ),
-                  const SizedBox(width: 8),
-                  const Text(
+                  SizedBox(width: 8.w),
+                  Text(
                     "Tasks",
                     style: TextStyle(
-                      fontSize: 15,
+                      fontSize: 15.sp,
                       fontWeight: FontWeight.w700,
                       color: Color(0xFF2B2D42),
                     ),
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              SizedBox(height: 10.h),
               Text(
                 "Add specific tasks you'd like the caregiver to complete",
                 style: TextStyle(
-                  fontSize: 12.5,
+                  fontSize: 12.5.sp,
                   color: Colors.grey.shade500,
-                  height: 1.4,
+                  height: 1.4.h,
                 ),
               ),
-              const SizedBox(height: 16),
+              SizedBox(height: 16.h),
               Row(
                 children: [
                   Expanded(
                     child: Container(
-                      height: 48,
+                      height: 48.h,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(14.r),
                         border: Border.all(
                           color: const Color(0xFFE5E7EB),
                         ),
@@ -94,39 +95,39 @@ class _TasksSectionState extends State<TasksSection> {
                           hintText: "Enter a task...",
                           hintStyle: TextStyle(
                             color: Colors.grey.shade400,
-                            fontSize: 14,
+                            fontSize: 14.sp,
                           ),
                           border: InputBorder.none,
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 14,
-                            vertical: 14,
+                          contentPadding: EdgeInsets.symmetric(
+                            horizontal: 14.w,
+                            vertical: 14.h,
                           ),
                         ),
                         onSubmitted: (_) => addTask(),
                       ),
                     ),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   InkWell(
-                    borderRadius: BorderRadius.circular(14),
+                    borderRadius: BorderRadius.circular(14.r),
                     onTap: addTask,
                     child: Container(
-                      height: 48,
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 18,
+                      height: 48.h,
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 18.w,
                       ),
                       decoration: BoxDecoration(
                         color: const Color(0xFF4A90E2),
-                        borderRadius: BorderRadius.circular(14),
+                        borderRadius: BorderRadius.circular(14.r),
                       ),
                       child: Row(
-                        children: const [
+                        children: [
                           Icon(
                             Icons.add,
                             color: Colors.white,
-                            size: 18,
+                            size: 18.r,
                           ),
-                          SizedBox(width: 6),
+                          SizedBox(width: 6.w),
                           Text(
                             "Add",
                             style: TextStyle(
@@ -141,20 +142,20 @@ class _TasksSectionState extends State<TasksSection> {
                 ],
               ),
               if (tasks.isNotEmpty) ...[
-                const SizedBox(height: 14),
+                SizedBox(height: 14.h),
                 Column(
                   children: List.generate(
                     tasks.length,
                     (index) {
                       return Container(
-                        margin: const EdgeInsets.only(bottom: 10),
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 12,
+                        margin: EdgeInsets.only(bottom: 10.h),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 12.w,
+                          vertical: 12.h,
                         ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFF5F7FF),
-                          borderRadius: BorderRadius.circular(16),
+                          borderRadius: BorderRadius.circular(16.r),
                           border: Border.all(
                             color: const Color(0xFFE2E8F0),
                           ),
@@ -162,28 +163,28 @@ class _TasksSectionState extends State<TasksSection> {
                         child: Row(
                           children: [
                             Container(
-                              width: 22,
-                              height: 22,
-                              decoration: const BoxDecoration(
+                              width: 22.w,
+                              height: 22.h,
+                              decoration: BoxDecoration(
                                 color: Color(0xFF4A90E2),
                                 shape: BoxShape.circle,
                               ),
                               alignment: Alignment.center,
                               child: Text(
                                 "${index + 1}",
-                                style: const TextStyle(
+                                style: TextStyle(
                                   color: Colors.white,
-                                  fontSize: 11,
+                                  fontSize: 11.sp,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
                             ),
-                            const SizedBox(width: 10),
+                            SizedBox(width: 10.w),
                             Expanded(
                               child: Text(
                                 tasks[index],
-                                style: const TextStyle(
-                                  fontSize: 14,
+                                style: TextStyle(
+                                  fontSize: 14.sp,
                                   color: Color(0xFF2B2D42),
                                 ),
                               ),
@@ -192,7 +193,7 @@ class _TasksSectionState extends State<TasksSection> {
                               onTap: () => cubit.removeTask(index),
                               child: Icon(
                                 Icons.close,
-                                size: 18,
+                                size: 18.r,
                                 color: Colors.grey.shade500,
                               ),
                             ),

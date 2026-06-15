@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/tasks/manager/task_cubit.dart';
+﻿import 'package:ehtemam_final_project/features/tasks/manager/task_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 void showAddTaskDialog(BuildContext context) {
@@ -8,8 +9,8 @@ void showAddTaskDialog(BuildContext context) {
     context: context,
     builder: (_) => AlertDialog(
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      title: const Text(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+      title: Text(
         "Add New Task",
         style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold),
       ),
@@ -17,32 +18,32 @@ void showAddTaskDialog(BuildContext context) {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text(
+          Text(
             "Task Description",
             style: TextStyle(
                 fontFamily: "Arimo",
                 fontWeight: FontWeight.bold,
-                fontSize: 13),
+                fontSize: 13.sp),
           ),
-          const SizedBox(height: 8),
+          SizedBox(height: 8.h),
           TextField(
             controller: controller,
             maxLines: 3,
             decoration: InputDecoration(
               hintText: "Enter task description...",
-              hintStyle: const TextStyle(fontFamily: "Arimo", fontSize: 13),
+              hintStyle: TextStyle(fontFamily: "Arimo", fontSize: 13.sp),
               filled: true,
               fillColor: const Color(0xFFF1F5F9),
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.r),
                 borderSide: BorderSide.none,
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.r),
                 borderSide: BorderSide.none,
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8),
+                borderRadius: BorderRadius.circular(8.r),
                 borderSide: BorderSide.none,
               ),
             ),
@@ -52,12 +53,12 @@ void showAddTaskDialog(BuildContext context) {
       actions: [
         TextButton(
           style: TextButton.styleFrom(
-            side: const BorderSide(color: Colors.grey, width: 1),
+            side: BorderSide(color: Colors.grey, width: 1.w),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8)),
+                borderRadius: BorderRadius.circular(8.r)),
           ),
           onPressed: () => Navigator.pop(context),
-          child: const Text(
+          child: Text(
             "Cancel",
             style: TextStyle(
                 fontFamily: "Arimo",
@@ -69,10 +70,10 @@ void showAddTaskDialog(BuildContext context) {
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xff3A8BD7),
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8)),
+                borderRadius: BorderRadius.circular(8.r)),
           ),
-          icon: const Icon(Icons.add, color: Colors.white, size: 16),
-          label: const Text(
+          icon: Icon(Icons.add, color: Colors.white, size: 16.r),
+          label: Text(
             "Add Task",
             style: TextStyle(fontFamily: "Arimo", color: Colors.white),
           ),

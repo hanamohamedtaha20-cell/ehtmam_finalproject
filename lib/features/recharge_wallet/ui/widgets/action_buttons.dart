@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ActionButtons extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -14,46 +15,46 @@ class ActionButtons extends StatelessWidget {
           child: GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 14),
+              padding: EdgeInsets.symmetric(vertical: 14.h),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(12.r),
                 border: Border.all(color: Colors.grey.shade300),
-                boxShadow: const [
-                  BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
+                boxShadow: [
+                  BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
                 ],
               ),
-              child: const Center(
+              child: Center(
                 child: Text("Cancel",
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontWeight: FontWeight.bold,
-                        fontSize: 14)),
+                        fontSize: 14.sp)),
               ),
             ),
           ),
         ),
-        const SizedBox(width: 12),
+        SizedBox(width: 12.w),
         Expanded(
           child: GestureDetector(
             onTap: onConfirm,
             child: Container(
-              padding: const EdgeInsets.symmetric(vertical: 14),
+              padding: EdgeInsets.symmetric(vertical: 14.h),
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
+                gradient: LinearGradient(
                     colors: [AppColors.purple, AppColors.purple2]),
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: const [
-                  BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
-                  BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+                borderRadius: BorderRadius.circular(12.r),
+                boxShadow: [
+                  BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
+                  BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6.r),
                 ],
               ),
-              child: const Center(
+              child: Center(
                 child: Text("Confirm",
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontWeight: FontWeight.bold,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         color: Colors.white)),
               ),
             ),

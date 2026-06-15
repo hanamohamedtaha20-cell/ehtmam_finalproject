@@ -1,6 +1,7 @@
-import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
+﻿import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/screens/received_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repo/Provider_repo.dart';
 import '../../data/repo/reviews_repo.dart';
@@ -43,13 +44,13 @@ class OfferDetailsScreen extends StatelessWidget {
           child: BlocBuilder<ProviderCubit, ProviderState>(
             builder: (context, state) {
               if (state is ProviderLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator());
               }
 
               if (state is ProviderError) {
                 return Center(
                   child: Padding(
-                    padding: const EdgeInsets.all(24),
+                    padding: EdgeInsets.all(24.r),
                     child: Text(
                       state.message,
                       textAlign: TextAlign.center,
@@ -59,7 +60,7 @@ class OfferDetailsScreen extends StatelessWidget {
               }
 
               if (state is ProviderEmpty) {
-                return const Center(child: Text('No offer details available'));
+                return Center(child: Text('No offer details available'));
               }
 
               if (state is ProviderLoaded) {
@@ -71,59 +72,59 @@ class OfferDetailsScreen extends StatelessWidget {
                       children: [
                         IconButton(
                           onPressed: () => Navigator.pop(context),
-                          icon: const Icon(Icons.arrow_back),
+                          icon: Icon(Icons.arrow_back),
                         ),
-                        const SizedBox(width: 10),
-                        const Text(
+                        SizedBox(width: 10.w),
+                        Text(
                           'Offer Details',
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
-                    const Divider(thickness: 1),
+                    Divider(thickness: 1),
                     Expanded(
                       child: SingleChildScrollView(
-                        padding: const EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16.r),
                         child: Column(
                           children: [
                             ProviderCard(),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             ProviderNotes(
                               description: provider.notes.isNotEmpty
                                   ? provider.notes
                                   : 'No additional notes from the provider.',
                             ),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             ServicesList(),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             const ProviderInfoCard(),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             const AboutProviderCard(),
-                            const SizedBox(height: 12),
+                            SizedBox(height: 12.h),
                             const ReviewsSection(),
-                            const SizedBox(height: 20),
+                            SizedBox(height: 20.h),
                             if (provider.status.toUpperCase() == 'ACCEPTED')
                               Container(
                                 width: double.infinity,
-                                padding: const EdgeInsets.symmetric(
-                                    vertical: 14),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 14.h),
                                 decoration: BoxDecoration(
                                   color: const Color(0xFFE8F5E9),
-                                  borderRadius: BorderRadius.circular(12),
+                                  borderRadius: BorderRadius.circular(12.r),
                                 ),
-                                child: const Row(
+                                child: Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.center,
                                   children: [
                                     Icon(Icons.check_circle,
                                         color: Color(0xFF2E7D32)),
-                                    SizedBox(width: 8),
+                                    SizedBox(width: 8.w),
                                     Text(
                                       'Offer Accepted',
                                       style: TextStyle(
                                         color: Color(0xFF2E7D32),
                                         fontWeight: FontWeight.bold,
-                                        fontSize: 15,
+                                        fontSize: 15.sp,
                                       ),
                                     ),
                                   ],
@@ -161,7 +162,7 @@ class OfferDetailsScreen extends StatelessWidget {
                 );
               }
 
-              return const SizedBox();
+              return SizedBox();
             },
           ),
         ),

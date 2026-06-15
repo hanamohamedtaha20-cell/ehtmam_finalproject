@@ -1,4 +1,5 @@
-import 'package:ehtemam_final_project/core/network/api_service.dart';
+﻿import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:ehtemam_final_project/features/notifications/ui/screens/notification_screen.dart';
 import 'package:ehtemam_final_project/features/account_settings/data/repo/account_settings_repo.dart';
 import 'package:ehtemam_final_project/features/account_settings/manager/account_settings_cubit.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_user.dart';
@@ -12,6 +13,7 @@ import 'package:ehtemam_final_project/features/profile2/ui/widgets/profile_card.
 import 'package:ehtemam_final_project/features/profile2/ui/widgets/profile_header.dart';
 import 'package:ehtemam_final_project/features/profile2/ui/widgets/stats_row.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
@@ -30,7 +32,7 @@ class ProfileScreen extends StatelessWidget {
           child: BlocBuilder<ProfileCubit, ProfileState>(
             builder: (context, state) {
                if (state is ProfileLoading) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator());
               }
               if (state is ProfileError) {
                 final isAuthError = state.message.contains('User ID not found') ||
@@ -39,30 +41,30 @@ class ProfileScreen extends StatelessWidget {
                 if (isAuthError) {
                   return Center(
                     child: Padding(
-                      padding: const EdgeInsets.all(24),
+                      padding: EdgeInsets.all(24.r),
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          const Icon(Icons.lock_outline, size: 64, color: Color(0xFF6C63FF)),
-                          const SizedBox(height: 16),
-                          const Text(
+                          Icon(Icons.lock_outline, size: 64.r, color: Color(0xFF6C63FF)),
+                          SizedBox(height: 16.h),
+                          Text(
                             'Session Expired',
-                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                            style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                           ),
-                          const SizedBox(height: 8),
-                          const Text(
+                          SizedBox(height: 8.h),
+                          Text(
                             'Please log in again to view your profile.',
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.grey),
                           ),
-                          const SizedBox(height: 24),
+                          SizedBox(height: 24.h),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFF6C63FF),
                               foregroundColor: Colors.white,
                               minimumSize: const Size(double.infinity, 48),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(12.r),
                               ),
                             ),
                             onPressed: () async {
@@ -76,7 +78,7 @@ class ProfileScreen extends StatelessWidget {
                                 );
                               }
                             },
-                            child: const Text('Log In'),
+                            child: Text('Log In'),
                           ),
                         ],
                       ),
@@ -86,25 +88,25 @@ class ProfileScreen extends StatelessWidget {
                 return Center(child: Text(state.message));
               }
               if (state is! ProfileLoaded) {
-                return const Center(child: CircularProgressIndicator());
+                return Center(child: CircularProgressIndicator());
               }
               return SingleChildScrollView(
-                padding: const EdgeInsets.all(16),
+                padding: EdgeInsets.all(16.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const ProfileHeader(),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     ProfileCard(user: state.user),
-                    const SizedBox(height: 16),
+                    SizedBox(height: 16.h),
                     StatsRow(
                       totalRequests: state.totalRequests,
                       completed: state.completed,
                       rating: state.rating,
                     ),
-                     SizedBox(height: 16),
+                     SizedBox(height: 16.h),
                     _OptionsCard(),
-                     SizedBox(height: 16),
+                     SizedBox(height: 16.h),
                      LogoutButton(),
                   ],
                 ),
@@ -131,7 +133,10 @@ List<_OptionData> _buildOptions(BuildContext context) => [
   },),
     _OptionData(icon: Icons.notifications_outlined, label: "notifications", color: const Color.fromARGB(255, 245, 221, 126),
     onTap: () {
-      // Navigator.push(context, ...)
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (_) => const NotificationScreen()),
+      );
     },),
     _OptionData(icon: Icons.location_on_outlined, label: "savedAddresses", color: const Color.fromARGB(255, 168, 241, 194),
     onTap: () {
@@ -157,10 +162,10 @@ List<_OptionData> _buildOptions(BuildContext context) => [
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: const [
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6.r),
         ],
       ),
       child: Column(
@@ -175,7 +180,7 @@ List<_OptionData> _buildOptions(BuildContext context) => [
                 onTap: options[i].onTap,
 
               ),
-              if (!isLast) const Divider(height: 1, indent: 16, endIndent: 16),
+              if (!isLast) Divider(height: 1.h, indent: 16, endIndent: 16),
             ],
           );
         }),

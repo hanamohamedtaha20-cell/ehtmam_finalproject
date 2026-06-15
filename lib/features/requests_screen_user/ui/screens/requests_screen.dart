@@ -1,5 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/network/api_service.dart';
@@ -52,7 +53,7 @@ class _RequestsViewState
 
             /// 🔹 Header
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: EdgeInsets.all(16.r),
               child: Row(
                 children: [
                   GestureDetector(
@@ -64,23 +65,23 @@ class _RequestsViewState
                         ),
                       );
                     },
-                    child: const Icon(Icons.arrow_back),
+                    child: Icon(Icons.arrow_back),
                   ),
-                  const SizedBox(width: 10),
+                  SizedBox(width: 10.w),
                   Text(
                     "My Requests".tr(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 18.sp,
                     ),
                   ),
-                  const Spacer(),
+                  Spacer(),
                   BlocBuilder<RequestsCubit, RequestsState>(
                     builder: (context, state) {
                       if (state is RequestsLoading) {
-                        return const SizedBox(
-                          width: 24,
-                          height: 24,
+                        return SizedBox(
+                          width: 24.w,
+                          height: 24.h,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         );
                       }
@@ -88,7 +89,7 @@ class _RequestsViewState
                       return IconButton(
                         onPressed: () =>
                             context.read<RequestsCubit>().getRequests(),
-                        icon: const Icon(Icons.refresh_rounded),
+                        icon: Icon(Icons.refresh_rounded),
                         tooltip: 'try_again'.tr(),
                       );
                     },
@@ -111,7 +112,7 @@ class _RequestsViewState
               },
             ),
 
-            const SizedBox(height: 10),
+            SizedBox(height: 10.h),
 
             /// 🔹 Requests List
             Expanded(
@@ -128,7 +129,7 @@ class _RequestsViewState
                   if (state
                   is RequestsLoading) {
 
-                    return const Center(
+                    return Center(
                       child:
                       CircularProgressIndicator(),
                     );
@@ -138,36 +139,36 @@ class _RequestsViewState
                   if (state is RequestsError) {
                     return Center(
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 32),
+                        padding: EdgeInsets.symmetric(horizontal: 32.w),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
                               Icons.wifi_off_rounded,
-                              size: 48,
+                              size: 48.r,
                               color: Colors.grey.shade400,
                             ),
-                            const SizedBox(height: 16),
+                            SizedBox(height: 16.h),
                             Text(
                               state.message,
                               textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 14,
+                                fontSize: 14.sp,
                                 color: Colors.grey.shade600,
-                                height: 1.5,
+                                height: 1.5.h,
                               ),
                             ),
-                            const SizedBox(height: 20),
+                            SizedBox(height: 20.h),
                             ElevatedButton.icon(
                               onPressed: () =>
                                   context.read<RequestsCubit>().getRequests(),
-                              icon: const Icon(Icons.refresh_rounded, size: 18),
+                              icon: Icon(Icons.refresh_rounded, size: 18.r),
                               label: Text('try_again'.tr()),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
                                 foregroundColor: Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(99),
+                                  borderRadius: BorderRadius.circular(99.r),
                                 ),
                               ),
                             ),
@@ -210,7 +211,7 @@ class _RequestsViewState
                           context.read<RequestsCubit>().getRequests(),
                       child: ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(),
-                        padding: const EdgeInsets.all(16),
+                        padding: EdgeInsets.all(16.r),
                         itemCount: filteredRequests.length,
                         itemBuilder: (context, index) {
                           final request = filteredRequests[index];
@@ -220,7 +221,7 @@ class _RequestsViewState
                     );
                   }
 
-                  return const SizedBox();
+                  return SizedBox();
                 },
               ),
             ),

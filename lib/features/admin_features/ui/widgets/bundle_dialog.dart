@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BundleDialog extends StatefulWidget {
   final String title;
@@ -73,22 +74,22 @@ class _BundleDialogState extends State<BundleDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: const EdgeInsets.symmetric(horizontal: 34),
+      insetPadding: EdgeInsets.symmetric(horizontal: 34.w),
       backgroundColor: Colors.transparent,
       child: Container(
         width: double.infinity,
         constraints: const BoxConstraints(maxWidth: 360),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(18),
+          borderRadius: BorderRadius.circular(18.r),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Container(
-              height: 44,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              decoration: const BoxDecoration(
+              height: 44.h,
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              decoration: BoxDecoration(
                 color: Color(0xff2F93E6),
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(18),
@@ -100,19 +101,19 @@ class _BundleDialogState extends State<BundleDialog> {
                   Expanded(
                     child: Text(
                       widget.title,
-                      style: const TextStyle(
+                      style: TextStyle(
                         color: Colors.white,
-                        fontSize: 14,
+                        fontSize: 14.sp,
                         fontWeight: FontWeight.w800,
                       ),
                     ),
                   ),
                   InkWell(
                     onTap: () => Navigator.pop(context),
-                    child: const Icon(
+                    child: Icon(
                       Icons.close,
                       color: Colors.white,
-                      size: 17,
+                      size: 17.r,
                     ),
                   ),
                 ],
@@ -120,7 +121,7 @@ class _BundleDialogState extends State<BundleDialog> {
             ),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(14, 14, 14, 14),
+              padding: EdgeInsets.fromLTRB(14, 14, 14, 14),
               child: Column(
                 children: [
                   _field(
@@ -129,7 +130,7 @@ class _BundleDialogState extends State<BundleDialog> {
                     hint: 'e.g., Premium Bundle',
                   ),
 
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
 
                   Row(
                     children: [
@@ -140,7 +141,7 @@ class _BundleDialogState extends State<BundleDialog> {
                           hint: '10',
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      SizedBox(width: 10.w),
                       Expanded(
                         child: _field(
                           controller: widget.validityController,
@@ -151,7 +152,7 @@ class _BundleDialogState extends State<BundleDialog> {
                     ],
                   ),
 
-                  const SizedBox(height: 10),
+                  SizedBox(height: 10.h),
 
                   Row(
                     children: [
@@ -162,7 +163,7 @@ class _BundleDialogState extends State<BundleDialog> {
                           hint: '249',
                         ),
                       ),
-                      const SizedBox(width: 10),
+                      SizedBox(width: 10.w),
                       Expanded(
                         child: _field(
                           controller: widget.discountController,
@@ -173,7 +174,7 @@ class _BundleDialogState extends State<BundleDialog> {
                     ],
                   ),
 
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
 
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -181,17 +182,17 @@ class _BundleDialogState extends State<BundleDialog> {
                       Text.rich(
                         TextSpan(
                           text: 'Bundle Features *',
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Color(0xff334155),
-                            fontSize: 10,
+                            fontSize: 10.sp,
                             fontWeight: FontWeight.w700,
                           ),
                           children: [
                             TextSpan(
                               text: '(${features.length} added)',
-                              style: const TextStyle(
+                              style: TextStyle(
                                 color: Color(0xff94A3B8),
-                                fontSize: 10,
+                                fontSize: 10.sp,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -199,37 +200,37 @@ class _BundleDialogState extends State<BundleDialog> {
                         ),
                       ),
 
-                      const SizedBox(height: 6),
+                      SizedBox(height: 6.h),
 
                       Row(
                         children: [
                           Expanded(
                             child: SizedBox(
-                              height: 36,
+                              height: 36.h,
                               child: TextField(
                                 controller: featureController,
-                                style: const TextStyle(fontSize: 11),
+                                style: TextStyle(fontSize: 11.sp),
                                 decoration: InputDecoration(
                                   hintText: 'e.g., Priority support',
-                                  hintStyle: const TextStyle(
+                                  hintStyle: TextStyle(
                                     color: Color(0xff94A3B8),
-                                    fontSize: 10,
+                                    fontSize: 10.sp,
                                   ),
                                   filled: true,
                                   fillColor: const Color(0xffF8FAFC),
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 8,
+                                  contentPadding: EdgeInsets.symmetric(
+                                    horizontal: 10.w,
+                                    vertical: 8.h,
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    borderSide: BorderSide(
                                       color: Color(0xffE2E8F0),
                                     ),
                                   ),
                                   focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10),
-                                    borderSide: const BorderSide(
+                                    borderRadius: BorderRadius.circular(10.r),
+                                    borderSide: BorderSide(
                                       color: Color(0xff2F93E6),
                                     ),
                                   ),
@@ -237,24 +238,24 @@ class _BundleDialogState extends State<BundleDialog> {
                               ),
                             ),
                           ),
-                          const SizedBox(width: 6),
+                          SizedBox(width: 6.w),
                           SizedBox(
-                            height: 36,
+                            height: 36.h,
                             child: ElevatedButton.icon(
                               onPressed: addFeature,
-                              icon: const Icon(Icons.add, size: 13),
-                              label: const Text(
+                              icon: Icon(Icons.add, size: 13.r),
+                              label: Text(
                                 'Add',
-                                style: TextStyle(fontSize: 11),
+                                style: TextStyle(fontSize: 11.sp),
                               ),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xff2F93E6),
                                 foregroundColor: Colors.white,
                                 elevation: 0,
                                 padding:
-                                const EdgeInsets.symmetric(horizontal: 10),
+                                EdgeInsets.symmetric(horizontal: 10.w),
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10.r),
                                 ),
                               ),
                             ),
@@ -262,24 +263,24 @@ class _BundleDialogState extends State<BundleDialog> {
                         ],
                       ),
 
-                      const SizedBox(height: 8),
+                      SizedBox(height: 8.h),
 
                       if (features.isEmpty)
                         Container(
                           width: double.infinity,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 11,
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 10.w,
+                            vertical: 11.h,
                           ),
                           decoration: BoxDecoration(
                             color: const Color(0xffF8FAFC),
-                            borderRadius: BorderRadius.circular(10),
+                            borderRadius: BorderRadius.circular(10.r),
                           ),
-                          child: const Text(
+                          child: Text(
                             'No features added yet. Type a feature and press Add.',
                             style: TextStyle(
                               color: Color(0xff94A3B8),
-                              fontSize: 9,
+                              fontSize: 9.sp,
                             ),
                           ),
                         )
@@ -288,47 +289,47 @@ class _BundleDialogState extends State<BundleDialog> {
                           children: List.generate(
                             features.length,
                                 (index) => Container(
-                              margin: const EdgeInsets.only(bottom: 6),
-                              height: 32,
+                              margin: EdgeInsets.only(bottom: 6.h),
+                              height: 32.h,
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 10),
+                              EdgeInsets.symmetric(horizontal: 10.w),
                               decoration: BoxDecoration(
                                 color: Colors.white,
-                                borderRadius: BorderRadius.circular(9),
+                                borderRadius: BorderRadius.circular(9.r),
                                 border: Border.all(
                                   color: const Color(0xffE2E8F0),
                                 ),
-                                boxShadow: const [
+                                boxShadow: [
                                   BoxShadow(
                                     color: Color(0x07000000),
-                                    blurRadius: 7,
+                                    blurRadius: 7.r,
                                     offset: Offset(0, 2),
                                   ),
                                 ],
                               ),
                               child: Row(
                                 children: [
-                                  const Icon(
+                                  Icon(
                                     Icons.star_border_rounded,
-                                    size: 13,
+                                    size: 13.r,
                                     color: Color(0xff2F93E6),
                                   ),
-                                  const SizedBox(width: 6),
+                                  SizedBox(width: 6.w),
                                   Expanded(
                                     child: Text(
                                       features[index],
-                                      style: const TextStyle(
+                                      style: TextStyle(
                                         color: Color(0xff334155),
-                                        fontSize: 10,
+                                        fontSize: 10.sp,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                   ),
                                   InkWell(
                                     onTap: () => removeFeature(index),
-                                    child: const Icon(
+                                    child: Icon(
                                       Icons.close,
-                                      size: 12,
+                                      size: 12.r,
                                       color: Color(0xff94A3B8),
                                     ),
                                   ),
@@ -340,13 +341,13 @@ class _BundleDialogState extends State<BundleDialog> {
                     ],
                   ),
 
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
 
                   Row(
                     children: [
                       Expanded(
                         child: SizedBox(
-                          height: 40,
+                          height: 40.h,
                           child: ElevatedButton(
                             onPressed: () => Navigator.pop(context),
                             style: ElevatedButton.styleFrom(
@@ -354,23 +355,23 @@ class _BundleDialogState extends State<BundleDialog> {
                               foregroundColor: const Color(0xff334155),
                               elevation: 0,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10.r),
                               ),
                             ),
-                            child: const Text(
+                            child: Text(
                               'Cancel',
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 11,
+                                fontSize: 11.sp,
                               ),
                             ),
                           ),
                         ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: 8.w),
                       Expanded(
                         child: SizedBox(
-                          height: 40,
+                          height: 40.h,
                           child: ElevatedButton(
                             onPressed: widget.onSubmit,
                             style: ElevatedButton.styleFrom(
@@ -378,14 +379,14 @@ class _BundleDialogState extends State<BundleDialog> {
                               foregroundColor: Colors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
+                                borderRadius: BorderRadius.circular(10.r),
                               ),
                             ),
                             child: Text(
                               widget.actionText,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontWeight: FontWeight.w700,
-                                fontSize: 11,
+                                fontSize: 11.sp,
                               ),
                             ),
                           ),
@@ -412,39 +413,39 @@ class _BundleDialogState extends State<BundleDialog> {
       children: [
         Text(
           label,
-          style: const TextStyle(
+          style: TextStyle(
             color: Color(0xff334155),
-            fontSize: 10,
+            fontSize: 10.sp,
             fontWeight: FontWeight.w700,
           ),
         ),
-        const SizedBox(height: 5),
+        SizedBox(height: 5.h),
         SizedBox(
-          height: 36,
+          height: 36.h,
           child: TextField(
             controller: controller,
-            style: const TextStyle(fontSize: 11),
+            style: TextStyle(fontSize: 11.sp),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: const TextStyle(
+              hintStyle: TextStyle(
                 color: Color(0xff94A3B8),
-                fontSize: 10,
+                fontSize: 10.sp,
               ),
               filled: true,
               fillColor: const Color(0xffF8FAFC),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 10,
-                vertical: 8,
+              contentPadding: EdgeInsets.symmetric(
+                horizontal: 10.w,
+                vertical: 8.h,
               ),
               enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: BorderSide(
                   color: Color(0xffE2E8F0),
                 ),
               ),
               focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(
+                borderRadius: BorderRadius.circular(10.r),
+                borderSide: BorderSide(
                   color: Color(0xff2F93E6),
                 ),
               ),

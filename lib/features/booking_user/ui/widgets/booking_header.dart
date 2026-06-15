@@ -1,6 +1,7 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class BookingHeader extends StatelessWidget {
@@ -21,12 +22,12 @@ class BookingHeader extends StatelessWidget {
             },
             child: Icon(Icons.arrow_back)),
 
-        const Text(
+        Text(
           "myBookings",
           style: TextStyle(
               fontFamily: "Arimo",
               fontWeight: FontWeight.bold,
-              fontSize: 18,
+              fontSize: 18.sp,
               color: AppColors.textDark),
         ),
         const Spacer(),

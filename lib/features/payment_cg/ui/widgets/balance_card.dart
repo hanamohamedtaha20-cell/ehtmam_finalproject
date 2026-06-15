@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/features/payment/ui/widgets/add_funds.dart';
+﻿import 'package:ehtemam_final_project/features/payment/ui/widgets/add_funds.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'wallet_header.dart';
 
 class BalanceCard extends StatelessWidget {
@@ -11,9 +12,9 @@ class BalanceCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       
-      padding: const EdgeInsets.all(18),
+      padding: EdgeInsets.all(18.r),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
        gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -26,8 +27,8 @@ class BalanceCard extends StatelessWidget {
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.2),
-            blurRadius: 10,
-            offset: const Offset(0, 10),
+            blurRadius: 10.r,
+            offset: Offset(0, 10),
           ),
         ],
       ),
@@ -35,8 +36,8 @@ class BalanceCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           WalletHeader(balance: balance),
-          const SizedBox(height: 6),
-          const SizedBox(height: 10),
+          SizedBox(height: 6.h),
+          SizedBox(height: 10.h),
           const AddFundsButton(),
         ],
       ),

@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TabsRow extends StatelessWidget {
   final int selectedIndex;
@@ -22,21 +23,21 @@ class TabsRow extends StatelessWidget {
                 style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                   color: isSelected ? AppColors.blue : AppColors.textLight,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4.h),
               Container(
-                height: 2,
-                width: 70,
+                height: 2.h,
+                width: 70.w,
                 color: isSelected ? AppColors.blue : Colors.transparent,
               ),
             ],
           ),
         );
       })
-          .expand((w) => [w, const SizedBox(width: 20)])
+          .expand((w) => [w, SizedBox(width: 20.w)])
           .toList()
         ..removeLast(),
     );

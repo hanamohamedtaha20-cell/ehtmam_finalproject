@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/resources/app_text_style.dart';
 import '../../features/auth/ui/screens/login_screen.dart';
 import 'app_colors.dart';
@@ -9,10 +10,10 @@ class SkipButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+      padding: EdgeInsets.symmetric(horizontal: 14.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.white.withValues(alpha: 0.35),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Align(
         alignment: Alignment.topRight,
@@ -30,7 +31,7 @@ class SkipButton extends StatelessWidget {
             "Skip →",
             style: TextStyle(
               color: Color(0xFF7C889C),
-              fontSize: 14,
+              fontSize: 14.sp,
             ),
           ),
         ),

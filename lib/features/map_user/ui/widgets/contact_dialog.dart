@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void showContactDialog(
   BuildContext context, {
@@ -10,39 +11,39 @@ void showContactDialog(
     context: context,
     builder: (_) => AlertDialog(
       backgroundColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-      title: const Text(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+      title: Text(
         "Contact Caregiver",
         style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const CircleAvatar(
+          CircleAvatar(
             radius: 30,
             backgroundColor: Color(0xFFE3F2FD),
-            child: Icon(Icons.person, color: Color(0xFF3A8BD7), size: 32),
+            child: Icon(Icons.person, color: Color(0xFF3A8BD7), size: 32.r),
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           Text(name,
-              style: const TextStyle(
+              style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: FontWeight.bold,
-                  fontSize: 16)),
+                  fontSize: 16.sp)),
           Text(speciality,
-              style: const TextStyle(
-                  fontFamily: "Arimo", fontSize: 12, color: Colors.grey)),
-          const SizedBox(height: 12),
+              style: TextStyle(
+                  fontFamily: "Arimo", fontSize: 12.sp, color: Colors.grey)),
+          SizedBox(height: 12.h),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.phone, color: Color(0xFF3A8BD7), size: 18),
-              const SizedBox(width: 8),
+              Icon(Icons.phone, color: Color(0xFF3A8BD7), size: 18.r),
+              SizedBox(width: 8.w),
               Text(phoneNumber,
-                  style: const TextStyle(
+                  style: TextStyle(
                       fontFamily: "Arimo",
                       fontWeight: FontWeight.bold,
-                      fontSize: 16)),
+                      fontSize: 16.sp)),
             ],
           ),
         ],
@@ -50,7 +51,7 @@ void showContactDialog(
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text("Close",
+          child: Text("Close",
               style: TextStyle(fontFamily: "Arimo", color: Colors.grey)),
         ),
       ],

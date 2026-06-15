@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/model/bundels_model.dart';
 import 'bundels_features.dart';
@@ -29,18 +30,18 @@ class BundleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 16),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.only(bottom: 16.h),
+      padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(20.r),
       ),
       child: Column(
         children: [
           BundleHeader(bundle: bundle),
-          const SizedBox(height: 12),
+          SizedBox(height: 12.h),
           BundleFeatures(features: _features),
-          const SizedBox(height: 16),
+          SizedBox(height: 16.h),
         ],
       ),
     );

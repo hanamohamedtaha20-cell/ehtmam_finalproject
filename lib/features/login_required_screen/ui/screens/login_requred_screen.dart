@@ -1,5 +1,6 @@
-import 'package:easy_localization/easy_localization.dart';
+﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../widgets/login_required_card.dart';
 
@@ -14,7 +15,7 @@ class LoginRequiredScreen extends StatelessWidget {
       body: Container(
         width: double.infinity,
 
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -27,21 +28,21 @@ class LoginRequiredScreen extends StatelessWidget {
         ),
         child: Column(
           children: [
-             SizedBox(height: 20),
+             SizedBox(height: 20.h),
 
             /// 🔹 Guest text
-             Padding(padding: EdgeInsets.symmetric(horizontal: 16)),
+             Padding(padding: EdgeInsets.symmetric(horizontal: 16.w)),
 
-             SizedBox(height: 20),
+             SizedBox(height: 20.h),
 
             /// 🔹 Card
             Expanded(child: Center(child: LoginRequiredCard())),
 
             Padding(
-              padding:  EdgeInsets.only(bottom: 16),
+              padding:  EdgeInsets.only(bottom: 16.h),
               child: Text(
                 "Join CareConnect to access all features".tr(),
-                style: const TextStyle(color: Colors.grey, fontSize: 12),
+                style: TextStyle(color: Colors.grey, fontSize: 12.sp),
               ),
             ),
           ],

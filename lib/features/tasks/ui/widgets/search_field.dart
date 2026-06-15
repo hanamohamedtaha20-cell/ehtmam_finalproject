@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TaskSearchField extends StatelessWidget {
   final ValueChanged<String> onChanged;
@@ -9,13 +10,13 @@ class TaskSearchField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+     padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14),
-        boxShadow: const [
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4),
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6),
+        borderRadius: BorderRadius.circular(14.r),
+        boxShadow: [
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
+          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6.r),
         ],
       ),
       child: Column(
@@ -28,40 +29,40 @@ class TaskSearchField extends StatelessWidget {
                   onChanged: onChanged,
                   decoration: InputDecoration(
                     hintText: "Enter task description...",
-                    hintStyle: const TextStyle(
+                    hintStyle: TextStyle(
                         fontFamily: "Arimo",
-                        fontSize: 13,
+                        fontSize: 13.sp,
                         color: AppColors.textLight),
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
-                        borderRadius: const BorderRadius.horizontal(
+                        borderRadius: BorderRadius.horizontal(
                             left: Radius.circular(14)),
                         borderSide: BorderSide.none),
-                    contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 14),
+                    contentPadding: EdgeInsets.symmetric(
+                        horizontal: 14.w, vertical: 14.h),
                   ),
                 ),
               ),
               GestureDetector(
                 onTap: () {},
                 child: Container(
-                  width: 90,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  decoration: const BoxDecoration(
+                  width: 90.w,
+                  padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
+                  decoration: BoxDecoration(
                     color: Color(0xFF97CCFD), // 👈 light blue
                     borderRadius: BorderRadius.all(Radius.circular(16)),
                   ),
                    child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(Icons.add, color: Colors.white, size: 18),
-                      const SizedBox(width: 6),
-                      const Text("Add \n Task",
+                      Icon(Icons.add, color: Colors.white, size: 18.r),
+                      SizedBox(width: 6.w),
+                      Text("Add \n Task",
                           style: TextStyle(
                               fontFamily: "Arimo",
                               fontWeight: FontWeight.bold,
-                              fontSize: 13,
+                              fontSize: 13.sp,
                               color: Colors.white)),
                     ],
                   ),
@@ -69,13 +70,13 @@ class TaskSearchField extends StatelessWidget {
               ),
             ],
           ),
-          const Padding(
+          Padding(
             padding: EdgeInsets.fromLTRB(14, 0, 14, 10),
             child: Text(
               "Please select a request to add tasks",
               style: TextStyle(
                   fontFamily: "Arimo",
-                  fontSize: 11,
+                  fontSize: 11.sp,
                   color: AppColors.textLight),
             ),
           ),

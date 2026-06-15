@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IncomeExpenseRow extends StatelessWidget {
   final double income;
@@ -22,14 +23,14 @@ class IncomeExpenseRow extends StatelessWidget {
           color: Colors.white,
           icon: Image.asset(
            "assets/images/Container9.png",
-            width: 24,
-            height: 24,
+            width: 24.w,
+            height: 24.h,
             fit: BoxFit.contain,
 
           ),
         ),
         ),
-        const SizedBox(width: 10),
+        SizedBox(width: 10.w),
         Expanded(
           child: _card(
           title: "Total Spent",
@@ -37,8 +38,8 @@ class IncomeExpenseRow extends StatelessWidget {
           color: Colors.white,
           icon: Image.asset(
             "assets/images/Container13.png",
-            width: 24,
-            height: 24,
+            width: 24.w,
+            height: 24.h,
             fit: BoxFit.contain,
 
           ),
@@ -55,21 +56,21 @@ class IncomeExpenseRow extends StatelessWidget {
     required Widget icon,
   }) {
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: EdgeInsets.all(14.r),
       decoration: BoxDecoration(
         color: color,
-        borderRadius: BorderRadius.circular(14),
+        borderRadius: BorderRadius.circular(14.r),
          boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(0.10),
-          offset: const Offset(0, 2),
-          blurRadius: 4,
+          offset: Offset(0, 2),
+          blurRadius: 4.r,
           spreadRadius: 0,
         ),
         BoxShadow(
           color: Colors.black.withOpacity(0.10),
-          offset: const Offset(0, 4),
-          blurRadius: 6,
+          offset: Offset(0, 4),
+          blurRadius: 6.r,
           spreadRadius: 0,
         ),
       ],
@@ -81,25 +82,25 @@ class IncomeExpenseRow extends StatelessWidget {
             backgroundColor: Colors.white,
             child: icon,
           ),
-          const SizedBox(width: 10),
+          SizedBox(width: 10.w),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: "Arimo",
-                  fontSize: 12,
+                  fontSize: 12.sp,
                   color: Colors.black54,
                 ),
               ),
-              const SizedBox(height: 4),
+              SizedBox(height: 4.h),
               Text(
                 amount.toStringAsFixed(2),
-                style: const TextStyle(
+                style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                  fontSize: 14.sp,
                 ),
               ),
             ],

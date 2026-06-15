@@ -1,7 +1,8 @@
-import 'package:ehtemam_final_project/core/resources/app_fonts.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_fonts.dart';
 import 'package:ehtemam_final_project/core/resources/app_images.dart';
 import '../../../onboarding/ui/widgets/onboarding_background.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/resources/language_chip.dart';
 import '../../../../core/resources/skip_button.dart';
 import '../../../splash/ui/widgets/next_button.dart';
@@ -27,12 +28,12 @@ class OnboardingScreen2 extends StatelessWidget {
           child: SafeArea(
             child: Padding(
               padding: EdgeInsets.symmetric(
-                horizontal: 20 * s,
-                vertical: 12 * s,
+                horizontal: 20.w,
+                vertical: 12.h,
               ),
               child: Column(
                 children: [
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       SkipButton(),
@@ -42,16 +43,16 @@ class OnboardingScreen2 extends StatelessWidget {
                   SizedBox(height:60 ),
 
                   Container(
-                    width: 100 * s,
-                    height: 100 * s,
+                    width: 100.w,
+                    height: 100.h,
                     decoration: BoxDecoration(
                       color: const Color(0xFF97CCFD),
-                      borderRadius: BorderRadius.circular(18 * s),
-                      boxShadow: const [
+                      borderRadius: BorderRadius.circular(18.r),
+                      boxShadow: [
                         BoxShadow(
                           color: Color(0xFF3A8BD7),
                           offset: Offset(0, 25),
-                          blurRadius: 50,
+                          blurRadius: 50.r,
                           spreadRadius: -12,
                         ),
                       ],
@@ -59,56 +60,56 @@ class OnboardingScreen2 extends StatelessWidget {
                     child: Center(
                       child: Image.asset(
                         AppImages.robot,
-                        width: 60 * s,
-                        height: 60 * s,
+                        width: 60.w,
+                        height: 60.h,
                         fit: BoxFit.contain,
                       ),
                     ),
                   ),
 
-                  SizedBox(height: 48 * s),
+                  SizedBox(height: 48.h),
 
                   Text(
                     'AI-Powered Requests',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: AppFonts.inter,
-                      fontSize: 25,
+                      fontSize: 25.sp,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF1D293D),
                       shadows:  [
                         Shadow(
                           color: Color(0x40000000),
                           offset: Offset(0, 4),
-                          blurRadius: 4,
+                          blurRadius: 4.r,
                         ),
                       ],
                     ),
                   ),
 
-                  SizedBox(height: 50),
+                  SizedBox(height: 50.h),
 
                   Text(
                     'Our intelligent chatbot helps you create\ncare requests by asking the right\nquestions and gathering all necessary\ndetails.',
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: AppFonts.inter,
-                      fontSize: 16,
+                      fontSize: 16.sp,
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF1D4987),
-                      height: 1.70,
+                      height: 1.70.h,
 
                       shadows:  [
                         Shadow(
                           color: Color(0x40000000),
                           offset: Offset(0, 4),
-                          blurRadius: 4,
+                          blurRadius: 4.r,
                         ),
                       ],
                     ),
                   ),
 
-                  const Spacer(),
+                  Spacer(),
 
                   SizedBox(height:20 ),
 
@@ -117,7 +118,7 @@ class OnboardingScreen2 extends StatelessWidget {
                     itemCount: 3,
                   ),
 
-                  SizedBox(height: 14 * s),
+                  SizedBox(height: 14.h),
 
 
 

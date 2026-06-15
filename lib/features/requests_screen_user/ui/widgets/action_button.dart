@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ActionButton extends StatelessWidget {
   final String text;
@@ -9,25 +10,25 @@ class ActionButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(12),
+      borderRadius: BorderRadius.circular(12.r),
       onTap: onTap,
       child: Container(
-        height: 45,
+        height: 45.h,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
               color: const Color(0xFF432DD7).withOpacity(0.3),
-              offset: const Offset(0, 6),
-              blurRadius: 10,
+              offset: Offset(0, 6),
+              blurRadius: 10.r,
             ),
           ],
-          gradient: const LinearGradient(
+          gradient: LinearGradient(
             colors: [Color(0xFF3A8BD7), Color(0xFFD8E3E9)],
           ),
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: BorderRadius.circular(12.r),
         ),
         child: Center(
-          child: Text(text, style: const TextStyle(color: Colors.white)),
+          child: Text(text, style: TextStyle(color: Colors.white)),
         ),
       ),
     );

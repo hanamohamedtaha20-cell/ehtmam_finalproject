@@ -1,4 +1,4 @@
-import 'package:ehtemam_final_project/core/network/api_service.dart';
+﻿import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/data/repo/booking_remote_ds.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/data/repo/repository_implementation.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/manager/booking_details_cubit.dart';
@@ -12,6 +12,7 @@ import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/screens
 import 'package:ehtemam_final_project/features/request_screen_caregiver/ui/screens/care_requests_screen.dart';
 import 'package:ehtemam_final_project/features/share_location_cg/ui/screens/share_location_cg_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/booking_details_appbar/booking_details_appbar.dart';
 import '../../../../core/widgets/gradient_action_button.dart';
@@ -94,7 +95,7 @@ class _BookingCgViewState extends State<BookingCgView> {
     final price = num.tryParse(priceController.text.trim());
     if (price == null || price <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter a valid price')),
+        SnackBar(content: Text('Please enter a valid price')),
       );
       return;
     }
@@ -121,7 +122,7 @@ class _BookingCgViewState extends State<BookingCgView> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('Offer sent')),
+      SnackBar(content: Text('Offer sent')),
     );
     Navigator.pushReplacement(
       context,
@@ -148,12 +149,12 @@ class _BookingCgViewState extends State<BookingCgView> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(state.message),
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12.h),
                   ElevatedButton(
                     onPressed: () => context
                         .read<BookingDetailsCubit>()
                         .loadRequestDetails(widget.requestId),
-                    child: const Text('Retry'),
+                    child: Text('Retry'),
                   ),
                 ],
               ),
@@ -162,7 +163,7 @@ class _BookingCgViewState extends State<BookingCgView> {
         }
 
         if (state is! BookingDetailsLoaded) {
-          return const SizedBox.shrink();
+          return SizedBox.shrink();
         }
 
         final booking = state.booking;
@@ -181,45 +182,45 @@ class _BookingCgViewState extends State<BookingCgView> {
                   bookingId: booking.displayId,
                   statusLabel: booking.statusLabel,
                 ),
-                const SizedBox(height: 16),
+                SizedBox(height: 16.h),
                 BookingTabs(
                   selectedIndex: selectedTab,
                   onTabChanged: _onTabChanged,
                   completedCount: completedTasks,
                   totalCount: booking.tasks.length,
                 ),
-                const SizedBox(height: 20),
+                SizedBox(height: 20.h),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
                   child: Column(
                     children: [
                       if (selectedTab == 0) ...[
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         ClientInfoCard(
                           name: booking.clientName,
                           phone: booking.phone,
                           email: booking.email,
                           rating: booking.rating,
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         ServiceDetailsCard(
                           serviceType: booking.serviceType,
                           petType: booking.petType,
                           duration: booking.duration,
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         DateTimeCard(
                           date: booking.date,
                           time: booking.time,
                           location: booking.location,
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         SpecialInstructionsCard(
                           instructions: booking.specialInstructions,
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         ClientBudgetCard(amount: budgetText),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         SizedBox(
                           width: double.infinity,
                           child: OutlinedButton.icon(
@@ -233,34 +234,34 @@ class _BookingCgViewState extends State<BookingCgView> {
                                 ),
                               ),
                             ),
-                            icon: const Icon(Icons.location_on_outlined),
-                            label: const Text('Share My Location'),
+                            icon: Icon(Icons.location_on_outlined),
+                            label: Text('Share My Location'),
                             style: OutlinedButton.styleFrom(
                               foregroundColor: const Color(0xFF3A8BD7),
-                              side: const BorderSide(color: Color(0xFF3A8BD7)),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              side: BorderSide(color: Color(0xFF3A8BD7)),
+                              padding: EdgeInsets.symmetric(vertical: 12.h),
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
+                                borderRadius: BorderRadius.circular(12.r),
                               ),
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         ProposedPriceCard(
                           controller: priceController,
                           notesController: notesController,
                         ),
-                        const SizedBox(height: 16),
+                        SizedBox(height: 16.h),
                         GradientActionButton(
                           text: isSubmittingOffer ? "Submitting..." : "Submit offer",
                           onTap: () => _submitOffer(context),
                         ),
                       ],
-                      const SizedBox(height: 16),
+                      SizedBox(height: 16.h),
                       if (selectedTab == 1)
                         booking.tasks.isEmpty
-                            ? const Padding(
-                                padding: EdgeInsets.all(24),
+                            ? Padding(
+                                padding: EdgeInsets.all(24.r),
                                 child: Text('No tasks available'),
                               )
                             : Column(

@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../manager/complaints/complaints_cubit.dart';
@@ -29,8 +30,8 @@ class ManageComplaintsView extends StatelessWidget {
         child: Column(
           children: [
             Container(
-              height: 86,
-              padding: const EdgeInsets.symmetric(horizontal: 18),
+              height: 86.h,
+              padding: EdgeInsets.symmetric(horizontal: 18.w),
               color: Colors.white,
               child: Row(
                 children: [
@@ -38,14 +39,14 @@ class ManageComplaintsView extends StatelessWidget {
                     onTap: () {
                       Navigator.maybePop(context);
                     },
-                    child: const Icon(
+                    child: Icon(
                       Icons.arrow_back_ios_new,
-                      size: 18,
+                      size: 18.r,
                       color: Color(0xff334155),
                     ),
                   ),
-                  const SizedBox(width: 14),
-                  const Expanded(
+                  SizedBox(width: 14.w),
+                  Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,17 +55,17 @@ class ManageComplaintsView extends StatelessWidget {
                           'Manage Complaints',
                           style: TextStyle(
                             color: Color(0xff1E293B),
-                            fontSize: 19,
+                            fontSize: 19.sp,
                             fontWeight: FontWeight.w800,
                           ),
                         ),
-                        SizedBox(height: 4),
+                        SizedBox(height: 4.h),
                         Text(
                           'Review and resolve user, caregiver\ncomplaints',
                           style: TextStyle(
                             color: Color(0xff64748B),
-                            fontSize: 11,
-                            height: 1.25,
+                            fontSize: 11.sp,
+                            height: 1.25.h,
                           ),
                         ),
                       ],
@@ -78,7 +79,7 @@ class ManageComplaintsView extends StatelessWidget {
               child: BlocBuilder<ComplaintsCubit, ComplaintsState>(
                 builder: (context, state) {
                   if (state.status == ComplaintsStatus.loading) {
-                    return const Center(
+                    return Center(
                       child: CircularProgressIndicator(),
                     );
                   }
@@ -87,9 +88,9 @@ class ManageComplaintsView extends StatelessWidget {
                     return Center(
                       child: Text(
                         state.errorMessage,
-                        style: const TextStyle(
+                        style: TextStyle(
                           color: Colors.red,
-                          fontSize: 13,
+                          fontSize: 13.sp,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
@@ -97,12 +98,12 @@ class ManageComplaintsView extends StatelessWidget {
                   }
 
                   if (state.complaints.isEmpty) {
-                    return const Center(
+                    return Center(
                       child: Text(
                         'No complaints found',
                         style: TextStyle(
                           color: Color(0xff64748B),
-                          fontSize: 14,
+                          fontSize: 14.sp,
                           fontWeight: FontWeight.w500,
                         ),
                       ),
@@ -110,7 +111,7 @@ class ManageComplaintsView extends StatelessWidget {
                   }
 
                   return ListView.builder(
-                    padding: const EdgeInsets.fromLTRB(18, 18, 18, 110),
+                    padding: EdgeInsets.fromLTRB(18, 18, 18, 110),
                     itemCount: state.complaints.length,
                     itemBuilder: (context, index) {
                       final complaint = state.complaints[index];

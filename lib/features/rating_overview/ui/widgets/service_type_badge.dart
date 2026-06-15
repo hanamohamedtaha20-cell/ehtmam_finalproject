@@ -1,5 +1,6 @@
-import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ServiceTypeBadge extends StatelessWidget {
   final String serviceType;
@@ -26,15 +27,15 @@ class ServiceTypeBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-      decoration: BoxDecoration( borderRadius: BorderRadius.circular(99)),
+      padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+      decoration: BoxDecoration( borderRadius: BorderRadius.circular(99.r)),
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(_icon, size: 10, color: _fg),
-          const SizedBox(width: 3),
+          Icon(_icon, size: 10.r, color: _fg),
+          SizedBox(width: 3.w),
           Text(serviceType,
-              style: TextStyle(fontSize: 10, fontWeight: FontWeight.w600, color: _fg)),
+              style: TextStyle(fontSize: 10.sp, fontWeight: FontWeight.w600, color: _fg)),
         ],
       ),
     );
