@@ -24,9 +24,25 @@ class CaregiverScreen extends StatelessWidget {
         body: SafeArea(
           child: BlocBuilder<CaregiverCubit, CaregiverState>(
             builder: (context, state) {
-              if (state is! CaregiverLoaded) {
-                return  Center(child: CircularProgressIndicator());
+              if (state is CaregiverLoading || state is CaregiverInitial) {
+                return const Center(child: CircularProgressIndicator());
               }
+              if (state is CaregiverError) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(state.message),
+                      SizedBox(height: 12.h),
+                      ElevatedButton(
+                        onPressed: () => context.read<CaregiverCubit>().loadProfile(),
+                        child: const Text('Retry'),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              if (state is! CaregiverLoaded) return const SizedBox.shrink();
               return SingleChildScrollView(
                 padding:  EdgeInsets.all(16.r),
                 child: Column(

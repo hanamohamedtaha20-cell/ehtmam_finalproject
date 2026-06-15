@@ -1,10 +1,14 @@
 import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/booking_model_user.dart';
 
 class BookingRepoUser {
   final ApiService _api = ApiService();
 
   Future<List<BookingModelUser>> getBookings() async {
+    final prefs = await SharedPreferences.getInstance();
+    final currentUserId = prefs.getString('userId') ?? '';
+
     final result = await _api.getMyBookings();
     final list = result['data'] as List? ?? [];
 
@@ -13,6 +17,9 @@ class BookingRepoUser {
     for (final b in list) {
       try {
         final booking = Map<String, dynamic>.from(b);
+
+        final clientId = booking['client']?.toString() ?? '';
+        if (currentUserId.isNotEmpty && clientId != currentUserId) continue;
 
         final requestId = booking['request']?.toString() ?? '';
         if (requestId.isNotEmpty) {

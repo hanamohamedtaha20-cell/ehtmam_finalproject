@@ -7,10 +7,9 @@ import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/clie
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/date_time_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/proposed_price_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/service_details_card.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/description_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/special_instructions_card.dart';
-import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/screens/received_screen.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/ui/screens/care_requests_screen.dart';
-import 'package:ehtemam_final_project/features/share_location_cg/ui/screens/share_location_cg_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -64,7 +63,7 @@ class BookingCgView extends StatefulWidget {
 
 class _BookingCgViewState extends State<BookingCgView> {
   late int selectedTab = widget.initialTab;
-  bool tasksLoaded = false;
+  bool tasksLoaded = true;
   bool isSubmittingOffer = false;
   final TextEditingController priceController = TextEditingController();
   final TextEditingController notesController = TextEditingController();
@@ -167,8 +166,6 @@ class _BookingCgViewState extends State<BookingCgView> {
         }
 
         final booking = state.booking;
-        final completedTasks =
-            booking.tasks.where((t) => t.done).length;
         final budgetText = booking.clientBudget > 0
             ? '${booking.clientBudget.toStringAsFixed(0)} EGP'
             : '—';
@@ -186,8 +183,6 @@ class _BookingCgViewState extends State<BookingCgView> {
                 BookingTabs(
                   selectedIndex: selectedTab,
                   onTabChanged: _onTabChanged,
-                  completedCount: completedTasks,
-                  totalCount: booking.tasks.length,
                 ),
                 SizedBox(height: 20.h),
                 Padding(
@@ -203,6 +198,10 @@ class _BookingCgViewState extends State<BookingCgView> {
                           rating: booking.rating,
                         ),
                         SizedBox(height: 16.h),
+                        DescriptionCard(
+                          description: booking.description,
+                        ),
+                        SizedBox(height: 16.h),
                         ServiceDetailsCard(
                           serviceType: booking.serviceType,
                           petType: booking.petType,
@@ -213,6 +212,9 @@ class _BookingCgViewState extends State<BookingCgView> {
                           date: booking.date,
                           time: booking.time,
                           location: booking.location,
+                          governorate: booking.governorate,
+                          street: booking.street,
+                          building: booking.building,
                         ),
                         SizedBox(height: 16.h),
                         SpecialInstructionsCard(
@@ -221,31 +223,31 @@ class _BookingCgViewState extends State<BookingCgView> {
                         SizedBox(height: 16.h),
                         ClientBudgetCard(amount: budgetText),
                         SizedBox(height: 16.h),
-                        SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton.icon(
-                            onPressed: () => Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => ShareLocationCgScreen(
-                                  bookingId: booking.id,
-                                  clientName: booking.clientName,
-                                  serviceType: booking.serviceType,
-                                ),
-                              ),
-                            ),
-                            icon: Icon(Icons.location_on_outlined),
-                            label: Text('Share My Location'),
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: const Color(0xFF3A8BD7),
-                              side: BorderSide(color: Color(0xFF3A8BD7)),
-                              padding: EdgeInsets.symmetric(vertical: 12.h),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12.r),
-                              ),
-                            ),
-                          ),
-                        ),
+                        // SizedBox(
+                        //   width: double.infinity,
+                        //   child: OutlinedButton.icon(
+                        //     onPressed: () => Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (_) => ShareLocationCgScreen(
+                        //           bookingId: booking.id,
+                        //           clientName: booking.clientName,
+                        //           serviceType: booking.serviceType,
+                        //         ),
+                        //       ),
+                        //     ),
+                        //     icon: Icon(Icons.location_on_outlined),
+                        //     label: Text('Share My Location'),
+                        //     style: OutlinedButton.styleFrom(
+                        //       foregroundColor: const Color(0xFF3A8BD7),
+                        //       side: BorderSide(color: Color(0xFF3A8BD7)),
+                        //       padding: EdgeInsets.symmetric(vertical: 12.h),
+                        //       shape: RoundedRectangleBorder(
+                        //         borderRadius: BorderRadius.circular(12.r),
+                        //       ),
+                        //     ),
+                        //   ),
+                        // ),
                         SizedBox(height: 16.h),
                         ProposedPriceCard(
                           controller: priceController,
@@ -265,15 +267,9 @@ class _BookingCgViewState extends State<BookingCgView> {
                                 child: Text('No tasks available'),
                               )
                             : Column(
-                                children: booking.tasks.map((task) {
-                                  return TaskItemCard(
-                                    title: task.title,
-                                    isDone: task.done,
-                                    onTap: () => context
-                                        .read<BookingDetailsCubit>()
-                                        .toggleTask(task.id, !task.done),
-                                  );
-                                }).toList(),
+                                children: booking.tasks
+                                    .map((task) => TaskItemCard(title: task.title))
+                                    .toList(),
                               ),
                     ],
                   ),

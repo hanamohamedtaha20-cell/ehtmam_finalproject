@@ -23,12 +23,12 @@ class BundleModel {
       Map<String, dynamic> json,
       ) {
     return BundleModel(
-      id: json['_id'] ?? '',
-      name: json['bundle_name'] ?? '',
+      id: json['_id']?.toString() ?? '',
+      name: json['bundle_name']?.toString() ?? '',
       price: json['price'] ?? 0,
       discount: json['discount'] ?? 0,
       sessions: json['sessions'] ?? 0,
-      validity: json['validity'] ?? '',
+      validity: json['validity']?.toString() ?? '',
       isActive: json['isActive'] ?? true,
       features:
       (json['features'] as List?)

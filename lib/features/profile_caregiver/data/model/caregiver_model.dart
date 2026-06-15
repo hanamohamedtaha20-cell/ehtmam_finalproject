@@ -24,4 +24,55 @@ class CaregiverModel {
     required this.completionRate,
     required this.avgResponse,
   });
+
+  factory CaregiverModel.fromApiData({
+    required Map<String, dynamic> profile,
+    Map<String, dynamic>? wallet,
+    String govFallback = '',
+  }) {
+    final addr = profile['address'] is Map ? profile['address'] as Map : <dynamic, dynamic>{};
+    final location = addr['governorate']?.toString() ??
+        addr['government']?.toString() ??
+        profile['governorate']?.toString() ??
+        govFallback;
+
+    return CaregiverModel(
+      name: profile['full_name']?.toString() ?? '',
+      specialty: profile['specialty']?.toString() ??
+          profile['careField']?.toString() ??
+          profile['speciality']?.toString() ??
+          '',
+      phone: profile['phoneNumber']?.toString() ?? profile['phone']?.toString() ?? '',
+      email: profile['email']?.toString() ?? '',
+      location: location,
+      rating: ((profile['averageRating'] ?? 0) as num).toDouble(),
+      reviews: ((profile['totalReviewsCount'] ?? 0) as num).toInt(),
+      totalRequests: ((profile['totalBookings'] ?? profile['totalRequests'] ?? 0) as num).toInt(),
+      totalEarnings: wallet != null ? ((wallet['totalEarned'] ?? 0) as num).toDouble() : 0,
+      completionRate: ((profile['completionRate'] ?? 0) as num).toDouble(),
+      avgResponse: profile['avgResponse']?.toString() ?? '—',
+    );
+  }
+
+  factory CaregiverModel.fromPrefs({
+    required String name,
+    required String email,
+    required String phone,
+    required String location,
+    required String specialty,
+  }) {
+    return CaregiverModel(
+      name: name,
+      specialty: specialty,
+      phone: phone,
+      email: email,
+      location: location,
+      rating: 0,
+      reviews: 0,
+      totalRequests: 0,
+      totalEarnings: 0,
+      completionRate: 0,
+      avgResponse: '—',
+    );
+  }
 }

@@ -17,12 +17,12 @@ class TaskProgressModel {
 
   factory TaskProgressModel.fromJson(Map<String, dynamic> json) {
     return TaskProgressModel(
-      id:          json['_id']             ?? '',
-      title:       json['taskTitle']        ?? '',
-      description: json['taskDescription'] ?? '',
-      state:       json['taskState']        ?? 'pending',
-      proofUrl:    json['proofUrl']         ?? '',
-      proofType:   json['proofType']        ?? 'image',
+      id:          json['_id']?.toString()            ?? '',
+      title:       json['taskTitle']?.toString()       ?? '',
+      description: json['taskDescription']?.toString() ?? '',
+      state:       json['taskState']?.toString()       ?? 'pending',
+      proofUrl:    json['proofUrl']?.toString()        ?? '',
+      proofType:   json['proofType']?.toString()       ?? 'image',
     );
   }
 

@@ -7,7 +7,14 @@ class CaregiverCubit extends Cubit<CaregiverState> {
 
   CaregiverCubit(this._repo) : super(CaregiverInitial());
 
-  void loadProfile() {
-    emit(CaregiverLoaded(profile: _repo.getProfile()));
+  Future<void> loadProfile() async {
+    if (isClosed) return;
+    emit(CaregiverLoading());
+    try {
+      final profile = await _repo.getProfile();
+      if (!isClosed) emit(CaregiverLoaded(profile: profile));
+    } catch (e) {
+      if (!isClosed) emit(CaregiverError(e.toString()));
+    }
   }
 }

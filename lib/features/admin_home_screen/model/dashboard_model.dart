@@ -20,8 +20,8 @@ class DashboardModel {
       Map<String, dynamic> json,
       ) {
     return DashboardModel(
-      appName: json['app_name'] ?? '',
-      date: json['date'] ?? '',
+      appName: json['app_name']?.toString() ?? '',
+      date: json['date']?.toString() ?? '',
 
       activities: (json['activities'] as List?)
           ?.map(

@@ -25,16 +25,16 @@ class ComplaintModel {
 
   factory ComplaintModel.fromJson(Map<String, dynamic> json) {
     return ComplaintModel(
-      id: json['_id'] ?? json['id'] ?? '',
-      title: json['title'] ?? '',
-      category: json['category'] ?? '',
-      status: json['status'] ?? '',
-      fromName: json['fromName'] ?? '',
-      fromRole: json['fromRole'] ?? '',
-      againstName: json['againstName'] ?? '',
-      againstRole: json['againstRole'] ?? '',
-      date: json['date'] ?? '',
-      description: json['description'] ?? '',
+      id: json['_id']?.toString() ?? json['id']?.toString() ?? '',
+      title: json['title']?.toString() ?? '',
+      category: json['category']?.toString() ?? '',
+      status: json['status']?.toString() ?? '',
+      fromName: json['fromName']?.toString() ?? '',
+      fromRole: json['fromRole']?.toString() ?? '',
+      againstName: json['againstName']?.toString() ?? '',
+      againstRole: json['againstRole']?.toString() ?? '',
+      date: json['date']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
     );
   }
 }

@@ -28,13 +28,18 @@ class RatingCubit extends Cubit<RatingState> {
   Future<void> submit({
     required String review,
     required String bookingId,
+    required int overall,
+    required int professionalism,
+    required int serviceQuality,
+    required int punctuality,
+    required int communication,
   }) async {
     if (isClosed) return;
     emit(RatingLoading());
     try {
       await repo.submitRating(
         model: RatingModel(
-          overall:        overall,
+          overall:         overall,
           professionalism: professionalism,
           serviceQuality:  serviceQuality,
           punctuality:     punctuality,
@@ -43,13 +48,9 @@ class RatingCubit extends Cubit<RatingState> {
         ),
         bookingId: bookingId,
       );
-      if (!isClosed) {
-        emit(RatingSuccess());
-      }
+      if (!isClosed) emit(RatingSuccess());
     } catch (e) {
-      if (!isClosed) {
-        emit(RatingError(e.toString()));
-      }
+      if (!isClosed) emit(RatingError(e.toString()));
     }
   }
 }

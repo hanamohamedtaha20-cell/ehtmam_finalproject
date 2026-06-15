@@ -19,7 +19,11 @@ class BookingDetailsModel {
   final String date;
   final String time;
   final String location;
+  final String governorate;
+  final String street;
+  final String building;
 
+  final String description;
   final String specialInstructions;
 
   final double clientBudget;
@@ -42,6 +46,10 @@ class BookingDetailsModel {
     required this.date,
     required this.time,
     required this.location,
+    this.governorate = '',
+    this.street = '',
+    this.building = '',
+    this.description = '',
     required this.specialInstructions,
     required this.clientBudget,
     this.tasks = const [],
@@ -61,7 +69,10 @@ class BookingDetailsModel {
     String email = '';
     if (client is Map<String, dynamic>) {
       clientName = client['full_name']?.toString() ?? '';
-      phone = client['phone']?.toString() ?? '';
+      phone = client['phoneNumber']?.toString() ??
+          client['phone']?.toString() ??
+          client['phone_number']?.toString() ??
+          '';
       email = client['email']?.toString() ?? '';
     }
 
@@ -86,6 +97,8 @@ class BookingDetailsModel {
       ),
       time: _formatTime(json['date']?.toString(), json['time']?.toString()),
       location: json['location']?.toString() ?? '',
+      governorate: json['governorate']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
       specialInstructions: json['notes']?.toString() ?? '',
       clientBudget: ((json['budget'] ?? 0) as num).toDouble(),
     );
@@ -107,7 +120,10 @@ class BookingDetailsModel {
     String email = '';
     if (client is Map<String, dynamic>) {
       clientName = client['full_name']?.toString() ?? '';
-      phone = client['phone']?.toString() ?? '';
+      phone = client['phoneNumber']?.toString() ??
+          client['phone']?.toString() ??
+          client['phone_number']?.toString() ??
+          '';
       email = client['email']?.toString() ?? '';
     }
 
@@ -140,6 +156,8 @@ class BookingDetailsModel {
           ? _formatTime(request['date']?.toString(), request['time']?.toString())
           : '',
       location: request is Map ? (request['location']?.toString() ?? '') : '',
+      governorate: request is Map ? (request['governorate']?.toString() ?? '') : '',
+      description: request is Map ? (request['description']?.toString() ?? '') : '',
       specialInstructions:
           request is Map ? (request['notes']?.toString() ?? '') : '',
       clientBudget: price,
@@ -151,6 +169,8 @@ class BookingDetailsModel {
     String? phone,
     String? email,
     double? rating,
+    String? street,
+    String? building,
     List<TaskModel>? tasks,
   }) {
     return BookingDetailsModel(
@@ -169,6 +189,10 @@ class BookingDetailsModel {
       date: date,
       time: time,
       location: location,
+      governorate: governorate,
+      street: street ?? this.street,
+      building: building ?? this.building,
+      description: description,
       specialInstructions: specialInstructions,
       clientBudget: clientBudget,
       tasks: tasks ?? this.tasks,

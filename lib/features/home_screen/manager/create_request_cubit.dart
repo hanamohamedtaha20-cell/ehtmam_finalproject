@@ -124,6 +124,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
   bool isBudgetEmpty = false;
 
   final formKey = GlobalKey<FormState>();
+  final descriptionController = TextEditingController();
   final durationController = TextEditingController();
   final notesController = TextEditingController();
   final budgetController = TextEditingController();
@@ -181,6 +182,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
         governorate: selectedGovernorate!,
         date: '${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}',
         time: '${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}',
+        description: _optionalText(descriptionController.text),
         duration: _optionalText(durationController.text),
         notes:    _optionalText(notesController.text),
         budget:   budgetController.text.trim(),
@@ -199,6 +201,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     required String governorate,
     required String date,
     required String time,
+    String? description,
     String? duration,
     String? notes,
     String? budget,
@@ -212,6 +215,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
         governorate: governorate,
         date: date,
         time: time,
+        description: description,
         duration: duration,
         notes: notes,
         budget: budget,

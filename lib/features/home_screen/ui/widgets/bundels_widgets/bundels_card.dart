@@ -2,6 +2,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../data/model/bundels_model.dart';
+import '../../screens/bundle_payment_screen.dart';
 import 'bundels_features.dart';
 import 'bundels_header.dart';
 
@@ -42,6 +43,35 @@ class BundleCard extends StatelessWidget {
           SizedBox(height: 12.h),
           BundleFeatures(features: _features),
           SizedBox(height: 16.h),
+          SizedBox(
+            width: double.infinity,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => BundlePaymentScreen(
+                      bundleId: bundle.id,
+                      bundleName: bundle.bundleName,
+                      bundlePrice: bundle.displayPrice,
+                    ),
+                  ),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                foregroundColor: Colors.white,
+                padding: EdgeInsets.symmetric(vertical: 14.h),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                ),
+              ),
+              child: Text(
+                'Purchase Bundle',
+                style: TextStyle(fontSize: 15.sp, fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
         ],
       ),
     );

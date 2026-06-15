@@ -11,12 +11,17 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (isClosed) return;
     emit(ProfileLoading());
     try {
-      final user = await _repo.getUser();
+      final results = await Future.wait([
+        _repo.getUser(),
+        _repo.getStats(),
+      ]);
+      final user  = results[0] as dynamic;
+      final stats = results[1] as Map<String, dynamic>;
       if (!isClosed) {
         emit(ProfileLoaded(
           user:          user,
-          totalRequests: 0,
-          completed:     0,
+          totalRequests: stats['total'] as int,
+          completed:     stats['completed'] as int,
           rating:        0.0,
         ));
       }

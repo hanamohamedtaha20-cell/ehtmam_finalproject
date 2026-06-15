@@ -5,9 +5,11 @@ import 'app_card.dart';
 
 class RequestDescriptionField
     extends StatelessWidget {
+  final TextEditingController? controller;
 
   const RequestDescriptionField({
     super.key,
+    this.controller,
   });
 
   @override
@@ -53,6 +55,7 @@ class RequestDescriptionField
           SizedBox(height: 14.h),
 
           TextFormField(
+            controller: controller,
             maxLines: 5,
 
             validator: (value) {

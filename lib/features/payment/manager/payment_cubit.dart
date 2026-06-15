@@ -1,4 +1,5 @@
 
+import 'package:ehtemam_final_project/core/utils/api_error_message.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/repo/payment_repo.dart';
 import '../data/model/payment_model.dart';
@@ -86,6 +87,16 @@ class PaymentCubit extends Cubit<PaymentState> {
   Future<String?> payBooking() async {
     if (state is! PaymentLoaded) return 'Payment data is not ready';
     return null;
+  }
+
+  Future<String?> payBundlePurchase(String bundleId) async {
+    if (state is! PaymentLoaded) return 'Payment data is not ready';
+    try {
+      await repo.payBundle(bundleId);
+      return null;
+    } catch (e) {
+      return apiErrorMessage(e);
+    }
   }
 
   static double _parseDouble(Map? data, List<String> keys) {

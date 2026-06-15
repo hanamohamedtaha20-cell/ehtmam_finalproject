@@ -1,20 +1,23 @@
+import 'package:ehtemam_final_project/features/rating_caregiver/data/repo/rating_repo.dart';
 import 'package:ehtemam_final_project/features/rating_caregiver/manager/rating_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class RatingCubit extends Cubit<RatingState> {
-  RatingCubit() : super(RatingUpdated(
-    overallRating: 0,
-    communication: 0,
-    easeOfUse: 0,
-    reliability: 0,
-    overallSatisfaction: 0,
-    reviewText: '',
-  ));
+class RatingGiverCubit extends Cubit<RatingState> {
+  final String bookingId;
+  final RatingRepo _repo;
 
-  void updateOverallRating(int value) {
-    if (state is RatingUpdated) {
-      final s = state as RatingUpdated;
-      emit(RatingUpdated(
+  RatingGiverCubit({required this.bookingId, RatingRepo? repo})
+      : _repo = repo ?? RatingRepoImpl(),
+        super(RatingUpdated(
+          overallRating: 3,
+          communication: 3,
+          easeOfUse: 3,
+          reliability: 3,
+          overallSatisfaction: 3,
+          reviewText: '',
+        ));
+
+  void updateOverallRating(int value) => _update((s) => RatingUpdated(
         overallRating: value,
         communication: s.communication,
         easeOfUse: s.easeOfUse,
@@ -22,13 +25,8 @@ class RatingCubit extends Cubit<RatingState> {
         overallSatisfaction: s.overallSatisfaction,
         reviewText: s.reviewText,
       ));
-    }
-  }
 
-  void updateCommunication(int value) {
-    if (state is RatingUpdated) {
-      final s = state as RatingUpdated;
-      emit(RatingUpdated(
+  void updateCommunication(int value) => _update((s) => RatingUpdated(
         overallRating: s.overallRating,
         communication: value,
         easeOfUse: s.easeOfUse,
@@ -36,13 +34,8 @@ class RatingCubit extends Cubit<RatingState> {
         overallSatisfaction: s.overallSatisfaction,
         reviewText: s.reviewText,
       ));
-    }
-  }
 
-  void updateEaseOfUse(int value) {
-    if (state is RatingUpdated) {
-      final s = state as RatingUpdated;
-      emit(RatingUpdated(
+  void updateEaseOfUse(int value) => _update((s) => RatingUpdated(
         overallRating: s.overallRating,
         communication: s.communication,
         easeOfUse: value,
@@ -50,13 +43,8 @@ class RatingCubit extends Cubit<RatingState> {
         overallSatisfaction: s.overallSatisfaction,
         reviewText: s.reviewText,
       ));
-    }
-  }
 
-  void updateReliability(int value) {
-    if (state is RatingUpdated) {
-      final s = state as RatingUpdated;
-      emit(RatingUpdated(
+  void updateReliability(int value) => _update((s) => RatingUpdated(
         overallRating: s.overallRating,
         communication: s.communication,
         easeOfUse: s.easeOfUse,
@@ -64,13 +52,8 @@ class RatingCubit extends Cubit<RatingState> {
         overallSatisfaction: s.overallSatisfaction,
         reviewText: s.reviewText,
       ));
-    }
-  }
 
-  void updateOverallSatisfaction(int value) {
-    if (state is RatingUpdated) {
-      final s = state as RatingUpdated;
-      emit(RatingUpdated(
+  void updateOverallSatisfaction(int value) => _update((s) => RatingUpdated(
         overallRating: s.overallRating,
         communication: s.communication,
         easeOfUse: s.easeOfUse,
@@ -78,28 +61,23 @@ class RatingCubit extends Cubit<RatingState> {
         overallSatisfaction: value,
         reviewText: s.reviewText,
       ));
-    }
+
+  void _update(RatingUpdated Function(RatingUpdated s) fn) {
+    if (state is RatingUpdated) emit(fn(state as RatingUpdated));
   }
 
-  void updateReview(String text) {
-    if (state is RatingUpdated) {
-      final s = state as RatingUpdated;
-      emit(RatingUpdated(
-        overallRating: s.overallRating,
-        communication: s.communication,
-        easeOfUse: s.easeOfUse,
-        reliability: s.reliability,
-        overallSatisfaction: s.overallSatisfaction,
-        reviewText: text,
-      ));
-    }
-  }
-
-  void submitRating() {
+  Future<void> submitRating({required String review}) async {
     if (state is! RatingUpdated) return;
     final current = state as RatingUpdated;
+    if (current.overallRating == 0) return;
+
     emit(RatingLoading());
     try {
+      await _repo.submitRating(
+        bookingId: bookingId,
+        rating: current.overallRating,
+        review: review,
+      );
       emit(RatingSuccess());
     } catch (e) {
       emit(RatingFailure(e.toString()));

@@ -13,7 +13,7 @@ class QuickActionModel {
 
   factory QuickActionModel.fromJson(Map<String, dynamic> json) {
     return QuickActionModel(
-      title: json['title'] ?? '',
+      title: json['title']?.toString() ?? '',
       icon: Icons.dashboard,
       badgeCount: json['badge_count'],
     );

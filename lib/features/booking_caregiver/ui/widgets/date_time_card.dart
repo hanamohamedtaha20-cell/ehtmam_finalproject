@@ -5,12 +5,18 @@ class DateTimeCard extends StatelessWidget {
   final String date;
   final String time;
   final String location;
+  final String governorate;
+  final String street;
+  final String building;
 
   const DateTimeCard({
     super.key,
     this.date = '',
     this.time = '',
     this.location = '',
+    this.governorate = '',
+    this.street = '',
+    this.building = '',
   });
 
   Widget infoItem({
@@ -112,11 +118,30 @@ class DateTimeCard extends StatelessWidget {
             title: "Time",
             value: time,
           ),
-          infoItem(
-            icon: Icons.location_on_outlined,
-            title: "Location",
-            value: location,
-          ),
+          if (governorate.isNotEmpty)
+            infoItem(
+              icon: Icons.location_city_outlined,
+              title: "Governorate",
+              value: governorate,
+            ),
+          if (street.isNotEmpty)
+            infoItem(
+              icon: Icons.signpost_outlined,
+              title: "Street",
+              value: street,
+            ),
+          if (building.isNotEmpty)
+            infoItem(
+              icon: Icons.apartment_outlined,
+              title: "Building",
+              value: building,
+            ),
+          if (governorate.isEmpty && street.isEmpty && building.isEmpty)
+            infoItem(
+              icon: Icons.location_on_outlined,
+              title: "Location",
+              value: location,
+            ),
         ],
       ),
     );

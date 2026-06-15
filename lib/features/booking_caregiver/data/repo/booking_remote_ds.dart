@@ -34,10 +34,16 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
       final response = await apiService.getUserProfile(clientField);
       final rawProfile = response['data'];
       final profile = rawProfile is Map<String, dynamic> ? rawProfile : <String, dynamic>{};
+      final address = profile['address'] is Map ? profile['address'] as Map : <String, dynamic>{};
       return details.copyWith(
         clientName: profile['full_name']?.toString() ?? details.clientName,
-        phone: profile['phone']?.toString() ?? details.phone,
+        phone: profile['phoneNumber']?.toString() ??
+            profile['phone']?.toString() ??
+            profile['phone_number']?.toString() ??
+            details.phone,
         email: profile['email']?.toString() ?? details.email,
+        street: address['street']?.toString() ?? details.street,
+        building: address['building']?.toString() ?? details.building,
       );
     } catch (_) {
       return details;

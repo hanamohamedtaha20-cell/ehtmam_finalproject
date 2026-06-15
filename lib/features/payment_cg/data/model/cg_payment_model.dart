@@ -17,12 +17,12 @@ class CgTransactionModel {
 
   factory CgTransactionModel.fromJson(Map<String, dynamic> json) {
     return CgTransactionModel(
-      id: json['_id'] ?? '',
-      clientName: json['client']?['full_name'] ?? '',
-      serviceType: json['service']?['serviceName'] ?? '',
-      date: json['date'] ?? '',
+      id: json['_id']?.toString() ?? '',
+      clientName: json['client'] is Map ? (json['client']['full_name']?.toString() ?? '') : '',
+      serviceType: json['service'] is Map ? (json['service']['serviceName']?.toString() ?? '') : '',
+      date: json['date']?.toString() ?? '',
       amount: (json['price'] ?? 0).toDouble(),
-      status: json['status'] ?? 'PENDING',
+      status: json['status']?.toString() ?? 'PENDING',
     );
   }
 }

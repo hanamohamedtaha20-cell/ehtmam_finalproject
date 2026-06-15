@@ -1,7 +1,6 @@
 ﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
 import 'package:ehtemam_final_project/features/requests_screen_user/ui/widgets/status_badge.dart';
-import 'package:ehtemam_final_project/features/tasks/ui/screens/task_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../rating/ui/screens/rating_screen.dart';
@@ -150,69 +149,27 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
 
                 SizedBox(width: 10.w),
 
-                IconButton(
-                  icon: Icon(Icons.tune),
-
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TaskScreen(
-                          requestId: widget.request.id,
-                        ),
-                      ),
-                    );
-                  },
-                )
+                
               ],
             ),
           ],
         );
 
       case RequestType.accepted:
-        return Column(
-          children: [
-            Row(
-              children: [
-
-                Expanded(
-                  child: ActionButton(
-                    text: "View Details".tr(),
-
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => BookingCgScreen(
-                            requestId: widget.request.id,
-                            initialTab: 0,
-                            bookingId: '',
-                          ),
-                        ),
-                      );
-                    },
-                  ),
+        return ActionButton(
+          text: "View Details".tr(),
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BookingCgScreen(
+                  requestId: widget.request.id,
+                  initialTab: 0,
+                  bookingId: '',
                 ),
-
-                SizedBox(width: 10.w),
-
-                IconButton(
-                  icon: Icon(Icons.tune),
-
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => TaskScreen(
-                          requestId: widget.request.id,
-                        ),
-                      ),
-                    );
-                  },
-                )
-              ],
-            ),
-          ],
+              ),
+            );
+          },
         );
 
       case RequestType.completed:
@@ -222,7 +179,11 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => RatingScreen(bookingId: '', caregiverName: '', caregiverRole: ''),
+                builder: (context) => RatingScreen(
+                  bookingId:     widget.request.id,
+                  caregiverName: widget.request.provider ?? '',
+                  caregiverRole: widget.request.title,
+                ),
               ),
             );
           },

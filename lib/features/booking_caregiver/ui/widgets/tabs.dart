@@ -17,9 +17,7 @@ class BookingTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final tasksLabel = totalCount > 0
-        ? 'Tasks ($completedCount/$totalCount)'
-        : 'Tasks';
+    const tasksLabel = 'Tasks';
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 16.w),

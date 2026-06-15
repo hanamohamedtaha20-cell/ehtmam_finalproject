@@ -1,5 +1,6 @@
 ﻿import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
+import 'package:ehtemam_final_project/features/rating_caregiver/ui/screens/rating_screen.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -247,7 +248,19 @@ class RequestCard extends StatelessWidget {
       child: SizedBox(
         height: 46.h,
         child: OutlinedButton(
-          onPressed: () {},
+          onPressed: () {
+            final bookingId = request.bookingId ?? '';
+            if (bookingId.isEmpty) return;
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => RatingGiverScreen(
+                  bookingId: bookingId,
+                  clientName: request.clientName,
+                ),
+              ),
+            );
+          },
           style: OutlinedButton.styleFrom(
             side: BorderSide(color: Colors.orange),
             shape: RoundedRectangleBorder(

@@ -51,33 +51,32 @@ class ProfileCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                           fontSize: 18.sp,
                           color: Colors.white)),
-                  Text(user.email,
-                      style: TextStyle(
-                          fontFamily: "Arimo", fontSize: 12.sp, color: Colors.white70)),
-                  Text(user.phone,
-                      style: TextStyle(
-                          fontFamily: "Arimo", fontSize: 12.sp, color: Colors.white70)),
+                  SizedBox(height: 2.h),
+                  Row(
+                    children: [
+                      Icon(Icons.email_outlined, size: 12.r, color: Colors.white70),
+                      SizedBox(width: 4.w),
+                      Text(user.email,
+                          style: TextStyle(
+                              fontFamily: "Arimo", fontSize: 12.sp, color: Colors.white70)),
+                    ],
+                  ),
+                  SizedBox(height: 2.h),
+                  Row(
+                    children: [
+                      Icon(Icons.phone_outlined, size: 12.r, color: Colors.white70),
+                      SizedBox(width: 4.w),
+                      Text(
+                          user.phone.isNotEmpty ? user.phone : 'No phone added',
+                          style: TextStyle(
+                              fontFamily: "Arimo", fontSize: 12.sp, color: Colors.white70)),
+                    ],
+                  ),
                 ],
               ),
             ],
           ),
-          SizedBox(height: 16.h),
-          Container(
-            width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 10.h),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(10.r),
-            ),
-            child: Center(
-              child: Text("Edit Profile",
-                  style: TextStyle(
-                      fontFamily: "Arimo",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14.sp,
-                      color: Colors.black)),
-            ),
-          ),
+          
         ],
       ),
     );

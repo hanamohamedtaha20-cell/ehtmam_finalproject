@@ -3,6 +3,9 @@ import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/home_screen/data/repo/home_repo.dart';
 import 'package:ehtemam_final_project/features/home_screen/manager/home_cubit.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/crearte_request.dart';
+import 'package:ehtemam_final_project/features/requests_screen_user/data/repo/requests_repo.dart';
+import 'package:ehtemam_final_project/features/requests_screen_user/manager/requests_user_cubit.dart';
+import 'package:ehtemam_final_project/features/requests_screen_user/manager/state/requests_user_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +55,10 @@ class _HomeContentState extends State<HomeContent> {
       return Text('👶', style: TextStyle(fontSize: 24.sp));
     } else if (name.contains('plant')) {
       return Text('🌿', style: TextStyle(fontSize: 24.sp));
+    } else if (name.contains('shopping')) {
+      return Text('🛒', style: TextStyle(fontSize: 24.sp));
+    } else if (name.contains('nursing') || name.contains('nurse')) {
+      return Text('👩‍⚕️', style: TextStyle(fontSize: 24.sp));
     } else {
       return Text('🩺', style: TextStyle(fontSize: 24.sp));
     }
@@ -206,6 +213,40 @@ class _HomeContentState extends State<HomeContent> {
                         );
                       }
 
+                      if (name.contains('shopping')) {
+                        gradientColors = [
+                          Colors.blue.shade100,
+                          Colors.blue.shade300,
+                        ];
+
+                        bgColors = [
+                          Color(0xFFF5F3FF),
+                          Color(0xFFFAF5FF),
+                        ];
+
+                        icon = Text(
+                          '🛒',
+                          style: TextStyle(fontSize: 24.sp),
+                        );
+                      }
+
+                      if (name.contains('nursing') || name.contains('nurse')) {
+                        gradientColors = [
+                          Colors.purple,
+                          Colors.pink,
+                        ];
+
+                        bgColors = [
+                          Color(0xFFFAF5FF),
+                          Color(0xFFFDF2F8),
+                        ];
+
+                        icon = Text(
+                          '👩‍⚕️',
+                          style: TextStyle(fontSize: 24.sp),
+                        );
+                      }
+
                       return ServiceCardWidget(
                         icon: icon,
                         gradientColors: gradientColors,
@@ -269,22 +310,56 @@ class _HomeContentState extends State<HomeContent> {
 
             SizedBox(height: 10.h),
 
-            RequestCardWidget(
-              title: "Pet Care".tr(),
-              date: "March 15, 2026".tr(),
-              status: "Pending".tr(),
-              statusColor: Colors.orange,
-              description: "Dog • 5 days".tr(),
-              provider: "".tr(),
-            ),
+            BlocProvider(
+              create: (_) => RequestsCubit(RequestsRepo(ApiService()))..getRequests(),
+              child: BlocBuilder<RequestsCubit, RequestsState>(
+                builder: (context, state) {
+                  if (state is RequestsLoading) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  if (state is RequestsError) {
+                    return Text(state.message, style: TextStyle(color: Colors.red));
+                  }
+                  if (state is RequestsSuccess) {
+                    final active = state.requests
+                        .where((r) => r.status == 'Pending' || r.status == 'Accepted')
+                        .take(2)
+                        .toList();
 
-            RequestCardWidget(
-              title: "Elderly Care".tr(),
-              date: "March 20, 2026".tr(),
-              status: "Accepted".tr(),
-              statusColor: Colors.green,
-              description: "3 days".tr(),
-              provider: "Provider: Fatma Medical Care".tr(),
+                    if (active.isEmpty) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(vertical: 12.h),
+                        child: Text(
+                          'No active requests'.tr(),
+                          style: TextStyle(color: Colors.grey, fontSize: 13.sp),
+                        ),
+                      );
+                    }
+
+                    return Column(
+                      children: active.map((r) {
+                        final Color statusColor = r.status == 'Accepted'
+                            ? Colors.green
+                            : r.status == 'Completed'
+                                ? Colors.blue
+                                : r.status == 'Cancelled'
+                                    ? Colors.red
+                                    : Colors.orange;
+
+                        return RequestCardWidget(
+                          title: r.title,
+                          date: r.date,
+                          status: r.status,
+                          statusColor: statusColor,
+                          description: r.subtitle,
+                          provider: r.provider ?? '',
+                        );
+                      }).toList(),
+                    );
+                  }
+                  return SizedBox();
+                },
+              ),
             ),
 
             SizedBox(height: 20.h),

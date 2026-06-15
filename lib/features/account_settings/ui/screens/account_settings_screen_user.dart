@@ -65,9 +65,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         }
       },
       builder: (context, state) {
-        return Container(
-          color: const Color(0xFFF5F8FC),
-          child: SafeArea(
+        return Scaffold(
+          backgroundColor: const Color(0xFFF5F8FC),
+          body: SafeArea(
             child: state.isLoading
                 ? Center(child: CircularProgressIndicator())
                 : ListView(
@@ -196,6 +196,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         subtitle: 'Update your password',
                         iconColor: const Color(0xFFFF3B30),
                         iconBgColor: const Color(0xFFFFE8E8),
+                        showArrow: true,
                         onTap: () {
                           Navigator.push(
                             context,

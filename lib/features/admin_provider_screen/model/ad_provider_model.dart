@@ -30,13 +30,13 @@ class AdProviderModel {
       Map<String, dynamic> json,
       ) {
     return AdProviderModel(
-      id: json['_id'] ?? '',
+      id: json['_id']?.toString() ?? '',
 
-      name: json['full_name'] ?? '',
+      name: json['full_name']?.toString() ?? '',
 
-      email: json['email'] ?? '',
+      email: json['email']?.toString() ?? '',
 
-      service: json['specialty'] ?? '',
+      service: json['specialty']?.toString() ?? '',
 
       rating:
       (json['averageRating'] ?? 0)
@@ -46,17 +46,17 @@ class AdProviderModel {
       json['totalReviewsCount'] ?? 0,
 
       isVerified:
-      (json['status'] ?? '') ==
+      (json['status']?.toString() ?? '') ==
           'Approved',
 
       isActive:
       json['active'] ?? false,
 
       status:
-      json['status'] ?? '',
+      json['status']?.toString() ?? '',
 
       profilePicture:
-      json['profile_picture'] ?? '',
+      json['profile_picture']?.toString() ?? '',
     );
   }
 

@@ -17,11 +17,11 @@ class AdUserModel {
       Map<String, dynamic> json,
       ) {
     return AdUserModel(
-      id: json['_id'] ?? '',
-      name: json['full_name'] ?? 'Unknown User',
-      email: json['email'] ?? '',
+      id: json['_id']?.toString() ?? '',
+      name: json['full_name']?.toString() ?? 'Unknown User',
+      email: json['email']?.toString() ?? '',
       bookingsCount: json['bookingsCount'] ?? 0,
-      createdAt: json['createdAt'] ?? '',
+      createdAt: json['createdAt']?.toString() ?? '',
     );
   }
 }

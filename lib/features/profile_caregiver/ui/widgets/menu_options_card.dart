@@ -1,63 +1,78 @@
-﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_careprovider.dart';
+import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
+import 'package:ehtemam_final_project/features/payment_cg/ui/screens/cg_payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuOptionsCard extends StatelessWidget {
   const MenuOptionsCard({super.key});
 
-  static const List<_MenuOption> _options = [
-    _MenuOption(
-      icon: Icons.settings_outlined,
-      label: "Account Settings",
-      iconColor: AppColors.blue,
-      bgColor: Color.fromARGB(255, 240, 249, 255), // light blue background
-    ),
-    _MenuOption(
-      icon: Icons.attach_money,
-      label: "Payments Received",
-      iconColor: AppColors.blue,
-      bgColor: Color.fromARGB(255, 240, 249, 255),
-    ),
-    _MenuOption(
-      icon: Icons.star_outline,
-      label: "My Ratings",
-      iconColor: AppColors.orange,
-      bgColor: Color.fromARGB(255, 255, 251, 235), // light yellow background
-    ),
-    _MenuOption(
-      icon: Icons.check_box_outlined,
-      label: "My Tasks",
-      iconColor: AppColors.purple2,
-      bgColor: Color.fromARGB(255, 240, 249, 255), // light purple background
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final options = [
+      _MenuOption(
+        icon: Icons.settings_outlined,
+        label: "Account Settings",
+        iconColor: AppColors.blue,
+        bgColor: const Color.fromARGB(255, 240, 249, 255),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CareProviderAccountSettingsScreen()),
+        ),
+      ),
+      _MenuOption(
+        icon: Icons.attach_money,
+        label: "Payments Received",
+        iconColor: AppColors.blue,
+        bgColor: const Color.fromARGB(255, 240, 249, 255),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const CgPaymentScreen()),
+        ),
+      ),
+      _MenuOption(
+        icon: Icons.star_outline,
+        label: "My Ratings",
+        iconColor: AppColors.orange,
+        bgColor: const Color.fromARGB(255, 255, 251, 235),
+        onTap: () {},
+      ),
+      _MenuOption(
+        icon: Icons.check_box_outlined,
+        label: "My Tasks",
+        iconColor: AppColors.purple2,
+        bgColor: const Color.fromARGB(255, 240, 249, 255),
+        onTap: () => Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => const MytaskCgScreen()),
+        ),
+      ),
+    ];
+
     return Container(
       margin: EdgeInsets.all(12.r),
       padding: EdgeInsets.symmetric(vertical: 8.h),
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 241, 245, 249),
+        color: const Color.fromARGB(255, 241, 245, 249),
         borderRadius: BorderRadius.circular(16.r),
         boxShadow: [
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 2), blurRadius: 4.r),
-          BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6.r),
+          BoxShadow(color: const Color(0x1A000000), offset: const Offset(0, 2), blurRadius: 4.r),
+          BoxShadow(color: const Color(0x1A000000), offset: const Offset(0, 4), blurRadius: 6.r),
         ],
       ),
       child: Column(
-        children: List.generate(_options.length, (index) {
+        children: List.generate(options.length, (index) {
           return Column(
             children: [
-              _MenuOptionTile(option: _options[index]),
-              // ✅ divider between items, not after last
-              if (index < _options.length - 1)
+              _MenuOptionTile(option: options[index]),
+              if (index < options.length - 1)
                 Divider(
                   height: 1.h,
                   thickness: 0.5,
                   indent: 16,
                   endIndent: 16,
-                  color: Color(0xFFE5E7EB),
+                  color: const Color(0xFFE5E7EB),
                 ),
             ],
           );
@@ -70,14 +85,16 @@ class MenuOptionsCard extends StatelessWidget {
 class _MenuOption {
   final IconData icon;
   final String label;
-  final Color iconColor; // ✅ renamed: this is now the icon's color
-  final Color bgColor;   // ✅ renamed: light background behind icon
+  final Color iconColor;
+  final Color bgColor;
+  final VoidCallback onTap;
 
   const _MenuOption({
     required this.icon,
     required this.label,
     required this.iconColor,
     required this.bgColor,
+    required this.onTap,
   });
 }
 
@@ -89,7 +106,7 @@ class _MenuOptionTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: option.onTap,
       child: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 14.h),
         child: Row(
@@ -98,15 +115,11 @@ class _MenuOptionTile extends StatelessWidget {
               width: 36.w,
               height: 36.h,
               decoration: BoxDecoration(
-                color: option.bgColor,       // ✅ light color as background
+                color: option.bgColor,
                 borderRadius: BorderRadius.circular(10.r),
               ),
               child: Center(
-                child: Icon(
-                  option.icon,
-                  size: 18.r,
-                  color: option.iconColor,   // ✅ colored icon on light bg
-                ),
+                child: Icon(option.icon, size: 18.r, color: option.iconColor),
               ),
             ),
             SizedBox(width: 16.w),

@@ -1,6 +1,5 @@
 ﻿import 'package:ehtemam_final_project/features/account_settings/manager/account_settings_cubit.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/screens/change_password_screen.dart';
-import 'package:ehtemam_final_project/features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -375,9 +374,7 @@ class _CareProviderAccountSettingsScreenState
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  state.email.isEmpty
-                      ? 'fatma.adel@email.com'
-                      : state.email,
+                  state.email,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
@@ -423,9 +420,7 @@ class _CareProviderAccountSettingsScreenState
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: () {
-                          context.read<BottomNavCubit>().changeTab(0);
-                        },
+                        onPressed: () => Navigator.pop(context),
                         icon: Icon(
                           Icons.arrow_back_ios_new_rounded,
                           size: 17.r,

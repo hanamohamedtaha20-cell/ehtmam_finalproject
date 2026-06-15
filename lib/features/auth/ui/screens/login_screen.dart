@@ -253,9 +253,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             GestureDetector(
                               onTap: () {
+                                context.read<AuthCubit>().loginAsGuest();
                                 Navigator.pushReplacement(
                                   context,
-                                  MaterialPageRoute(builder: (_) => HomeScreen()),
+                                  MaterialPageRoute(builder: (_) => const HomeScreen()),
                                 );
                               },
                               child: Text(

@@ -1,30 +1,33 @@
-﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
-import 'package:ehtemam_final_project/features/rating/ui/widgets/rating_row.dart';
-import 'package:ehtemam_final_project/features/rating/ui/widgets/review_field.dart';
-import 'package:ehtemam_final_project/features/rating/ui/widgets/section_card.dart';
-import 'package:ehtemam_final_project/features/rating/ui/widgets/submit_button.dart';
-import 'package:ehtemam_final_project/features/rating/ui/widgets/user_card.dart';
+import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/features/rating_caregiver/manager/rating_cubit.dart';
+import 'package:ehtemam_final_project/features/rating_caregiver/manager/rating_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-import '../../../home_screen/ui/screens/home_screen.dart';
 import '../widgets/custom_header.dart';
+import '../widgets/rating_row.dart';
 import '../widgets/rating_stars.dart';
-
+import '../widgets/review_field.dart';
+import '../widgets/section_card.dart';
+import '../widgets/submit_button.dart';
+import '../widgets/user_card.dart';
 
 class RatingGiverScreen extends StatefulWidget {
-  const RatingGiverScreen({super.key});
+  final String bookingId;
+  final String clientName;
+
+  const RatingGiverScreen({
+    super.key,
+    required this.bookingId,
+    required this.clientName,
+  });
 
   @override
   State<RatingGiverScreen> createState() => _RatingScreenState();
 }
 
 class _RatingScreenState extends State<RatingGiverScreen> {
-  int _overall = 3;
-  int _professionalism = 4;
-  int _serviceQuality = 2;
-  int _punctuality = 2;
-  int _communication = 4;
   final TextEditingController _reviewController = TextEditingController();
 
   @override
@@ -35,98 +38,174 @@ class _RatingScreenState extends State<RatingGiverScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: EdgeInsets.all(16.r),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const CustomHeader(),
-              SizedBox(height: 10.h),
-              Center(
-                child: Text(
-                          "Rate Your Experience",
-                          style: TextStyle(
-                fontFamily: "Arimo",
-                fontWeight: FontWeight.bold,
-                fontSize: 24.sp,
-                color: AppColors.textDark),
-                        ),
-              ),
+    return BlocProvider(
+      create: (_) => RatingGiverCubit(bookingId: widget.bookingId),
+      child: BlocConsumer<RatingGiverCubit, RatingState>(
+        listener: (context, state) {
+          if (state is RatingSuccess) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(content: Text('Review submitted successfully!')),
+            );
+            Navigator.pop(context);
+          } else if (state is RatingFailure) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(state.message)),
+            );
+          }
+        },
+        builder: (context, state) {
+          final isLoading = state is RatingLoading;
+          final ratings = state is RatingUpdated ? state : null;
 
-               SizedBox(height: 10.h),
-                Center(
-                child: Text(
-                          "How was your experience with the client and the app?",
-                          style: TextStyle(
-                fontFamily: "Arimo",
-                fontSize: 12.sp,
-                color: AppColors.textDark),
-                        ),
-              ),
-              SizedBox(height: 10.h),
-
-              const UserCard(name: "Gena Shamel", role: "Client"),
-              SizedBox(height: 20.h),
-              SectionCard(
+          return Scaffold(
+            backgroundColor: Colors.white,
+            body: SafeArea(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.all(16.r),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Overall Rating",
-                        style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14.sp, color: AppColors.textDark)),
-                    SizedBox(height: 8.h),
-                    Center(child: RatingStars(rating: _overall, onChanged: (v) => setState(() => _overall = v), size: 36.r)),
-                    SizedBox(height: 4.h),
+                    const CustomHeader(),
+                    SizedBox(height: 10.h),
                     Center(
-                      child: Text("Tap to rate",
-                          style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: AppColors.textLight)),
+                      child: Text(
+                        "Rate Your Experience",
+                        style: TextStyle(
+                          fontFamily: "Arimo",
+                          fontWeight: FontWeight.bold,
+                          fontSize: 24.sp,
+                          color: AppColors.textDark,
+                        ),
+                      ),
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 16.h),
-              SectionCard(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Detailed Ratings",
-                        style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 14.sp, color: AppColors.textDark)),
+                    SizedBox(height: 10.h),
+                    Center(
+                      child: Text(
+                        "How was your experience with the client?",
+                        style: TextStyle(
+                          fontFamily: "Arimo",
+                          fontSize: 12.sp,
+                          color: AppColors.textDark,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 10.h),
+                    UserCard(name: widget.clientName, role: "Client"),
+                    SizedBox(height: 20.h),
+                    SectionCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Overall Rating",
+                            style: TextStyle(
+                              fontFamily: "Arimo",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.sp,
+                              color: AppColors.textDark,
+                            ),
+                          ),
+                          SizedBox(height: 8.h),
+                          Center(
+                            child: RatingStars(
+                              rating: ratings?.overallRating ?? 3,
+                              onChanged: (v) => context
+                                  .read<RatingGiverCubit>()
+                                  .updateOverallRating(v),
+                              size: 36.r,
+                            ),
+                          ),
+                          SizedBox(height: 4.h),
+                          Center(
+                            child: Text(
+                              "Tap to rate",
+                              style: TextStyle(
+                                fontFamily: "Arimo",
+                                fontSize: 11.sp,
+                                color: AppColors.textLight,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    SectionCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Detailed Ratings",
+                            style: TextStyle(
+                              fontFamily: "Arimo",
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14.sp,
+                              color: AppColors.textDark,
+                            ),
+                          ),
+                          SizedBox(height: 12.h),
+                          RatingRow(
+                            label: "Communication",
+                            rating: ratings?.communication ?? 3,
+                            onChanged: (v) => context
+                                .read<RatingGiverCubit>()
+                                .updateCommunication(v),
+                          ),
+                          SizedBox(height: 8.h),
+                          RatingRow(
+                            label: "Ease of Use",
+                            rating: ratings?.easeOfUse ?? 3,
+                            onChanged: (v) => context
+                                .read<RatingGiverCubit>()
+                                .updateEaseOfUse(v),
+                          ),
+                          SizedBox(height: 8.h),
+                          RatingRow(
+                            label: "Reliability",
+                            rating: ratings?.reliability ?? 3,
+                            onChanged: (v) => context
+                                .read<RatingGiverCubit>()
+                                .updateReliability(v),
+                          ),
+                          SizedBox(height: 8.h),
+                          RatingRow(
+                            label: "Overall Satisfaction",
+                            rating: ratings?.overallSatisfaction ?? 3,
+                            onChanged: (v) => context
+                                .read<RatingGiverCubit>()
+                                .updateOverallSatisfaction(v),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 16.h),
+                    SectionCard(child: ReviewField(controller: _reviewController)),
+                    SizedBox(height: 24.h),
+                    if (isLoading)
+                      const Center(child: CircularProgressIndicator())
+                    else
+                      SubmitButton(
+                        onSubmit: () => context
+                            .read<RatingGiverCubit>()
+                            .submitRating(review: _reviewController.text.trim()),
+                      ),
                     SizedBox(height: 12.h),
-                    RatingRow(label: "Communication", rating: _professionalism, onChanged: (v) => setState(() => _professionalism = v)),
-                    SizedBox(height: 8.h),
-                    RatingRow(label: "Ease of Use", rating: _serviceQuality, onChanged: (v) => setState(() => _serviceQuality = v)),
-                    SizedBox(height: 8.h),
-                    RatingRow(label: "Reliability", rating: _punctuality, onChanged: (v) => setState(() => _punctuality = v)),
-                    SizedBox(height: 8.h),
-                    RatingRow(label: "Overall Satisfaction", rating: _communication, onChanged: (v) => setState(() => _communication = v)),
+                    Center(
+                      child: Text(
+                        "Your honest feedback helps improve our services",
+                        style: TextStyle(
+                          fontFamily: "Arimo",
+                          fontSize: 11.sp,
+                          color: AppColors.textLight,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
-              SizedBox(height: 16.h),
-              SectionCard(child: ReviewField(controller: _reviewController)),
-              SizedBox(height: 24.h),
-              SubmitButton(
-                onSubmit: () {
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
-                    ),
-                        (route) => false,
-                  );
-                },
-              ),
-              SizedBox(height: 12.h),
-              Center(
-                child: Text(
-                  "Your honest feedback helps improve our services",
-                  style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: AppColors.textLight),
-                ),
-              ),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

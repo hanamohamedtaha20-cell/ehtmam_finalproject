@@ -24,7 +24,7 @@ class UserBottomNavScreen extends StatelessWidget {
           end: Alignment.centerRight,
           colors: [
             Color(0xFF3A8BD7),
-            Color(0xFFEAF4FF),
+            Color.fromARGB(255, 144, 192, 242),
           ],
         ),
       ),

@@ -13,9 +13,9 @@ class ChatMessageModel {
       Map<String, dynamic> json,
       ) {
     return ChatMessageModel(
-      message: json['content'] ?? '',
+      message: json['content']?.toString() ?? '',
       isUser: json['role'] == 'user',
-      createdAt: json['createdAt'] ?? '',
+      createdAt: json['createdAt']?.toString() ?? '',
     );
   }
 }

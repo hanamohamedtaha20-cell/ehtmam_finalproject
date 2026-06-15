@@ -1,4 +1,5 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_careprovider.dart';
 import 'package:ehtemam_final_project/features/profile_caregiver/data/model/caregiver_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,7 +81,10 @@ class CaregiverProfileCard extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           GestureDetector(
-            onTap: () {},
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(builder: (_) => const CareProviderAccountSettingsScreen()),
+            ),
             child: Container(
               margin: EdgeInsets.all(10.r),
               width: double.infinity,

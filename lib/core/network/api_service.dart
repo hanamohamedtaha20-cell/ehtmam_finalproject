@@ -262,6 +262,7 @@ class ApiService {
     required String time,
     required num budget,
     required List<String> tasks,
+    String? description,
     String? duration,
     String? notes,
   }) async {
@@ -272,8 +273,9 @@ class ApiService {
       'time':        time,
       'budget':      budget,
       'tasks':       tasks.map((t) => {'taskDescription': t}).toList(),
-      if (duration != null && duration.isNotEmpty) 'duration': duration,
-      if (notes    != null && notes.isNotEmpty)    'notes':    notes,
+      if (description != null && description.isNotEmpty) 'description': description,
+      if (duration    != null && duration.isNotEmpty)    'duration':    duration,
+      if (notes       != null && notes.isNotEmpty)       'notes':       notes,
     });
     return response.data;
   }

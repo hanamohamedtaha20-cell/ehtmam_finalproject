@@ -23,11 +23,11 @@ class TransactionModel {
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      title: json['title'] ?? '',
-      clientName: json['clientName'] ?? '',
+      title: json['title']?.toString() ?? '',
+      clientName: json['clientName']?.toString() ?? '',
       amount: (json['amount'] ?? 0).toDouble(),
-      date: json['date'] ?? '',
-      status: json['status'] ?? '',
+      date: json['date']?.toString() ?? '',
+      status: json['status']?.toString() ?? '',
     );
   }
 

@@ -111,6 +111,7 @@ class AuthRepo {
           map['verifcation_documents'] = [nationalIdMultipart];
         }
       } else {
+        if (phone.trim().isNotEmpty) map['phoneNumber'] = phone.trim();
         if (street.isNotEmpty) map['address[street]'] = street;
         if (building.isNotEmpty) map['address[building]'] = building;
 
@@ -131,8 +132,6 @@ class AuthRepo {
         endpoint: endpoint,
         formData: formData,
       );
-
-      print("SIGNUP RESPONSE: $response");
 
       if (response['status'] != 'success') {
         throw Exception(response['message'] ?? 'Signup failed');

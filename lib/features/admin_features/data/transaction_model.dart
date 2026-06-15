@@ -23,14 +23,14 @@ class TransactionModel {
       Map<String, dynamic> json,
       ) {
     return TransactionModel(
-      id: json['transactionId'] ?? '',
-      clientName: json['clientName'] ?? '',
+      id: json['transactionId']?.toString() ?? '',
+      clientName: json['clientName']?.toString() ?? '',
       amount: (json['amount'] ?? 0).toDouble(),
-      status: json['transactionStatus'] ?? '',
-      type: json['transactionType'] ?? '',
-      caregiverName: json['caregiverName'] ?? '',
-      bundleName: json['bundleName'] ?? '',
-      transactionDate: json['transactionDate'] ?? '',
+      status: json['transactionStatus']?.toString() ?? '',
+      type: json['transactionType']?.toString() ?? '',
+      caregiverName: json['caregiverName']?.toString() ?? '',
+      bundleName: json['bundleName']?.toString() ?? '',
+      transactionDate: json['transactionDate']?.toString() ?? '',
     );
   }
 }

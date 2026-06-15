@@ -144,7 +144,9 @@ class AuthCubit extends Cubit<AuthState> {
       await prefs.setString('token', loginResponse.token);
       await prefs.setString('user_role', loginResponse.user.role);
       await prefs.setString('user_name', loginResponse.user.fullName);
+      await prefs.setString('user_email', loginResponse.user.email);
       await prefs.setString('userId', loginResponse.user.id);
+      await prefs.setString('user_phone', loginResponse.user.phone);
       await prefs.setBool('is_logged_in', true);
 
       if (!isClosed) {
@@ -167,6 +169,10 @@ class AuthCubit extends Cubit<AuthState> {
         );
       }
     }
+  }
+
+  void loginAsGuest() {
+    emit(state.copyWith(isGuest: true, status: AuthStatus.initial));
   }
 
   Future<void> logout() async {

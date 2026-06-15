@@ -14,7 +14,11 @@ class BookingDetailsCubit extends Cubit<BookingDetailsState> {
     emit(BookingDetailsLoading());
 
     try {
-      final result = await repository.getRequestDetails(requestId);
+      var result = await repository.getRequestDetails(requestId);
+      try {
+        final tasks = await repository.getTasks(requestId);
+        result = result.copyWith(tasks: tasks);
+      } catch (_) {}
       if (!isClosed) {
         emit(BookingDetailsLoaded(result));
       }
@@ -30,7 +34,11 @@ class BookingDetailsCubit extends Cubit<BookingDetailsState> {
     emit(BookingDetailsLoading());
 
     try {
-      final result = await repository.getBookingDetails(bookingId);
+      var result = await repository.getBookingDetails(bookingId);
+      try {
+        final tasks = await repository.getTasksByBookingId(bookingId);
+        result = result.copyWith(tasks: tasks);
+      } catch (_) {}
       if (!isClosed) {
         emit(BookingDetailsLoaded(result));
       }

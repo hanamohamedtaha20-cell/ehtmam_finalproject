@@ -38,22 +38,23 @@ class BookingModelUser {
     }
 
     return BookingModelUser(
-      id:       json['_id'] ?? '',
-      title:    service is Map ? (service['serviceName'] ?? 'Care Service') : 'Care Service',
-      subtitle: json['caregiver'] is Map ? (json['caregiver']['full_name'] ?? '') : '',
-      date: request is Map ? _formatDate(request['date']?.toString()) : '',      time:     request is Map ? (request['time'] ?? '') : '',
-      location: request is Map ? (request['location'] ?? request['governorate'] ?? '') : '',
+      id:       json['_id']?.toString() ?? '',
+      title:    service is Map ? (service['serviceName']?.toString() ?? 'Care Service') : 'Care Service',
+      subtitle: json['caregiver'] is Map ? (json['caregiver']['full_name']?.toString() ?? '') : '',
+      date:     request is Map ? _formatDate(request['date']?.toString()) : '',
+      time:     request is Map ? (request['time']?.toString() ?? '') : '',
+      location: request is Map ? (request['location']?.toString() ?? request['governorate']?.toString() ?? '') : '',
       price:    int.tryParse((json['price'] ?? 0).toString()) ?? 0,
       speciality: json['request'] is Map
           ? (json['request']['service'] is Map
-          ? (json['request']['service']['serviceName'] ?? '')
+          ? (json['request']['service']['serviceName']?.toString() ?? '')
           : '')
           : '',
       phone: json['caregiver'] is Map
-          ? ((json['caregiver']['phone']
-              ?? json['caregiver']['phoneNumber']
-              ?? json['caregiver']['phone_number']
-              ?? '') as Object).toString()
+          ? (json['caregiver']['phone']?.toString()
+              ?? json['caregiver']['phoneNumber']?.toString()
+              ?? json['caregiver']['phone_number']?.toString()
+              ?? '')
           : '',
       status:   status,
     );

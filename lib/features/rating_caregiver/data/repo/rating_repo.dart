@@ -1,14 +1,27 @@
-import '../model/rating_model.dart';
+import '../../../../core/network/api_service.dart';
 
 abstract class RatingRepo {
-  Future<void> submitRating(RatingModel model);
+  Future<void> submitRating({
+    required String bookingId,
+    required int rating,
+    required String review,
+  });
 }
 
 class RatingRepoImpl implements RatingRepo {
+  final ApiService _api;
+  RatingRepoImpl([ApiService? api]) : _api = api ?? ApiService();
+
   @override
-  Future<void> submitRating(RatingModel model) async {
-    // TODO: replace with your actual API call
-    await Future.delayed(const Duration(seconds: 1));
-    // e.g. await dio.post('/ratings', data: model.toJson());
+  Future<void> submitRating({
+    required String bookingId,
+    required int rating,
+    required String review,
+  }) async {
+    await _api.createReview(
+      bookingId: bookingId,
+      rating: rating,
+      review: review,
+    );
   }
 }

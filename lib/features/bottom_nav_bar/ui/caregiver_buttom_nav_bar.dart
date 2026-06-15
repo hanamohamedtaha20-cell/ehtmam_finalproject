@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:ehtemam_final_project/features/profile_caregiver/ui/screens/caregiver_screen.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -33,7 +34,7 @@ class _CareGiverBottomNavView extends StatelessWidget {
       const HcHomeScreen(),
       const CareRequestsScreen(),
       const EarningsScreen(),
-      const CareProviderAccountSettingsScreen(),
+      const CaregiverScreen(),
     ];
 
     return BlocBuilder<BottomNavCubit, BottomNavState>(
@@ -49,7 +50,7 @@ class _CareGiverBottomNavView extends StatelessWidget {
                 end: Alignment.centerRight,
                 colors: [
                   Color(0xFF3A8BD7),
-                  Color(0xFFEAF4FF),
+            Color.fromARGB(255, 144, 192, 242),
                 ],
               ),
             ),

@@ -35,10 +35,10 @@ class TransactionModel {
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
     return TransactionModel(
-      title:    json['type'] ?? '',
+      title:    json['type']?.toString() ?? '',
       amount:   (json['amount'] ?? 0).toDouble(),
-      date:     DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
-      status:   json['status'] ?? '',
+      date:     DateTime.tryParse(json['createdAt']?.toString() ?? '') ?? DateTime.now(),
+      status:   json['status']?.toString() ?? '',
       isIncome: json['type'] == 'DEPOSIT',
     );
   }

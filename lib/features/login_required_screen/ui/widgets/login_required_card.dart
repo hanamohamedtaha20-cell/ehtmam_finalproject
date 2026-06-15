@@ -1,4 +1,6 @@
-﻿import 'package:ehtemam_final_project/features/login_required_screen/ui/widgets/pirmary.dart';
+﻿import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart';
+import 'package:ehtemam_final_project/features/auth/ui/screens/register_screen.dart';
+import 'package:ehtemam_final_project/features/login_required_screen/ui/widgets/pirmary.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../home_screen/ui/screens/home_screen.dart';
@@ -82,7 +84,12 @@ class LoginRequiredCard extends StatelessWidget {
             PrimaryButton(
               text: "Login to Continue",
               icon: Icons.login,
-              onTap: () {},
+              onTap: () {
+                 Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginScreen()),
+                );
+              },
             ),
 
             SizedBox(height: 10.h),
@@ -91,7 +98,12 @@ class LoginRequiredCard extends StatelessWidget {
             OutlineButton(
               text: "Create Account",
               icon: Icons.person_add,
-              onTap: () {},
+              onTap: () {
+                 Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => RegisterScreen(role: '',)),
+                );
+              },
             ),
 
             SizedBox(height: 10.h),

@@ -8,21 +8,18 @@ class CgPaymentCubit extends Cubit<CgPaymentState> {
   CgPaymentCubit(this.repo) : super(CgPaymentInitial());
 
   Future<void> loadData() async {
-    if (isClosed) return;
     emit(CgPaymentLoading());
     try {
       final data = await repo.getEarningsData();
-      if (!isClosed) {
-        emit(CgPaymentLoaded(
-          totalEarned: data['totalEarned'],
-          pending: data['pending'],
-          transactions: data['transactions'],
-        ));
-      }
+
+      emit(CgPaymentLoaded(
+        totalEarned: data['totalEarned'],
+        pending: data['pending'],
+        transactions: data['transactions'],
+        balance: data['balance'],
+      ));
     } catch (e) {
-      if (!isClosed) {
-        emit(CgPaymentError(e.toString()));
-      }
+      emit(CgPaymentError(e.toString()));
     }
   }
 
@@ -33,6 +30,7 @@ class CgPaymentCubit extends Cubit<CgPaymentState> {
         totalEarned: current.totalEarned,
         pending: current.pending,
         transactions: current.transactions,
+        balance: current.balance,
         filter: filter,
       ));
     }

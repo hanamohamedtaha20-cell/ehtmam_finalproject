@@ -11,8 +11,8 @@ class ActivityModel {
       Map<String, dynamic> json,
       ) {
     return ActivityModel(
-      title: json['title'] ?? '',
-      time: json['time'] ?? '',
+      title: json['title']?.toString() ?? '',
+      time: json['time']?.toString() ?? '',
     );
   }
 

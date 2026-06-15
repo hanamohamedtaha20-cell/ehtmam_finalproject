@@ -31,6 +31,25 @@ class RequestModel {
     this.offersCount = 0, required this.Description,
   });
 
+  factory RequestModel.fromJsonWithOffersCount(
+      Map<String, dynamic> json, int count) {
+    final base = RequestModel.fromJson(json);
+    return RequestModel(
+      id: base.id,
+      title: base.title,
+      subtitle: base.subtitle,
+      date: base.date,
+      time: base.time,
+      governorate: base.governorate,
+      amount: base.amount,
+      status: base.status,
+      type: base.type,
+      provider: base.provider,
+      offersCount: count,
+      Description: base.Description,
+    );
+  }
+
   factory RequestModel.fromJson(Map<String, dynamic> json) {
     final service = json['service'];
 

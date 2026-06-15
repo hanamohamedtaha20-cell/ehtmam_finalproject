@@ -125,7 +125,7 @@ class MytaskCgCheckinBar extends StatelessWidget {
                       }
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (_) => const RatingGiverScreen()),
+                        MaterialPageRoute(builder: (_) => RatingGiverScreen(bookingId: booking.bookingId, clientName: booking.clientName)),
                       );
                     },
                     icon: Icon(Icons.logout, size: 16.r, color: Colors.white),

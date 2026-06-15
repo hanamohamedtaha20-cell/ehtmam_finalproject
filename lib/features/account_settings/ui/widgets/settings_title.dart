@@ -20,7 +20,7 @@ class SettingsTile extends StatelessWidget {
     this.iconColor = const Color(0xFF6BAEF5),
     this.iconBgColor = const Color(0xFFEAF4FF),
     this.titleColor = const Color(0xFF1D2939),
-    this.showArrow = true,
+    this.showArrow = false,
   });
 
   @override
@@ -39,44 +39,61 @@ class SettingsTile extends StatelessWidget {
           ),
         ],
       ),
-     child: Material(
-  color: Colors.transparent,
-  borderRadius: BorderRadius.circular(18.r),
-  child: ListTile(
-    onTap: onTap,
-    contentPadding: EdgeInsets.symmetric(horizontal: 14.w),
-    leading: CircleAvatar(
-      radius: 20,
-      backgroundColor: iconBgColor,
-      child: Icon(icon, color: iconColor, size: 20.r),
-    ),
-    title: Text(
-      title,
-      style: TextStyle(
-        fontFamily: 'Inter',
-        fontSize: 13.sp,
-        fontWeight: FontWeight.w700,
-        color: titleColor,
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: BorderRadius.circular(18.r),
+        child: InkWell(
+          onTap: onTap,
+          borderRadius: BorderRadius.circular(18.r),
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 14.w),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                CircleAvatar(
+                  radius: 20,
+                  backgroundColor: iconBgColor,
+                  child: Icon(icon, color: iconColor, size: 20.r),
+                ),
+                SizedBox(width: 12.w),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 13.sp,
+                          fontWeight: FontWeight.w700,
+                          color: titleColor,
+                        ),
+                      ),
+                      SizedBox(height: 2.h),
+                      Text(
+                        subtitle,
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 10.5.sp,
+                          fontWeight: FontWeight.w400,
+                          color: const Color(0xFF98A2B3),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (showArrow)
+                  Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    size: 14.r,
+                    color: const Color(0xFF475467),
+                  ),
+              ],
+            ),
+          ),
+        ),
       ),
-    ),
-    subtitle: Text(
-      subtitle,
-      style: TextStyle(
-        fontFamily: 'Inter',
-        fontSize: 10.5.sp,
-        fontWeight: FontWeight.w400,
-        color: Color(0xFF98A2B3),
-      ),
-    ),
-    trailing: showArrow
-        ? Icon(
-            Icons.arrow_forward_ios_rounded,
-            size: 14.r,
-            color: Color(0xFF475467),
-          )
-        : null,
-  ),
-),
     );
   }
 }

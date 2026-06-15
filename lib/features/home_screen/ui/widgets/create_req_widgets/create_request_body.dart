@@ -42,7 +42,9 @@ class CreateRequestBody extends StatelessWidget {
 
           child: Column(
             children: [
-              RequestDescriptionField(),
+              RequestDescriptionField(
+                controller: context.read<CreateRequestCubit>().descriptionController,
+              ),
 
               SizedBox(height: 16.h),
 

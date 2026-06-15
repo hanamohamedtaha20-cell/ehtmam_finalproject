@@ -7,22 +7,25 @@ class CgPaymentInitial extends CgPaymentState {}
 class CgPaymentLoading extends CgPaymentState {}
 
 class CgPaymentLoaded extends CgPaymentState {
-    final double balance;
   final double totalEarned;
   final double pending;
+  final double balance;
   final List<CgTransactionModel> transactions;
   final String filter;
 
   CgPaymentLoaded({
     required this.totalEarned,
     required this.pending,
+    required this.balance,
     required this.transactions,
-    this.filter = 'All', required this.balance,
+    this.filter = 'All',
   });
 
   List<CgTransactionModel> get filteredTransactions {
     if (filter == 'All') return transactions;
-    return transactions.where((t) => t.status.toUpperCase() == filter.toUpperCase()).toList();
+    return transactions
+        .where((t) => t.status.toUpperCase() == filter.toUpperCase())
+        .toList();
   }
 }
 

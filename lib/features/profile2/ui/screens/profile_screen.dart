@@ -138,10 +138,7 @@ List<_OptionData> _buildOptions(BuildContext context) => [
         MaterialPageRoute(builder: (_) => const NotificationScreen()),
       );
     },),
-    _OptionData(icon: Icons.location_on_outlined, label: "savedAddresses", color: const Color.fromARGB(255, 168, 241, 194),
-    onTap: () {
-      // Navigator.push(context, ...)
-    },),
+   
     _OptionData(icon: Icons.account_balance_wallet_outlined, label: "My Wallet", color: const Color.fromARGB(255, 126, 186, 243),
         onTap: () {
           Navigator.push(
