@@ -57,6 +57,22 @@ class BookingDetailsCubit extends Cubit<BookingDetailsState> {
     }
   }
 
+  Future<void> loadTasksByBookingId(String bookingId) async {
+    final current = state;
+    if (current is! BookingDetailsLoaded) return;
+
+    try {
+      final tasks = await repository.getTasksByBookingId(bookingId);
+      if (!isClosed) {
+        emit(BookingDetailsLoaded(current.booking.copyWith(tasks: tasks)));
+      }
+    } catch (e) {
+      if (!isClosed) {
+        emit(BookingDetailsError(e.toString()));
+      }
+    }
+  }
+
   Future<void> toggleTask(String taskId, bool done) async {
     final current = state;
     if (current is! BookingDetailsLoaded) return;

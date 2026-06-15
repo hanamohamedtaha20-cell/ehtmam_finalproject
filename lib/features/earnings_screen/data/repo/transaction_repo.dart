@@ -10,18 +10,20 @@ class CreateRequestRepository {
     required String governorate,
     required String date,
     required String time,
+    required num budget,
+    required List<String> tasks,
     String? duration,
     String? notes,
-    String? budget,
   }) async {
     await _apiService.createRequest(
       serviceId: serviceId,
       governorate: governorate,
       date: date,
       time: time,
+      budget: budget,
+      tasks: tasks,
       duration: duration,
       notes: notes,
-      budget: budget,
     );
   }
 }

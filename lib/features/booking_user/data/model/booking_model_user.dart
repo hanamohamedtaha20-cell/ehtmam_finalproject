@@ -50,7 +50,10 @@ class BookingModelUser {
           : '')
           : '',
       phone: json['caregiver'] is Map
-          ? (json['caregiver']['phone'] ?? '')
+          ? ((json['caregiver']['phone']
+              ?? json['caregiver']['phoneNumber']
+              ?? json['caregiver']['phone_number']
+              ?? '') as Object).toString()
           : '',
       status:   status,
     );

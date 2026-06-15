@@ -80,12 +80,14 @@ class CareRequestModel {
       clientName = client['full_name']?.toString() ?? '';
     }
 
-    final rawStatus = (json['status'] ?? '').toString().toUpperCase();
+    final rawStatus = (json['bookingStatus'] ?? json['status'] ?? '').toString().toUpperCase();
     String uiStatus;
-    if (rawStatus == 'CONFIRMED') {
+    if (rawStatus == 'CONFIRMED' || rawStatus == 'ACCEPTED') {
       uiStatus = 'Accepted';
     } else if (rawStatus == 'COMPLETED') {
       uiStatus = 'Completed';
+    } else if (rawStatus == 'IN_PROGRESS') {
+      uiStatus = 'Accepted';
     } else {
       uiStatus = _formatStatus(rawStatus);
     }

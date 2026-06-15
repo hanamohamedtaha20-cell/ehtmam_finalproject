@@ -5,6 +5,7 @@ abstract class BookingRemoteDatasource {
   Future<BookingDetailsModel> getBookingDetails(String bookingId);
   Future<BookingDetailsModel> getRequestDetails(String requestId);
   Future<List<TaskModel>> getTasks(String requestId);
+  Future<List<TaskModel>> getTasksByBookingId(String bookingId);
   Future<void> updateTask(String taskId, bool completed);
   Future<Map<String, dynamic>> sendOffer({
     required String requestId,
@@ -31,7 +32,8 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
 
     try {
       final response = await apiService.getUserProfile(clientField);
-      final profile = response['data'] as Map<String, dynamic>? ?? {};
+      final rawProfile = response['data'];
+      final profile = rawProfile is Map<String, dynamic> ? rawProfile : <String, dynamic>{};
       return details.copyWith(
         clientName: profile['full_name']?.toString() ?? details.clientName,
         phone: profile['phone']?.toString() ?? details.phone,
@@ -45,7 +47,8 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
   @override
   Future<BookingDetailsModel> getBookingDetails(String bookingId) async {
     final response = await apiService.getBookingById(bookingId);
-    final data = response['data'] as Map<String, dynamic>? ?? {};
+    final raw = response['data'];
+    final data = raw is Map<String, dynamic> ? raw : (raw is List && raw.isNotEmpty ? raw.first as Map<String, dynamic> : <String, dynamic>{});
     var details = BookingDetailsModel.fromBookingJson(data);
     return _enrichWithClientProfile(details, data);
   }
@@ -53,7 +56,8 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
   @override
   Future<BookingDetailsModel> getRequestDetails(String requestId) async {
     final response = await apiService.getRequestById(requestId);
-    final data = response['data'] as Map<String, dynamic>? ?? {};
+    final raw = response['data'];
+    final data = raw is Map<String, dynamic> ? raw : (raw is List && raw.isNotEmpty ? raw.first as Map<String, dynamic> : <String, dynamic>{});
     var details = BookingDetailsModel.fromRequestJson(data);
     return _enrichWithClientProfile(details, data);
   }
@@ -61,6 +65,17 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
   @override
   Future<List<TaskModel>> getTasks(String requestId) async {
     final list = await apiService.getTasksByRequestId(requestId);
+    return list.asMap().entries.map((entry) {
+      return TaskModel.fromJson(
+        entry.value as Map<String, dynamic>,
+        index: entry.key,
+      );
+    }).toList();
+  }
+
+  @override
+  Future<List<TaskModel>> getTasksByBookingId(String bookingId) async {
+    final list = await apiService.getTasksByBookingId(bookingId);
     return list.asMap().entries.map((entry) {
       return TaskModel.fromJson(
         entry.value as Map<String, dynamic>,

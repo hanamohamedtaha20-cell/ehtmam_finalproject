@@ -19,17 +19,20 @@ class RechargeCubit extends Cubit<RechargeState> {
     if (isClosed) return;
     emit(RechargeLoading());
     try {
-      final paymentMethod = 'CARD';
-
-      print('RECHARGE REQUEST: amount=$amount, method=$paymentMethod');
+      const paymentMethod = 'CARD';
       final result = await repo.recharge(
         amount: amount,
         paymentMethod: paymentMethod,
       );
       if (!isClosed) {
-        emit(RechargeSuccess(result['iframeUrl'] ?? result['paymentUrl'] ?? ''));
-        print('PAYMENT URL: ${result['paymentUrl']}');
-        emit(RechargeSuccess(result['paymentUrl'] ?? ''));
+        final data = result['data'] is Map ? result['data'] as Map : result;
+        final url = data['iframeUrl']?.toString()
+            ?? data['paymentUrl']?.toString()
+            ?? data['redirectUrl']?.toString()
+            ?? result['iframeUrl']?.toString()
+            ?? result['paymentUrl']?.toString()
+            ?? '';
+        emit(RechargeSuccess(url));
       }
     } catch (e) {
       if (!isClosed) {

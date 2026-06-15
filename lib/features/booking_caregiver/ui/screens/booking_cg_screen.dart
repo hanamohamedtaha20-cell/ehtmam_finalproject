@@ -10,6 +10,7 @@ import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/serv
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/special_instructions_card.dart';
 import 'package:ehtemam_final_project/features/recieved_offers_screen/ui/screens/received_screen.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/ui/screens/care_requests_screen.dart';
+import 'package:ehtemam_final_project/features/share_location_cg/ui/screens/share_location_cg_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/booking_details_appbar/booking_details_appbar.dart';
@@ -20,36 +21,48 @@ import '../widgets/task_item_card.dart';
 
 class BookingCgScreen extends StatelessWidget {
   final String requestId;
+  final String bookingId;
+  final int initialTab;
 
   const BookingCgScreen({
     super.key,
-    required this.requestId, required int initialTab, required String bookingId,
+    required this.requestId,
+    this.bookingId = '',
+    this.initialTab = 0,
   });
 
   @override
   Widget build(BuildContext context) {
+    final cubit = BookingDetailsCubit(
+      BookingRepositoryImpl(
+        BookingRemoteDataSourceImpl(ApiService()),
+      ),
+    );
+    if (bookingId.isNotEmpty) {
+      cubit.loadBookingDetails(bookingId);
+    } else {
+      cubit.loadRequestDetails(requestId);
+    }
     return BlocProvider(
-      create: (_) => BookingDetailsCubit(
-        BookingRepositoryImpl(
-          BookingRemoteDataSourceImpl(ApiService()),
-        ),
-      )..loadRequestDetails(requestId),
-      child: BookingCgView(requestId: requestId),
+      create: (_) => cubit,
+      child: BookingCgView(requestId: requestId, bookingId: bookingId, initialTab: initialTab),
     );
   }
 }
 
 class BookingCgView extends StatefulWidget {
   final String requestId;
+  final String bookingId;
+  final int initialTab;
 
-  const BookingCgView({super.key, required this.requestId});
+  const BookingCgView({super.key, required this.requestId, this.bookingId = '', this.initialTab = 0});
 
   @override
   State<BookingCgView> createState() => _BookingCgViewState();
 }
 
 class _BookingCgViewState extends State<BookingCgView> {
-  int selectedTab = 0;
+  late int selectedTab = widget.initialTab;
   bool tasksLoaded = false;
   bool isSubmittingOffer = false;
   final TextEditingController priceController = TextEditingController();
@@ -66,7 +79,12 @@ class _BookingCgViewState extends State<BookingCgView> {
     setState(() => selectedTab = index);
     if (index == 1 && !tasksLoaded) {
       tasksLoaded = true;
-      context.read<BookingDetailsCubit>().loadTasks(widget.requestId);
+      final cubit = context.read<BookingDetailsCubit>();
+      if (widget.bookingId.isNotEmpty) {
+        cubit.loadTasksByBookingId(widget.bookingId);
+      } else {
+        cubit.loadTasks(widget.requestId);
+      }
     }
   }
 
@@ -201,6 +219,32 @@ class _BookingCgViewState extends State<BookingCgView> {
                         ),
                         const SizedBox(height: 16),
                         ClientBudgetCard(amount: budgetText),
+                        const SizedBox(height: 16),
+                        SizedBox(
+                          width: double.infinity,
+                          child: OutlinedButton.icon(
+                            onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (_) => ShareLocationCgScreen(
+                                  bookingId: booking.id,
+                                  clientName: booking.clientName,
+                                  serviceType: booking.serviceType,
+                                ),
+                              ),
+                            ),
+                            icon: const Icon(Icons.location_on_outlined),
+                            label: const Text('Share My Location'),
+                            style: OutlinedButton.styleFrom(
+                              foregroundColor: const Color(0xFF3A8BD7),
+                              side: const BorderSide(color: Color(0xFF3A8BD7)),
+                              padding: const EdgeInsets.symmetric(vertical: 12),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
+                          ),
+                        ),
                         const SizedBox(height: 16),
                         ProposedPriceCard(
                           controller: priceController,

@@ -114,6 +114,181 @@ class _HcHomeView extends StatelessWidget {
                       childCount: state.pendingRequests.length,
                     ),
                   ),
+                if (state.acceptedBookings.isNotEmpty) ...[
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 24, 16, 12),
+                      child: Row(
+                        children: [
+                          Container(
+                            width: 4,
+                            height: 20,
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF3A8BD7),
+                              borderRadius: BorderRadius.circular(2),
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          const Text(
+                            'Active Bookings',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                              color: Color(0xFF0B2B5A),
+                            ),
+                          ),
+                          const SizedBox(width: 8),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFF3A8BD7),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Text(
+                              '${state.acceptedBookings.length}',
+                              style: const TextStyle(
+                                fontFamily: 'Inter',
+                                fontSize: 12,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                      (context, index) {
+                        final booking = state.acceptedBookings[index];
+                        return GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (_) => BookingCgScreen(
+                                requestId: booking.id,
+                                initialTab: 1,
+                                bookingId: booking.bookingId ?? '',
+                              ),
+                            ),
+                          ),
+                          child: Container(
+                            margin: const EdgeInsets.fromLTRB(16, 0, 16, 14),
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              border: Border.all(color: const Color(0xFF3A8BD7).withValues(alpha: 0.3)),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.03),
+                                  blurRadius: 8,
+                                  offset: const Offset(0, 2),
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                Container(
+                                  width: 48,
+                                  height: 48,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFEAF4FF),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: const Icon(
+                                    Icons.medical_services_outlined,
+                                    color: Color(0xFF3A8BD7),
+                                    size: 24,
+                                  ),
+                                ),
+                                const SizedBox(width: 12),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        booking.serviceName,
+                                        style: const TextStyle(
+                                          fontFamily: 'Inter',
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w700,
+                                          color: Color(0xFF0B2B5A),
+                                        ),
+                                      ),
+                                      const SizedBox(height: 2),
+                                      Text(
+                                        booking.clientName.isNotEmpty
+                                            ? 'Client: ${booking.clientName}'
+                                            : booking.date,
+                                        style: const TextStyle(
+                                          fontFamily: 'Inter',
+                                          fontSize: 13,
+                                          color: Color(0xFF667085),
+                                        ),
+                                      ),
+                                      if (booking.date.isNotEmpty) ...[
+                                        const SizedBox(height: 2),
+                                        Text(
+                                          booking.date,
+                                          style: const TextStyle(
+                                            fontFamily: 'Inter',
+                                            fontSize: 12,
+                                            color: Color(0xFF98A2B3),
+                                          ),
+                                        ),
+                                      ],
+                                    ],
+                                  ),
+                                ),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.end,
+                                  children: [
+                                    Text(
+                                      booking.price.isNotEmpty ? 'EGP ${booking.price}' : '',
+                                      style: const TextStyle(
+                                        fontFamily: 'Inter',
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        color: Color(0xFF3A8BD7),
+                                      ),
+                                    ),
+                                    const SizedBox(height: 4),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        color: booking.status == 'Completed'
+                                            ? const Color(0xFFE8F5E9)
+                                            : const Color(0xFFEAF4FF),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        booking.status,
+                                        style: TextStyle(
+                                          fontFamily: 'Inter',
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w600,
+                                          color: booking.status == 'Completed'
+                                              ? const Color(0xFF2E7D32)
+                                              : const Color(0xFF3A8BD7),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(width: 4),
+                                const Icon(Icons.chevron_right, color: Color(0xFF98A2B3)),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                      childCount: state.acceptedBookings.length,
+                    ),
+                  ),
+                ],
                 const SliverToBoxAdapter(child: SizedBox(height: 100)),
               ],
             ),

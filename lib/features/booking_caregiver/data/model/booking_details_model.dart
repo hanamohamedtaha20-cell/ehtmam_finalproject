@@ -87,7 +87,7 @@ class BookingDetailsModel {
       time: _formatTime(json['date']?.toString(), json['time']?.toString()),
       location: json['location']?.toString() ?? '',
       specialInstructions: json['notes']?.toString() ?? '',
-      clientBudget: (json['budget'] ?? 0).toDouble(),
+      clientBudget: ((json['budget'] ?? 0) as num).toDouble(),
     );
   }
 
@@ -111,8 +111,9 @@ class BookingDetailsModel {
       email = client['email']?.toString() ?? '';
     }
 
-    final statusValue = (json['status'] ?? 'PENDING').toString();
-    final price = (offer?['price'] ?? json['price'] ?? 0).toDouble();
+    final statusValue = (json['bookingStatus'] ?? json['status'] ?? 'PENDING').toString();
+    final offerPrice = offer is Map ? offer['price'] : null;
+    final price = ((offerPrice ?? json['price'] ?? 0) as num).toDouble();
 
     return BookingDetailsModel(
       id: json['_id']?.toString() ?? '',
@@ -220,8 +221,9 @@ class TaskModel {
     final done = statusStr == 'completed' || statusStr == 'true';
 
     return TaskModel(
-      id: json['_id']?.toString() ?? 'task_$index',
-      title: json['taskTitle']?.toString() ??
+      id: json['_id']?.toString() ?? json['taskId']?.toString() ?? 'task_$index',
+      title: json['taskName']?.toString() ??
+          json['taskTitle']?.toString() ??
           json['title']?.toString() ??
           json['taskDescription']?.toString() ??
           '',

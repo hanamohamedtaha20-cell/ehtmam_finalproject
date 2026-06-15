@@ -391,6 +391,33 @@ class ApiService {
     return response.data;
   }
 
+  Future<Map<String, dynamic>> checkInBooking(String bookingId) async {
+    final response = await _dio.post('$tasksEndpoint/$bookingId/check-in');
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> checkOutBooking(String bookingId) async {
+    final response = await _dio.post('$tasksEndpoint/$bookingId/check-out');
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> getCaregiverLocation(String bookingId) async {
+    final response = await _dio.get('$bookingEndpoint/$bookingId/location');
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> updateCaregiverLocation({
+    required String bookingId,
+    required double latitude,
+    required double longitude,
+  }) async {
+    final response = await _dio.put(
+      '$bookingEndpoint/$bookingId/location',
+      data: {'latitude': latitude, 'longitude': longitude},
+    );
+    return response.data;
+  }
+
   Future<Map<String, dynamic>> confirmAndPayBooking(String bookingId) async {
     final response = await _dio.patch('/booking/confirmbookingandpay/$bookingId');
     return response.data;
@@ -568,6 +595,14 @@ class ApiService {
       if (item is! Map) return false;
       return _taskBelongsToRequest(item, requestId);
     }).toList();
+  }
+
+  Future<List<dynamic>> getTasksByBookingId(String bookingId) async {
+    final response = await _dio.get('$bookingEndpoint/$bookingId/tasks');
+    final data = response.data;
+    if (data is Map && data['data'] is List) return data['data'] as List;
+    if (data is List) return data;
+    return [];
   }
 
   bool _taskBelongsToRequest(Map task, String requestId) {

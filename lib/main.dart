@@ -1,3 +1,4 @@
+import 'package:app_links/app_links.dart';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/account_settings/data/repo/account_settings_repo.dart';
 import 'package:ehtemam_final_project/features/auth/data/repo/auth_repo.dart';
@@ -58,18 +59,47 @@ void main() async {
   );
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key, required this.home});
 
   final Widget home;
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  late final PaymentCubit _paymentCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _paymentCubit = PaymentCubit(PaymentRepo())..loadData();
+    _listenForPaymentRedirect();
+  }
+
+  void _listenForPaymentRedirect() {
+    AppLinks().uriLinkStream.listen((uri) {
+      // Triggered when the payment gateway redirects back to the app.
+      // Both /payment/redirect and /payment/callback reload the wallet.
+      final path = uri.path.toLowerCase();
+      if (path.contains('payment')) {
+        _paymentCubit.loadData();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _paymentCubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (_) => PaymentCubit(PaymentRepo())..loadData(),
-        ),
+        BlocProvider.value(value: _paymentCubit),
         BlocProvider(
           create: (_) => RechargeCubit(RechargeRepo()),
         ),
@@ -105,7 +135,7 @@ class MyApp extends StatelessWidget {
         locale: context.locale,
         supportedLocales: context.supportedLocales,
         localizationsDelegates: context.localizationDelegates,
-        home: home,
+        home: widget.home,
       ),
     );
   }

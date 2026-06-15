@@ -19,10 +19,14 @@ class CareRequestsRepositoryImpl implements CareRequestsRepository {
         .map((e) => CareRequestModel.fromRequestJson(e as Map<String, dynamic>))
         .toList();
 
-    final fromBookings = bookingsList
-        .map((e) => CareRequestModel.fromBookingJson(e as Map<String, dynamic>))
-        .where((r) => r.status == 'Accepted' || r.status == 'Completed')
-        .toList();
+    final fromBookings = bookingsList.map((e) {
+      final m = e as Map<String, dynamic>;
+      print('BOOKING RAW STATUS: bookingStatus=${m['bookingStatus']} status=${m['status']}');
+      return CareRequestModel.fromBookingJson(m);
+    }).where((r) {
+      print('BOOKING UI STATUS: ${r.status}');
+      return r.status == 'Accepted' || r.status == 'Completed' || r.status == 'In Progress';
+    }).toList();
 
     return [...pending, ...fromBookings];
   }

@@ -4,6 +4,7 @@ import 'package:ehtemam_final_project/features/bottom_nav_bar/manager/bottom_nav
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../auth/manager/auth_cubit.dart';
 import '../../../auth/ui/screens/login_screen.dart';
 import '../../manager/account_settings_cubit.dart';
 import '../../manager/account_settings_state.dart';
@@ -272,14 +273,17 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         height: 50,
                         decoration: cardDecoration(),
                         child: TextButton.icon(
-                          onPressed: () {
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => LoginScreen(),
-                              ),
-                              (route) => false,
-                            );
+                          onPressed: () async {
+                            await context.read<AuthCubit>().logout();
+                            if (context.mounted) {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => LoginScreen(),
+                                ),
+                                (route) => false,
+                              );
+                            }
                           },
                           icon: const Icon(
                             Icons.logout_rounded,

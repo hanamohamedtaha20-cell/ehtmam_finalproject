@@ -40,6 +40,7 @@ class BookingActionButtons extends StatelessWidget {
                         speciality:    booking.speciality,
                         phoneNumber:   booking.phone,
                         userLocation:  booking.location,
+                        bookingId:     booking.id,
                       ),
                     ),
                   );
