@@ -451,6 +451,10 @@ class ApiService {
     print(response);
     return response.data;
   }
+  Future<Map<String, dynamic>> getMyWallet() async {
+  final response = await _dio.get(myWalletEndpoint);
+  return response.data;
+}
 
   // ══════════════════════════════════════════════════════════
   //  REVIEWS — /review

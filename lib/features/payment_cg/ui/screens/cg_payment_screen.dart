@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/features/payment/ui/widgets/balance_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/repo/cg_payment_repo.dart';
@@ -52,6 +53,9 @@ class _CgPaymentView extends StatelessWidget {
                   padding: const EdgeInsets.all(16),
                   child: Column(
                     children: [
+                      BalanceCard(balance: state.balance),
+
+                      const SizedBox(height: 16),
                       CgEarningsHeader(
                         totalEarned: state.totalEarned,
                         pending: state.pending,

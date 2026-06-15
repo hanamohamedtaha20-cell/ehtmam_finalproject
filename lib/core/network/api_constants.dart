@@ -35,3 +35,4 @@ const String updateBundleEndpoint = '/bundle/update_bundle';
 const String deleteBundleEndpoint = '/bundle/delete_bundle';
 const String allTransactionsEndpoint = '/transaction/all_transactions';
 const String allUsersEndpoint = '/userlog/allusers';
+const String myWalletEndpoint = '/wallet/my-wallet';

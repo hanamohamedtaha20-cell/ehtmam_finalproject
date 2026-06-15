@@ -7,6 +7,7 @@ class CgPaymentInitial extends CgPaymentState {}
 class CgPaymentLoading extends CgPaymentState {}
 
 class CgPaymentLoaded extends CgPaymentState {
+    final double balance;
   final double totalEarned;
   final double pending;
   final List<CgTransactionModel> transactions;
@@ -16,7 +17,7 @@ class CgPaymentLoaded extends CgPaymentState {
     required this.totalEarned,
     required this.pending,
     required this.transactions,
-    this.filter = 'All',
+    this.filter = 'All', required this.balance,
   });
 
   List<CgTransactionModel> get filteredTransactions {
