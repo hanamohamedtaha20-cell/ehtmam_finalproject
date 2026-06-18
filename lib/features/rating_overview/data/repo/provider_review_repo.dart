@@ -1,3 +1,5 @@
+import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../model/provider_review_model.dart';
 
 abstract class ProviderReviewRepo {
@@ -7,58 +9,62 @@ abstract class ProviderReviewRepo {
 }
 
 class ProviderReviewRepoImpl implements ProviderReviewRepo {
+  final ApiService _api = ApiService();
+
+  List<ProviderReviewModel>? _cachedReviews;
+  ProviderReviewSummaryModel? _cachedSummary;
+
+  /// Clears the cache so the next load fetches fresh data from the API.
+  void invalidate() {
+    _cachedReviews = null;
+    _cachedSummary = null;
+  }
+
+  /// Fetches from /review/caregiver/{userId} and caches the result.
+  /// Subsequent calls return the cache without hitting the network.
+  Future<void> _fetchAll() async {
+    if (_cachedReviews != null && _cachedSummary != null) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final caregiverId = prefs.getString('userId') ?? '';
+
+    final response = await _api.getCaregiverReviews(caregiverId);
+
+    // Response: { "status": "success", "data": { "reviews": [...],
+    //   "averageRating": 5, "totalReviewsCount": 1,
+    //   "ratingBreakdown": { "1": 0, ... } } }
+    final data = response['data'];
+    if (data is! Map<String, dynamic>) {
+      _cachedSummary = ProviderReviewSummaryModel.fromApiData({});
+      _cachedReviews = [];
+      return;
+    }
+
+    _cachedSummary = ProviderReviewSummaryModel.fromApiData(data);
+
+    final rawList = data['reviews'];
+    _cachedReviews = rawList is List
+        ? rawList
+            .whereType<Map<String, dynamic>>()
+            .map(ProviderReviewModel.fromJson)
+            .toList()
+        : [];
+  }
+
   @override
   Future<ProviderReviewSummaryModel> getSummary() async {
-    await Future.delayed(const Duration(milliseconds: 400));
-    return ProviderReviewSummaryModel(
-      averageRating: 4.4,
-      totalReviews: 7,
-      positivePercentage: 92,
-      providerRankPercentage: 5,
-      starCounts: {5: 4, 4: 2, 3: 1, 2: 0, 1: 0},
-    );
+    await _fetchAll();
+    return _cachedSummary!;
   }
 
   @override
   Future<List<ProviderReviewModel>> getReviews({int? starFilter}) async {
-    await Future.delayed(const Duration(milliseconds: 400));
-    final all = _mockReviews();
+    await _fetchAll();
+    final all = _cachedReviews!;
     if (starFilter == null) return all;
     return all.where((r) => r.rating.round() == starFilter).toList();
   }
 
   @override
-  Future<void> markHelpful(String reviewId) async {
-    await Future.delayed(const Duration(milliseconds: 200));
-  }
-
-  List<ProviderReviewModel> _mockReviews() => [
-        ProviderReviewModel(
-          id: '1',
-          reviewerName: 'Sarah Ahmed',
-          serviceType: 'Pet Care',
-          rating: 5,
-          comment: 'Excellent service! Very professional and caring with my pet. Highly recommend!',
-          date: DateTime(2026, 4, 5),
-          bookingId: 'BK001',
-        ),
-        ProviderReviewModel(
-          id: '2',
-          reviewerName: 'Mina Mamdouh',
-          serviceType: 'Elderly Care',
-          rating: 5,
-          comment: 'Amazing caregiver for my elderly mother. Patient and understanding.',
-          date: DateTime(2026, 4, 3),
-          bookingId: 'BK002',
-        ),
-        ProviderReviewModel(
-          id: '3',
-          reviewerName: 'Wael Ashraf',
-          serviceType: 'Pet Care',
-          rating: 4,
-          comment: 'Great job overall, will definitely book again!',
-          date: DateTime(2026, 3, 28),
-          bookingId: 'BK003',
-        ),
-      ];
+  Future<void> markHelpful(String reviewId) async {}
 }

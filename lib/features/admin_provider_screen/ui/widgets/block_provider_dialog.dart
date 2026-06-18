@@ -1,22 +1,18 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../model/ad_provider_model.dart';
 
 class BlockProviderDialog extends StatelessWidget {
   final AdProviderModel provider;
-  final VoidCallback onBlock;
 
   const BlockProviderDialog({
     super.key,
     required this.provider,
-    required this.onBlock,
   });
 
   @override
   Widget build(BuildContext context) {
-    final reasonController = TextEditingController();
-
     return Dialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -30,10 +26,7 @@ class BlockProviderDialog extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(
-                  Icons.warning_amber_rounded,
-                  color: Colors.red,
-                ),
+                Icon(Icons.warning_amber_rounded, color: Colors.red),
                 SizedBox(width: 8.w),
                 Text(
                   'Block Provider',
@@ -45,7 +38,7 @@ class BlockProviderDialog extends StatelessWidget {
                 ),
                 Spacer(),
                 IconButton(
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => Navigator.pop(context, false),
                   icon: Icon(Icons.close),
                 ),
               ],
@@ -55,10 +48,7 @@ class BlockProviderDialog extends StatelessWidget {
 
             Text(
               'Provider:',
-              style: TextStyle(
-                color: Color(0xff64748B),
-                fontSize: 12.sp,
-              ),
+              style: TextStyle(color: Color(0xff64748B), fontSize: 12.sp),
             ),
 
             SizedBox(height: 4.h),
@@ -74,10 +64,7 @@ class BlockProviderDialog extends StatelessWidget {
 
             Text(
               provider.service,
-              style: TextStyle(
-                color: Color(0xff64748B),
-                fontSize: 12.sp,
-              ),
+              style: TextStyle(color: Color(0xff64748B), fontSize: 12.sp),
             ),
 
             SizedBox(height: 20.h),
@@ -93,7 +80,6 @@ class BlockProviderDialog extends StatelessWidget {
             SizedBox(height: 8.h),
 
             TextField(
-              controller: reasonController,
               maxLines: 4,
               decoration: InputDecoration(
                 hintText: 'Explain why you are blocking this provider...',
@@ -105,15 +91,11 @@ class BlockProviderDialog extends StatelessWidget {
                 fillColor: const Color(0xffF8FAFC),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.r),
-                  borderSide: BorderSide(
-                    color: Color(0xffE2E8F0),
-                  ),
+                  borderSide: BorderSide(color: Color(0xffE2E8F0)),
                 ),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12.r),
-                  borderSide: BorderSide(
-                    color: Color(0xffE2E8F0),
-                  ),
+                  borderSide: BorderSide(color: Color(0xffE2E8F0)),
                 ),
               ),
             ),
@@ -122,10 +104,7 @@ class BlockProviderDialog extends StatelessWidget {
 
             Text(
               'This reason will be stored for record keeping and may be shared with the provider.',
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: Color(0xff64748B),
-              ),
+              style: TextStyle(fontSize: 11.sp, color: Color(0xff64748B)),
             ),
 
             SizedBox(height: 20.h),
@@ -136,7 +115,7 @@ class BlockProviderDialog extends StatelessWidget {
                   child: SizedBox(
                     height: 48.h,
                     child: ElevatedButton(
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () => Navigator.pop(context, false),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xffF1F5F9),
                         foregroundColor: const Color(0xff334155),
@@ -154,10 +133,7 @@ class BlockProviderDialog extends StatelessWidget {
                   child: SizedBox(
                     height: 48.h,
                     child: ElevatedButton(
-                      onPressed: () {
-                        onBlock();
-                        Navigator.pop(context);
-                      },
+                      onPressed: () => Navigator.pop(context, true),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.red,
                         foregroundColor: Colors.white,

@@ -22,6 +22,10 @@ class MytaskCgBookingModel {
   int get completedTasks => tasks.where((t) => t.isDone).length;
   int get totalTasks => tasks.length;
 
+  /// True only when every task has at least one proof file uploaded.
+  bool get allTasksHaveProof =>
+      tasks.isNotEmpty && tasks.every((t) => t.mediaProof.isNotEmpty);
+
   MytaskCgBookingModel copyWith({
     String? bookingId,
     String? clientName,
@@ -32,10 +36,10 @@ class MytaskCgBookingModel {
     String? checkInTime,
   }) {
     return MytaskCgBookingModel(
-      bookingId: bookingId ?? this.bookingId,
-      clientName: clientName ?? this.clientName,
-      category: category ?? this.category,
-      tasks: tasks ?? this.tasks,
+      bookingId:   bookingId   ?? this.bookingId,
+      clientName:  clientName  ?? this.clientName,
+      category:    category    ?? this.category,
+      tasks:       tasks       ?? this.tasks,
       isCheckedIn: isCheckedIn ?? this.isCheckedIn,
       isCheckedOut: isCheckedOut ?? this.isCheckedOut,
       checkInTime: checkInTime ?? this.checkInTime,

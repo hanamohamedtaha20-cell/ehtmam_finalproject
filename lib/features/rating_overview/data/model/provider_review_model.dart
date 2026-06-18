@@ -17,27 +17,31 @@ class ProviderReviewModel {
     this.bookingId,
   });
 
+  /// Parses a review object from GET /review/caregiver/{id}
   factory ProviderReviewModel.fromJson(Map<String, dynamic> json) {
+    final client = json['client'];
+    final reviewerName = client is Map
+        ? (client['full_name']?.toString() ?? 'Unknown')
+        : 'Unknown';
+
+    DateTime parsedDate = DateTime.now();
+    final rawDate = json['createdAt']?.toString();
+    if (rawDate != null) {
+      try {
+        parsedDate = DateTime.parse(rawDate).toLocal();
+      } catch (_) {}
+    }
+
     return ProviderReviewModel(
-      id: json['id'] as String,
-      reviewerName: json['reviewer_name'] as String,
-      serviceType: json['service_type'] as String,
-      rating: (json['rating'] as num).toDouble(),
-      comment: json['comment'] as String,
-      date: DateTime.parse(json['date'] as String),
-      bookingId: json['booking_id'] as String?,
+      id: json['_id']?.toString() ?? '',
+      reviewerName: reviewerName,
+      serviceType: '',
+      rating: (json['overallRating'] ?? 0).toDouble(),
+      comment: json['reviewComment']?.toString() ?? '',
+      date: parsedDate,
+      bookingId: json['booking']?.toString(),
     );
   }
-
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'reviewer_name': reviewerName,
-        'service_type': serviceType,
-        'rating': rating,
-        'comment': comment,
-        'date': date.toIso8601String(),
-        'booking_id': bookingId,
-      };
 }
 
 class ProviderReviewSummaryModel {
@@ -55,15 +59,28 @@ class ProviderReviewSummaryModel {
     required this.starCounts,
   });
 
-  factory ProviderReviewSummaryModel.fromJson(Map<String, dynamic> json) {
+  /// Parses from the `data` object of GET /review/caregiver/{id}
+  /// { averageRating, totalReviewsCount, ratingBreakdown: {"1":0,"2":0,...} }
+  factory ProviderReviewSummaryModel.fromApiData(Map<String, dynamic> data) {
+    final breakdown = data['ratingBreakdown'];
+    final Map<int, int> starCounts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};
+    if (breakdown is Map) {
+      for (int i = 1; i <= 5; i++) {
+        starCounts[i] = (breakdown[i.toString()] ?? 0) as int;
+      }
+    }
+
+    final total = (data['totalReviewsCount'] ?? 0) as int;
+    final positiveCount = (starCounts[4] ?? 0) + (starCounts[5] ?? 0);
+    final positivePercentage =
+        total > 0 ? (positiveCount * 100 ~/ total) : 0;
+
     return ProviderReviewSummaryModel(
-      averageRating: (json['average_rating'] as num).toDouble(),
-      totalReviews: json['total_reviews'] as int,
-      positivePercentage: json['positive_percentage'] as int,
-      providerRankPercentage: json['provider_rank_percentage'] as int,
-      starCounts: (json['star_counts'] as Map<String, dynamic>).map(
-        (k, v) => MapEntry(int.parse(k), v as int),
-      ),
+      averageRating: (data['averageRating'] ?? 0).toDouble(),
+      totalReviews: total,
+      positivePercentage: positivePercentage,
+      providerRankPercentage: 0,
+      starCounts: starCounts,
     );
   }
 }

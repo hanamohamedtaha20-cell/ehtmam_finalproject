@@ -1,6 +1,7 @@
+import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../data/model/mytask_cg_booking_model.dart';
 import '../data/model/mytask_cg_task_model.dart';
 import '../data/repo/mytask_cg_repo.dart';
 import 'mytask_cg_state.dart';
@@ -8,22 +9,75 @@ import 'package:image_picker/image_picker.dart';
 
 class MytaskCgCubit extends Cubit<MytaskCgState> {
   final MytaskCgRepo repo;
+  final ApiService _api = ApiService();
   final ImagePicker _picker = ImagePicker();
+
+  // Remembered so silent refreshes after upload know which booking to reload.
+  String? _currentBookingId;
 
   MytaskCgCubit(this.repo) : super(MytaskCgInitial());
 
+  // ── Load by bookingId (fast path — direct GET /booking/{id}/tasks) ────────
+  Future<void> loadTasksForBooking(String bookingId) async {
+    _currentBookingId = bookingId;
+    if (isClosed) return;
+    emit(MytaskCgLoading());
+    try {
+      final booking = await repo.getTasksForBooking(bookingId);
+      if (!isClosed) emit(MytaskCgLoaded(bookings: [booking]));
+    } catch (e) {
+      if (!isClosed) emit(MytaskCgError(_friendlyTaskError(e)));
+    }
+  }
+
+  String _friendlyTaskError(Object e) {
+    final msg = e.toString();
+    if (msg.contains('auth_required')) {
+      return 'Please login again to view your tasks.';
+    }
+    if (msg.contains('forbidden_403')) {
+      return 'You are not allowed to view tasks for this booking.\n'
+          'Please make sure this booking belongs to the logged-in caregiver.';
+    }
+    // Catch a raw DioException 403 in case it propagates without the label
+    try {
+      // ignore: avoid_dynamic_calls
+      final dynamic dioE = e;
+      final statusCode = dioE.response?.statusCode;
+      if (statusCode == 403) {
+        return 'You are not allowed to view tasks for this booking.\n'
+            'Please make sure this booking belongs to the logged-in caregiver.';
+      }
+    } catch (_) {}
+    return _extractErrorMessage(e);
+  }
+
+  // ── Load all active bookings (fallback — no bookingId known) ──────────────
   Future<void> loadBookings() async {
     if (isClosed) return;
     emit(MytaskCgLoading());
     try {
       final bookings = await repo.getBookings();
-      if (!isClosed) {
-        emit(MytaskCgLoaded(bookings: bookings));
-      }
+      if (!isClosed) emit(MytaskCgLoaded(bookings: bookings));
     } catch (e) {
-      if (!isClosed) {
-        emit(MytaskCgError(e.toString()));
-      }
+      if (!isClosed) emit(MytaskCgError(e.toString()));
+    }
+  }
+
+  // ── Silent refresh — reloads tasks without flashing a loading spinner ─────
+  Future<void> _silentRefreshTasks() async {
+    final id = _currentBookingId;
+    if (id == null) return;
+    final current = state;
+    if (current is! MytaskCgLoaded) return;
+    try {
+      final freshBooking = await repo.getTasksForBooking(id);
+      final updated = current.bookings.map((b) {
+        return b.bookingId == id ? freshBooking : b;
+      }).toList();
+      if (!isClosed) emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
+    } catch (e) {
+      debugPrint('_silentRefreshTasks failed: $e');
     }
   }
 
@@ -32,20 +86,27 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
     emit(MytaskCgLoaded(bookings: current.bookings, filter: filter));
   }
 
-  Future<void> checkIn(String bookingId) async {
+  // ── Check-in — returns '' on success, error message on failure ────────────
+  Future<String> checkIn(String bookingId) async {
     final current = state;
-    if (current is! MytaskCgLoaded) return;
+    if (current is! MytaskCgLoaded) return 'Not loaded';
+
+    String time = _toAmPm(DateTime.now());
+    String error = '';
 
     try {
-      await ApiService().checkInBooking(bookingId);
-    } catch (_) {
-      // Continue with local check-in even if backend call fails.
+      final response = await _api.checkInBooking(bookingId);
+      final data = response['data'];
+      if (data is Map) {
+        final rawTime = data['checkInTime'] ??
+            data['check_in_time'] ??
+            data['checkinTime'];
+        if (rawTime != null) time = _formatIsoTime(rawTime.toString());
+      }
+    } catch (e) {
+      error = _extractErrorMessage(e);
+      debugPrint('checkIn failed: $e');
     }
-
-    final now = DateTime.now();
-    final hour = now.hour;
-    final time =
-        '${(hour > 12 ? hour - 12 : hour == 0 ? 12 : hour)}:${now.minute.toString().padLeft(2, '0')} ${hour >= 12 ? 'PM' : 'AM'}';
 
     final updated = current.bookings.map((b) {
       if (b.bookingId == bookingId) {
@@ -55,93 +116,193 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
     }).toList();
 
     if (!isClosed) emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
+    return error;
   }
 
-  Future<bool> checkOut(String bookingId) async {
+  // ── Check-out — returns '' on success, error message on failure ───────────
+  Future<String> checkOut(String bookingId) async {
     final current = state;
-    if (current is! MytaskCgLoaded) return false;
-
-    final booking = current.bookings.firstWhere((b) => b.bookingId == bookingId);
-    final allHaveMedia = booking.tasks.every((t) => t.mediaProof.isNotEmpty);
-    if (!allHaveMedia) return false;
+    if (current is! MytaskCgLoaded) return 'Not loaded';
 
     try {
-      await ApiService().checkOutBooking(bookingId);
-    } catch (_) {
-      // Continue with local checkout even if backend call fails.
+      await _api.checkOutBooking(bookingId);
+
+      final updated = current.bookings.map((b) {
+        if (b.bookingId == bookingId) return b.copyWith(isCheckedOut: true);
+        return b;
+      }).toList();
+
+      if (!isClosed) emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
+      return '';
+    } catch (e) {
+      debugPrint('checkOut failed: $e');
+      return _extractErrorMessage(e);
+    }
+  }
+
+  // ── Upload proof for a task ───────────────────────────────────────────────
+  // Returns:
+  //   null  — picker cancelled (no SnackBar needed)
+  //   ''    — all files uploaded successfully (show success SnackBar)
+  //   msg   — at least one upload failed (show error SnackBar)
+  Future<String?> addMediaToTask(String bookingId, String taskId) async {
+    final List<XFile> files = await _picker.pickMultipleMedia();
+    if (files.isEmpty) return null; // user cancelled
+
+    int success = 0;
+    String? lastError;
+
+    for (final file in files) {
+      try {
+        await _api.uploadTaskProof(
+          taskId: taskId,
+          proofFile: File(file.path),
+        );
+        success++;
+      } catch (e) {
+        lastError = _extractErrorMessage(e);
+        debugPrint('uploadTaskProof failed: $e');
+      }
     }
 
+    // Refresh task list from server so proofFiles reflect the server's state.
+    _currentBookingId ??= bookingId;
+    await _silentRefreshTasks();
+
+    if (lastError != null) return lastError;
+    if (success > 0) return '';   // empty = success indicator
+    return null;
+  }
+
+  // ── Toggle task done (requires proof to be uploaded first) ────────────────
+  Future<void> toggleTaskDone(String bookingId, String taskId) async {
+    final current = state as MytaskCgLoaded;
+    final booking = current.bookings.firstWhere((b) => b.bookingId == bookingId);
+    final task = booking.tasks.firstWhere((t) => t.id == taskId);
+
+    if (task.mediaProof.isEmpty) return;
+
+    final newDone = !task.isDone;
+    _emitWithTaskToggled(current, bookingId, taskId, newDone);
+
+    try {
+      await _api.updateTask(
+        id: task.id,
+        taskState: newDone ? 'completed' : 'pending',
+      );
+    } catch (_) {
+      _emitWithTaskToggled(current, bookingId, taskId, task.isDone);
+    }
+  }
+
+  void _emitWithTaskToggled(
+    MytaskCgLoaded current,
+    String bookingId,
+    String taskId,
+    bool isDone,
+  ) {
     final updated = current.bookings.map((b) {
-      if (b.bookingId == bookingId) return b.copyWith(isCheckedOut: true);
+      if (b.bookingId == bookingId) {
+        final updatedTasks = b.tasks.map((t) {
+          if (t.id == taskId) return t.copyWith(isDone: isDone);
+          return t;
+        }).toList();
+        return b.copyWith(tasks: updatedTasks);
+      }
       return b;
     }).toList();
-
     if (!isClosed) emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
-    return true;
   }
 
-  void addTask(String bookingId, MytaskCgTaskModel newTask) {
-  print('adding task: ${newTask.title} with media: ${newTask.mediaProof}'); // ✅
-  final current = state as MytaskCgLoaded;
-  final updated = current.bookings.map((b) {
-    if (b.bookingId == bookingId) {
-      return b.copyWith(tasks: [...b.tasks, newTask]);
-    }
-    return b;
-  }).toList();
-  emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
-}
-  Future<void> addMediaToTask(String bookingId, String taskId) async {
-  final List<XFile> files = await _picker.pickMultipleMedia();
-  if (files.isEmpty) return;
+  // ── Add a caregiver-created task ──────────────────────────────────────────
+  Future<String?> addTask(String bookingId, String taskName) async {
+    final current = state;
+    if (current is! MytaskCgLoaded) return 'State not loaded';
 
-  final current = state as MytaskCgLoaded;
-  final updated = current.bookings.map((b) {
-    if (b.bookingId == bookingId) {
-      final updatedTasks = b.tasks.map((t) {
-        if (t.id == taskId) {
-          return t.copyWith(
-            mediaProof: [...t.mediaProof, ...files.map((f) => f.path)],
-          );
+    try {
+      final response = await _api.addCaregiverTask(
+        bookingId: bookingId,
+        taskName: taskName,
+      );
+
+      final raw = response['data'];
+      final Map<String, dynamic> data =
+          raw is Map<String, dynamic> ? raw : {};
+
+      final task = MytaskCgTaskModel(
+        id: data['_id']?.toString() ??
+            data['taskId']?.toString() ??
+            DateTime.now().millisecondsSinceEpoch.toString(),
+        title: data['taskName']?.toString() ??
+            data['taskDescription']?.toString() ??
+            taskName,
+        description: data['taskDescription']?.toString() ?? taskName,
+        assignedTo: '',
+        category: 'General',
+        date: DateTime.now().toString().substring(0, 10),
+        isAddedByCaregiver: true,
+      );
+
+      final updated = current.bookings.map((b) {
+        if (b.bookingId == bookingId) {
+          return b.copyWith(tasks: [...b.tasks, task]);
         }
-        return t;
+        return b;
       }).toList();
-      return b.copyWith(tasks: updatedTasks);
+
+      if (!isClosed) emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
+      return null;
+    } catch (e) {
+      debugPrint('addTask failed: $e');
+      return _extractErrorMessage(e);
     }
-    return b;
-  }).toList();
-  if (!isClosed) {
+  }
+
+  void deleteTask(String bookingId, String taskId) {
+    final current = state as MytaskCgLoaded;
+    final updated = current.bookings.map((b) {
+      if (b.bookingId == bookingId) {
+        return b.copyWith(
+          tasks: b.tasks
+              .where((t) => !(t.id == taskId && t.isAddedByCaregiver))
+              .toList(),
+        );
+      }
+      return b;
+    }).toList();
     emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
   }
-}
-void toggleTaskDone(String bookingId, String taskId) {
-  final current = state as MytaskCgLoaded;
-  final updated = current.bookings.map((b) {
-    if (b.bookingId == bookingId) {
-      final updatedTasks = b.tasks.map((t) {
-        if (t.id == taskId) {
-          if (t.mediaProof.isEmpty) return t;
-          return t.copyWith(isDone: !t.isDone);
+
+  // ── Helpers ───────────────────────────────────────────────────────────────
+  String _extractErrorMessage(Object e) {
+    try {
+      // ignore: avoid_dynamic_calls
+      final dynamic dioE = e;
+      final resp = dioE.response;
+      if (resp != null) {
+        final body = resp.data;
+        if (body is Map) {
+          final msg = body['message'] ?? body['error'] ?? body['msg'];
+          if (msg != null) return msg.toString();
         }
-        return t;
-      }).toList();
-      return b.copyWith(tasks: updatedTasks);
+        return 'HTTP ${resp.statusCode}';
+      }
+    } catch (_) {}
+    return e.toString();
+  }
+
+  String _formatIsoTime(String raw) {
+    try {
+      return _toAmPm(DateTime.parse(raw).toLocal());
+    } catch (_) {
+      return raw;
     }
-    return b;
-  }).toList();
-  emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
-}
-void deleteTask(String bookingId, String taskId) {
-  final current = state as MytaskCgLoaded;
-  final updated = current.bookings.map((b) {
-    if (b.bookingId == bookingId) {
-      final updatedTasks = b.tasks
-          .where((t) => !(t.id == taskId && t.isAddedByCaregiver))
-          .toList();
-      return b.copyWith(tasks: updatedTasks);
-    }
-    return b;
-  }).toList();
-  emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
-}
+  }
+
+  String _toAmPm(DateTime dt) {
+    final h = dt.hour;
+    final displayH = h > 12 ? h - 12 : (h == 0 ? 12 : h);
+    final m = dt.minute.toString().padLeft(2, '0');
+    return '$displayH:$m ${h >= 12 ? 'PM' : 'AM'}';
+  }
 }

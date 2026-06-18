@@ -29,11 +29,13 @@ class CaregiverModel {
     required Map<String, dynamic> profile,
     Map<String, dynamic>? wallet,
     String govFallback = '',
+    String phoneFallback = '',
   }) {
     final addr = profile['address'] is Map ? profile['address'] as Map : <dynamic, dynamic>{};
     final location = addr['governorate']?.toString() ??
         addr['government']?.toString() ??
         profile['governorate']?.toString() ??
+        profile['government']?.toString() ??
         govFallback;
 
     return CaregiverModel(
@@ -42,7 +44,10 @@ class CaregiverModel {
           profile['careField']?.toString() ??
           profile['speciality']?.toString() ??
           '',
-      phone: profile['phoneNumber']?.toString() ?? profile['phone']?.toString() ?? '',
+      phone: profile['phoneNumber']?.toString() ??
+          profile['phone']?.toString() ??
+          profile['phone_number']?.toString() ??
+          phoneFallback,
       email: profile['email']?.toString() ?? '',
       location: location,
       rating: ((profile['averageRating'] ?? 0) as num).toDouble(),

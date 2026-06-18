@@ -1,5 +1,4 @@
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
-import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
 import 'package:ehtemam_final_project/features/rating/data/repo/rating_repo.dart';
 import 'package:ehtemam_final_project/features/rating/manager/rating_cubit.dart';
 import 'package:ehtemam_final_project/features/rating/manager/rating_state.dart';
@@ -7,6 +6,7 @@ import 'package:ehtemam_final_project/features/rating/ui/widgets/rating_row.dart
 import 'package:ehtemam_final_project/features/rating/ui/widgets/review_field.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/section_card.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/submit_button.dart';
+import 'package:ehtemam_final_project/features/rating/ui/widgets/thank_you_dialog.dart';
 import 'package:ehtemam_final_project/features/rating/ui/widgets/user_card.dart';
 import 'package:ehtemam_final_project/features/rating_caregiver/ui/widgets/custom_header.dart';
 import 'package:ehtemam_final_project/features/rating_caregiver/ui/widgets/rating_stars.dart';
@@ -62,6 +62,7 @@ class _RatingBodyState extends State<_RatingBody> {
   int _communication = 4;
   final TextEditingController _reviewController = TextEditingController();
 
+
   @override
   void dispose() {
     _reviewController.dispose();
@@ -76,11 +77,7 @@ class _RatingBodyState extends State<_RatingBody> {
         child: BlocListener<RatingCubit, RatingState>(
           listener: (context, state) {
             if (state is RatingSuccess) {
-              Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (_) => const HomeScreen()),
-                (route) => false,
-              );
+              ThankYouDialog.show(context, _overall);
             }
             if (state is RatingError) {
               ScaffoldMessenger.of(context).showSnackBar(

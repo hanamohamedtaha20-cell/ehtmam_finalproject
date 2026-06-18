@@ -41,6 +41,7 @@ class CaregiverRepo {
       profile: profile,
       wallet: walletData,
       govFallback: prefs.getString('user_government') ?? '',
+      phoneFallback: prefs.getString('user_phone') ?? '',
     );
   }
 }

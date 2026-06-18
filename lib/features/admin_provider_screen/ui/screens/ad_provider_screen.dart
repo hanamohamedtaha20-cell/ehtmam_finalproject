@@ -88,14 +88,7 @@ class AdProviderView extends StatelessWidget {
 
                           final provider = state.providers[index - 1];
 
-                          return AdProviderCard(
-                            provider: provider,
-                            onBlockConfirmed: () {
-                              context
-                                  .read<AdProviderCubit>()
-                                  .blockProvider(provider);
-                            },
-                          );
+                          return AdProviderCard(provider: provider);
                         },
                       );
                     }

@@ -2,6 +2,7 @@ import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_careprovider.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
 import 'package:ehtemam_final_project/features/payment_cg/ui/screens/cg_payment_screen.dart';
+import 'package:ehtemam_final_project/features/rating_overview/ui/screens/provider_reviews_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -36,18 +37,12 @@ class MenuOptionsCard extends StatelessWidget {
         label: "My Ratings",
         iconColor: AppColors.orange,
         bgColor: const Color.fromARGB(255, 255, 251, 235),
-        onTap: () {},
-      ),
-      _MenuOption(
-        icon: Icons.check_box_outlined,
-        label: "My Tasks",
-        iconColor: AppColors.purple2,
-        bgColor: const Color.fromARGB(255, 240, 249, 255),
         onTap: () => Navigator.push(
           context,
-          MaterialPageRoute(builder: (_) => const MytaskCgScreen()),
+          MaterialPageRoute(builder: (_) => const ProviderReviewsScreen()),
         ),
       ),
+     
     ];
 
     return Container(

@@ -1,7 +1,5 @@
-﻿import 'package:ehtemam_final_project/features/myTasks_caregiver/manager/mytask_cg_cubit.dart';
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/mytask_cg_booking_model.dart';
 import 'mytask_cg_task_item.dart';
 
@@ -29,13 +27,10 @@ class MytaskCgBookingCard extends StatelessWidget {
         children: [
           _buildHeader(),
           if (!booking.isCheckedOut) _buildCheckInOutSection(),
-          ...booking.tasks.map((task) => Builder(
-      builder: (context) => MytaskCgTaskItem(
-        task: task,
-        bookingId: booking.bookingId,
-        onAddProof: () => context.read<MytaskCgCubit>().addMediaToTask(booking.bookingId, task.id),
-      ),
-    )),
+          ...booking.tasks.map((task) => MytaskCgTaskItem(
+            task: task,
+            bookingId: booking.bookingId,
+          )),
         ],
       ),
     );
@@ -107,7 +102,7 @@ class MytaskCgBookingCard extends StatelessWidget {
               Text(' Checked In', style: TextStyle(color: Colors.green, fontSize: 13.sp, fontWeight: FontWeight.bold)),
               Spacer(),
               Icon(Icons.access_time, size: 13.r, color: Colors.grey),
-              Text(' ${booking.checkInTime}', style: TextStyle(fontSize: 12.sp, color: Colors.grey)),
+              Text(' ${booking.checkInTime ?? '—'}', style: TextStyle(fontSize: 12.sp, color: Colors.grey)),
             ],
           ),
           SizedBox(height: 4.h),

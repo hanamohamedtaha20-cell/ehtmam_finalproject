@@ -28,30 +28,13 @@ class RequestHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           /// LEFT SIDE
-          Row(
-            children: [
-              InkWell(
-                onTap: () {
-                  Navigator.pop(context);
-                },
-                child: Icon(
-                  Icons.arrow_back_ios_new_rounded,
-                  size: 20.r,
-                  color: Color(0xFF222222),
-                ),
-              ),
-
-              SizedBox(width: 10.w),
-
-              Text(
-                "Care Requests",
-                style: TextStyle(
-                  fontSize: 22.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF222222),
-                ),
-              ),
-            ],
+          Text(
+            "Care Requests",
+            style: TextStyle(
+              fontSize: 22.sp,
+              fontWeight: FontWeight.w700,
+              color: Color(0xFF222222),
+            ),
           ),
           /// LANGUAGE BUTTON
           Row(

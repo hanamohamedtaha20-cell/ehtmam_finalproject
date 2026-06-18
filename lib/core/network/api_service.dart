@@ -491,16 +491,22 @@ class ApiService {
 
   Future<Map<String, dynamic>> createReview({
     required String bookingId,
-    required int rating,
-    required String review,
-    String? feedback,
+    required int overallRating,
+    required int professionalismRating,
+    required int serviceQualityRating,
+    required int punctualityRating,
+    required int communicationRating,
+    required String reviewComment,
   }) async {
     final response = await _dio.post(
       '$reviewEndpoint/create_review/$bookingId',
       data: {
-        'rating': rating,
-        'review': review,
-        if (feedback != null) 'feedback': feedback,
+        'overallRating': overallRating,
+        'professionalismRating': professionalismRating,
+        'serviceQualityRating': serviceQualityRating,
+        'punctualityRating': punctualityRating,
+        'communicationRating': communicationRating,
+        'reviewComment': reviewComment,
       },
     );
     return response.data;
@@ -607,11 +613,31 @@ class ApiService {
   }
 
   Future<List<dynamic>> getTasksByBookingId(String bookingId) async {
-    final response = await _dio.get('$bookingEndpoint/$bookingId/tasks');
-    final data = response.data;
-    if (data is Map && data['data'] is List) return data['data'] as List;
-    if (data is List) return data;
-    return [];
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? '';
+
+    print('[MyTasks] bookingId → "$bookingId"');
+    print('[MyTasks] URL     → ${baseUrl}$bookingEndpoint/$bookingId/tasks');
+    print('[MyTasks] token   → ${token.isEmpty ? "EMPTY/NULL — will 403" : "${token.substring(0, token.length.clamp(0, 24))}…"}');
+
+    if (token.isEmpty) {
+      throw Exception('auth_required');
+    }
+
+    try {
+      final response = await _dio.get('$bookingEndpoint/$bookingId/tasks');
+      print('[MyTasks] status  → ${response.statusCode}');
+      final data = response.data;
+      if (data is Map && data['data'] is List) return data['data'] as List;
+      if (data is List) return data;
+      return [];
+    } on DioException catch (e) {
+      print('[MyTasks] error   → HTTP ${e.response?.statusCode}: ${e.response?.data}');
+      if (e.response?.statusCode == 403) {
+        throw Exception('forbidden_403');
+      }
+      rethrow;
+    }
   }
 
   bool _taskBelongsToRequest(Map task, String requestId) {
@@ -631,6 +657,22 @@ class ApiService {
       'taskID':          DateTime.now().millisecondsSinceEpoch.toString(),
       'proofUrl':        '',
     });
+    return response.data;
+  }
+
+  /// Adds a caregiver-created task to a specific booking.
+  /// POST /booking/{bookingId}/tasks
+  Future<Map<String, dynamic>> addCaregiverTask({
+    required String bookingId,
+    required String taskName,
+  }) async {
+    final response = await _dio.post(
+      '$bookingEndpoint/$bookingId/tasks',
+      data: {
+        'taskName': taskName,
+        'taskDescription': taskName,
+      },
+    );
     return response.data;
   }
 
@@ -806,18 +848,9 @@ class ApiService {
     )
         .toList();
   }
-  Future<void> blockUser(String id) async {
-    try {
-      final response = await _dio.patch(
-        '$adminBlockEndpoint/$id',
-      );
-
-      print("SUCCESS => ${response.data}");
-    } on DioException catch (e) {
-      print("URL => ${e.requestOptions.uri}");
-      print("STATUS => ${e.response?.statusCode}");
-      print("DATA => ${e.response?.data}");
-    }
+  Future<Map<String, dynamic>> blockUser(String id) async {
+    final response = await _dio.patch('$adminBlockEndpoint/$id');
+    return Map<String, dynamic>.from(response.data as Map);
   }
   Future<ChatMessageModel> sendMessage({
     required String sessionId,
@@ -843,15 +876,76 @@ class ApiService {
     required String taskId,
     required File proofFile,
   }) async {
+    // ── Switch this constant if the backend renames the field ──────────────
+    const String _proofField = 'proofFiles'; // 'proof' | 'file' | 'proofFiles'
+
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? '';
+
+    final fileName = proofFile.path.replaceAll('\\', '/').split('/').last;
+    final ext      = fileName.contains('.') ? fileName.split('.').last.toLowerCase() : '';
+    final mimeType = _guessMimeType(ext);
+
+    print('[UploadProof] taskId    → "$taskId"');
+    print('[UploadProof] filePath  → "${proofFile.path}"');
+    print('[UploadProof] fileName  → "$fileName"');
+    print('[UploadProof] mimeType  → "$mimeType"');
+    print('[UploadProof] field     → "$_proofField"');
+    print('[UploadProof] token     → ${token.isEmpty ? "EMPTY/NULL" : "${token.substring(0, token.length.clamp(0, 24))}…"}');
+
+    if (token.isEmpty) {
+      throw Exception('auth_required');
+    }
+
     final formData = FormData.fromMap({
-      'proof': await MultipartFile.fromFile(proofFile.path),
+      _proofField: await MultipartFile.fromFile(
+        proofFile.path,
+        filename: fileName,
+      ),
     });
-    final response = await _dio.post(
-      '$tasksEndpoint/upload-proof/$taskId',
-      data: formData,
-      options: Options(contentType: 'multipart/form-data'),
-    );
-    return response.data;
+
+    try {
+      final response = await _dio.post(
+        '$tasksEndpoint/upload-proof/$taskId',
+        data: formData,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'multipart/form-data',
+          },
+        ),
+      );
+      print('[UploadProof] SUCCESS → status ${response.statusCode}');
+      return response.data;
+    } on DioException catch (e) {
+      print('[UploadProof] ERROR → HTTP ${e.response?.statusCode}: ${e.response?.data}');
+      final status = e.response?.statusCode;
+      if (status == 500) throw Exception('server_error_500');
+      if (status == 403) throw Exception('forbidden_403');
+      if (status == 400) {
+        final body = e.response?.data;
+        final msg = (body is Map)
+            ? (body['message'] ?? body['error'] ?? 'Bad request').toString()
+            : 'Bad request';
+        throw Exception('upload_bad_request:$msg');
+      }
+      rethrow;
+    }
+  }
+
+  static String _guessMimeType(String ext) {
+    switch (ext) {
+      case 'jpg':
+      case 'jpeg': return 'image/jpeg';
+      case 'png':  return 'image/png';
+      case 'gif':  return 'image/gif';
+      case 'webp': return 'image/webp';
+      case 'mp4':  return 'video/mp4';
+      case 'mov':  return 'video/quicktime';
+      case 'avi':  return 'video/x-msvideo';
+      case 'pdf':  return 'application/pdf';
+      default:     return 'application/octet-stream';
+    }
   }
 
   // ══════════════════════════════════════════════════════════

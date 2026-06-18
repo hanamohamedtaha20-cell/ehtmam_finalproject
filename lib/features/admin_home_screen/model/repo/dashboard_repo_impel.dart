@@ -59,10 +59,6 @@ class DashboardRepositoryImpl
         icon: Icons.warning,
       ),
       QuickActionModel(
-        title: 'Manage Services',
-        icon: Icons.favorite,
-      ),
-      QuickActionModel(
         title: 'View Transactions',
         icon: Icons.credit_card,
       ),

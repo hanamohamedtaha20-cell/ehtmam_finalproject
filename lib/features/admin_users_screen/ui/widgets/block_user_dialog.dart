@@ -1,17 +1,15 @@
-﻿import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
+import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BlockUserDialog extends StatelessWidget {
   final String name;
   final String email;
-  final VoidCallback onBlock;
 
   const BlockUserDialog({
     super.key,
     required this.name,
     required this.email,
-    required this.onBlock,
   });
 
   @override
@@ -44,9 +42,7 @@ class BlockUserDialog extends StatelessWidget {
                 ),
                 Spacer(),
                 IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: () => Navigator.pop(context, false),
                   icon: Icon(Icons.close),
                 ),
               ],
@@ -54,10 +50,7 @@ class BlockUserDialog extends StatelessWidget {
 
             SizedBox(height: 16.h),
 
-            Text(
-              'User:',
-              style: TextStyle(color: Colors.grey),
-            ),
+            Text('User:', style: TextStyle(color: Colors.grey)),
 
             SizedBox(height: 4.h),
 
@@ -69,10 +62,7 @@ class BlockUserDialog extends StatelessWidget {
               ),
             ),
 
-            Text(
-              email,
-              style: TextStyle(color: Colors.grey),
-            ),
+            Text(email, style: TextStyle(color: Colors.grey)),
 
             SizedBox(height: 20.h),
 
@@ -100,10 +90,7 @@ class BlockUserDialog extends StatelessWidget {
 
             Text(
               'This reason will be stored for record keeping and may be shared with the user.',
-              style: TextStyle(
-                fontSize: 11.sp,
-                color: Colors.grey,
-              ),
+              style: TextStyle(fontSize: 11.sp, color: Colors.grey),
             ),
 
             SizedBox(height: 20.h),
@@ -111,15 +98,8 @@ class BlockUserDialog extends StatelessWidget {
             ActionButtonsRow(
               firstText: "Cancel",
               secondText: "Block User",
-              onFirstTap: () {
-                Navigator.pop(context);
-              },
-              onSecondTap: () {
-
-                onBlock();
-                Navigator.pop(context);
-
-              },
+              onFirstTap: () => Navigator.pop(context, false),
+              onSecondTap: () => Navigator.pop(context, true),
             ),
           ],
         ),

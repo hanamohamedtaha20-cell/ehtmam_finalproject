@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'status_chip.dart';
 
@@ -7,6 +7,8 @@ class ProgressCard extends StatelessWidget {
   final String progressPercent;
   final int completedCount;
   final int totalCount;
+  final String workingStatus;
+  final String checkInTime;
 
   const ProgressCard({
     super.key,
@@ -14,15 +16,24 @@ class ProgressCard extends StatelessWidget {
     required this.progressPercent,
     required this.completedCount,
     required this.totalCount,
+    this.workingStatus = '',
+    this.checkInTime = '',
   });
 
   @override
   Widget build(BuildContext context) {
+    final statusText = workingStatus.isNotEmpty
+        ? workingStatus
+        : 'Caregiver is currently working';
+    final checkInText = checkInTime.isNotEmpty
+        ? 'Checked in at $checkInTime'
+        : 'Not checked in yet';
+
     return Container(
       margin: EdgeInsets.only(left: 10.w, right: 10.w),
       padding: EdgeInsets.all(16.r),
       decoration: BoxDecoration(
-        gradient: LinearGradient(
+        gradient: const LinearGradient(
           colors: [Color(0xFF3A8BD7), Color(0xFF5A9FE0)],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -36,19 +47,14 @@ class ProgressCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "Task Progress",
-                    style: TextStyle(
-                      fontFamily: "Arimo",
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18.sp,
-                      color: Colors.white,
-                    ),
-                  ),
-                ],
+              Text(
+                "Task Progress",
+                style: TextStyle(
+                  fontFamily: "Arimo",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.sp,
+                  color: Colors.white,
+                ),
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
@@ -82,6 +88,7 @@ class ProgressCard extends StatelessWidget {
           ),
           SizedBox(height: 12.h),
           Container(
+            width: double.infinity,
             padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
             decoration: BoxDecoration(
               color: Colors.white,
@@ -91,13 +98,13 @@ class ProgressCard extends StatelessWidget {
               children: [
                 StatusChip(
                   icon: Icons.circle,
-                  text: "Caregiver is currently working",
-                  iconColor: Color(0xFF4CAF50),
+                  text: statusText,
+                  iconColor: const Color(0xFF4CAF50),
                 ),
                 SizedBox(height: 6.h),
                 StatusChip(
                   icon: Icons.location_pin,
-                  text: "Checked in at 09:00 AM",
+                  text: checkInText,
                 ),
               ],
             ),
@@ -108,8 +115,7 @@ class ProgressCard extends StatelessWidget {
             child: LinearProgressIndicator(
               value: progressValue,
               backgroundColor: Colors.white30,
-              valueColor: const AlwaysStoppedAnimation<Color>(
-                  Color(0xff00A63E)),
+              valueColor: const AlwaysStoppedAnimation<Color>(Color(0xff00A63E)),
               minHeight: 8,
             ),
           ),

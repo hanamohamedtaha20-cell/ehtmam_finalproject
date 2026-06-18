@@ -9,7 +9,7 @@ import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/prop
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/service_details_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/description_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/special_instructions_card.dart';
-import 'package:ehtemam_final_project/features/request_screen_caregiver/ui/screens/care_requests_screen.dart';
+import 'package:ehtemam_final_project/features/bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -126,7 +126,7 @@ class _BookingCgViewState extends State<BookingCgView> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (_) => CareRequestsScreen(),
+        builder: (_) => const CareGiverBottomNavScreen(),
       ),
     );
   }

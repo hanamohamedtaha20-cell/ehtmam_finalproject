@@ -2,8 +2,10 @@
 import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
 import 'package:ehtemam_final_project/features/rating_caregiver/ui/screens/rating_screen.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
+import 'package:ehtemam_final_project/features/share_location_cg/ui/screens/share_location_cg_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/widgets/gradient_action_button.dart';
 
 class RequestCard extends StatelessWidget {
@@ -200,11 +202,19 @@ class RequestCard extends StatelessWidget {
                   text: "Share Location",
                   height: 46.h,
                   fontSize: 13.sp,
-                  colors: [
-                    Color(0xFF4CAF50),
-                    Color(0xFF7DDE92),
-                  ],
-                  onTap: () {},
+                  colors: const [Color(0xFF4CAF50), Color(0xFF7DDE92)],
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => ShareLocationCgScreen(
+                          bookingId: request.bookingId ?? '',
+                          clientName: request.clientName,
+                          serviceType: request.serviceName,
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
               SizedBox(width: 15.w),
@@ -212,16 +222,33 @@ class RequestCard extends StatelessWidget {
                 child: SizedBox(
                   height: 46.h,
                   child: OutlinedButton(
-                    onPressed: () {
+                    onPressed: () async {
+                      final bookingId = request.bookingId ?? '';
+                      final prefs = await SharedPreferences.getInstance();
+                      final locationShared =
+                          prefs.getBool('loc_shared_$bookingId') ?? false;
+                      if (!context.mounted) return;
+                      if (!locationShared) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'You must share your location first before viewing tasks.',
+                            ),
+                          ),
+                        );
+                        return;
+                      }
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (_) => const MytaskCgScreen(),
+                          builder: (_) => MytaskCgScreen(
+                            bookingId: request.bookingId,
+                          ),
                         ),
                       );
                     },
                     style: OutlinedButton.styleFrom(
-                      side: BorderSide(color: Colors.blue),
+                      side: const BorderSide(color: Colors.blue),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(18.r),
                       ),

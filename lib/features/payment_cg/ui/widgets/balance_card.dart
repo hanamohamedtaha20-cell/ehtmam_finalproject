@@ -1,4 +1,4 @@
-﻿import 'package:ehtemam_final_project/features/payment/ui/widgets/add_funds.dart';
+﻿import 'package:ehtemam_final_project/features/payment/ui/widgets/withdraw.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'wallet_header.dart';

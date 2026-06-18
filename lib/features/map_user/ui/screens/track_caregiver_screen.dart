@@ -1,6 +1,8 @@
-﻿import 'dart:async';
-import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:ehtemam_final_project/features/map_user/data/repo/track_caregiver_repo.dart';
+import 'package:ehtemam_final_project/features/map_user/manager/track_caregiver_cubit.dart';
+import 'package:ehtemam_final_project/features/map_user/manager/track_caregiver_state.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
@@ -8,7 +10,19 @@ import '../widgets/eta_banner.dart';
 import '../widgets/caregiver_info_card.dart';
 import '../widgets/location_details.dart';
 
-class TrackCaregiverScreen extends StatefulWidget {
+// ── API-key placeholders ────────────────────────────────────────────────────
+// If you ever switch from flutter_map to google_maps_flutter, add the key here:
+//
+//   Android  →  android/app/src/main/AndroidManifest.xml
+//               inside <application>:
+//               <meta-data android:name="com.google.android.geo.API_KEY"
+//                          android:value="YOUR_GOOGLE_MAPS_API_KEY"/>
+//
+//   iOS      →  ios/Runner/AppDelegate.swift
+//               GMSServices.provideAPIKey("YOUR_GOOGLE_MAPS_API_KEY")
+// ───────────────────────────────────────────────────────────────────────────
+
+class TrackCaregiverScreen extends StatelessWidget {
   final String caregiverName;
   final String speciality;
   final String phoneNumber;
@@ -25,83 +39,137 @@ class TrackCaregiverScreen extends StatefulWidget {
   });
 
   @override
-  State<TrackCaregiverScreen> createState() => _TrackCaregiverScreenState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (_) => TrackCaregiverCubit(TrackCaregiverRepo()),
+      child: _TrackCaregiverBody(
+        caregiverName: caregiverName,
+        speciality: speciality,
+        phoneNumber: phoneNumber,
+        userLocation: userLocation,
+      ),
+    );
+  }
 }
 
-class _TrackCaregiverScreenState extends State<TrackCaregiverScreen> {
-  static const LatLng _defaultCaregiver = LatLng(30.0500, 31.2400);
-  static const LatLng _defaultUser      = LatLng(30.0444, 31.2357);
+// ── Private body ─────────────────────────────────────────────────────────────
+// Keeps a MapController for smooth camera animation while delegating all
+// network/timer logic to TrackCaregiverCubit (disposed automatically via BlocProvider).
+
+class _TrackCaregiverBody extends StatefulWidget {
+  final String caregiverName;
+  final String speciality;
+  final String phoneNumber;
+  final String userLocation;
+
+  const _TrackCaregiverBody({
+    required this.caregiverName,
+    required this.speciality,
+    required this.phoneNumber,
+    required this.userLocation,
+  });
+
+  @override
+  State<_TrackCaregiverBody> createState() => _TrackCaregiverBodyState();
+}
+
+class _TrackCaregiverBodyState extends State<_TrackCaregiverBody> {
+  static const LatLng _defaultCaregiver = LatLng(30.0444, 31.2357);
+  static const LatLng _defaultUser = LatLng(30.0444, 31.2357);
 
   LatLng _caregiverLocation = _defaultCaregiver;
-  String _lastUpdated = '';
-  bool _loading = true;
-
-  final _api = ApiService();
   final _mapController = MapController();
-  Timer? _timer;
 
-  @override
-  void initState() {
-    super.initState();
-    _fetchLocation();
-    _timer = Timer.periodic(const Duration(seconds: 5), (_) => _fetchLocation());
-  }
-
-  @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  Future<void> _fetchLocation() async {
-    if (widget.bookingId.isEmpty) return;
+  String _formatUpdated(String iso) {
     try {
-      final response = await _api.getCaregiverLocation(widget.bookingId);
-      final data = response['data'];
-      if (data is Map) {
-        final lat = (data['latitude']  as num?)?.toDouble();
-        final lng = (data['longitude'] as num?)?.toDouble();
-        final updated = data['lastUpdated']?.toString() ?? '';
-        if (lat != null && lng != null && mounted) {
-          setState(() {
-            _caregiverLocation = LatLng(lat, lng);
-            _lastUpdated = updated;
-            _loading = false;
-          });
-          _mapController.move(_caregiverLocation, 14);
-        }
-      }
+      final dt = DateTime.parse(iso).toLocal();
+      final h = dt.hour.toString().padLeft(2, '0');
+      final m = dt.minute.toString().padLeft(2, '0');
+      final s = dt.second.toString().padLeft(2, '0');
+      return '$h:$m:$s';
     } catch (_) {
-      if (mounted) setState(() => _loading = false);
+      return iso;
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return BlocListener<TrackCaregiverCubit, TrackCaregiverState>(
+      listener: (context, state) {
+        // Camera animation is a side-effect → handled here, not in BlocBuilder
+        if (state is TrackCaregiverLoaded) {
+          final newPos =
+              LatLng(state.location.latitude, state.location.longitude);
+          setState(() => _caregiverLocation = newPos);
+          _mapController.move(newPos, 14);
+        } else if (state is TrackCaregiverError && state.lastKnown != null) {
+          final pos = LatLng(
+              state.lastKnown!.latitude, state.lastKnown!.longitude);
+          setState(() => _caregiverLocation = pos);
+        }
+      },
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          "Track Caregiver",
-          style: TextStyle(
-            fontFamily: "Arimo",
-            fontWeight: FontWeight.bold,
-            fontSize: 18.sp,
-            color: Colors.black,
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
+            onPressed: () => Navigator.pop(context),
+          ),
+          title: Text(
+            "Track Caregiver",
+            style: TextStyle(
+              fontFamily: "Arimo",
+              fontWeight: FontWeight.bold,
+              fontSize: 18.sp,
+              color: Colors.black,
+            ),
           ),
         ),
-      ),
-      body: _loading
-          ? Center(child: CircularProgressIndicator())
-          : Column(
+        body: BlocBuilder<TrackCaregiverCubit, TrackCaregiverState>(
+          builder: (context, state) {
+            // ── Initial loading ───────────────────────────────────────────
+            if (state is TrackCaregiverLoading) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            // ── Resolve last-updated timestamp ────────────────────────────
+            String lastUpdated = '';
+            if (state is TrackCaregiverLoaded) {
+              lastUpdated = state.location.lastUpdated;
+            } else if (state is TrackCaregiverError &&
+                state.lastKnown != null) {
+              lastUpdated = state.lastKnown!.lastUpdated;
+            }
+
+            return Column(
               children: [
                 const ETABanner(eta: "—", distance: "—"),
+
+                // Non-intrusive error ribbon — map + last known pin stay visible
+                if (state is TrackCaregiverError)
+                  Container(
+                    color: Colors.red.shade50,
+                    padding:
+                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
+                    child: Row(
+                      children: [
+                        Icon(Icons.wifi_off_rounded,
+                            color: Colors.red.shade700, size: 16.r),
+                        SizedBox(width: 8.w),
+                        Expanded(
+                          child: Text(
+                            'Could not update location. Showing last known position.',
+                            style: TextStyle(
+                                fontSize: 11.sp,
+                                color: Colors.red.shade700),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
                 SizedBox(
                   height: 250.h,
                   child: Padding(
@@ -136,7 +204,7 @@ class _TrackCaregiverScreenState extends State<TrackCaregiverScreen> {
                               height: 40.h,
                               child: Icon(
                                 Icons.person_pin_circle,
-                                color: Color(0xFF3A8BD7),
+                                color: const Color(0xFF3A8BD7),
                                 size: 40.r,
                               ),
                             ),
@@ -177,10 +245,10 @@ class _TrackCaregiverScreenState extends State<TrackCaregiverScreen> {
                           distance: "—",
                           eta: "—",
                         ),
-                        if (_lastUpdated.isNotEmpty) ...[
+                        if (lastUpdated.isNotEmpty) ...[
                           SizedBox(height: 8.h),
                           Text(
-                            'Last updated: ${_formatUpdated(_lastUpdated)}',
+                            'Last updated: ${_formatUpdated(lastUpdated)}',
                             style: TextStyle(
                               fontSize: 11.sp,
                               color: Colors.grey,
@@ -192,19 +260,10 @@ class _TrackCaregiverScreenState extends State<TrackCaregiverScreen> {
                   ),
                 ),
               ],
-            ),
+            );
+          },
+        ),
+      ),
     );
-  }
-
-  String _formatUpdated(String iso) {
-    try {
-      final dt = DateTime.parse(iso).toLocal();
-      final h = dt.hour.toString().padLeft(2, '0');
-      final m = dt.minute.toString().padLeft(2, '0');
-      final s = dt.second.toString().padLeft(2, '0');
-      return '$h:$m:$s';
-    } catch (_) {
-      return iso;
-    }
   }
 }

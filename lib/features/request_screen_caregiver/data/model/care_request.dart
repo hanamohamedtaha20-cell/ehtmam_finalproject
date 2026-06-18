@@ -68,16 +68,24 @@ class CareRequestModel {
   factory CareRequestModel.fromBookingJson(Map<String, dynamic> json) {
     final service = json['service'];
     final request = json['request'];
-    final client = request is Map ? request['client'] : null;
+    final client = request is Map ? request['client'] : json['client'];
 
     String serviceName = '';
     if (service is Map<String, dynamic>) {
-      serviceName = service['serviceName']?.toString() ?? '';
+      serviceName = service['serviceName']?.toString() ??
+          service['name']?.toString() ??
+          service['type']?.toString() ??
+          '';
     }
 
     String clientName = '';
     if (client is Map<String, dynamic>) {
-      clientName = client['full_name']?.toString() ?? '';
+      clientName = client['full_name']?.toString() ??
+          client['fullName']?.toString() ??
+          client['name']?.toString() ??
+          '';
+    } else {
+      clientName = json['clientName']?.toString() ?? '';
     }
 
     final rawStatus = (json['bookingStatus'] ?? json['status'] ?? '').toString().toUpperCase();
@@ -100,22 +108,42 @@ class CareRequestModel {
           : (json['_id']?.toString() ?? ''),
       status: uiStatus,
       serviceName: serviceName.isNotEmpty ? serviceName : 'Care Service',
-      duration: request is Map ? (request['duration']?.toString() ?? '') : '',
-      location: request is Map ? (request['location']?.toString() ?? '') : '',
+      duration: request is Map
+          ? (request['duration']?.toString() ?? '')
+          : (json['duration']?.toString() ?? ''),
+      location: request is Map
+          ? (request['location']?.toString() ?? '')
+          : (json['location']?.toString() ?? ''),
       date: request is Map
           ? DateFormatter.formatDisplayDate(request['date']?.toString())
-          : '',
+          : DateFormatter.formatDisplayDate(json['date']?.toString()),
       time: request is Map
-          ? _formatTime(
-              request['date']?.toString(),
-              request['time']?.toString(),
-            )
-          : '',
-      notes: request is Map ? (request['notes']?.toString() ?? '') : '',
+          ? _formatTime(request['date']?.toString(), request['time']?.toString())
+          : _formatTime(json['date']?.toString(), json['time']?.toString()),
+      notes: request is Map
+          ? (request['notes']?.toString() ?? '')
+          : (json['notes']?.toString() ?? ''),
       clientName: clientName,
       price: price,
       sourceType: CareRequestSource.booking,
       bookingId: json['_id']?.toString(),
+    );
+  }
+
+  CareRequestModel copyWithClientName(String clientName) {
+    return CareRequestModel(
+      id: id,
+      status: status,
+      serviceName: serviceName,
+      duration: duration,
+      location: location,
+      date: date,
+      time: time,
+      notes: notes,
+      clientName: clientName,
+      price: price,
+      sourceType: sourceType,
+      bookingId: bookingId,
     );
   }
 

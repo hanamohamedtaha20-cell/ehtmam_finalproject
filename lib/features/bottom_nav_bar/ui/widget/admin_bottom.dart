@@ -1,9 +1,9 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../admin_features/ui/screens/bundles_screen.dart';
 import '../../../admin_home_screen/ui/screens/admin_dashboard._screen.dart';
 import '../../../admin_provider_screen/ui/screens/ad_provider_screen.dart';
+import '../../../admin_settings_screen/ui/screens/admin_settings_screen.dart';
 import '../../../admin_users_screen/ui/ad_user_screen.dart';
 import '../../manager/bottom_nav_bar_cubit.dart';
 import '../../manager/bottom_nav_bar_state.dart';
@@ -20,9 +20,7 @@ class AdminButtomNavBar extends StatelessWidget {
       AdminDashboardScreen(),
       AdUserScreen(),
       AdProviderScreen(),
-      //PendingApprovalsScreen()
-      BundlesScreen()
-
+      AdminSettingsScreen(),
     ];
 
     return BlocBuilder<BottomNavCubit, BottomNavState>(
@@ -39,17 +37,13 @@ class AdminButtomNavBar extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
-                colors: [
-                  Color(0xFF3A8BD7),
-                  Color(0xFFEAF4FF),
-                ],
+                colors: [Color(0xFF3A8BD7), Color.fromARGB(255, 144, 192, 242)],
               ),
             ),
 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-
                 // DASHBOARD
                 navItem(
                   context: context,
@@ -126,7 +120,6 @@ class AdminButtomNavBar extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-
             // BLUE TOP LINE
             AnimatedContainer(
               duration: const Duration(milliseconds: 250),
@@ -151,8 +144,7 @@ class AdminButtomNavBar extends StatelessWidget {
               height: isSelected ? 38 * scale : 26 * scale,
 
               decoration: BoxDecoration(
-                color:
-                isSelected ? Colors.white : Colors.transparent,
+                color: isSelected ? Colors.white : Colors.transparent,
 
                 shape: BoxShape.circle,
               ),
@@ -162,9 +154,7 @@ class AdminButtomNavBar extends StatelessWidget {
 
                 size: isSelected ? 21 * scale : 19 * scale,
 
-                color: isSelected
-                    ? const Color(0xFF3A8BD7)
-                    : Colors.white,
+                color: isSelected ? const Color(0xFF3A8BD7) : Colors.white,
               ),
             ),
 

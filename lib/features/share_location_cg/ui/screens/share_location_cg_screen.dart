@@ -1,14 +1,14 @@
-﻿import 'dart:async';
+import 'dart:async';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_map/flutter_map.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/location_status_banner.dart';
 import '../widgets/client_info_card.dart';
 import '../widgets/location_details_cg.dart';
+import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
 
 class ShareLocationCgScreen extends StatefulWidget {
   final String bookingId;
@@ -27,11 +27,10 @@ class ShareLocationCgScreen extends StatefulWidget {
 }
 
 class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
-  static const LatLng _defaultLocation = LatLng(30.0500, 31.2400);
+  static const LatLng _staticLocation = LatLng(30.0444, 31.2357);
 
-  LatLng _myLocation = _defaultLocation;
+  final LatLng _myLocation = _staticLocation;
   bool _isSharing = false;
-  bool _locationReady = false;
   String _errorMessage = '';
   String _clientName = '';
   String _serviceType = '';
@@ -45,7 +44,6 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
     super.initState();
     _clientName = widget.clientName;
     _serviceType = widget.serviceType;
-    _initLocation();
     if (_clientName.isEmpty) _loadClientName();
   }
 
@@ -64,59 +62,43 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
     }
   }
 
-  Future<void> _initLocation() async {
-    try {
-      bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
-      if (!serviceEnabled) {
-        if (mounted) setState(() => _errorMessage = 'Location services are disabled.');
-        return;
-      }
-
-      LocationPermission permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          if (mounted) setState(() => _errorMessage = 'Location permission denied.');
-          return;
-        }
-      }
-      if (permission == LocationPermission.deniedForever) {
-        if (mounted) setState(() => _errorMessage = 'Location permission permanently denied. Enable it in settings.');
-        return;
-      }
-
-      final pos = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
-      );
-      if (mounted) {
-        setState(() {
-          _myLocation = LatLng(pos.latitude, pos.longitude);
-          _locationReady = true;
-        });
-        _mapController.move(_myLocation, 14);
-      }
-    } catch (e) {
-      if (mounted) setState(() => _errorMessage = 'Could not get location.');
-    }
-  }
-
-  void _toggleSharing() {
-    if (!_locationReady) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Waiting for GPS location...')),
-      );
-      return;
-    }
-
+  Future<void> _toggleSharing() async {
     if (_isSharing) {
       _shareTimer?.cancel();
       setState(() => _isSharing = false);
     } else {
       setState(() => _isSharing = true);
-      _sendLocation(); // send immediately
+      _sendLocation();
       _shareTimer = Timer.periodic(
         const Duration(seconds: 10),
         (_) => _sendLocation(),
+      );
+
+      if (widget.bookingId.isNotEmpty) {
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setBool('loc_shared_${widget.bookingId}', true);
+      }
+
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: const Text(
+            'Location sharing started successfully. You can now view your tasks.',
+          ),
+          duration: const Duration(seconds: 6),
+          action: SnackBarAction(
+            label: 'View Tasks',
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) =>
+                      MytaskCgScreen(bookingId: widget.bookingId),
+                ),
+              );
+            },
+          ),
+        ),
       );
     }
   }
@@ -124,20 +106,13 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
   Future<void> _sendLocation() async {
     if (widget.bookingId.isEmpty) return;
     try {
-      final pos = await Geolocator.getCurrentPosition(
-        locationSettings: const LocationSettings(accuracy: LocationAccuracy.high),
-      );
-      if (mounted) {
-        setState(() => _myLocation = LatLng(pos.latitude, pos.longitude));
-        _mapController.move(_myLocation, 14);
-      }
       await _api.updateCaregiverLocation(
         bookingId: widget.bookingId,
-        latitude: pos.latitude,
-        longitude: pos.longitude,
+        latitude: _staticLocation.latitude,
+        longitude: _staticLocation.longitude,
       );
-    } catch (_) {
-      // Silent — keep trying on the next tick.
+    } catch (e) {
+      if (mounted) setState(() => _errorMessage = 'Failed to send location.');
     }
   }
 
@@ -241,9 +216,8 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                   SizedBox(height: 12.h),
                   LocationDetailsCg(
                     clientLocation: 'Client location',
-                    caregiverLocation: _locationReady
-                        ? '${_myLocation.latitude.toStringAsFixed(4)}, ${_myLocation.longitude.toStringAsFixed(4)}'
-                        : 'Fetching…',
+                    caregiverLocation:
+                        '${_myLocation.latitude.toStringAsFixed(4)}, ${_myLocation.longitude.toStringAsFixed(4)}',
                     distance: '—',
                     eta: '—',
                   ),

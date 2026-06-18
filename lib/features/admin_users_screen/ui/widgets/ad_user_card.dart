@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -53,8 +53,7 @@ class AdUserCard extends StatelessWidget {
 
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       user.name,
@@ -64,24 +63,16 @@ class AdUserCard extends StatelessWidget {
                         color: Color(0xff111827),
                       ),
                     ),
-
                     SizedBox(height: 4.h),
-
                     Text(
                       user.email,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 12.sp,
-                      ),
+                      style: TextStyle(color: Colors.grey, fontSize: 12.sp),
                     ),
                   ],
                 ),
               ),
 
-              Icon(
-                Icons.more_vert,
-                color: Color(0xff94A3B8),
-              ),
+              Icon(Icons.more_vert, color: Color(0xff94A3B8)),
             ],
           ),
 
@@ -91,60 +82,56 @@ class AdUserCard extends StatelessWidget {
             children: [
               Text(
                 '${user.bookingsCount} bookings',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12.sp,
-                ),
+                style: TextStyle(color: Colors.grey, fontSize: 12.sp),
               ),
-
               Spacer(),
-
               Text(
                 'Joined ${user.createdAt.split("T").first}',
-                style: TextStyle(
-                  color: Colors.grey,
-                  fontSize: 12.sp,
-                ),
+                style: TextStyle(color: Colors.grey, fontSize: 12.sp),
               ),
             ],
           ),
 
           SizedBox(height: 8.h),
 
-          const AdUserTagsWidget(
-            isActive: true,
+          AdUserTagsWidget(
+            isActive: !user.isBlocked,
             isPremium: false,
+            isBlocked: user.isBlocked,
           ),
 
-          SizedBox(height: 12.h),
-
-          TextButton.icon(
-            onPressed: () {
-              showDialog(
+          if (!user.isBlocked) ...[
+            SizedBox(height: 12.h),
+            TextButton.icon(
+              onPressed: () async {
+              final confirmed = await showDialog<bool>(
                 context: context,
                 builder: (_) => BlockUserDialog(
                   name: user.name,
                   email: user.email,
-                  onBlock: () {
-                    context
-                        .read<AdUserCubit>()
-                        .blockUser(user.id);
-                  },
+                ),
+              );
+              if (confirmed != true || !context.mounted) return;
+
+              final error = await context.read<AdUserCubit>().blockUser(user.id);
+
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    error == null
+                        ? '${user.name} has been blocked'
+                        : 'Failed to block user: $error',
+                  ),
+                  backgroundColor: error == null ? Colors.green : Colors.red,
+                  behavior: SnackBarBehavior.floating,
                 ),
               );
             },
-            icon: Icon(
-              Icons.block,
-              color: Colors.red,
-              size: 18.r,
-            ),
-            label: Text(
-              'Block User',
-              style: TextStyle(
-                color: Colors.red,
-              ),
-            ),
+            icon: Icon(Icons.block, color: Colors.red, size: 18.r),
+            label: Text('Block User', style: TextStyle(color: Colors.red)),
           ),
+          ],
         ],
       ),
     );

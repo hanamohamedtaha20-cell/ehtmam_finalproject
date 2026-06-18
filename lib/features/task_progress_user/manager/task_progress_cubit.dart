@@ -11,14 +11,10 @@ class TaskProgressCubit extends Cubit<TaskProgressState> {
     if (isClosed) return;
     emit(TaskProgressLoading());
     try {
-      final tasks = await _repo.getTasks(bookingId);
-      if (!isClosed) {
-        emit(TaskProgressLoaded(tasks: tasks));
-      }
+      final data = await _repo.getProgress(bookingId);
+      if (!isClosed) emit(TaskProgressLoaded(data));
     } catch (e) {
-      if (!isClosed) {
-        emit(TaskProgressError(e.toString()));
-      }
+      if (!isClosed) emit(TaskProgressError(e.toString()));
     }
   }
 }

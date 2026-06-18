@@ -1,4 +1,4 @@
-﻿import 'package:ehtemam_final_project/features/booking_user/ui/screens/booking_screen_user.dart';
+import 'package:ehtemam_final_project/features/booking_user/ui/screens/booking_screen_user.dart';
 import 'package:ehtemam_final_project/features/task_progress_user/data/repo/task_progress_repo.dart';
 import 'package:ehtemam_final_project/features/task_progress_user/manager/task_progress_cubit.dart';
 import 'package:ehtemam_final_project/features/task_progress_user/manager/task_progress_state.dart';
@@ -23,12 +23,10 @@ class TaskProgressScreen extends StatelessWidget {
           backgroundColor: Colors.white,
           elevation: 0,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: Colors.black),
+            icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.pushReplacement(
               context,
-              MaterialPageRoute(
-                builder: (context) => const BookingScreenUser(),
-              ),
+              MaterialPageRoute(builder: (_) => const BookingScreenUser()),
             ),
           ),
           title: Text(
@@ -43,23 +41,46 @@ class TaskProgressScreen extends StatelessWidget {
         ),
         body: BlocBuilder<TaskProgressCubit, TaskProgressState>(
           builder: (context, state) {
-            if (state is TaskProgressLoading) {
-              return Center(child: CircularProgressIndicator());
+            if (state is TaskProgressLoading || state is TaskProgressInitial) {
+              return const Center(child: CircularProgressIndicator());
             }
             if (state is TaskProgressError) {
-              return Center(child: Text(state.message));
+              return Center(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.error_outline, size: 48, color: Colors.red),
+                    SizedBox(height: 12.h),
+                    Text(
+                      "Could not load task progress",
+                      style: TextStyle(fontSize: 14.sp),
+                    ),
+                    SizedBox(height: 8.h),
+                    TextButton(
+                      onPressed: () => context
+                          .read<TaskProgressCubit>()
+                          .loadTasks(bookingId),
+                      child: const Text("Retry"),
+                    ),
+                  ],
+                ),
+              );
             }
             if (state is! TaskProgressLoaded) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
             return Column(
               children: [
                 Padding(
                   padding: EdgeInsets.all(16.r),
-                  child: ProgressCard( progressValue:   state.progressValue,
-    progressPercent: state.progressPercent,
-    completedCount:  state.completedCount,
-    totalCount:      state.totalCount,),
+                  child: ProgressCard(
+                    progressValue:  state.progressValue,
+                    progressPercent: state.progressPercent,
+                    completedCount:  state.completedCount,
+                    totalCount:      state.totalCount,
+                    workingStatus:   state.workingStatus,
+                    checkInTime:     state.checkInTime,
+                  ),
                 ),
                 Expanded(
                   child: SingleChildScrollView(
@@ -69,13 +90,15 @@ class TaskProgressScreen extends StatelessWidget {
                         ...state.tasks.map((task) => Column(
                           children: [
                             TaskProgressItem(
-                              title:     task.title,
-                              time:      task.isCompleted ? 'Completed' : '',
-                              isDone:    task.isCompleted,
-                              mediaCount: task.proofUrl.isNotEmpty ? 1 : 0,
-                              mediaUrls: task.proofUrl.isNotEmpty
-                                  ? [task.proofUrl]
-                                  : [],
+                              title:      task.title,
+                              time:       task.isCompleted
+                                  ? (task.completionTime.isNotEmpty
+                                      ? task.completionTime
+                                      : 'Completed')
+                                  : '',
+                              isDone:     task.isCompleted,
+                              mediaCount: task.mediaUrls.length,
+                              mediaUrls:  task.mediaUrls,
                             ),
                             SizedBox(height: 12.h),
                           ],

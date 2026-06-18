@@ -7,8 +7,11 @@ class ProviderReviewCubit extends Cubit<ProviderReviewState> {
 
   ProviderReviewCubit(this._repo) : super(ProviderReviewInitial());
 
-  Future<void> loadReviews() async {
+  Future<void> loadReviews({bool forceRefresh = false}) async {
     if (isClosed) return;
+    if (forceRefresh && _repo is ProviderReviewRepoImpl) {
+      _repo.invalidate();
+    }
     emit(ProviderReviewLoading());
     try {
       final summary = await _repo.getSummary();

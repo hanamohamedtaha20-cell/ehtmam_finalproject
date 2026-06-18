@@ -1,17 +1,17 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../manager/ad_provider_cubit.dart';
 import '../../model/ad_provider_model.dart';
 import 'block_provider_dialog.dart';
 
 class AdProviderCard extends StatelessWidget {
   final AdProviderModel provider;
-  final VoidCallback onBlockConfirmed;
 
   const AdProviderCard({
     super.key,
     required this.provider,
-    required this.onBlockConfirmed,
   });
 
   @override
@@ -20,8 +20,7 @@ class AdProviderCard extends StatelessWidget {
         ? provider.name.trim().substring(0, 1).toUpperCase()
         : 'P';
 
-    final bool isApproved =
-        provider.status.toLowerCase() == 'approved';
+    final bool isApproved = provider.status.toLowerCase() == 'approved';
 
     return Container(
       margin: EdgeInsets.only(bottom: 14.h),
@@ -45,21 +44,18 @@ class AdProviderCard extends StatelessWidget {
               CircleAvatar(
                 radius: 24,
                 backgroundColor: const Color(0xff2F93E6),
-                backgroundImage:
-                provider.profilePicture.isNotEmpty
-                    ? NetworkImage(
-                  provider.profilePicture,
-                )
+                backgroundImage: provider.profilePicture.isNotEmpty
+                    ? NetworkImage(provider.profilePicture)
                     : null,
                 child: provider.profilePicture.isEmpty
                     ? Text(
-                  initials,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 14.sp,
-                    fontWeight: FontWeight.w700,
-                  ),
-                )
+                        initials,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 14.sp,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      )
                     : null,
               ),
 
@@ -67,8 +63,7 @@ class AdProviderCard extends StatelessWidget {
 
               Expanded(
                 child: Column(
-                  crossAxisAlignment:
-                  CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       provider.name,
@@ -104,11 +99,7 @@ class AdProviderCard extends StatelessWidget {
 
                     Row(
                       children: [
-                        Icon(
-                          Icons.star,
-                          color: Color(0xffF59E0B),
-                          size: 14.r,
-                        ),
+                        Icon(Icons.star, color: Color(0xffF59E0B), size: 14.r),
                         SizedBox(width: 4.w),
                         Text(
                           '${provider.rating.toStringAsFixed(1)} (${provider.reviews} reviews)',
@@ -124,37 +115,24 @@ class AdProviderCard extends StatelessWidget {
                     SizedBox(height: 10.h),
 
                     Container(
-                      padding:
-                      EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 10.w,
                         vertical: 5.h,
                       ),
                       decoration: BoxDecoration(
                         color: isApproved
-                            ? const Color(
-                          0xffDCFCE7,
-                        )
-                            : const Color(
-                          0xffFEF3C7,
-                        ),
-                        borderRadius:
-                        BorderRadius.circular(
-                          20,
-                        ),
+                            ? const Color(0xffDCFCE7)
+                            : const Color(0xffFEF3C7),
+                        borderRadius: BorderRadius.circular(20),
                       ),
                       child: Text(
                         provider.status,
                         style: TextStyle(
                           color: isApproved
-                              ? const Color(
-                            0xff16A34A,
-                          )
-                              : const Color(
-                            0xffD97706,
-                          ),
+                              ? const Color(0xff16A34A)
+                              : const Color(0xffD97706),
                           fontSize: 10.sp,
-                          fontWeight:
-                          FontWeight.w700,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                     ),
@@ -162,43 +140,43 @@ class AdProviderCard extends StatelessWidget {
                 ),
               ),
 
-              Icon(
-                Icons.more_vert,
-                color: Color(0xff94A3B8),
-                size: 18.r,
-              ),
+              Icon(Icons.more_vert, color: Color(0xff94A3B8), size: 18.r),
             ],
           ),
 
           SizedBox(height: 14.h),
 
-          Divider(
-            color: Color(0xffE5E7EB),
-            height: 1.h,
-          ),
+          Divider(color: Color(0xffE5E7EB), height: 1.h),
 
           SizedBox(height: 10.h),
 
           TextButton.icon(
-            onPressed: () {
-              showDialog(
+            onPressed: () async {
+              final confirmed = await showDialog<bool>(
                 context: context,
-                barrierColor:
-                Colors.black.withOpacity(
-                  0.35,
+                barrierColor: Colors.black.withValues(alpha: 0.35),
+                builder: (_) => BlockProviderDialog(provider: provider),
+              );
+              if (confirmed != true || !context.mounted) return;
+
+              final error = await context
+                  .read<AdProviderCubit>()
+                  .blockProvider(provider);
+
+              if (!context.mounted) return;
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    error == null
+                        ? '${provider.name} has been blocked'
+                        : 'Failed to block provider: $error',
+                  ),
+                  backgroundColor: error == null ? Colors.green : Colors.red,
+                  behavior: SnackBarBehavior.floating,
                 ),
-                builder: (_) =>
-                    BlockProviderDialog(
-                      provider: provider,
-                      onBlock: onBlockConfirmed,
-                    ),
               );
             },
-            icon: Icon(
-              Icons.block,
-              color: Colors.red,
-              size: 16.r,
-            ),
+            icon: Icon(Icons.block, color: Colors.red, size: 16.r),
             label: Text(
               'Block Provider',
               style: TextStyle(

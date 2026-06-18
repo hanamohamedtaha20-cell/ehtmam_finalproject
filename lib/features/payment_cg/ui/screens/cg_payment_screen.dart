@@ -44,7 +44,45 @@ class _CgPaymentView extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           }
           if (state is CgPaymentError) {
-            return Center(child: Text(state.message));
+            return Center(
+              child: Padding(
+                padding: EdgeInsets.all(24.r),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Icon(Icons.error_outline, size: 48.r, color: Colors.red.shade300),
+                    SizedBox(height: 12.h),
+                    Text(
+                      'Could not load payment data',
+                      style: TextStyle(
+                        fontSize: 16.sp,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    SizedBox(height: 8.h),
+                    Text(
+                      'Please check your connection and try again.',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 13.sp, color: Colors.grey),
+                    ),
+                    SizedBox(height: 20.h),
+                    ElevatedButton(
+                      onPressed: () =>
+                          context.read<CgPaymentCubit>().loadData(),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF1976D2),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8.r),
+                        ),
+                      ),
+                      child: const Text('Retry'),
+                    ),
+                  ],
+                ),
+              ),
+            );
           }
           if (state is CgPaymentLoaded) {
             final cubit = context.read<CgPaymentCubit>();

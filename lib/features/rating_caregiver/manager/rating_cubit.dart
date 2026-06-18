@@ -75,8 +75,12 @@ class RatingGiverCubit extends Cubit<RatingState> {
     try {
       await _repo.submitRating(
         bookingId: bookingId,
-        rating: current.overallRating,
-        review: review,
+        overallRating: current.overallRating,
+        professionalismRating: current.overallSatisfaction,
+        serviceQualityRating: current.easeOfUse,
+        punctualityRating: current.reliability,
+        communicationRating: current.communication,
+        reviewComment: review,
       );
       emit(RatingSuccess());
     } catch (e) {

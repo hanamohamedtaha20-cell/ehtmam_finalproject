@@ -36,7 +36,8 @@
       "Bash(curl -s -X PATCH \"https://graduation-production-b4c1.up.railway.app/booking/6a2d8413aa7df0441048b28d/checkin\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer dummy\")",
       "Bash(curl -s \"https://graduation-production-b4c1.up.railway.app/booking/6a2d8413aa7df0441048b28d/checkin\" -H \"Authorization: Bearer dummy\")",
       "Bash(curl -s -X POST \"https://graduation-production-b4c1.up.railway.app/booking/6a2f2e99ce4cf534d39fd971/checkin\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer dummy\")",
-      "Bash(curl -s \"https://graduation-production-b4c1.up.railway.app/request/available\" -H \"Authorization: Bearer dummy\")"
+      "Bash(curl -s \"https://graduation-production-b4c1.up.railway.app/request/available\" -H \"Authorization: Bearer dummy\")",
+      "Bash(dart analyze *)"
     ]
   }
 }

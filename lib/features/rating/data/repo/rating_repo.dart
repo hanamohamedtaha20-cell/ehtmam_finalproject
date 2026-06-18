@@ -10,12 +10,12 @@ class RatingRepo {
   }) async {
     await _api.createReview(
       bookingId: bookingId,
-      rating:    model.overall,
-      review:    model.review,
-      feedback:  'Professionalism: ${model.professionalism}, '
-                 'Service Quality: ${model.serviceQuality}, '
-                 'Punctuality: ${model.punctuality}, '
-                 'Communication: ${model.communication}',
+      overallRating: model.overall,
+      professionalismRating: model.professionalism,
+      serviceQualityRating: model.serviceQuality,
+      punctualityRating: model.punctuality,
+      communicationRating: model.communication,
+      reviewComment: model.review,
     );
   }
 }

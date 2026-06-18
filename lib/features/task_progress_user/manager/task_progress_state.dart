@@ -1,6 +1,5 @@
 import 'package:ehtemam_final_project/features/task_progress_user/data/model/task_progress_model.dart';
 
-
 abstract class TaskProgressState {}
 
 class TaskProgressInitial extends TaskProgressState {}
@@ -8,16 +7,19 @@ class TaskProgressInitial extends TaskProgressState {}
 class TaskProgressLoading extends TaskProgressState {}
 
 class TaskProgressLoaded extends TaskProgressState {
-  final List<TaskProgressModel> tasks;
+  final TaskProgressData data;
 
-  TaskProgressLoaded({required this.tasks});
+  TaskProgressLoaded(this.data);
 
-  int get completedCount  => tasks.where((t) => t.isCompleted).length;
-  int get totalCount      => tasks.length;
-  double get progressValue =>
-      totalCount == 0 ? 0 : completedCount / totalCount;
-  String get progressPercent =>
-      '${(progressValue * 100).toInt()}%';
+  List<TaskProgressModel> get tasks        => data.tasks;
+  int    get completedCount                => data.completedCount;
+  int    get totalCount                    => data.totalCount;
+  double get progressValue                 => totalCount == 0 ? 0 : data.progressPercent / 100;
+  String get progressPercent               => '${data.progressPercent}%';
+  String get workingStatus                 => data.workingStatus;
+  String get checkInTime                   => data.checkInTime;
+  String get caregiverName                 => data.caregiverName;
+  String get serviceName                   => data.serviceName;
 }
 
 class TaskProgressError extends TaskProgressState {

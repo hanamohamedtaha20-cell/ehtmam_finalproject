@@ -19,12 +19,48 @@ class CareRequestsRepositoryImpl implements CareRequestsRepository {
         .map((e) => CareRequestModel.fromRequestJson(e as Map<String, dynamic>))
         .toList();
 
-    final fromBookings = bookingsList.map((e) {
+    final fromBookings = (await Future.wait(bookingsList.map((e) async {
       final m = e as Map<String, dynamic>;
-      print('BOOKING RAW STATUS: bookingStatus=${m['bookingStatus']} status=${m['status']}');
+      final request = m['request'];
+      final service = m['service'];
+      final needsFullFetch = request is! Map || service is! Map;
+      if (needsFullFetch) {
+        final bookingId = m['_id']?.toString() ?? '';
+        if (bookingId.isNotEmpty) {
+          try {
+            final fullResponse = await apiService.getBookingById(bookingId);
+            final raw = fullResponse['data'];
+            Map<String, dynamic>? fullData;
+            if (raw is Map<String, dynamic>) {
+              fullData = raw;
+            } else if (raw is List && raw.isNotEmpty) {
+              fullData = raw.first as Map<String, dynamic>;
+            }
+            if (fullData != null) {
+              var model = CareRequestModel.fromBookingJson(fullData);
+              // If clientName is still empty, client field may be an ID — fetch profile
+              if (model.clientName.isEmpty) {
+                final clientField = fullData['client'] ??
+                    (fullData['request'] is Map ? fullData['request']['client'] : null);
+                if (clientField is String && clientField.isNotEmpty) {
+                  try {
+                    final profileRes = await apiService.getUserProfile(clientField);
+                    final profile = profileRes['data'];
+                    if (profile is Map<String, dynamic>) {
+                      model = model.copyWithClientName(
+                        profile['full_name']?.toString() ?? profile['fullName']?.toString() ?? '',
+                      );
+                    }
+                  } catch (_) {}
+                }
+              }
+              return model;
+            }
+          } catch (_) {}
+        }
+      }
       return CareRequestModel.fromBookingJson(m);
-    }).where((r) {
-      print('BOOKING UI STATUS: ${r.status}');
+    }))).where((r) {
       return r.status == 'Accepted' || r.status == 'Completed' || r.status == 'In Progress';
     }).toList();
 
