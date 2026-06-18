@@ -8,19 +8,17 @@ class MytaskCgRepo {
   MytaskCgRepo([ApiService? api]) : _api = api ?? ApiService();
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Load a single booking's tasks by bookingId.
-  // Called from MytaskCgCubit.loadTasksForBooking — fast path when we already
-  // know which booking we're looking at (e.g. navigated from a request card).
+  // Load a single booking's tasks by bookingId (fast path).
   // ─────────────────────────────────────────────────────────────────────────
   Future<MytaskCgBookingModel> getTasksForBooking(String bookingId) async {
-    // 1. Fetch tasks
     final taskList = await _api.getTasksByBookingId(bookingId);
 
-    // 2. Fetch booking details for check-in state + metadata
-    String clientName = '';
-    String category = '';
-    bool isCheckedIn = false;
+    String clientName   = '';
+    String category     = '';
+    bool   isCheckedIn  = false;
     String? checkInTime;
+    double bookingAmount = 0;
+    String offerId       = '';
 
     try {
       final bookingRes = await _api.getBookingById(bookingId);
@@ -33,6 +31,7 @@ class MytaskCgRepo {
       }
 
       if (data != null) {
+        // Check-in state
         final rawStatus =
             (data['bookingStatus'] ?? data['status'] ?? '').toString().toUpperCase();
         final rawCheckIn = data['checkInTime'] ??
@@ -51,9 +50,20 @@ class MytaskCgRepo {
               service['name']?.toString() ??
               '';
         }
+
+        // ── Booking amount: offer price is the authoritative source ──────
+        final offer = data['offer'];
+        if (offer is Map) {
+          bookingAmount = ((offer['price'] ?? 0) as num).toDouble();
+          offerId = offer['_id']?.toString() ?? '';
+        }
+        if (bookingAmount == 0) {
+          bookingAmount =
+              ((data['price'] ?? data['budget'] ?? 0) as num).toDouble();
+        }
       }
     } catch (e) {
-      debugPrint('MytaskCgRepo.getTasksForBooking: booking details fetch failed: $e');
+      debugPrint('MytaskCgRepo.getTasksForBooking: booking details failed: $e');
     }
 
     final tasks = taskList
@@ -66,22 +76,23 @@ class MytaskCgRepo {
         .toList();
 
     return MytaskCgBookingModel(
-      bookingId:   bookingId,
-      clientName:  clientName,
-      category:    category,
-      tasks:       tasks,
-      isCheckedIn: isCheckedIn,
-      checkInTime: checkInTime,
+      bookingId:     bookingId,
+      clientName:    clientName,
+      category:      category,
+      tasks:         tasks,
+      isCheckedIn:   isCheckedIn,
+      checkInTime:   checkInTime,
+      bookingAmount: bookingAmount,
+      offerId:       offerId,
     );
   }
 
   // ─────────────────────────────────────────────────────────────────────────
-  // Load all active bookings with their tasks.
-  // Used when MytaskCgScreen is opened without a specific bookingId.
+  // Load all active bookings with their tasks (slow path).
   // ─────────────────────────────────────────────────────────────────────────
   Future<List<MytaskCgBookingModel>> getBookings() async {
     final response = await _api.getMyBookings();
-    final raw = response['data'];
+    final raw  = response['data'];
     final list = raw is List ? raw : <dynamic>[];
 
     final bookings = <MytaskCgBookingModel>[];
@@ -107,44 +118,36 @@ class MytaskCgRepo {
               'Care Service')
           : 'Care Service';
 
-      String clientName = _clientNameFrom(item);
+      String clientName    = _clientNameFrom(item);
+      double bookingAmount = 0;
+      String offerId       = '';
 
-      if (clientName.isEmpty) {
-        try {
-          final fullRes = await _api.getBookingById(bookingId);
-          final rawData = fullRes['data'];
-          Map<String, dynamic>? full;
-          if (rawData is Map<String, dynamic>) {
-            full = rawData;
-          } else if (rawData is List && rawData.isNotEmpty) {
-            full = rawData.first as Map<String, dynamic>;
-          }
-
-          if (full != null) {
-            clientName = _clientNameFrom(full);
-
-            if (clientName.isEmpty) {
-              final clientId = full['client'] is String
-                  ? full['client'] as String
-                  : (full['request'] is Map
-                      ? full['request']['client']?.toString()
-                      : null);
-
-              if (clientId != null && clientId.isNotEmpty) {
-                final profileRes = await _api.getUserProfile(clientId);
-                final rawProfile = profileRes['data'];
-                final profile = rawProfile is Map<String, dynamic>
-                    ? rawProfile
-                    : <String, dynamic>{};
-                clientName = profile['full_name']?.toString() ??
-                    profile['fullName']?.toString() ??
-                    '';
-              }
-            }
-          }
-        } catch (e) {
-          debugPrint('MytaskCgRepo: client name enrichment failed for $bookingId: $e');
+      // Enrich: fetch full booking for offer price + client name
+      try {
+        final fullRes = await _api.getBookingById(bookingId);
+        final rawData = fullRes['data'];
+        Map<String, dynamic>? full;
+        if (rawData is Map<String, dynamic>) {
+          full = rawData;
+        } else if (rawData is List && rawData.isNotEmpty) {
+          full = rawData.first as Map<String, dynamic>;
         }
+
+        if (full != null) {
+          if (clientName.isEmpty) clientName = _clientNameFrom(full);
+
+          final offer = full['offer'];
+          if (offer is Map) {
+            bookingAmount = ((offer['price'] ?? 0) as num).toDouble();
+            offerId = offer['_id']?.toString() ?? '';
+          }
+          if (bookingAmount == 0) {
+            bookingAmount =
+                ((full['price'] ?? full['budget'] ?? 0) as num).toDouble();
+          }
+        }
+      } catch (e) {
+        debugPrint('MytaskCgRepo: booking details fetch failed for $bookingId: $e');
       }
 
       List<MytaskCgTaskModel> tasks = [];
@@ -170,18 +173,21 @@ class MytaskCgRepo {
           rawCheckInTime != null ? _formatIso(rawCheckInTime.toString()) : null;
 
       bookings.add(MytaskCgBookingModel(
-        bookingId:   bookingId,
-        clientName:  clientName,
-        category:    category,
-        tasks:       tasks,
-        isCheckedIn: isAlreadyCheckedIn,
-        checkInTime: checkInTimeStr,
+        bookingId:     bookingId,
+        clientName:    clientName,
+        category:      category,
+        tasks:         tasks,
+        isCheckedIn:   isAlreadyCheckedIn,
+        checkInTime:   checkInTimeStr,
+        bookingAmount: bookingAmount,
+        offerId:       offerId,
       ));
     }
 
     return bookings;
   }
 
+  // ── Helpers ───────────────────────────────────────────────────────────────
   String _formatIso(String raw) {
     try {
       final dt = DateTime.parse(raw).toLocal();

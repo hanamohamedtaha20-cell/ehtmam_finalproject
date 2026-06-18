@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -876,61 +875,109 @@ class ApiService {
     required String taskId,
     required File proofFile,
   }) async {
-    // ── Switch this constant if the backend renames the field ──────────────
-    const String _proofField = 'proofFiles'; // 'proof' | 'file' | 'proofFiles'
-
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token') ?? '';
 
-    final fileName = proofFile.path.replaceAll('\\', '/').split('/').last;
-    final ext      = fileName.contains('.') ? fileName.split('.').last.toLowerCase() : '';
+    // Sanitize filename — multer rejects filenames with spaces
+    final rawName  = proofFile.path.replaceAll('\\', '/').split('/').last;
+    final ext      = rawName.contains('.') ? rawName.split('.').last.toLowerCase() : '';
+    final fileName = rawName
+        .replaceAll(RegExp(r'\s+'), '_')
+        .replaceAll(RegExp(r'[^\w.\-]'), '_');
     final mimeType = _guessMimeType(ext);
+    final endpoint = '$tasksEndpoint/upload-proof/$taskId';
 
+    print('[UploadProof] ══════════════════════════════════════════════');
     print('[UploadProof] taskId    → "$taskId"');
-    print('[UploadProof] filePath  → "${proofFile.path}"');
-    print('[UploadProof] fileName  → "$fileName"');
+    print('[UploadProof] url       → "$baseUrl$endpoint"');
+    print('[UploadProof] rawName   → "$rawName"');
+    print('[UploadProof] cleanName → "$fileName"');
     print('[UploadProof] mimeType  → "$mimeType"');
-    print('[UploadProof] field     → "$_proofField"');
-    print('[UploadProof] token     → ${token.isEmpty ? "EMPTY/NULL" : "${token.substring(0, token.length.clamp(0, 24))}…"}');
+    print('[UploadProof] token     → ${token.isEmpty ? "EMPTY/NULL" : "${token.substring(0, token.length.clamp(0, 30))}…"}');
+    print('[UploadProof] ══════════════════════════════════════════════');
 
-    if (token.isEmpty) {
-      throw Exception('auth_required');
-    }
+    if (token.isEmpty) throw Exception('auth_required');
 
-    final formData = FormData.fromMap({
-      _proofField: await MultipartFile.fromFile(
+    // ── Auto-try every field name until one succeeds ──────────────────────
+    // The server returns 500 for a wrong field name because multer leaves
+    // req.file undefined and the route handler crashes.  We probe each name
+    // in order and stop at the first non-500 response.
+    const fieldNames = ['proof', 'proofFile', 'file', 'media', 'proofFiles'];
+
+    DioException? lastDioError;
+
+    for (int i = 0; i < fieldNames.length; i++) {
+      final field = fieldNames[i];
+      print('[UploadProof] ── attempt ${i + 1}/${fieldNames.length}  field="$field"');
+
+      // Create a fresh MultipartFile each attempt — the stream is consumed
+      // after the first POST so we cannot reuse the same instance.
+      final mp = await MultipartFile.fromFile(
         proofFile.path,
         filename: fileName,
-      ),
-    });
-
-    try {
-      final response = await _dio.post(
-        '$tasksEndpoint/upload-proof/$taskId',
-        data: formData,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'multipart/form-data',
-          },
-        ),
       );
-      print('[UploadProof] SUCCESS → status ${response.statusCode}');
-      return response.data;
-    } on DioException catch (e) {
-      print('[UploadProof] ERROR → HTTP ${e.response?.statusCode}: ${e.response?.data}');
-      final status = e.response?.statusCode;
-      if (status == 500) throw Exception('server_error_500');
-      if (status == 403) throw Exception('forbidden_403');
-      if (status == 400) {
-        final body = e.response?.data;
-        final msg = (body is Map)
-            ? (body['message'] ?? body['error'] ?? 'Bad request').toString()
-            : 'Bad request';
-        throw Exception('upload_bad_request:$msg');
+      final formData = FormData.fromMap({field: mp});
+
+      try {
+        final response = await _dio.post(
+          endpoint,
+          data: formData,
+          // ⚠️ Do NOT set Content-Type manually — Dio adds the multipart
+          //    boundary automatically.  Overriding it strips the boundary
+          //    and causes an unparseable body → 500 on the server.
+          options: Options(headers: {'Authorization': 'Bearer $token'}),
+        );
+        print('[UploadProof] ✓ SUCCESS  field="$field"  status=${response.statusCode}');
+        print('[UploadProof] response → ${response.data}');
+        return response.data is Map<String, dynamic>
+            ? response.data as Map<String, dynamic>
+            : {'data': response.data};
+      } on DioException catch (e) {
+        final status = e.response?.statusCode;
+        final body   = e.response?.data;
+        print('[UploadProof] ✗  field="$field"  HTTP $status  body=$body');
+
+        lastDioError = e;
+
+        // Only retry on 500 — all other status codes are definitive answers
+        if (status != 500) {
+          _throwUploadException(status, body);
+          rethrow;
+        }
+        // 500 with last field name → give up and throw
+        if (i == fieldNames.length - 1) {
+          print('[UploadProof] All field names exhausted — this is a backend error.');
+          _throwUploadException(status, body);
+        }
+        // 500 → try next field name
       }
-      rethrow;
     }
+
+    // Should never reach here, but satisfies the compiler
+    throw lastDioError ?? Exception('upload_failed:Unknown error');
+  }
+
+  void _throwUploadException(int? status, dynamic body) {
+    String backendMsg = '';
+    if (body is Map) {
+      backendMsg =
+          (body['message'] ?? body['error'] ?? body['msg'] ?? '').toString().trim();
+    } else if (body is String) {
+      backendMsg = body.trim();
+    }
+
+    if (status == 500) {
+      throw Exception(
+          'upload_error_500:${backendMsg.isNotEmpty ? backendMsg : 'Internal server error'}');
+    }
+    if (status == 403) throw Exception('forbidden_403');
+    if (status == 401) throw Exception('auth_required');
+    if (status == 400 || status == 422) {
+      throw Exception(
+          'upload_bad_request:${backendMsg.isNotEmpty ? backendMsg : 'Bad request'}');
+    }
+    if (backendMsg.isNotEmpty) throw Exception('upload_failed:$backendMsg');
+    throw Exception('upload_failed:HTTP $status');
   }
 
   static String _guessMimeType(String ext) {

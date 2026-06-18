@@ -15,7 +15,7 @@ class CgPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CgPaymentCubit(CgPaymentRepo())..loadData(),
+      create: (_) => CgPaymeCgPaymentScreenntCubit(CgPaymentRepo())..loadData(),
       child: const _CgPaymentView(),
     );
   }
@@ -35,8 +35,15 @@ class _CgPaymentView extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Payments Received',
-            style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18.sp, color: Colors.black)),
+        title: Text(
+          'Payments Received',
+          style: TextStyle(
+            fontFamily: "Arimo",
+            fontWeight: FontWeight.bold,
+            fontSize: 18.sp,
+            color: Colors.black,
+          ),
+        ),
       ),
       body: BlocBuilder<CgPaymentCubit, CgPaymentState>(
         builder: (context, state) {
@@ -50,7 +57,11 @@ class _CgPaymentView extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(Icons.error_outline, size: 48.r, color: Colors.red.shade300),
+                    Icon(
+                      Icons.error_outline,
+                      size: 48.r,
+                      color: Colors.red.shade300,
+                    ),
                     SizedBox(height: 12.h),
                     Text(
                       'Could not load payment data',

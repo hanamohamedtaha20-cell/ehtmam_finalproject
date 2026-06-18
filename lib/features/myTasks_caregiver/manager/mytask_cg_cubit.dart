@@ -275,6 +275,28 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
 
   // ── Helpers ───────────────────────────────────────────────────────────────
   String _extractErrorMessage(Object e) {
+    final raw = e.toString();
+
+    // Named exceptions thrown by api_service.uploadTaskProof
+    if (raw.contains('auth_required')) {
+      return 'Please login again.';
+    }
+    if (raw.contains('forbidden_403')) {
+      return 'You are not allowed to perform this action. '
+          'Please make sure this booking belongs to your account.';
+    }
+    if (raw.contains('upload_error_500:')) {
+      final detail = raw.split('upload_error_500:').last;
+      return 'Server error: $detail';
+    }
+    if (raw.contains('upload_bad_request:')) {
+      return raw.split('upload_bad_request:').last;
+    }
+    if (raw.contains('upload_failed:')) {
+      return raw.split('upload_failed:').last;
+    }
+
+    // Raw DioException that slipped through
     try {
       // ignore: avoid_dynamic_calls
       final dynamic dioE = e;
@@ -285,10 +307,11 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
           final msg = body['message'] ?? body['error'] ?? body['msg'];
           if (msg != null) return msg.toString();
         }
-        return 'HTTP ${resp.statusCode}';
+        return 'Server returned HTTP ${resp.statusCode}';
       }
     } catch (_) {}
-    return e.toString();
+
+    return raw;
   }
 
   String _formatIsoTime(String raw) {
