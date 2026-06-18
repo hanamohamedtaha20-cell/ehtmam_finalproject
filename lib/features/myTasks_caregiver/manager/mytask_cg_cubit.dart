@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../data/model/mytask_cg_booking_model.dart';
 import '../data/model/mytask_cg_task_model.dart';
 import '../data/repo/mytask_cg_repo.dart';
 import 'mytask_cg_state.dart';
@@ -120,24 +122,53 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
   }
 
   // ── Check-out — returns '' on success, error message on failure ───────────
+  // After a successful checkout the method also calls processPayment so the
+  // booking amount is released to the caregiver wallet.  That call is
+  // non-fatal: if it fails the checkout still succeeds.
   Future<String> checkOut(String bookingId) async {
     final current = state;
     if (current is! MytaskCgLoaded) return 'Not loaded';
 
+    // Locate the booking so we can access offerId and bookingAmount.
+    MytaskCgBookingModel? booking;
+    try {
+      booking = current.bookings.firstWhere((b) => b.bookingId == bookingId);
+    } catch (_) {}
+
+    // Ensure the caregiver's wallet exists — the backend checkout endpoint
+    // will reject with "wallet not found" if no wallet record exists yet.
+    await _ensureWalletExists();
+
     try {
       await _api.checkOutBooking(bookingId);
-
-      final updated = current.bookings.map((b) {
-        if (b.bookingId == bookingId) return b.copyWith(isCheckedOut: true);
-        return b;
-      }).toList();
-
-      if (!isClosed) emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
-      return '';
     } catch (e) {
       debugPrint('checkOut failed: $e');
       return _extractErrorMessage(e);
     }
+
+    // ── Release payment to caregiver wallet ────────────────────────────────
+    // Prefer offerId (the process-payment endpoint was designed for it).
+    // Fall back to bookingId if no offer is available.
+    final paymentId = (booking?.offerId.isNotEmpty == true)
+        ? booking!.offerId
+        : bookingId;
+    try {
+      await _api.processPayment(paymentId);
+      debugPrint('[Checkout] processPayment succeeded — id=$paymentId '
+          'amount=${booking?.bookingAmount}');
+    } catch (e) {
+      // Non-fatal: checkout already succeeded; wallet may update later
+      // or the backend releases funds automatically on checkout.
+      debugPrint('[Checkout] processPayment failed (non-fatal): $e');
+    }
+
+    final updated = current.bookings.map((b) {
+      if (b.bookingId == bookingId) return b.copyWith(isCheckedOut: true);
+      return b;
+    }).toList();
+
+    if (!isClosed) emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
+    return '';
   }
 
   // ── Upload proof for a task ───────────────────────────────────────────────
@@ -271,6 +302,27 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
       return b;
     }).toList();
     emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
+  }
+
+  // ── Ensure wallet exists — creates one if missing ────────────────────────
+  // The backend checkout endpoint requires the caregiver wallet to exist.
+  Future<void> _ensureWalletExists() async {
+    try {
+      await _api.getMyWallet();
+      // Wallet exists — nothing to do.
+    } catch (_) {
+      // Wallet not found or any error: try to create it.
+      try {
+        final prefs = await SharedPreferences.getInstance();
+        final userId = prefs.getString('userId') ?? '';
+        if (userId.isNotEmpty) {
+          await _api.createWallet(userId);
+          debugPrint('[Checkout] Wallet created for userId=$userId');
+        }
+      } catch (e) {
+        debugPrint('[Checkout] createWallet failed (non-fatal): $e');
+      }
+    }
   }
 
   // ── Helpers ───────────────────────────────────────────────────────────────

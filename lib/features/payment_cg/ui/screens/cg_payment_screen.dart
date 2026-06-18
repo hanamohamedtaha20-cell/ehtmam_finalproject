@@ -15,7 +15,7 @@ class CgPaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CgPaymeCgPaymentScreenntCubit(CgPaymentRepo())..loadData(),
+      create: (_) => CgPaymentCubit(CgPaymentRepo())..loadData(),
       child: const _CgPaymentView(),
     );
   }

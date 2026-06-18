@@ -90,14 +90,16 @@ class CareRequestModel {
 
     final rawStatus = (json['bookingStatus'] ?? json['status'] ?? '').toString().toUpperCase();
     String uiStatus;
-    if (rawStatus == 'CONFIRMED' || rawStatus == 'ACCEPTED') {
-      uiStatus = 'Accepted';
-    } else if (rawStatus == 'COMPLETED') {
+    if (rawStatus == 'COMPLETED') {
       uiStatus = 'Completed';
-    } else if (rawStatus == 'IN_PROGRESS') {
-      uiStatus = 'Accepted';
+    } else if (rawStatus == 'CANCELLED' ||
+        rawStatus == 'REJECTED' ||
+        rawStatus == 'DECLINED') {
+      uiStatus = 'Cancelled';
     } else {
-      uiStatus = _formatStatus(rawStatus);
+      // All other states: PENDING, CONFIRMED, ACCEPTED, IN_PROGRESS, CHECKED_IN, etc.
+      // A booking record existing means the offer was accepted — always show as 'Accepted'.
+      uiStatus = 'Accepted';
     }
 
     final price = _priceFromJson(json).toString();

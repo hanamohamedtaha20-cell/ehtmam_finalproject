@@ -61,7 +61,8 @@ class CareRequestsRepositoryImpl implements CareRequestsRepository {
       }
       return CareRequestModel.fromBookingJson(m);
     }))).where((r) {
-      return r.status == 'Accepted' || r.status == 'Completed' || r.status == 'In Progress';
+      // Show all bookings except cancelled ones.
+      return r.status != 'Cancelled';
     }).toList();
 
     return [...pending, ...fromBookings];

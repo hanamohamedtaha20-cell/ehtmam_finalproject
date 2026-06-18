@@ -146,10 +146,14 @@ class MytaskCgCheckinBar extends StatelessWidget {
                                   );
                                   return;
                                 }
+                                final amount = booking.bookingAmount;
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Checked out successfully'),
+                                  SnackBar(
+                                    content: Text(amount > 0
+                                        ? 'Checked out successfully. EGP ${amount.toStringAsFixed(0)} will be credited to your wallet.'
+                                        : 'Checked out successfully'),
                                     backgroundColor: Colors.green,
+                                    duration: const Duration(seconds: 5),
                                   ),
                                 );
                                 Navigator.push(

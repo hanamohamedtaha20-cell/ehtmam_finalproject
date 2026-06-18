@@ -6,29 +6,54 @@ class CgPaymentRepo {
   final ApiService _api = ApiService();
 
   Future<Map<String, dynamic>> getEarningsData() async {
-    double balance = 0;
+    double balance     = 0;
     double totalEarned = 0;
-    double pending = 0;
+    double pending     = 0;
     List<CgTransactionModel> transactions = [];
 
-    // Fetch wallet — use GET /wallet (my-wallet returns 404 on this backend)
     try {
-      final walletResult = await _api.getWalletById('');
-      final walletData = walletResult['data'];
+      // Correct endpoint: GET /wallet/my-wallet
+      // Response shape: { status, data: { balance, holdBalance, totalEarned,
+      //                                   totalDeposited, totalSpent,
+      //                                   transactions: [...] } }
+      final result     = await _api.getMyWallet();
+      final walletData = result['data'];
+
       if (walletData is Map) {
-        balance = (walletData['balance'] ?? 0).toDouble();
-        totalEarned = (walletData['totalEarned'] ?? walletData['total_earned'] ?? 0).toDouble();
-        pending = (walletData['pending'] ?? walletData['pendingAmount'] ?? 0).toDouble();
+        balance = ((walletData['balance'] ?? 0) as num).toDouble();
+
+        // pending / held amount that has not been released yet
+        pending = ((walletData['holdBalance'] ??
+                walletData['pendingBalance'] ??
+                walletData['pending'] ??
+                0) as num)
+            .toDouble();
+
+        totalEarned = ((walletData['totalEarned'] ??
+                walletData['total_earned'] ??
+                0) as num)
+            .toDouble();
+
+        final txRaw = walletData['transactions'];
+        if (txRaw is List) {
+          transactions = txRaw
+              .whereType<Map<String, dynamic>>()
+              .map(CgTransactionModel.fromJson)
+              .toList();
+        }
       }
+
+      debugPrint('[CgPaymentRepo] balance=$balance  totalEarned=$totalEarned  '
+          'holdBalance=$pending  transactions=${transactions.length}');
     } catch (e) {
-      debugPrint('CgPaymentRepo: wallet fetch failed: $e');
+      debugPrint('[CgPaymentRepo] wallet fetch failed: $e');
     }
 
     return {
-      'totalEarned': totalEarned,
-      'pending': pending,
+      'balance':      balance,
+      'totalEarned':  totalEarned,
+      'pending':      pending,
       'transactions': transactions,
-      'balance': balance,
     };
   }
 }
