@@ -11,9 +11,17 @@ class ServiceModel {
 
   factory ServiceModel.fromJson(Map<String, dynamic> json) {
     return ServiceModel(
-      id: json['_id']?.toString() ?? '',
-      name: json['serviceName']?.toString() ?? '',
-      description: json['serviceDescription']?.toString() ?? '',
+      id: json['_id']?.toString()
+          ?? json['id']?.toString()
+          ?? '',
+      name: json['serviceName']?.toString()
+          ?? json['name']?.toString()
+          ?? json['title']?.toString()
+          ?? '',
+      description: json['serviceDescription']?.toString()
+          ?? json['description']?.toString()
+          ?? json['desc']?.toString()
+          ?? '',
     );
   }
 }

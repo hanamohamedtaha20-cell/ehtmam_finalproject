@@ -11,12 +11,14 @@ class ProfileLoaded extends ProfileState {
   final int totalRequests;
   final int completed;
   final double rating;
+  final int totalReviewsCount;
 
   ProfileLoaded({
     required this.user,
     required this.totalRequests,
     required this.completed,
     required this.rating,
+    this.totalReviewsCount = 0,
   });
 }
 

@@ -9,11 +9,17 @@ class ChatMessageModel {
     required this.createdAt,
   });
 
-  factory ChatMessageModel.fromJson(
-      Map<String, dynamic> json,
-      ) {
+  Map<String, dynamic> toJson() => {
+    'role': isUser ? 'user' : 'assistant',
+    'message': message,
+    'createdAt': createdAt,
+  };
+
+  factory ChatMessageModel.fromJson(Map<String, dynamic> json) {
     return ChatMessageModel(
-      message: json['content']?.toString() ?? '',
+      message: json['message']?.toString()
+            ?? json['content']?.toString()
+            ?? '',
       isUser: json['role'] == 'user',
       createdAt: json['createdAt']?.toString() ?? '',
     );

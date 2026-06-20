@@ -43,7 +43,7 @@ class LocationDetails extends StatelessWidget {
               icon: Icons.person_pin_circle,
               iconColor: Colors.green,
               title: "Caregiver's Current Location",
-              distance: "$distance • $eta",
+              subtitle: userLocation,
             ),
           ],
         ),

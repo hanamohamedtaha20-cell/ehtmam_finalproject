@@ -1,4 +1,5 @@
 ﻿import 'package:ehtemam_final_project/features/payment/ui/widgets/withdraw.dart';
+import 'package:ehtemam_final_project/features/payment_cg/ui/widgets/withdraw.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'wallet_header.dart';
@@ -38,7 +39,7 @@ class BalanceCard extends StatelessWidget {
           WalletHeader(balance: balance),
           SizedBox(height: 6.h),
           SizedBox(height: 10.h),
-          const AddFundsButton(),
+          const Withdraw(),
         ],
       ),
     );

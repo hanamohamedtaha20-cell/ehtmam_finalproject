@@ -1,5 +1,4 @@
-﻿import 'package:ehtemam_final_project/core/resources/language_chip.dart';
-import 'package:ehtemam_final_project/features/auth/ui/widgets/register_form.dart';
+﻿import 'package:ehtemam_final_project/features/auth/ui/widgets/register_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -34,11 +33,7 @@ class RegisterScreen extends StatelessWidget {
             ),
             child: Column(
               children: [
-                Align(
-                  alignment: Alignment.topRight,
-                  child: LanguageChip(),
-                ),
-                SizedBox(height: 18.h),
+                
                 Expanded(
                   child: SingleChildScrollView(
                     child: RegisterForm(role: role),

@@ -98,16 +98,24 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
 
     try {
       final response = await _api.checkInBooking(bookingId);
+      debugPrint('[CheckIn] FULL_RESPONSE: $response');
+
       final data = response['data'];
+      debugPrint('[CheckIn] data: $data');
+
       if (data is Map) {
         final rawTime = data['checkInTime'] ??
             data['check_in_time'] ??
             data['checkinTime'];
         if (rawTime != null) time = _formatIsoTime(rawTime.toString());
+
+        final returnedStatus =
+            data['bookingStatus']?.toString() ?? data['status']?.toString() ?? '';
+        debugPrint('[CheckIn] bookingStatus from response: "$returnedStatus"');
       }
     } catch (e) {
       error = _extractErrorMessage(e);
-      debugPrint('checkIn failed: $e');
+      debugPrint('[CheckIn] FAILED: $e');
     }
 
     final updated = current.bookings.map((b) {
@@ -245,33 +253,44 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
     if (!isClosed) emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
   }
 
-  // ── Add a caregiver-created task ──────────────────────────────────────────
-  Future<String?> addTask(String bookingId, String taskName) async {
+  // ── Add a caregiver extra task (POST /tasks/booking/{bookingId}) ──────────
+  Future<String?> addExtraTask(
+    String bookingId,
+    String title,
+    String description,
+    double price,
+  ) async {
     final current = state;
     if (current is! MytaskCgLoaded) return 'State not loaded';
 
+    debugPrint('[ExtraTask] addExtraTask booking=$bookingId title=$title price=$price');
+
     try {
-      final response = await _api.addCaregiverTask(
+      final response = await _api.addExtraTask(
         bookingId: bookingId,
-        taskName: taskName,
+        title: title,
+        description: description,
+        price: price,
       );
 
       final raw = response['data'];
-      final Map<String, dynamic> data =
-          raw is Map<String, dynamic> ? raw : {};
+      final Map<String, dynamic> data = raw is Map<String, dynamic> ? raw : {};
+
+      debugPrint('[ExtraTask] created: $data');
 
       final task = MytaskCgTaskModel(
         id: data['_id']?.toString() ??
-            data['taskId']?.toString() ??
             DateTime.now().millisecondsSinceEpoch.toString(),
-        title: data['taskName']?.toString() ??
-            data['taskDescription']?.toString() ??
-            taskName,
-        description: data['taskDescription']?.toString() ?? taskName,
+        title: data['title']?.toString() ?? title,
+        description: data['description']?.toString() ?? description,
+        taskState: data['taskState']?.toString() ?? 'Pending Client Approval',
+        status: 'Pending Approval',
         assignedTo: '',
-        category: 'General',
+        category: 'Extra',
         date: DateTime.now().toString().substring(0, 10),
         isAddedByCaregiver: true,
+        price: (data['price'] as num?)?.toDouble() ?? price,
+        createdBy: 'caregiver',
       );
 
       final updated = current.bookings.map((b) {
@@ -284,7 +303,7 @@ class MytaskCgCubit extends Cubit<MytaskCgState> {
       if (!isClosed) emit(MytaskCgLoaded(bookings: updated, filter: current.filter));
       return null;
     } catch (e) {
-      debugPrint('addTask failed: $e');
+      debugPrint('[ExtraTask] addExtraTask failed: $e');
       return _extractErrorMessage(e);
     }
   }

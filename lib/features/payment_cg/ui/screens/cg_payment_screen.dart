@@ -1,4 +1,5 @@
-﻿import 'package:ehtemam_final_project/features/payment/ui/widgets/balance_card.dart';
+﻿import 'package:ehtemam_final_project/features/payment/ui/widgets/balance_card_user.dart';
+import 'package:ehtemam_final_project/features/payment_cg/ui/widgets/balance_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,6 +45,15 @@ class _CgPaymentView extends StatelessWidget {
             color: Colors.black,
           ),
         ),
+        actions: [
+          Builder(
+            builder: (ctx) => IconButton(
+              icon: const Icon(Icons.refresh, color: Colors.black),
+              tooltip: 'Refresh',
+              onPressed: () => ctx.read<CgPaymentCubit>().loadData(),
+            ),
+          ),
+        ],
       ),
       body: BlocBuilder<CgPaymentCubit, CgPaymentState>(
         builder: (context, state) {

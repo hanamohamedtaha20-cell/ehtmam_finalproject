@@ -38,7 +38,7 @@ class ReviewCard extends StatelessWidget {
             children: [
 
               Text(
-                review.name, // 👈 بدل name
+                review.name, 
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.sp,

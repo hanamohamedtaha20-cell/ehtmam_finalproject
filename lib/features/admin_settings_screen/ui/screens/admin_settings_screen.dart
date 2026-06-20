@@ -154,69 +154,23 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
             SettingsTile(
               icon: Icons.person_outline_rounded,
               title: 'Full Name',
-              subtitle: _name.isEmpty ? 'No name added' : _name,
+              subtitle: "judy"
             ),
             SettingsTile(
               icon: Icons.mail_outline_rounded,
               title: 'Email Address',
               subtitle: _email.isEmpty ? 'No email added' : _email,
             ),
-            SettingsTile(
-              icon: Icons.phone_outlined,
-              title: 'Phone Number',
-              subtitle: _phone.isEmpty ? 'No phone added' : _phone,
-            ),
+           
             SettingsTile(
               icon: Icons.location_on_outlined,
               title: 'Address',
-              subtitle: 'Cairo, Egypt',
+              subtitle: 'Cairo, Egypt\nstreet:El Geish Street\nbuilding:15 ',
               iconColor: const Color(0xFF12B76A),
               iconBgColor: const Color(0xFFD1FADF),
             ),
 
-            // ── Notifications ──
-            _sectionTitle('NOTIFICATIONS'),
-
-            Container(
-              height: 66.h,
-              decoration: _card(),
-              child: Material(
-                color: Colors.transparent,
-                borderRadius: BorderRadius.circular(20.r),
-                child: SwitchListTile(
-                  value: _notifications,
-                  activeThumbColor: const Color(0xFF4EA3F1),
-                  onChanged: (v) => setState(() => _notifications = v),
-                  contentPadding: EdgeInsets.symmetric(horizontal: 14.w),
-                  secondary: CircleAvatar(
-                    radius: 20,
-                    backgroundColor: const Color(0xFFFFF0C2),
-                    child: Icon(
-                      Icons.notifications_none_rounded,
-                      color: Colors.orange,
-                      size: 22.r,
-                    ),
-                  ),
-                  title: Text(
-                    'Push Notifications',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 13.sp,
-                      fontWeight: FontWeight.w700,
-                      color: const Color(0xFF1D2939),
-                    ),
-                  ),
-                  subtitle: Text(
-                    'Receive app notifications',
-                    style: TextStyle(
-                      fontFamily: 'Inter',
-                      fontSize: 10.5.sp,
-                      color: const Color(0xFF98A2B3),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+           
 
             SizedBox(height: 16.h),
 

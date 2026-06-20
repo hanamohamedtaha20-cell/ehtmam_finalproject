@@ -16,6 +16,10 @@ class PaymentLoaded extends PaymentState {
   final double platformFee;
   final double taxRate;
   final double total;
+  final double originalPrice;
+  final double discountAmount;
+  final String? bundleUsed;
+  final int remainingSessions;
 
   PaymentLoaded({
     required this.balance,
@@ -26,7 +30,13 @@ class PaymentLoaded extends PaymentState {
     required this.platformFee,
     required this.taxRate,
     required this.total,
+    this.originalPrice = 0,
+    this.discountAmount = 0,
+    this.bundleUsed,
+    this.remainingSessions = 0,
   });
+
+  bool get hasBundleDiscount => bundleUsed != null || discountAmount > 0;
 
   PaymentLoaded copyWith({
     double? balance,
@@ -37,6 +47,10 @@ class PaymentLoaded extends PaymentState {
     double? platformFee,
     double? taxRate,
     double? total,
+    double? originalPrice,
+    double? discountAmount,
+    String? bundleUsed,
+    int? remainingSessions,
   }) {
     return PaymentLoaded(
       balance: balance ?? this.balance,
@@ -47,6 +61,10 @@ class PaymentLoaded extends PaymentState {
       platformFee: platformFee ?? this.platformFee,
       taxRate: taxRate ?? this.taxRate,
       total: total ?? this.total,
+      originalPrice: originalPrice ?? this.originalPrice,
+      discountAmount: discountAmount ?? this.discountAmount,
+      bundleUsed: bundleUsed ?? this.bundleUsed,
+      remainingSessions: remainingSessions ?? this.remainingSessions,
     );
   }
 }

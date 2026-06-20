@@ -7,6 +7,13 @@ class ComplaintScreen extends StatefulWidget {
   @override
   State<ComplaintScreen> createState() => _ComplaintScreenState();
 }
+final List<String> _categories = [
+  'Poor service quality',
+  'Late arrival',
+  'Unprofessional behavior',
+  'Ignored instructions',
+  'Requested extra payment',
+];
 
 class _ComplaintScreenState extends State<ComplaintScreen> {
   final _formKey = GlobalKey<FormState>();
@@ -177,55 +184,57 @@ class _ComplaintScreenState extends State<ComplaintScreen> {
             SizedBox(height: 20.h),
 
             // Caregiver Name
-            _label('Caregiver Name'),
-            TextFormField(
-              controller: _caregiverNameController,
-              decoration: _fieldDecoration("Enter caregiver's full name"),
-              style: TextStyle(fontFamily: 'Arimo', fontSize: 13.sp),
-              validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Required' : null,
-            ),
+            // _label('Caregiver Name'),
+            // TextFormField(
+            //   controller: _caregiverNameController,
+            //   decoration: _fieldDecoration("Enter caregiver's full name"),
+            //   style: TextStyle(fontFamily: 'Arimo', fontSize: 13.sp),
+            //   validator: (v) =>
+            //       (v == null || v.trim().isEmpty) ? 'Required' : null,
+            // ),
 
-            SizedBox(height: 16.h),
+            // SizedBox(height: 16.h),
 
-            // Your Name
-            _label('Your Name'),
-            TextFormField(
-              controller: _yourNameController,
-              decoration: _fieldDecoration("Enter your full name"),
-              style: TextStyle(fontFamily: 'Arimo', fontSize: 13.sp),
-              validator: (v) =>
-                  (v == null || v.trim().isEmpty) ? 'Required' : null,
-            ),
+            // // Your Name
+            // _label('Your Name'),
+            // TextFormField(
+            //   controller: _yourNameController,
+            //   decoration: _fieldDecoration("Enter your full name"),
+            //   style: TextStyle(fontFamily: 'Arimo', fontSize: 13.sp),
+            //   validator: (v) =>
+            //       (v == null || v.trim().isEmpty) ? 'Required' : null,
+            // ),
 
-            SizedBox(height: 16.h),
+            // SizedBox(height: 16.h),
 
-            // Complaint Category
-            _label('Complaint Category'),
-            DropdownButtonFormField<String>(
-              initialValue: _selectedCategory,
-              decoration: _fieldDecoration('').copyWith(hintText: null),
-              hint: Text(
-                'Select a category',
-                style: TextStyle(
-                  fontFamily: 'Arimo',
-                  fontSize: 13.sp,
-                  color: const Color(0xFFADB5BD),
-                ),
+                    // Complaint Category
+          _label('Complaint Category'),
+          DropdownButtonFormField<String>(
+            initialValue: _selectedCategory,
+            decoration: _fieldDecoration('').copyWith(hintText: null),
+            hint: Text(
+              'Select a category',
+              style: TextStyle(
+                fontFamily: 'Arimo',
+                fontSize: 13.sp,
+                color: const Color(0xFFADB5BD),
               ),
-              items: _categories
-                  .map((c) => DropdownMenuItem(
-                        value: c,
-                        child: Text(
-                          c,
-                          style: TextStyle(
-                              fontFamily: 'Arimo', fontSize: 13.sp),
-                        ),
-                      ))
-                  .toList(),
-              onChanged: (v) => setState(() => _selectedCategory = v),
-              validator: (v) => v == null ? 'Required' : null,
             ),
+            items: _categories
+                .map((c) => DropdownMenuItem(
+                      value: c,
+                      child: Text(
+                        c,
+                        style: TextStyle(
+                          fontFamily: 'Arimo',
+                          fontSize: 13.sp,
+                        ),
+                      ),
+                    ))
+                .toList(),
+            onChanged: (v) => setState(() => _selectedCategory = v),
+            validator: (v) => v == null ? 'Required' : null,
+          ),
 
             SizedBox(height: 16.h),
 

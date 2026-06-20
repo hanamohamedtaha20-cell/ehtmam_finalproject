@@ -1,3 +1,4 @@
+﻿import 'package:flutter/foundation.dart';
 import 'package:ehtemam_final_project/core/utils/api_error_message.dart';
 import 'package:ehtemam_final_project/features/requests_screen_user/manager/state/requests_user_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -13,7 +14,7 @@ class RequestsCubit
       : super(RequestsInitial());
 
   Future<void> getRequests() async {
-    print("GET REQUESTS CALLED");
+    debugPrint("GET REQUESTS CALLED");
 
     if (isClosed) return;
     emit(RequestsLoading());
@@ -36,3 +37,4 @@ class RequestsCubit
     }
   }
 }
+

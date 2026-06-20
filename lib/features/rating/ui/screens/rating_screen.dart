@@ -81,7 +81,17 @@ class _RatingBodyState extends State<_RatingBody> {
             }
             if (state is RatingError) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message)),
+                SnackBar(
+                  content: Text(
+                    state.message,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  backgroundColor: const Color(0xffEF4444),
+                  behavior: SnackBarBehavior.floating,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.r),
+                  ),
+                ),
               );
             }
           },

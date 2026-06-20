@@ -1,12 +1,10 @@
 // Response shape from GET /booking/{bookingId}/location:
 // {
-//   "success": true,
+//   "status": "success",
 //   "data": {
-//     "bookingId":   "...",
-//     "caregiverId": "...",
-//     "latitude":    30.0444,
-//     "longitude":   31.2357,
-//     "lastUpdated": "2026-06-13T20:26:08.157Z"
+//     "latitude":  29.123456,
+//     "longitude": 31.654321,
+//     "updatedAt": "2026-06-18T17:05:52.428Z"
 //   }
 // }
 class CaregiverLocationModel {
@@ -17,8 +15,8 @@ class CaregiverLocationModel {
   final String lastUpdated;
 
   CaregiverLocationModel({
-    required this.bookingId,
-    required this.caregiverId,
+    this.bookingId = '',
+    this.caregiverId = '',
     required this.latitude,
     required this.longitude,
     required this.lastUpdated,
@@ -30,7 +28,9 @@ class CaregiverLocationModel {
       caregiverId: json['caregiverId']?.toString() ?? '',
       latitude:    (json['latitude']  as num?)?.toDouble() ?? 0.0,
       longitude:   (json['longitude'] as num?)?.toDouble() ?? 0.0,
-      lastUpdated: json['lastUpdated']?.toString() ?? '',
+      // backend returns 'updatedAt'; old shape had 'lastUpdated'
+      lastUpdated: json['updatedAt']?.toString() ??
+                   json['lastUpdated']?.toString() ?? '',
     );
   }
 }

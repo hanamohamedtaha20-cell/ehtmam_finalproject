@@ -28,4 +28,8 @@ class PaymentRepo {
   Future<Map<String, dynamic>> payBundle(String bundleId) async {
     return await _api.payBundle(bundleId);
   }
+
+  Future<Map<String, dynamic>> payExtraTask(String taskId, {String? bookingId}) async {
+    return await _api.payExtraTask(taskId, bookingId: bookingId);
+  }
 }

@@ -14,7 +14,7 @@ class ETABanner extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 100.h,
+      
       margin: EdgeInsets.all(18.r),
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       decoration: BoxDecoration(
@@ -43,15 +43,7 @@ class ETABanner extends StatelessWidget {
                 ),
               ),  ],
           ),
-          SizedBox(height: 6.h),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _ETAItem(label: "Estimated Arrival", value: eta),
-              Spacer(),
-              _ETAItem(label: "Distance", value: distance),
-            ],
-          ),
+          
         ],
       ),
     );

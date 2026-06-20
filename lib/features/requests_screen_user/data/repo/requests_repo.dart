@@ -1,3 +1,4 @@
+﻿import 'package:flutter/foundation.dart';
 import '../../../../core/network/api_service.dart';
 import '../model/model.dart';
 
@@ -9,11 +10,17 @@ class RequestsRepo {
   Future<List<RequestModel>> getRequests() async {
     final response = await apiService.getMyRequests();
 
-    print("MY REQUESTS RESPONSE => $response");
+    debugPrint("MY REQUESTS RESPONSE => $response");
 
     final List data = response['data'] ?? [];
 
     final rawItems = data.cast<Map<String, dynamic>>();
+    rawItems.sort((a, b) {
+      final aStr = a['createdAt']?.toString() ?? a['_id']?.toString() ?? '';
+      final bStr = b['createdAt']?.toString() ?? b['_id']?.toString() ?? '';
+      return bStr.compareTo(aStr);
+    });
+
     final results = List<RequestModel>.from(
       rawItems.map((item) => RequestModel.fromJson(item)),
     );
@@ -33,3 +40,4 @@ class RequestsRepo {
     return results;
   }
 }
+

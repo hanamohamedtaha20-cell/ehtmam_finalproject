@@ -30,13 +30,10 @@ class LoginRequiredCard extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            /// 🔹 Icon
-            Container(
-              padding: EdgeInsets.all(6.r),
-              child: Image.asset("assets/images/lock.png", height: 80.h),
-            ),
 
-            /// 🔹 Title
+            Image.asset("assets/images/lock90.png", height: 90.h),
+            SizedBox(height: 10.h),
+
             Text(
               "Login Required",
               style: TextStyle(
@@ -66,9 +63,6 @@ class LoginRequiredCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Image.asset("images/lock2.png", height: 50.h),
-                  SizedBox(height: 10.h),
-
                   Text(
                     "As a guest, you can browse the app but cannot create requests",
                     textAlign: TextAlign.center,

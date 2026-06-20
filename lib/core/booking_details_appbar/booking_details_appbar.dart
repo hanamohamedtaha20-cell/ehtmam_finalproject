@@ -56,7 +56,7 @@ class BookingDetailsAppBar extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            
             children: [
               GestureDetector(
                 onTap: () => Navigator.pop(context),
@@ -66,42 +66,18 @@ class BookingDetailsAppBar extends StatelessWidget {
                   size: 18,
                 ),
               ),
-              Text(
-                "Booking Details",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
+              Expanded(
+                child: Text(
+                  "Booking Details",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 8,
-                  vertical: 5,
-                ),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                child: const Row(
-                  children: [
-                    Icon(
-                      Icons.language,
-                      color: Color(0xff44516B),
-                      size: 16,
-                    ),
-                    SizedBox(width: 4),
-                    Text(
-                      "ع",
-                      style: TextStyle(
-                        color: Color(0xff44516B),
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              const SizedBox(width: 18),
             ],
           ),
           SizedBox(height: 18),

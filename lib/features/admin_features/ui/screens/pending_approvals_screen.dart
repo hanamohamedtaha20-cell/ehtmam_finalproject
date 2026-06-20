@@ -35,17 +35,29 @@ class PendingApprovalsView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  OutlinedButton.icon(
-                    onPressed: () => Navigator.maybePop(context),
-                    icon: Icon(Icons.arrow_back_ios_new, size: 13.r),
-                    label: Text('Back'),
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: const Color(0xff64748B),
-                      side: BorderSide(color: Color(0xffE2E8F0)),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.r),
+                  Row(
+                    children: [
+                      OutlinedButton.icon(
+                        onPressed: () => Navigator.maybePop(context),
+                        icon: Icon(Icons.arrow_back_ios_new, size: 13.r),
+                        label: Text('Back'),
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: const Color(0xff64748B),
+                          side: BorderSide(color: Color(0xffE2E8F0)),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(18.r),
+                          ),
+                        ),
                       ),
-                    ),
+                      const Spacer(),
+                      Builder(
+                        builder: (ctx) => IconButton(
+                          icon: const Icon(Icons.refresh, color: Color(0xff64748B)),
+                          tooltip: 'Refresh',
+                          onPressed: () => ctx.read<PendingApprovalsCubit>().getPendingApprovals(),
+                        ),
+                      ),
+                    ],
                   ),
                   SizedBox(height: 14.h),
                   Text(
@@ -90,11 +102,14 @@ class PendingApprovalsView extends StatelessWidget {
 
                         // هنا التعديل
                         onViewDocuments: () {
+                          final cubit =
+                              context.read<PendingApprovalsCubit>();
                           Navigator.push(
                             context,
                             MaterialPageRoute(
                               builder: (_) => PendingDocumentsScreen(
                                 provider: provider,
+                                cubit: cubit,
                               ),
                             ),
                           );

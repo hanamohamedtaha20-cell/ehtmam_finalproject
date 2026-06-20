@@ -7,6 +7,7 @@ class UploadBox extends StatelessWidget {
   final bool isRequired;
   final VoidCallback onTap;
   final String? fileName;
+  final String acceptedFormats;
 
   const UploadBox({
     super.key,
@@ -14,6 +15,7 @@ class UploadBox extends StatelessWidget {
     this.isRequired = false,
     required this.onTap,
     this.fileName,
+    this.acceptedFormats = 'PNG, JPG, JPEG',
   });
 
   @override
@@ -87,7 +89,7 @@ class UploadBox extends StatelessWidget {
                 ),
                 SizedBox(height: 4.h),
                 Text(
-                  hasFile ? 'File selected successfully' : 'PNG, JPG, JPEG',
+                  hasFile ? 'File selected successfully' : acceptedFormats,
                   style: AppTextStyle.regular.copyWith(
                     fontSize: 10.sp,
                     color: const Color(0xFF98A2B3),

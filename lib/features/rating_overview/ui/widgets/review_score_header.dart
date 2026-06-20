@@ -41,13 +41,7 @@ final ValueChanged<int?> onFilterChanged;
              ],
           ),
          SizedBox(height: 12.h),
-          Divider(
-            color: Colors.white.withOpacity(0.3),
-            thickness: 1,
-            height: 1.h,
-          ),
-          SizedBox(height: 12.h),
-          _SummaryStatRow(summary: summary),
+          
                   ],
                 ),
               );

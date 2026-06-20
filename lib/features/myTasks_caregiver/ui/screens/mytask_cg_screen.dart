@@ -52,6 +52,20 @@ class _MytaskCgView extends StatelessWidget {
           'My Tasks',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh, color: Colors.black),
+            tooltip: 'Refresh',
+            onPressed: () {
+              final cubit = context.read<MytaskCgCubit>();
+              if (bookingId != null && bookingId!.isNotEmpty) {
+                cubit.loadTasksForBooking(bookingId!);
+              } else {
+                cubit.loadBookings();
+              }
+            },
+          ),
+        ],
       ),
       body: BlocBuilder<MytaskCgCubit, MytaskCgState>(
         builder: (context, state) {
@@ -170,8 +184,8 @@ class _MytaskCgView extends StatelessWidget {
                 ),
                 builder: (_) => MytaskCgAddTaskSheet(
                   bookingId: bid,
-                  onAdd: (taskName) =>
-                      context.read<MytaskCgCubit>().addTask(bid, taskName),
+                  onAdd: (title, description, price) =>
+                      context.read<MytaskCgCubit>().addExtraTask(bid, title, description, price),
                 ),
               );
             },

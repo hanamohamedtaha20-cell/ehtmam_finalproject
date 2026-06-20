@@ -1,5 +1,4 @@
-﻿import 'package:ehtemam_final_project/features/home_screen/ui/widgets/language_switcher.dart';
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class RequestHeader extends StatelessWidget {
@@ -36,12 +35,6 @@ class RequestHeader extends StatelessWidget {
               color: Color(0xFF222222),
             ),
           ),
-          /// LANGUAGE BUTTON
-          Row(
-            children: [
-               LanguageSwitcher(),
-              ],
-            ),
         ],
       ),
     );

@@ -3,7 +3,6 @@ import 'package:ehtemam_final_project/core/resources/app_images.dart';
 import '../../../onboarding/ui/widgets/onboarding_background.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../../../../core/resources/language_chip.dart';
 import '../../../../core/resources/skip_button.dart';
 import '../../../splash/ui/widgets/next_button.dart';
 import '../widgets/onboarding_indicator.dart';

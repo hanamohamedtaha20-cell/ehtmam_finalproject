@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'wallet_header.dart';
 
-class BalanceCard extends StatelessWidget {
+class BalanceCarduser extends StatelessWidget {
   final double balance;
 
-  const BalanceCard({super.key, required this.balance});
+  const BalanceCarduser({super.key, required this.balance});
 
   @override
   Widget build(BuildContext context) {

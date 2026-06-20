@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import '../../../auth/manager/auth_cubit.dart';
 import '../../../requests_screen_user/ui/screens/requests_screen.dart';
 import '../../data/model/user_model.dart';
 import '../../manager/state/home_state.dart';
@@ -37,11 +38,20 @@ class _HomeContentState extends State<HomeContent> {
   }
 
   Future<void> _loadUserName() async {
+    // AuthCubit state is the most reliable source during the current session.
+    final isGuestByState = context.read<AuthCubit>().state.isGuest;
+
+    // SharedPreferences covers the case where the app was restarted in guest mode.
     final prefs = await SharedPreferences.getInstance();
-    final name = prefs.getString('user_name') ?? '';
-    if (mounted) {
-      setState(() => _user = UserModel(name: name));
+    final isGuestByPrefs = prefs.getBool('is_guest') ?? false;
+
+    if (isGuestByState || isGuestByPrefs) {
+      if (mounted) setState(() => _user = UserModel(name: 'Guest'));
+      return;
     }
+
+    final name = prefs.getString('user_name') ?? '';
+    if (mounted) setState(() => _user = UserModel(name: name));
   }
 
   Widget getServiceIcon(String serviceName) {
@@ -88,6 +98,7 @@ class _HomeContentState extends State<HomeContent> {
 
   @override
   Widget build(BuildContext context) {
+    final isGuest = context.read<AuthCubit>().state.isGuest;
     return BlocProvider(
       create: (context) => HomeCubit(
         HomeRepo(ApiService()),)..getServices(),
@@ -310,57 +321,70 @@ class _HomeContentState extends State<HomeContent> {
 
             SizedBox(height: 10.h),
 
-            BlocProvider(
-              create: (_) => RequestsCubit(RequestsRepo(ApiService()))..getRequests(),
-              child: BlocBuilder<RequestsCubit, RequestsState>(
-                builder: (context, state) {
-                  if (state is RequestsLoading) {
-                    return Center(child: CircularProgressIndicator());
-                  }
-                  if (state is RequestsError) {
-                    return Text(state.message, style: TextStyle(color: Colors.red));
-                  }
-                  if (state is RequestsSuccess) {
-                    final active = state.requests
-                        .where((r) => r.status == 'Pending' || r.status == 'Accepted')
-                        .take(2)
-                        .toList();
+            if (isGuest)
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.h),
+                child: Text(
+                  'No active requests'.tr(),
+                  style: TextStyle(color: Colors.grey, fontSize: 13.sp),
+                ),
+              )
+            else
+              BlocProvider(
+                create: (_) =>
+                    RequestsCubit(RequestsRepo(ApiService()))..getRequests(),
+                child: BlocBuilder<RequestsCubit, RequestsState>(
+                  builder: (context, state) {
+                    if (state is RequestsLoading) {
+                      return Center(child: CircularProgressIndicator());
+                    }
+                    if (state is RequestsError) {
+                      return Text(state.message,
+                          style: TextStyle(color: Colors.red));
+                    }
+                    if (state is RequestsSuccess) {
+                      final active = state.requests
+                          .where((r) =>
+                              r.status == 'Pending' || r.status == 'Accepted')
+                          .take(2)
+                          .toList();
 
-                    if (active.isEmpty) {
-                      return Padding(
-                        padding: EdgeInsets.symmetric(vertical: 12.h),
-                        child: Text(
-                          'No active requests'.tr(),
-                          style: TextStyle(color: Colors.grey, fontSize: 13.sp),
-                        ),
+                      if (active.isEmpty) {
+                        return Padding(
+                          padding: EdgeInsets.symmetric(vertical: 12.h),
+                          child: Text(
+                            'No active requests'.tr(),
+                            style:
+                                TextStyle(color: Colors.grey, fontSize: 13.sp),
+                          ),
+                        );
+                      }
+
+                      return Column(
+                        children: active.map((r) {
+                          final Color statusColor = r.status == 'Accepted'
+                              ? Colors.green
+                              : r.status == 'Completed'
+                                  ? Colors.blue
+                                  : r.status == 'Cancelled'
+                                      ? Colors.red
+                                      : Colors.orange;
+
+                          return RequestCardWidget(
+                            title: r.title,
+                            date: r.date,
+                            status: r.status,
+                            statusColor: statusColor,
+                            description: r.subtitle,
+                            provider: r.provider ?? '',
+                          );
+                        }).toList(),
                       );
                     }
-
-                    return Column(
-                      children: active.map((r) {
-                        final Color statusColor = r.status == 'Accepted'
-                            ? Colors.green
-                            : r.status == 'Completed'
-                                ? Colors.blue
-                                : r.status == 'Cancelled'
-                                    ? Colors.red
-                                    : Colors.orange;
-
-                        return RequestCardWidget(
-                          title: r.title,
-                          date: r.date,
-                          status: r.status,
-                          statusColor: statusColor,
-                          description: r.subtitle,
-                          provider: r.provider ?? '',
-                        );
-                      }).toList(),
-                    );
-                  }
-                  return SizedBox();
-                },
+                    return SizedBox();
+                  },
+                ),
               ),
-            ),
 
             SizedBox(height: 20.h),
 

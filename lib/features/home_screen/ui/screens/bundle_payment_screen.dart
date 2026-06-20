@@ -2,8 +2,9 @@ import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_state.dart';
-import 'package:ehtemam_final_project/features/payment/ui/widgets/balance_card.dart';
+import 'package:ehtemam_final_project/features/payment/ui/widgets/balance_card_user.dart';
 import 'package:ehtemam_final_project/features/payment/ui/widgets/cost_breakdown.dart';
+import 'package:ehtemam_final_project/features/payment_cg/ui/widgets/balance_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -80,7 +81,7 @@ class _BundlePaymentBody extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: 20.h),
-                    BalanceCard(balance: state.balance),
+                    BalanceCarduser(balance: state.balance),
                     SizedBox(height: 20.h),
                     CostBreakdown(
                       serviceCost: state.serviceCost,

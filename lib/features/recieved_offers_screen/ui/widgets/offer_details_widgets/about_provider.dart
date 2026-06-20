@@ -89,7 +89,7 @@ class AboutProviderCard extends StatelessWidget {
                           Column(
                             children: [
                               Text(
-                                p.experience,
+                                '5+ years',
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16.sp,
@@ -101,33 +101,9 @@ class AboutProviderCard extends StatelessWidget {
                             ],
                           ),
 
-                          Column(
-                            children: [
-                              Text(
-                                p.completed.toString(),
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 16.sp,
-                                ),
-                              ),
-                              SizedBox(height: 4.h),
-                              Text("Completed Services",
-                                  style: TextStyle(fontSize: 12.sp)),
-                            ],
-                          ),
                         ],
                       ),
                     ),
-
-                    SizedBox(height: 16.h),
-
-                    /// 🔹 Qualifications
-                    Text("Qualifications",
-                        style: TextStyle(fontWeight: FontWeight.bold)),
-
-                    SizedBox(height: 8.h),
-
-                    ...p.qualifications.map((q) => _item(q)),
 
                     SizedBox(height: 16.h),
 

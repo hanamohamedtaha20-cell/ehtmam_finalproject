@@ -1,5 +1,6 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
 import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
+import 'package:ehtemam_final_project/features/auth/ui/screens/caregiver_reupload_documents_screen.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/reset_password_screen.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/select_role_screen.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/auth_background.dart';
@@ -11,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/resources/app_colors.dart';
-import '../../../admin_home_screen/ui/screens/admin_dashboard._screen.dart';
 import '../../../bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import '../../../bottom_nav_bar/ui/widget/admin_bottom.dart';
 import '../../manager/auth_cubit.dart';
@@ -73,12 +73,113 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
+  void _showCaregiverRejectionDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (ctx) => Dialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(24.r),
+        ),
+        backgroundColor: Colors.white,
+        child: Padding(
+          padding: EdgeInsets.all(24.r),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 64.r,
+                height: 64.r,
+                decoration: const BoxDecoration(
+                  color: Color(0xffEFF6FF),
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(
+                  Icons.info_outline_rounded,
+                  color: const Color(0xff2F93E6),
+                  size: 32.r,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Text(
+                'Documents Need Review',
+                style: TextStyle(
+                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xff111827),
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                'Your uploaded documents contain incorrect or unclear information. Please review your documents and upload the correct files to continue.',
+                style: TextStyle(
+                  fontSize: 13.sp,
+                  color: const Color(0xff64748B),
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 24.h),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(ctx);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            const CaregiverReuploadDocumentsScreen(),
+                      ),
+                    );
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff2F93E6),
+                    foregroundColor: Colors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12.r),
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 14.h),
+                  ),
+                  child: Text(
+                    'Upload Documents Again',
+                    style: TextStyle(
+                      fontSize: 14.sp,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 8.h),
+              TextButton(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(
+                  'Close',
+                  style: TextStyle(
+                    fontSize: 13.sp,
+                    color: const Color(0xff64748B),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) async {
         if (state.status == AuthStatus.authenticated) {
           _navigateAfterLogin(state.userRole);
+        }
+
+        if (state.status == AuthStatus.caregiverRejected) {
+          _showCaregiverRejectionDialog();
         }
 
         if (state.status == AuthStatus.error) {

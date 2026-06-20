@@ -9,7 +9,7 @@ class ReviewRepository {
         name: "ahmed amer",
         date: "March 10, 2026",
         rating: 5,
-        review: "Sarah was amazing!",
+        review: "amazing!",
       ),
       ReviewModel(
         name: "mina mustafa",

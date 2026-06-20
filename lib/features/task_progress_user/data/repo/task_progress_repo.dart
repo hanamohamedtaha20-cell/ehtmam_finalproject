@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
 import '../model/task_progress_model.dart';
 
@@ -7,6 +8,8 @@ class TaskProgressRepo {
   Future<TaskProgressData> getProgress(String bookingId) async {
     final TaskProgressData empty = TaskProgressData(
       tasks: [],
+      extraTasksPendingApproval: [],
+      allExtraTasks: [],
       completedCount: 0,
       totalCount: 0,
       progressPercent: 0,
@@ -21,22 +24,20 @@ class TaskProgressRepo {
 
       // Response: { "data": { "progress": {...}, "completedTasks": [...],
       //   "pendingTasks": [...], "bookingInfo": {...} } }
+      debugPrint('>>> REFRESH RAW KEYS: ${raw.keys.toList()}');
       final outerData = raw['data'];
-      if (outerData == null) return empty;
+      if (outerData == null) {
+        debugPrint('>>> REFRESH: data field is null — returning empty');
+        return empty;
+      }
 
       final data = Map<String, dynamic>.from(outerData as Map);
 
-      // Progress stats — JSON numbers may arrive as double, so use num→int
+      // Progress stats
       final progress = data['progress'];
-      final completedCount = progress is Map
-          ? _toInt(progress['completedTasks'])
-          : 0;
-      final totalCount = progress is Map
-          ? _toInt(progress['totalTasks'])
-          : 0;
-      final progressPercent = progress is Map
-          ? _toInt(progress['percentage'])
-          : 0;
+      final completedCount  = progress is Map ? _toInt(progress['completedTasks']) : 0;
+      final totalCount      = progress is Map ? _toInt(progress['totalTasks'])     : 0;
+      final progressPercent = progress is Map ? _toInt(progress['percentage'])     : 0;
 
       // Booking info
       final info = data['bookingInfo'];
@@ -46,7 +47,7 @@ class TaskProgressRepo {
       final caregiverName = _str(info is Map ? info['caregiverName'] : data['caregiverName']);
       final serviceName   = _str(info is Map ? info['serviceName']   : data['serviceName']);
 
-      // Tasks — completed first, then pending
+      // Tasks — completed first
       final rawCompleted = data['completedTasks'];
       final rawPending   = data['pendingTasks'];
 
@@ -57,15 +58,49 @@ class TaskProgressRepo {
               .toList()
           : <TaskProgressModel>[];
 
-      final pending = rawPending is List
-          ? rawPending
-              .whereType<Map<String, dynamic>>()
-              .map(TaskProgressModel.fromPending)
-              .toList()
-          : <TaskProgressModel>[];
+      // Separate caregiver extra tasks (non-rejected) from regular pending tasks.
+      final List<ExtraTaskModel> allExtraTasks = [];
+      final List<ExtraTaskModel> pendingExtras = [];
+      final List<TaskProgressModel> pending    = [];
+
+      debugPrint('>>> REFRESH pendingTasks count: ${rawPending is List ? rawPending.length : 0}');
+
+      if (rawPending is List) {
+        for (final item in rawPending) {
+          if (item is! Map<String, dynamic>) continue;
+          final createdBy = item['createdBy']?.toString() ?? '';
+          final taskState = item['taskState']?.toString() ??
+              item['status']?.toString() ??
+              item['taskStatus']?.toString() ??
+              '';
+          final taskId    = item['_id']?.toString() ?? item['taskId']?.toString() ?? '';
+
+          debugPrint('TASK_STATUS: $taskState  TASK_ID: $taskId  createdBy: $createdBy');
+
+          if (createdBy == 'caregiver') {
+            // Rejected extra tasks are completely hidden from the client view
+            if (taskState.toLowerCase() == 'rejected') continue;
+
+            final extra = ExtraTaskModel.fromJson(item);
+            allExtraTasks.add(extra);
+            if (extra.isPendingApproval) {
+              pendingExtras.add(extra);
+            }
+          } else {
+            pending.add(TaskProgressModel.fromPending(item));
+          }
+        }
+      }
+
+      debugPrint('>>> REFRESH extra tasks total=${allExtraTasks.length} pending=${pendingExtras.length}');
+      for (final t in allExtraTasks) {
+        debugPrint('TASK_ID: ${t.id}  TASK_STATE: ${t.taskState}  isPending: ${t.isPendingApproval}  isApproved: ${t.isApproved}');
+      }
 
       return TaskProgressData(
         tasks: [...completed, ...pending],
+        extraTasksPendingApproval: pendingExtras,
+        allExtraTasks: allExtraTasks,
         completedCount: completedCount,
         totalCount: totalCount,
         progressPercent: progressPercent,
@@ -74,7 +109,9 @@ class TaskProgressRepo {
         caregiverName: caregiverName,
         serviceName: serviceName,
       );
-    } catch (_) {
+    } catch (e, st) {
+      debugPrint('>>> REFRESH ERROR: $e');
+      debugPrint('>>> REFRESH STACKTRACE: $st');
       return empty;
     }
   }

@@ -1,8 +1,7 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/complaint_model.dart';
-
 
 class ComplaintCard extends StatelessWidget {
   final ComplaintModel complaint;
@@ -16,7 +15,9 @@ class ComplaintCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isResolved = complaint.status.toLowerCase() == 'resolved';
+    final statusLower = complaint.status.toLowerCase();
+    final isResolved =
+        statusLower == 'resolved' || statusLower == 'closed';
 
     return Container(
       margin: EdgeInsets.only(bottom: 14.h),
@@ -35,6 +36,7 @@ class ComplaintCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // ── Status badge ──────────────────────────────────────────────
           Container(
             padding: EdgeInsets.symmetric(horizontal: 9.w, vertical: 5.h),
             decoration: BoxDecoration(
@@ -55,8 +57,10 @@ class ComplaintCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 10.h),
+
+          // ── Subject ───────────────────────────────────────────────────
           Text(
-            complaint.title,
+            complaint.subject,
             style: TextStyle(
               color: Color(0xff1E293B),
               fontSize: 15.sp,
@@ -65,35 +69,50 @@ class ComplaintCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 6.h),
+
+          // ── Message preview ───────────────────────────────────────────
           Text(
-            'Category: ${complaint.category}',
+            complaint.message,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
             style: TextStyle(
               color: Color(0xff64748B),
               fontSize: 11.sp,
-              fontWeight: FontWeight.w500,
+              fontWeight: FontWeight.w400,
             ),
           ),
           SizedBox(height: 10.h),
+
+          // ── Info rows ─────────────────────────────────────────────────
           _infoRow(
             icon: Icons.person_outline,
             iconColor: Color(0xff2F93E6),
-            text:
-            'From: ${complaint.fromName} (${complaint.fromRole})',
+            text: 'Client: ${complaint.clientName}',
           ),
           SizedBox(height: 5.h),
           _infoRow(
-            icon: Icons.error_outline,
+            icon: Icons.medical_services_outlined,
             iconColor: Colors.red,
-            text:
-            'Against: ${complaint.againstName} (${complaint.againstRole})',
+            text: 'Caregiver: ${complaint.caregiverName}',
           ),
           SizedBox(height: 5.h),
+          if (complaint.bookingStatus.isNotEmpty) ...[
+            _infoRow(
+              icon: Icons.bookmark_outline,
+              iconColor: Color(0xff64748B),
+              text: 'Booking: ${complaint.bookingStatus}',
+            ),
+            SizedBox(height: 5.h),
+          ],
           _infoRow(
             icon: Icons.access_time,
             iconColor: Color(0xff64748B),
-            text: complaint.date,
+            text: complaint.formattedDate,
           ),
+
           SizedBox(height: 12.h),
+
+          // ── View Details button ───────────────────────────────────────
           SizedBox(
             width: double.infinity,
             height: 34.h,

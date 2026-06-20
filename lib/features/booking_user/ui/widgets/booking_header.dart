@@ -23,7 +23,7 @@ class BookingHeader extends StatelessWidget {
             child: Icon(Icons.arrow_back)),
 
         Text(
-          "myBookings",
+          "My Bookings",
           style: TextStyle(
               fontFamily: "Arimo",
               fontWeight: FontWeight.bold,

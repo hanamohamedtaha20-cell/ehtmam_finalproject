@@ -57,19 +57,13 @@ class ProviderInfoCard extends StatelessWidget {
                 SizedBox(height: 16.h),
 
                 /// 🔹 Availability
-                _item(
-                  icon: Icons.calendar_today_outlined,
-                  title: "Availability",
-                  value: p.availability,
-                ),
-
-                SizedBox(height: 16.h),
+               
 
                 /// 🔹 Response Time
                 _item(
                   icon: Icons.access_time_outlined,
                   title: "Response Time",
-                  value: p.responseTime,
+                  value: "Usually responds within 2 hours",
                 ),
               ],
             ),

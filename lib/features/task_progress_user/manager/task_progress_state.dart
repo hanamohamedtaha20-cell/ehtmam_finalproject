@@ -11,15 +11,17 @@ class TaskProgressLoaded extends TaskProgressState {
 
   TaskProgressLoaded(this.data);
 
-  List<TaskProgressModel> get tasks        => data.tasks;
-  int    get completedCount                => data.completedCount;
-  int    get totalCount                    => data.totalCount;
-  double get progressValue                 => totalCount == 0 ? 0 : data.progressPercent / 100;
-  String get progressPercent               => '${data.progressPercent}%';
-  String get workingStatus                 => data.workingStatus;
-  String get checkInTime                   => data.checkInTime;
-  String get caregiverName                 => data.caregiverName;
-  String get serviceName                   => data.serviceName;
+  List<TaskProgressModel>  get tasks                       => data.tasks;
+  List<ExtraTaskModel>     get extraTasksPendingApproval   => data.extraTasksPendingApproval;
+  List<ExtraTaskModel>     get allExtraTasks               => data.allExtraTasks;
+  int    get completedCount                                => data.completedCount;
+  int    get totalCount                                    => data.totalCount;
+  double get progressValue                                 => totalCount == 0 ? 0 : data.progressPercent / 100;
+  String get progressPercent                               => '${data.progressPercent}%';
+  String get workingStatus                                 => data.workingStatus;
+  String get checkInTime                                   => data.checkInTime;
+  String get caregiverName                                 => data.caregiverName;
+  String get serviceName                                   => data.serviceName;
 }
 
 class TaskProgressError extends TaskProgressState {

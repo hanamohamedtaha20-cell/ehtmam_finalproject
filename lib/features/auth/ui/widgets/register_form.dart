@@ -50,10 +50,12 @@ class _RegisterFormState extends State<RegisterForm> {
   PlatformFile? profileFile;
   PlatformFile? nationalIdFile;
   PlatformFile? certificateFile;
+  PlatformFile? mentalHealthFile;
 
   String? profileUploadError;
   String? nationalIdUploadError;
   String? certificateUploadError;
+  String? mentalHealthUploadError;
 
   bool get isCareGiver => widget.role.toLowerCase().contains('care');
 
@@ -82,6 +84,18 @@ class _RegisterFormState extends State<RegisterForm> {
       'Indoor Plants',
       'Landscape Care',
     ],
+    'Nursing Assistant': [
+      'Clinical Support',
+      'Medication Assistance',
+      'Patient Care',
+      'Wound Care',
+    ],
+    'Shopping Assistant': [
+      'Grocery Shopping',
+      'Pharmacy Pickup',
+      'Online Orders',
+      'General Errands',
+    ],
   };
 
   @override
@@ -97,32 +111,37 @@ class _RegisterFormState extends State<RegisterForm> {
 
   }
 
-  Future<void> _pickFile({required String type}) async {
+  Future<void> _pickFile({required String type, bool allowPdf = false}) async {
     try {
       final FilePickerResult? result = await FilePicker.pickFiles(
-        type: FileType.image,
+        type: allowPdf ? FileType.custom : FileType.image,
+        allowedExtensions: allowPdf ? ['pdf', 'jpg', 'jpeg', 'png'] : null,
         allowMultiple: false,
         withData: true,
       );
       if (result != null && result.files.isNotEmpty) {
+        final picked = result.files.first;
+        debugPrint('[Upload] type=$type file=${picked.name} path=${picked.path}');
         setState(() {
           if (type == 'profile') {
-            profileFile = result.files.first;
+            profileFile = picked;
             profileUploadError = null;
           } else if (type == 'nationalId') {
-            nationalIdFile = result.files.first;
+            nationalIdFile = picked;
             nationalIdUploadError = null;
           } else if (type == 'certificate') {
-            certificateFile = result.files.first;
+            certificateFile = picked;
             certificateUploadError = null;
+          } else if (type == 'mentalHealth') {
+            mentalHealthFile = picked;
+            mentalHealthUploadError = null;
           }
         });
       }
     } catch (e) {
-      CustomSnackBar.show(
-        context,
-        message: 'Upload failed: $e',
-      );
+      if (mounted) {
+        CustomSnackBar.show(context, message: 'Upload failed: $e');
+      }
     }
   }
 
@@ -131,36 +150,40 @@ class _RegisterFormState extends State<RegisterForm> {
 
     setState(() {
       profileUploadError =
-      profileFile != null ? null : 'Please upload your profile picture';
-
+          profileFile != null ? null : 'Please upload your profile picture';
       nationalIdUploadError =
-      nationalIdFile != null ? null : 'Please upload your national ID';
-
+          nationalIdFile != null ? null : 'Please upload your national ID';
       certificateUploadError = isCareGiver && certificateFile == null
           ? 'Please upload your certificate'
           : null;
+      mentalHealthUploadError = isCareGiver && mentalHealthFile == null
+          ? 'Please upload your Mental Health Document'
+          : null;
     });
 
-    if (isFormValid &&
-        profileFile != null &&
+    final bool filesValid = profileFile != null &&
         nationalIdFile != null &&
-        (!isCareGiver || certificateFile != null)) {
+        (!isCareGiver ||
+            (certificateFile != null && mentalHealthFile != null));
+
+    if (isFormValid && filesValid) {
       await context.read<AuthCubit>().register(
-        name: fullNameController.text.trim(),
-        email: emailController.text.trim(),
-        phone: phoneController.text.trim(),
-        password: passwordController.text.trim(),
-        role: widget.role,
-        government: selectedGovernment ?? '',
-        careField: selectedCareField ?? '',
-        specialization: selectedSpecialization ?? '',
-        certificateFileName: certificateFile?.name ?? '',
-        profileFile: profileFile,
-        nationalIdFile: nationalIdFile,
-        certificateFile: certificateFile,
-        street: streetController.text.trim(),
-        building: buildingController.text.trim(),
-      );
+            name: fullNameController.text.trim(),
+            email: emailController.text.trim(),
+            phone: phoneController.text.trim(),
+            password: passwordController.text.trim(),
+            role: widget.role,
+            government: selectedGovernment ?? '',
+            careField: selectedCareField ?? '',
+            specialization: selectedSpecialization ?? '',
+            certificateFileName: certificateFile?.name ?? '',
+            profileFile: profileFile,
+            nationalIdFile: nationalIdFile,
+            certificateFile: certificateFile,
+            mentalHealthFile: mentalHealthFile,
+            street: streetController.text.trim(),
+            building: buildingController.text.trim(),
+          );
     }
   }
 
@@ -173,16 +196,33 @@ class _RegisterFormState extends State<RegisterForm> {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state.status == AuthStatus.registered) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => PendingApprovalScreen(
-                fullName: fullNameController.text.trim(),
-                email: emailController.text.trim(),
-                phoneNumber: phoneController.text.trim(),
+          debugPrint('REGISTER_ROLE: ${widget.role}');
+
+          if (isCareGiver) {
+            debugPrint('NAVIGATING_TO: PendingApprovalScreen');
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => PendingApprovalScreen(
+                  fullName: fullNameController.text.trim(),
+                  email: emailController.text.trim(),
+                  phoneNumber: phoneController.text.trim(),
+                ),
               ),
-            ),
-          );
+            );
+          } else {
+            debugPrint('NAVIGATING_TO: LoginScreen');
+            CustomSnackBar.show(
+              context,
+              message: 'Account created successfully. Please login.',
+            );
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginScreen(),
+              ),
+            );
+          }
         }
 
         if (state.status == AuthStatus.error) {
@@ -255,6 +295,8 @@ class _RegisterFormState extends State<RegisterForm> {
                     'Elderly Care',
                     'Child Care',
                     'Plant Care',
+                    'Nursing Assistant',
+                    'Shopping Assistant',
                   ],
                   onChanged: (value) {
                     setState(() {
@@ -465,6 +507,19 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
                 if (certificateUploadError != null)
                   _errorText(certificateUploadError!),
+
+                SizedBox(height: 12.h),
+                UploadBox(
+                  title: 'Mental Health Document',
+                  isRequired: true,
+                  fileName: mentalHealthFile?.name,
+                  acceptedFormats: 'PDF, PNG, JPG, JPEG',
+                  onTap: () async {
+                    await _pickFile(type: 'mentalHealth', allowPdf: true);
+                  },
+                ),
+                if (mentalHealthUploadError != null)
+                  _errorText(mentalHealthUploadError!),
               ],
 
               SizedBox(height: 18.h),

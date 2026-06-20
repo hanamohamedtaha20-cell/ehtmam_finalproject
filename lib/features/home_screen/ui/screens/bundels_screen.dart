@@ -35,6 +35,15 @@ class _ServiceBundlesBody extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          Builder(
+            builder: (ctx) => IconButton(
+              icon: const Icon(Icons.refresh, color: Colors.black),
+              tooltip: 'Refresh',
+              onPressed: () => ctx.read<BundleCubit>().getBundles(),
+            ),
+          ),
+        ],
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -44,33 +53,36 @@ class _ServiceBundlesBody extends StatelessWidget {
               const WhyChooseUsCard(),
               SizedBox(height: 16.h),
               BlocBuilder<BundleCubit, BundleState>(
-                builder: (context, state) {
+                builder: (blocCtx, state) {
                   if (state is BundleLoading) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   if (state is BundleError) {
                     return Text(
                       state.message,
-                      style: TextStyle(color: Colors.red),
+                      style: const TextStyle(color: Colors.red),
                     );
                   }
 
                   if (state is BundleSuccess) {
                     if (state.bundles.isEmpty) {
-                      return Text('No bundles available');
+                      return const Text('No bundles available');
                     }
 
                     return ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.bundles.length,
-                      itemBuilder: (_, index) =>
-                          BundleCard(bundle: state.bundles[index]),
+                      itemBuilder: (_, index) => BundleCard(
+                        bundle: state.bundles[index],
+                        onPurchased: () =>
+                            blocCtx.read<BundleCubit>().getBundles(),
+                      ),
                     );
                   }
 
-                  return SizedBox.shrink();
+                  return const SizedBox.shrink();
                 },
               ),
               SizedBox(height: 16.h),

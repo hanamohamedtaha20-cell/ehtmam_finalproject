@@ -1,3 +1,4 @@
+﻿import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/network/api_service.dart';
@@ -24,6 +25,40 @@ class PendingApprovalsCubit extends Cubit<PendingApprovalsState> {
       final providers = caregivers.map((item) {
         final caregiver = Map<String, dynamic>.from(item as Map);
 
+        // national_id â€” String URL from backend
+        final nationalId = caregiver['national_id']?.toString();
+
+        // mental_health_document â€” backend returns List<String>
+        // Normalise to List<String> regardless of what the backend sends
+        final rawMhd =
+            caregiver['mental_health_document'] ??
+            caregiver['mentalHealthDocument'] ??
+            caregiver['mentalHealthDoc'] ??
+            caregiver['mental_document'];
+        final List<String> mhdList;
+        if (rawMhd is List) {
+          mhdList = List<String>.from(rawMhd.map((e) => e.toString()));
+        } else if (rawMhd is String && rawMhd.isNotEmpty) {
+          mhdList = [rawMhd];
+        } else {
+          mhdList = [];
+        }
+
+        // certifications â€” List<String>
+        final rawCerts = caregiver['certifications'];
+        final List<String> certsList = rawCerts is List
+            ? List<String>.from(rawCerts.map((e) => e.toString()))
+            : [];
+
+        // Print the full raw caregiver object so we can see EVERY key the
+        // backend returns. Check this log to verify national_id is present.
+        debugPrint('[PendingDocs] â”€â”€â”€ caregiver: ${caregiver['_id']} â”€â”€â”€');
+        debugPrint('[PendingDocs] ALL_KEYS: ${caregiver.keys.toList()}');
+        debugPrint('[PendingDocs] national_id raw: ${caregiver['national_id']}');
+        debugPrint('[PendingDocs] national_id parsed: $nationalId');
+        debugPrint('[PendingDocs] mental_health_document: $mhdList');
+        debugPrint('[PendingDocs] certifications: $certsList');
+
         return {
           'id': caregiver['_id'] ?? '',
           'name': caregiver['full_name'] ?? 'Unknown',
@@ -32,14 +67,14 @@ class PendingApprovalsCubit extends Cubit<PendingApprovalsState> {
           'phone': caregiver['phoneNumber'] ?? 'Not provided',
           'status': caregiver['status'] ?? 'Pending Approval',
           'profile_picture': caregiver['profile_picture'],
-          'certifications': caregiver['certifications'] ?? [],
-          'verification_documents': caregiver['verification_documents'] ?? [],
+          'national_id': nationalId,           // String? URL
+          'certifications': certsList,          // List<String>
+          'mental_health_document': mhdList,    // List<String>
           'documents': [
             if (caregiver['profile_picture'] != null) 'Profile Picture',
-            if ((caregiver['verification_documents'] as List?)?.isNotEmpty ?? false)
-              'National ID',
-            if ((caregiver['certifications'] as List?)?.isNotEmpty ?? false)
-              'Certificates',
+            if (nationalId != null && nationalId.isNotEmpty) 'National ID',
+            if (certsList.isNotEmpty) 'Certificates',
+            if (mhdList.isNotEmpty) 'Mental Health Document',
           ],
         };
       }).toList();
@@ -64,45 +99,50 @@ class PendingApprovalsCubit extends Cubit<PendingApprovalsState> {
     }
   }
 
-  Future<void> approveProvider(String id) async {
+  Future<bool> approveProvider(String id) async {
     try {
-      await apiService.approveCaregiver(id);
-
+      debugPrint('[ApproveCaregiver] caregiverId: $id');
+      final response = await apiService.approveCaregiver(id);
+      debugPrint('[ApproveCaregiver] statusCode: success | response: $response');
       await getPendingApprovals();
+      return true;
     } catch (e) {
+      debugPrint('[ApproveCaregiver] error: $e');
       if (!isClosed) {
         emit(
           state.copyWith(
             status: PendingApprovalsStatus.error,
-            errorMessage: 'Approve failed: $e',
+            errorMessage: 'Failed to approve caregiver. Please try again.',
           ),
         );
       }
+      return false;
     }
   }
 
-  Future<void> rejectProvider(String id) async {
+  Future<bool> rejectProvider(String id) async {
     try {
-      await apiService.rejectCaregiver(
+      debugPrint('[RejectCaregiver] caregiverId: $id');
+      final response = await apiService.rejectCaregiver(
         id: id,
-        reason: 'Documents are invalid',
+        reason:
+            'The uploaded documents contain incorrect or unclear information.',
       );
-
-      final updated =
-      state.providers.where((provider) => provider['id'] != id).toList();
-
-      if (!isClosed) {
-        emit(state.copyWith(providers: updated));
-      }
+      debugPrint('[RejectCaregiver] statusCode: success | response: $response');
+      await getPendingApprovals();
+      return true;
     } catch (e) {
+      debugPrint('[RejectCaregiver] error: $e');
       if (!isClosed) {
         emit(
           state.copyWith(
             status: PendingApprovalsStatus.error,
-            errorMessage: 'Reject failed: $e',
+            errorMessage: 'Failed to reject caregiver. Please try again.',
           ),
         );
       }
+      return false;
     }
   }
 }
+

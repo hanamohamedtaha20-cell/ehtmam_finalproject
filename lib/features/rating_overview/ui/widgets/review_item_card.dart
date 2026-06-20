@@ -72,13 +72,18 @@ class _ReviewerInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final picUrl = review.reviewerProfilePicture;
     return Row(
       children: [
         CircleAvatar(
           radius: 21,
           backgroundColor: _avatarBg,
-          child: Text(_initials,
-              style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700, )),
+          backgroundImage:
+              (picUrl != null && picUrl.isNotEmpty) ? NetworkImage(picUrl) : null,
+          child: (picUrl == null || picUrl.isEmpty)
+              ? Text(_initials,
+                  style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700))
+              : null,
         ),
         SizedBox(width: 10.w),
         Expanded(
@@ -170,17 +175,7 @@ class _ReviewActions extends StatelessWidget {
             ),
           ),
         ),
-        GestureDetector(
-          onTap: onViewBooking,
-          child: Row(
-            children: [
-              Text('View Booking',
-                  style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w500, color: AppColors.textLight)),
-              SizedBox(width: 3.w),
-              Icon(Icons.arrow_forward_rounded, size: 13.r, color: AppColors.textLight),
-            ],
-          ),
-        ),
+       
       ],
     );
   }

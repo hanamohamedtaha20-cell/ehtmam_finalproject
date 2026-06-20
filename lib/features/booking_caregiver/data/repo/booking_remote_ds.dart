@@ -1,3 +1,4 @@
+﻿import 'package:flutter/foundation.dart';
 import '../../../../core/network/api_service.dart';
 import '../model/booking_details_model.dart';
 
@@ -35,6 +36,17 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
       final rawProfile = response['data'];
       final profile = rawProfile is Map<String, dynamic> ? rawProfile : <String, dynamic>{};
       final address = profile['address'] is Map ? profile['address'] as Map : <String, dynamic>{};
+
+      final picture = profile['profile_picture']?.toString() ??
+          profile['profilePicture']?.toString() ??
+          profile['avatar']?.toString() ??
+          '';
+      final rating = ((profile['rating'] ?? profile['averageRating'] ?? 0) as num).toDouble();
+
+      debugPrint('[ClientProfile] profile_picture=$picture');
+      debugPrint('[ClientProfile] rating=$rating');
+      debugPrint('[ClientProfile] full profile keys=${profile.keys.toList()}');
+
       return details.copyWith(
         clientName: profile['full_name']?.toString() ?? details.clientName,
         phone: profile['phoneNumber']?.toString() ??
@@ -44,6 +56,8 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
         email: profile['email']?.toString() ?? details.email,
         street: address['street']?.toString() ?? details.street,
         building: address['building']?.toString() ?? details.building,
+        clientProfilePicture: picture.isNotEmpty ? picture : details.clientProfilePicture,
+        rating: rating > 0 ? rating : details.rating,
       );
     } catch (_) {
       return details;
@@ -104,13 +118,13 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
     required num price,
     String? notes,
   }) async {
-    print('SENDING OFFER: requestId=$requestId, price=$price');
+    debugPrint('SENDING OFFER: requestId=$requestId, price=$price');
     final response = await apiService.sendOffer(
       requestId: requestId,
       price: price,
       notes: notes,
     );
-    print('OFFER RESPONSE: $response');
+    debugPrint('OFFER RESPONSE: $response');
     final data = response['data'];
     if (data is Map<String, dynamic>) {
       return data;
@@ -119,3 +133,4 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
       response['message']?.toString() ?? 'Failed to send offer',
     );
   }}
+

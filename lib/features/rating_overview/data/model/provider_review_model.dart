@@ -1,6 +1,7 @@
 class ProviderReviewModel {
   final String id;
   final String reviewerName;
+  final String? reviewerProfilePicture;
   final String serviceType;
   final double rating;
   final String comment;
@@ -10,6 +11,7 @@ class ProviderReviewModel {
   const ProviderReviewModel({
     required this.id,
     required this.reviewerName,
+    this.reviewerProfilePicture,
     required this.serviceType,
     required this.rating,
     required this.comment,
@@ -17,12 +19,16 @@ class ProviderReviewModel {
     this.bookingId,
   });
 
-  /// Parses a review object from GET /review/caregiver/{id}
+  /// Parses a review object from GET /review/my-reviews
+  /// The reviewer object contains: { _id, full_name, profile_picture }
   factory ProviderReviewModel.fromJson(Map<String, dynamic> json) {
-    final client = json['client'];
-    final reviewerName = client is Map
-        ? (client['full_name']?.toString() ?? 'Unknown')
+    final reviewer = json['reviewer'];
+    final reviewerName = reviewer is Map
+        ? (reviewer['full_name']?.toString() ?? 'Unknown')
         : 'Unknown';
+    final reviewerPicture = reviewer is Map
+        ? reviewer['profile_picture']?.toString()
+        : null;
 
     DateTime parsedDate = DateTime.now();
     final rawDate = json['createdAt']?.toString();
@@ -32,14 +38,20 @@ class ProviderReviewModel {
       } catch (_) {}
     }
 
+    final booking = json['booking'];
+    final bookingId = booking is Map
+        ? booking['_id']?.toString()
+        : booking?.toString();
+
     return ProviderReviewModel(
       id: json['_id']?.toString() ?? '',
       reviewerName: reviewerName,
+      reviewerProfilePicture: reviewerPicture,
       serviceType: '',
       rating: (json['overallRating'] ?? 0).toDouble(),
       comment: json['reviewComment']?.toString() ?? '',
       date: parsedDate,
-      bookingId: json['booking']?.toString(),
+      bookingId: bookingId,
     );
   }
 }
@@ -59,8 +71,8 @@ class ProviderReviewSummaryModel {
     required this.starCounts,
   });
 
-  /// Parses from the `data` object of GET /review/caregiver/{id}
-  /// { averageRating, totalReviewsCount, ratingBreakdown: {"1":0,"2":0,...} }
+  /// Parses from the `data` object of GET /review/my-reviews
+  /// { averageRating, totalReviewsCount, ratingBreakdown: {"1":0,...} }
   factory ProviderReviewSummaryModel.fromApiData(Map<String, dynamic> data) {
     final breakdown = data['ratingBreakdown'];
     final Map<int, int> starCounts = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0};

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter/services.dart';
 
 class MytaskCgAddTaskSheet extends StatefulWidget {
   final String bookingId;
-  /// Called with the task name; returns null on success or an error string.
-  final Future<String?> Function(String taskName) onAdd;
+  /// Called with (title, description, price). Returns null on success, error string on failure.
+  final Future<String?> Function(String title, String description, double price) onAdd;
 
   const MytaskCgAddTaskSheet({
     super.key,
@@ -17,46 +17,68 @@ class MytaskCgAddTaskSheet extends StatefulWidget {
 }
 
 class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
-  final _nameController = TextEditingController();
-  bool _loading = false;
+  final _titleController       = TextEditingController();
+  final _descriptionController = TextEditingController();
+  final _priceController       = TextEditingController();
+  bool _isLoading = false;
 
   @override
   void dispose() {
-    _nameController.dispose();
+    _titleController.dispose();
+    _descriptionController.dispose();
+    _priceController.dispose();
     super.dispose();
   }
 
   Future<void> _submit() async {
-    final name = _nameController.text.trim();
-    if (name.isEmpty) return;
+    final title = _titleController.text.trim();
+    final desc  = _descriptionController.text.trim();
+    final priceText = _priceController.text.trim();
 
-    setState(() => _loading = true);
+    if (title.isEmpty) {
+      _showError('Please enter a task title.');
+      return;
+    }
+    if (priceText.isEmpty) {
+      _showError('Please enter a price.');
+      return;
+    }
+    final price = double.tryParse(priceText);
+    if (price == null || price < 0) {
+      _showError('Please enter a valid price.');
+      return;
+    }
 
-    final error = await widget.onAdd(name);
-
+    setState(() => _isLoading = true);
+    final error = await widget.onAdd(title, desc, price);
     if (!mounted) return;
-    setState(() => _loading = false);
+    setState(() => _isLoading = false);
 
     if (error != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Failed to add task: $error'),
-          backgroundColor: Colors.red,
-        ),
-      );
+      _showError(error);
     } else {
       Navigator.pop(context);
     }
+  }
+
+  void _showError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        left: 20.w,
-        right: 20.w,
-        top: 20.h,
-        bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+        left: 20,
+        right: 20,
+        top: 20,
+        bottom: MediaQuery.of(context).viewInsets.bottom + 24,
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -65,65 +87,90 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Add New Task',
-                style: TextStyle(
-                  fontSize: 18.sp,
-                  fontWeight: FontWeight.bold,
-                ),
+              const Text(
+                'Add Extra Task',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               IconButton(
                 icon: const Icon(Icons.close),
-                onPressed: _loading ? null : () => Navigator.pop(context),
+                onPressed: _isLoading ? null : () => Navigator.pop(context),
               ),
             ],
           ),
-          SizedBox(height: 16.h),
-          Text(
-            'Task Name',
-            style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14.sp),
+          const SizedBox(height: 4),
+          const Text(
+            'This task will be sent to the client for approval.',
+            style: TextStyle(fontSize: 12, color: Colors.grey),
           ),
-          SizedBox(height: 8.h),
+          const SizedBox(height: 16),
+          const Text('Title', style: TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
           TextField(
-            controller: _nameController,
-            textCapitalization: TextCapitalization.sentences,
+            controller: _titleController,
+            textInputAction: TextInputAction.next,
             decoration: InputDecoration(
-              hintText: 'Enter task name',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(8.r),
-              ),
+              hintText: 'e.g. PC Cleaning',
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
           ),
-          SizedBox(height: 24.h),
+          const SizedBox(height: 14),
+          const Text('Description', style: TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          TextField(
+            controller: _descriptionController,
+            textInputAction: TextInputAction.next,
+            maxLines: 2,
+            decoration: InputDecoration(
+              hintText: 'e.g. Clean personal computer area',
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            ),
+          ),
+          const SizedBox(height: 14),
+          const Text('Price (EGP)', style: TextStyle(fontWeight: FontWeight.w600)),
+          const SizedBox(height: 6),
+          TextField(
+            controller: _priceController,
+            keyboardType: const TextInputType.numberWithOptions(decimal: true),
+            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[0-9.]'))],
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => _submit(),
+            decoration: InputDecoration(
+              hintText: 'e.g. 150',
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+              prefixText: 'EGP  ',
+            ),
+          ),
+          const SizedBox(height: 20),
           SizedBox(
             width: double.infinity,
+            height: 48,
             child: ElevatedButton(
-              onPressed: _loading ? null : _submit,
+              onPressed: _isLoading ? null : _submit,
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xFF1976D2),
                 foregroundColor: Colors.white,
-                padding: EdgeInsets.symmetric(vertical: 14.h),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
               ),
-              child: _loading
-                  ? SizedBox(
-                      height: 20.h,
-                      width: 20.w,
-                      child: const CircularProgressIndicator(
+              child: _isLoading
+                  ? const SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
                         color: Colors.white,
-                        strokeWidth: 2,
                       ),
                     )
-                  : Text('Add Task', style: TextStyle(fontSize: 16.sp)),
+                  : const Text('Send for Approval', style: TextStyle(fontSize: 16)),
             ),
           ),
-          SizedBox(height: 8.h),
+          const SizedBox(height: 8),
           SizedBox(
             width: double.infinity,
             child: TextButton(
-              onPressed: _loading ? null : () => Navigator.pop(context),
+              onPressed: _isLoading ? null : () => Navigator.pop(context),
               child: const Text('Cancel', style: TextStyle(color: Colors.red)),
             ),
           ),

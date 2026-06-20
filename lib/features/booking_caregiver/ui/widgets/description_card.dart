@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class DescriptionCard extends StatelessWidget {
   final String description;
+  final String label;
 
   const DescriptionCard({
     super.key,
     this.description = '',
+    this.label = 'DESCRIPTION',
   });
 
   @override
@@ -40,7 +42,7 @@ class DescriptionCard extends StatelessWidget {
               ),
               SizedBox(width: 8.w),
               Text(
-                "DESCRIPTION",
+                label,
                 style: TextStyle(
                   color: const Color(0xff4B5A75),
                   fontSize: 13.sp,

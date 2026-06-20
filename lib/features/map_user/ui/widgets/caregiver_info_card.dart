@@ -13,6 +13,7 @@ class CaregiverInfoCard extends StatelessWidget {
   final String status;
   final String statusSubtitle;
   final String phoneNumber;
+  final String caregiverPicture;
 
   const CaregiverInfoCard({
     super.key,
@@ -23,6 +24,7 @@ class CaregiverInfoCard extends StatelessWidget {
     required this.status,
     required this.statusSubtitle,
     required this.phoneNumber,
+    this.caregiverPicture = '',
   });
 
   @override
@@ -48,15 +50,12 @@ class CaregiverInfoCard extends StatelessWidget {
             speciality: speciality,
             rating: rating,
             reviewCount: reviewCount,
+            caregiverPicture: caregiverPicture,
           ),
           SizedBox(height: 12.h),
           Divider(),
           SizedBox(height: 8.h),
-          CaregiverStatus(
-            status: status,
-            statusSubtitle: statusSubtitle,
-          ),
-          SizedBox(height: 16.h),
+          
           ContactButton(
             name: name,
             speciality: speciality,

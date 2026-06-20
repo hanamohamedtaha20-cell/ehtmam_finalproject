@@ -1,5 +1,4 @@
-﻿import 'package:ehtemam_final_project/core/resources/language_chip.dart';
-import 'package:ehtemam_final_project/features/auth/ui/screens/register_screen.dart';
+﻿import 'package:ehtemam_final_project/features/auth/ui/screens/register_screen.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/select_role_card.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/select_role_logo_section.dart';
 import 'package:flutter/material.dart';

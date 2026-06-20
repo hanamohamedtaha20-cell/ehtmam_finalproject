@@ -115,51 +115,77 @@ class _HcHomeView extends StatelessWidget {
                       childCount: state.pendingRequests.length,
                     ),
                   ),
-                if (state.acceptedBookings.isNotEmpty) ...[
-                  SliverToBoxAdapter(
-                    child: Padding(
-                      padding: EdgeInsets.fromLTRB(16, 24, 16, 12),
-                      child: Row(
-                        children: [
-                          Container(
-                            width: 4.w,
-                            height: 20.h,
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF3A8BD7),
-                              borderRadius: BorderRadius.circular(2.r),
-                            ),
+                // Active Bookings section — always visible
+                SliverToBoxAdapter(
+                  child: Padding(
+                    padding: EdgeInsets.fromLTRB(16, 24, 16, 12),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 4.w,
+                          height: 20.h,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF3A8BD7),
+                            borderRadius: BorderRadius.circular(2.r),
                           ),
-                          SizedBox(width: 10.w),
-                          Text(
-                            'Active Bookings',
+                        ),
+                        SizedBox(width: 10.w),
+                        Text(
+                          'Active Bookings',
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            fontSize: 18.sp,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFF0B2B5A),
+                          ),
+                        ),
+                        SizedBox(width: 8.w),
+                        Container(
+                          padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF3A8BD7),
+                            borderRadius: BorderRadius.circular(10.r),
+                          ),
+                          child: Text(
+                            '${state.acceptedBookings.length}',
                             style: TextStyle(
                               fontFamily: 'Inter',
-                              fontSize: 18.sp,
+                              fontSize: 12.sp,
                               fontWeight: FontWeight.w700,
-                              color: Color(0xFF0B2B5A),
+                              color: Colors.white,
                             ),
                           ),
-                          SizedBox(width: 8.w),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFF3A8BD7),
-                              borderRadius: BorderRadius.circular(10.r),
-                            ),
-                            child: Text(
-                              '${state.acceptedBookings.length}',
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 12.sp,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
-                              ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                if (state.acceptedBookings.isEmpty)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.calendar_today_outlined,
+                            size: 48.r,
+                            color: Color(0xFFBFCDD9),
+                          ),
+                          SizedBox(height: 12.h),
+                          Text(
+                            'No active bookings yet.',
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w500,
+                              color: Color(0xFF667085),
                             ),
                           ),
                         ],
                       ),
                     ),
-                  ),
+                  )
+                else
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
@@ -289,7 +315,6 @@ class _HcHomeView extends StatelessWidget {
                       childCount: state.acceptedBookings.length,
                     ),
                   ),
-                ],
                 SliverToBoxAdapter(child: SizedBox(height: 100.h)),
               ],
             ),

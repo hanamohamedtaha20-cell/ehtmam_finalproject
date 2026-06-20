@@ -1,5 +1,6 @@
 ﻿import 'package:easy_localization/easy_localization.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_detailsUser.dart';
 import 'package:ehtemam_final_project/features/requests_screen_user/ui/widgets/status_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -162,7 +163,7 @@ class _RequestCardWidgetState extends State<RequestCardWidget> {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => BookingCgScreen(
+                builder: (context) => BookingDetailsuser(
                   requestId: widget.request.id,
                   initialTab: 0,
                   bookingId: '',

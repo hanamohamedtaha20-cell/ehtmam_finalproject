@@ -4,25 +4,43 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class StatsRow extends StatelessWidget {
   final int totalRequests;
-  final int completed;
   final double rating;
+  final int totalReviewsCount;
 
   const StatsRow({
     super.key,
     required this.totalRequests,
-    required this.completed,
     required this.rating,
+    this.totalReviewsCount = 0,
   });
 
   @override
   Widget build(BuildContext context) {
+    final ratingLabel = totalReviewsCount == 0
+        ? 'No ratings yet'
+        : totalReviewsCount == 1
+            ? '1 Review'
+            : '$totalReviewsCount Reviews';
+
     return Row(
       children: [
-        Expanded(child: _StatCard(label: "totalRequests", value: totalRequests.toString(), color: Color(0xff9DCAF5), textColor: Color(0xff3A8BD7))),
+        Expanded(
+          child: _StatCard(
+            label: 'Total Requests',
+            value: totalRequests.toString(),
+            color: const Color(0xff9DCAF5),
+            textColor: const Color(0xff3A8BD7),
+          ),
+        ),
         SizedBox(width: 10.w),
-        Expanded(child: _StatCard(label: "completed", value: completed.toString(), color: AppColors.lightGreen, textColor: AppColors.green)),
-        SizedBox(width: 10.w),
-        Expanded(child: _StatCard(label: "Rating", value: rating.toString(), color: AppColors.lightOrange, textColor: AppColors.orange)),
+        Expanded(
+          child: _StatCard(
+            label: ratingLabel,
+            value: rating.toStringAsFixed(1),
+            color: AppColors.lightOrange,
+            textColor: AppColors.orange,
+          ),
+        ),
       ],
     );
   }

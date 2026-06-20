@@ -22,16 +22,16 @@ class MenuOptionsCard extends StatelessWidget {
           MaterialPageRoute(builder: (_) => const CareProviderAccountSettingsScreen()),
         ),
       ),
-      _MenuOption(
-        icon: Icons.attach_money,
-        label: "Payments Received",
-        iconColor: AppColors.blue,
-        bgColor: const Color.fromARGB(255, 240, 249, 255),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const CgPaymentScreen()),
-        ),
-      ),
+      // _MenuOption(
+      //   icon: Icons.attach_money,
+      //   label: "Payments Received",
+      //   iconColor: AppColors.blue,
+      //   bgColor: const Color.fromARGB(255, 240, 249, 255),
+      //   onTap: () => Navigator.push(
+      //     context,
+      //     MaterialPageRoute(builder: (_) => const CgPaymentScreen()),
+      //   ),
+      // ),
       _MenuOption(
         icon: Icons.star_outline,
         label: "My Ratings",

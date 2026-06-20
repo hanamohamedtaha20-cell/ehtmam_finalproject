@@ -21,6 +21,96 @@ class CareProviderAccountSettingsScreen extends StatefulWidget {
 
 class _CareProviderAccountSettingsScreenState
     extends State<CareProviderAccountSettingsScreen> {
+     void _showDeleteAccountDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    barrierDismissible: false,
+    builder: (dialogContext) {
+      return AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(20),
+        ),
+        title: const Row(
+          children: [
+            Icon(
+              Icons.warning_amber_rounded,
+              color: Color(0xFFF04438),
+            ),
+            SizedBox(width: 8),
+            Text(
+              'Delete Account?',
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: Color(0xFFF04438),
+              ),
+            ),
+          ],
+        ),
+        content: const Text(
+          'This action will permanently delete your account and cannot be undone.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(dialogContext),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(
+                color: Color(0xFF667085),
+              ),
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFF04438),
+            ),
+            onPressed: () async {
+              Navigator.pop(dialogContext);
+
+              // Show loading overlay while the API call runs.
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => const Center(
+                  child: CircularProgressIndicator(color: Colors.white),
+                ),
+              );
+
+              final error = await context
+                  .read<AccountSettingsCubit>()
+                  .deleteAccount();
+
+              if (!context.mounted) return;
+              Navigator.pop(context); // Dismiss loading overlay.
+
+              if (error != null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(error),
+                    backgroundColor: const Color(0xFFF04438),
+                    behavior: SnackBarBehavior.floating,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                );
+              } else {
+                Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (_) => LoginScreen()),
+                  (route) => false,
+                );
+              }
+            },
+            child: const Text(
+              'Delete',
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+} 
 
   @override
   void initState() {
@@ -436,23 +526,12 @@ class _CareProviderAccountSettingsScreenState
                           color: const Color(0xFF1D2939),
                         ),
                       ),
-                      Spacer(),
-                      Icon(
-                        Icons.language_rounded,
-                        size: 15.r,
-                        color: const Color(0xFF667085),
+                      const Spacer(),
+                      IconButton(
+                        icon: const Icon(Icons.refresh, color: Color(0xFF1D2939)),
+                        tooltip: 'Refresh',
+                        onPressed: () => context.read<AccountSettingsCubit>().loadUserData(),
                       ),
-                      SizedBox(width: 4.w),
-                      Text(
-                        'E',
-                        style: TextStyle(
-                          fontFamily: 'Inter',
-                          fontSize: 12.sp,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF344054),
-                        ),
-                      ),
-                      SizedBox(width: 14.w),
                     ],
                   ),
                 ),
@@ -523,18 +602,11 @@ class _CareProviderAccountSettingsScreenState
                                   context: context,
                                   icon: Icons.medical_services_outlined,
                                   title: 'Service Types',
-                                  subtitle: 'Pet Care, Elderly Care',
+                                  subtitle: state.careField,
                                   iconColor: const Color(0xFF22C55E),
                                   bg: const Color(0xFFE6F9F0),
                                 ),
-                                tile(
-                                  context: context,
-                                  icon: Icons.description_outlined,
-                                  title: 'Documents & Certificates',
-                                  subtitle: 'View uploaded documents',
-                                  iconColor: const Color(0xFF6366F1),
-                                  bg: const Color(0xFFEFF1FF),
-                                ),
+                                
                                 tile(
                                   context: context,
                                   icon: Icons.workspace_premium_outlined,
@@ -567,43 +639,25 @@ class _CareProviderAccountSettingsScreenState
                                   },
                                 ),
                               ]),
-
-                              sectionTitle(context, 'NOTIFICATIONS'),
-
-                              notificationTile(context, state),
-
-                              sectionTitle(context, 'PREFERENCES'),
-
-                              card(context, [
-                                tile(
-                                  context: context,
-                                  icon: Icons.language_rounded,
-                                  title: 'Language',
-                                  subtitle: 'English',
-                                  iconColor: const Color(0xFF53A9F6),
-                                  bg: const Color(0xFFEAF4FF),
-                                  arrow: true,
-                                ),
-                              ]),
-
                               sectionTitle(
                                 context,
                                 'DANGER ZONE',
                                 color: const Color(0xFFF04438),
                               ),
 
-                              card(context, [
-                                tile(
-                                  context: context,
-                                  icon: Icons.delete_outline_rounded,
-                                  title: 'Delete Account',
-                                  subtitle: 'Permanently delete your account',
-                                  iconColor: const Color(0xFFF04438),
-                                  bg: const Color(0xFFFFE8E8),
-                                  titleColor: const Color(0xFFF04438),
-                                  arrow: true,
-                                ),
-                              ]),
+                            card(context, [
+    tile(
+    context: context,
+    icon: Icons.delete_outline_rounded,
+    title: 'Delete Account',
+    subtitle: 'Permanently delete your account',
+    iconColor: const Color(0xFFF04438),
+    bg: const Color(0xFFFFE8E8),
+    titleColor: const Color(0xFFF04438),
+    arrow: true,
+    onTap: () => _showDeleteAccountDialog(context),
+  ),
+]),
 
                               SizedBox(height: 2.h),
 

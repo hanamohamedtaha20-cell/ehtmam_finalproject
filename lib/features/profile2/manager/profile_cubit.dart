@@ -14,15 +14,18 @@ class ProfileCubit extends Cubit<ProfileState> {
       final results = await Future.wait([
         _repo.getUser(),
         _repo.getStats(),
+        _repo.getMyReviews(),
       ]);
-      final user  = results[0] as dynamic;
-      final stats = results[1] as Map<String, dynamic>;
+      final user    = results[0] as dynamic;
+      final stats   = results[1] as Map<String, dynamic>;
+      final reviews = results[2] as dynamic;
       if (!isClosed) {
         emit(ProfileLoaded(
-          user:          user,
-          totalRequests: stats['total'] as int,
-          completed:     stats['completed'] as int,
-          rating:        0.0,
+          user:               user,
+          totalRequests:      stats['total']     as int,
+          completed:          stats['completed'] as int,
+          rating:             reviews.averageRating     as double,
+          totalReviewsCount:  reviews.totalReviewsCount as int,
         ));
       }
     } catch (e) {

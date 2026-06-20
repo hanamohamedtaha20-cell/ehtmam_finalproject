@@ -204,11 +204,28 @@ class RequestCard extends StatelessWidget {
                   fontSize: 13.sp,
                   colors: const [Color(0xFF4CAF50), Color(0xFF7DDE92)],
                   onTap: () {
+                    final bid = request.bookingId ?? '';
+                    debugPrint('CAREGIVER_BOOKING_ID = $bid');
+                    if (bid.isEmpty) {
+                      // bookingId is null when this card was built from a raw
+                      // request (fromRequestJson) instead of a booking document.
+                      // Prevent navigating with an empty ID — nothing would be
+                      // sent to the backend and the caregiver would see a false
+                      // "Sharing location" state.
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                            'Booking not ready yet. Please wait and refresh.',
+                          ),
+                        ),
+                      );
+                      return;
+                    }
                     Navigator.push(
                       context,
                       MaterialPageRoute(
                         builder: (_) => ShareLocationCgScreen(
-                          bookingId: request.bookingId ?? '',
+                          bookingId: bid,
                           clientName: request.clientName,
                           serviceType: request.serviceName,
                         ),

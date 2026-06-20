@@ -3,7 +3,6 @@ import 'package:ehtemam_final_project/core/resources/app_images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/resources/app_colors.dart';
-import '../../../../core/resources/language_chip.dart';
 import '../../../../core/resources/skip_button.dart';
 import '../../../splash/ui/widgets/next_button.dart';
 import '../widgets/onboarding_background.dart';
@@ -83,7 +82,10 @@ class OnboardingScreen extends StatelessWidget {
                   ),
                 ),
 
-                SizedBox(height: 50.h),
+                //SizedBox(height: 70.h),
+                Spacer(),
+
+                SizedBox(height:20 ),
 
 
                 /// Indicator

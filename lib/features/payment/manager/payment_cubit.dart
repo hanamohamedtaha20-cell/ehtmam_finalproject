@@ -1,5 +1,6 @@
 
 import 'package:ehtemam_final_project/core/utils/api_error_message.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/repo/payment_repo.dart';
 import '../data/model/payment_model.dart';
@@ -10,7 +11,13 @@ class PaymentCubit extends Cubit<PaymentState> {
 
   PaymentCubit(this.repo) : super(PaymentInitial());
 
-  Future<void> loadData({double? offerPrice}) async {
+  Future<void> loadData({
+    double? offerPrice,
+    double? originalPrice,
+    double? discountAmount,
+    String? bundleUsed,
+    int? remainingSessions,
+  }) async {
     if (isClosed) return;
     emit(PaymentLoading());
 
@@ -42,10 +49,15 @@ class PaymentCubit extends Cubit<PaymentState> {
           ?? walletData?['history']
           ?? walletResult['transactions']
           ?? [];
-      transactions = (txRaw as List? ?? [])
+      final txItems = (txRaw as List? ?? [])
           .whereType<Map<String, dynamic>>()
-          .map((t) => TransactionModel.fromJson(t))
           .toList();
+      txItems.sort((a, b) {
+        final aStr = a['createdAt']?.toString() ?? a['_id']?.toString() ?? '';
+        final bStr = b['createdAt']?.toString() ?? b['_id']?.toString() ?? '';
+        return bStr.compareTo(aStr);
+      });
+      transactions = txItems.map((t) => TransactionModel.fromJson(t)).toList();
 
       // Derive balance from transactions when the field is missing or zero.
       if (balance == 0 && transactions.isNotEmpty) {
@@ -63,10 +75,19 @@ class PaymentCubit extends Cubit<PaymentState> {
       // Wallet may not exist yet — show summary with zero balance.
     }
 
+    final bool hasDiscount = (discountAmount ?? 0) > 0 || bundleUsed != null;
     final double price = offerPrice ?? 0;
-    final double platformFee = price * 0.05;
-    final double taxRate = price * 0.14;
-    final double total = price + platformFee + taxRate;
+    final double origPrice = originalPrice ?? price;
+    final double discount = discountAmount ?? 0;
+    final double platformFee = hasDiscount ? 0 : price * 0.05;
+    final double taxRate = hasDiscount ? 0 : price * 0.14;
+    final double total = hasDiscount ? price : price + platformFee + taxRate;
+
+    debugPrint('ACTIVE_BUNDLE: ${bundleUsed ?? "none"}');
+    debugPrint('ORIGINAL_PRICE: $origPrice');
+    debugPrint('DISCOUNT_AMOUNT: $discount');
+    debugPrint('FINAL_PRICE: $price');
+    debugPrint('REMAINING_BUNDLE_SESSIONS: ${remainingSessions ?? 0}');
 
     if (!isClosed) {
       emit(PaymentLoaded(
@@ -74,10 +95,14 @@ class PaymentCubit extends Cubit<PaymentState> {
         income: income,
         expense: expense,
         transactions: transactions,
-        serviceCost: price,
+        serviceCost: origPrice,
         platformFee: platformFee,
         taxRate: taxRate,
         total: total,
+        originalPrice: origPrice,
+        discountAmount: discount,
+        bundleUsed: bundleUsed,
+        remainingSessions: remainingSessions ?? 0,
       ));
     }
   }
@@ -87,6 +112,18 @@ class PaymentCubit extends Cubit<PaymentState> {
   Future<String?> payBooking() async {
     if (state is! PaymentLoaded) return 'Payment data is not ready';
     return null;
+  }
+
+  /// Charges the user's wallet for a caregiver-added extra task.
+  Future<String?> payExtraTask(String taskId, {String? bookingId}) async {
+    if (state is! PaymentLoaded) return 'Payment data is not ready';
+    debugPrint('[ExtraTask] payExtraTask taskId=$taskId bookingId=$bookingId');
+    try {
+      await repo.payExtraTask(taskId, bookingId: bookingId);
+      return null;
+    } catch (e) {
+      return apiErrorMessage(e);
+    }
   }
 
   Future<String?> payBundlePurchase(String bundleId) async {
@@ -106,19 +143,6 @@ class PaymentCubit extends Cubit<PaymentState> {
       if (val is num && val != 0) return val.toDouble();
     }
     return 0;
-  }
-
-  double _extractPrice(Map<String, dynamic> bookingData, {double fallback = 0}) {
-    final offer = bookingData['offer'];
-    if (offer is Map) {
-      final offerPrice = offer['price'];
-      if (offerPrice is num) return offerPrice.toDouble();
-    }
-
-    final price = bookingData['price'];
-    if (price is num) return price.toDouble();
-
-    return fallback;
   }
 
   void addBalance(double amount) {

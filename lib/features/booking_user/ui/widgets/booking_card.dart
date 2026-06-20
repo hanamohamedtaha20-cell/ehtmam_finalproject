@@ -57,14 +57,48 @@ final VoidCallback? onCancel;
           BookingInfoRow(icon: Icons.location_on_outlined, text: booking.location),
           SizedBox(height: 12.h),
           
-          Text(
-            '${booking.price} EGP',
-            style: TextStyle(
-              fontFamily: "Arimo",
-              fontWeight: FontWeight.bold,
-              fontSize: 16.sp,
-              color: AppColors.textDark,
-            ),
+          Row(
+            children: [
+              Text(
+                booking.isPaidByBundle ? '0 EGP' : '${booking.price} EGP',
+                style: TextStyle(
+                  fontFamily: "Arimo",
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16.sp,
+                  color: AppColors.textDark,
+                ),
+              ),
+              if (booking.isPaidByBundle) ...[
+                SizedBox(width: 8.w),
+                Container(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 8.w, vertical: 3.h),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFE3F2FD),
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(
+                        color: const Color(0xFF3A8BD7).withValues(alpha: 0.4)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.inventory_2_outlined,
+                          color: const Color(0xFF3A8BD7), size: 11.r),
+                      SizedBox(width: 3.w),
+                      Text(
+                        'Paid by Bundle',
+                        style: TextStyle(
+                          fontFamily: 'Arimo',
+                          fontSize: 10.sp,
+                          color: const Color(0xFF3A8BD7),
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ],
           ),
           SizedBox(height: 12.h),
           BookingActionButtons(status: booking.status,

@@ -1,5 +1,4 @@
 import 'package:ehtemam_final_project/core/network/api_service.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../model/provider_review_model.dart';
 
 abstract class ProviderReviewRepo {
@@ -14,25 +13,17 @@ class ProviderReviewRepoImpl implements ProviderReviewRepo {
   List<ProviderReviewModel>? _cachedReviews;
   ProviderReviewSummaryModel? _cachedSummary;
 
-  /// Clears the cache so the next load fetches fresh data from the API.
   void invalidate() {
     _cachedReviews = null;
     _cachedSummary = null;
   }
 
-  /// Fetches from /review/caregiver/{userId} and caches the result.
-  /// Subsequent calls return the cache without hitting the network.
+  /// Fetches from GET /review/my-reviews (token-based, works for both Client and Caregiver).
   Future<void> _fetchAll() async {
     if (_cachedReviews != null && _cachedSummary != null) return;
 
-    final prefs = await SharedPreferences.getInstance();
-    final caregiverId = prefs.getString('userId') ?? '';
+    final response = await _api.getMyReviews();
 
-    final response = await _api.getCaregiverReviews(caregiverId);
-
-    // Response: { "status": "success", "data": { "reviews": [...],
-    //   "averageRating": 5, "totalReviewsCount": 1,
-    //   "ratingBreakdown": { "1": 0, ... } } }
     final data = response['data'];
     if (data is! Map<String, dynamic>) {
       _cachedSummary = ProviderReviewSummaryModel.fromApiData({});
@@ -43,12 +34,17 @@ class ProviderReviewRepoImpl implements ProviderReviewRepo {
     _cachedSummary = ProviderReviewSummaryModel.fromApiData(data);
 
     final rawList = data['reviews'];
-    _cachedReviews = rawList is List
-        ? rawList
-            .whereType<Map<String, dynamic>>()
-            .map(ProviderReviewModel.fromJson)
-            .toList()
-        : [];
+    if (rawList is List) {
+      final items = rawList.whereType<Map<String, dynamic>>().toList();
+      items.sort((a, b) {
+        final aStr = a['createdAt']?.toString() ?? a['_id']?.toString() ?? '';
+        final bStr = b['createdAt']?.toString() ?? b['_id']?.toString() ?? '';
+        return bStr.compareTo(aStr);
+      });
+      _cachedReviews = items.map(ProviderReviewModel.fromJson).toList();
+    } else {
+      _cachedReviews = [];
+    }
   }
 
   @override

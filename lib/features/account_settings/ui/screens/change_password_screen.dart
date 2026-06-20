@@ -1,5 +1,4 @@
-﻿import 'package:ehtemam_final_project/core/resources/language_chip.dart';
-import 'package:flutter/material.dart';
+﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../manager/account_settings_cubit.dart';
@@ -275,19 +274,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
                               SizedBox(height: 16.h),
 
-                              Container(
-                                height: 14.h,
-                                alignment: Alignment.center,
-                                color: Colors.white.withOpacity(0.3),
-                                child: Text(
-                                  'User Access',
-                                  style: TextStyle(
-                                    fontFamily: 'Inter',
-                                    fontSize: 9.sp,
-                                    color: Color(0xFF98A2B3),
-                                  ),
-                                ),
-                              ),
+                             
                             ],
                           ),
                         ),

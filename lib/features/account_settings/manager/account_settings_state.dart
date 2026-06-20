@@ -15,6 +15,7 @@ class AccountSettingsState {
   final String? error;
   final bool success;
   final String profileImagePath;
+  final String profileImageUrl;
 
   const AccountSettingsState({
     this.name = '',
@@ -33,6 +34,7 @@ class AccountSettingsState {
     this.error,
     this.success = false,
     required this.profileImagePath,
+    this.profileImageUrl = '',
   });
 
   AccountSettingsState copyWith({
@@ -52,6 +54,7 @@ class AccountSettingsState {
     String? error,
     bool? success,
     String? profileImagePath,
+    String? profileImageUrl,
   }) {
     return AccountSettingsState(
       name: name ?? this.name,
@@ -62,8 +65,7 @@ class AccountSettingsState {
       government: government ?? this.government,
       careField: careField ?? this.careField,
       specialization: specialization ?? this.specialization,
-      certificateFileName:
-      certificateFileName ?? this.certificateFileName,
+      certificateFileName: certificateFileName ?? this.certificateFileName,
 
       notifications: notifications ?? this.notifications,
       isLoading: isLoading ?? this.isLoading,
@@ -71,6 +73,7 @@ class AccountSettingsState {
       error: error,
       success: success ?? false,
       profileImagePath: profileImagePath ?? this.profileImagePath,
+      profileImageUrl: profileImageUrl ?? this.profileImageUrl,
     );
   }
 }

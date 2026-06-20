@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class TaskProgressModel {
   final String id;
   final String title;
@@ -33,7 +35,7 @@ class TaskProgressModel {
     );
   }
 
-  // From data.pendingTasks[]
+  // From data.pendingTasks[] — excludes extra tasks pending approval
   factory TaskProgressModel.fromPending(Map<String, dynamic> json) {
     return TaskProgressModel(
       id: json['taskId']?.toString() ?? '',
@@ -58,8 +60,55 @@ class TaskProgressModel {
   }
 }
 
+/// A caregiver-added extra task (any approval state).
+class ExtraTaskModel {
+  final String id;
+  final String title;
+  final String description;
+  final double price;
+  final String taskState;
+
+  ExtraTaskModel({
+    required this.id,
+    required this.title,
+    required this.description,
+    required this.price,
+    required this.taskState,
+  });
+
+  factory ExtraTaskModel.fromJson(Map<String, dynamic> json) {
+    debugPrint('[ExtraTask] raw JSON: $json');
+    final id = json['_id']?.toString() ?? json['taskId']?.toString() ?? '';
+    final taskState = json['taskState']?.toString() ??
+        json['status']?.toString() ??
+        json['taskStatus']?.toString() ??
+        '';
+    debugPrint('[ExtraTask] id=$id  taskState=$taskState  raw_taskState=${json['taskState']}  raw_status=${json['status']}  raw_taskStatus=${json['taskStatus']}');
+    return ExtraTaskModel(
+      id: id,
+      title: json['taskName']?.toString() ?? json['title']?.toString() ?? '',
+      description: json['description']?.toString() ?? '',
+      price: (json['price'] as num?)?.toDouble() ?? 0,
+      taskState: taskState,
+    );
+  }
+
+  String get _lower => taskState.toLowerCase();
+
+  bool get isPendingApproval =>
+      _lower == 'pending client approval' ||
+      _lower == 'pending_client_approval' ||
+      _lower == 'pendingclientapproval';
+
+  bool get isApproved  => _lower == 'approved';
+  bool get isRejected  => _lower == 'rejected';
+  bool get isCompleted => _lower == 'completed';
+}
+
 class TaskProgressData {
   final List<TaskProgressModel> tasks;
+  final List<ExtraTaskModel> extraTasksPendingApproval;
+  final List<ExtraTaskModel> allExtraTasks;
   final int completedCount;
   final int totalCount;
   final int progressPercent;
@@ -70,6 +119,8 @@ class TaskProgressData {
 
   TaskProgressData({
     required this.tasks,
+    this.extraTasksPendingApproval = const [],
+    this.allExtraTasks = const [],
     required this.completedCount,
     required this.totalCount,
     required this.progressPercent,

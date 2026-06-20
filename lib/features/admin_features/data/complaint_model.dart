@@ -1,40 +1,75 @@
 class ComplaintModel {
   final String id;
-  final String title;
-  final String category;
+  final String userId;
+  final String bookingId;
+  final String clientName;
+  final String clientEmail;
+  final String caregiverName;
+  final String caregiverEmail;
+  final int bookingPrice;
+  final String bookingStatus;
+  final String subject;
+  final String message;
   final String status;
-  final String fromName;
-  final String fromRole;
-  final String againstName;
-  final String againstRole;
-  final String date;
-  final String description;
+  final String createdAt;
 
   ComplaintModel({
     required this.id,
-    required this.title,
-    required this.category,
+    required this.userId,
+    required this.bookingId,
+    required this.clientName,
+    required this.clientEmail,
+    required this.caregiverName,
+    required this.caregiverEmail,
+    required this.bookingPrice,
+    required this.bookingStatus,
+    required this.subject,
+    required this.message,
     required this.status,
-    required this.fromName,
-    required this.fromRole,
-    required this.againstName,
-    required this.againstRole,
-    required this.date,
-    required this.description,
+    required this.createdAt,
   });
 
+  String get formattedDate {
+    if (createdAt.isEmpty) return '';
+    try {
+      final dt = DateTime.parse(createdAt).toLocal();
+      return '${dt.day}/${dt.month}/${dt.year}';
+    } catch (_) {
+      return createdAt.split('T').first;
+    }
+  }
+
   factory ComplaintModel.fromJson(Map<String, dynamic> json) {
+    final booking =
+        json['booking'] is Map ? json['booking'] as Map<String, dynamic> : <String, dynamic>{};
+    final client =
+        booking['client'] is Map ? booking['client'] as Map<String, dynamic> : <String, dynamic>{};
+    final caregiver = booking['caregiver'] is Map
+        ? booking['caregiver'] as Map<String, dynamic>
+        : <String, dynamic>{};
+
     return ComplaintModel(
-      id: json['_id']?.toString() ?? json['id']?.toString() ?? '',
-      title: json['title']?.toString() ?? '',
-      category: json['category']?.toString() ?? '',
+      id: json['_id']?.toString() ?? '',
+      userId: json['user']?.toString() ?? '',
+      bookingId: booking['_id']?.toString() ?? '',
+      clientName: client['full_name']?.toString() ?? '',
+      clientEmail: client['email']?.toString() ?? '',
+      caregiverName: caregiver['full_name']?.toString() ?? '',
+      caregiverEmail: caregiver['email']?.toString() ?? '',
+      bookingPrice: _parseInt(booking['price']),
+      bookingStatus: booking['bookingStatus']?.toString() ?? '',
+      subject: json['subject']?.toString() ?? '',
+      message: json['message']?.toString() ?? '',
       status: json['status']?.toString() ?? '',
-      fromName: json['fromName']?.toString() ?? '',
-      fromRole: json['fromRole']?.toString() ?? '',
-      againstName: json['againstName']?.toString() ?? '',
-      againstRole: json['againstRole']?.toString() ?? '',
-      date: json['date']?.toString() ?? '',
-      description: json['description']?.toString() ?? '',
+      createdAt: json['createdAt']?.toString() ?? '',
     );
+  }
+
+  static int _parseInt(dynamic v) {
+    if (v == null) return 0;
+    if (v is int) return v;
+    if (v is num) return v.toInt();
+    if (v is String) return int.tryParse(v) ?? 0;
+    return 0;
   }
 }

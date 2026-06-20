@@ -4,6 +4,7 @@ import 'package:ehtemam_final_project/features/booking_user/manager/booking_cubi
 import 'package:ehtemam_final_project/features/booking_user/manager/booking_state_user.dart';
 import 'package:ehtemam_final_project/features/booking_user/ui/widgets/booking_header.dart';
 import 'package:ehtemam_final_project/features/booking_user/ui/widgets/tabs_row.dart';
+import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,6 +16,24 @@ class BookingScreenUser extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (context.read<AuthCubit>().state.isGuest) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(24.r),
+              child: Text(
+                'Please login to view your bookings.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey, fontSize: 14.sp),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     return BlocProvider(
       create: (_) => BookingCubitUser(BookingRepoUser())..loadBookings(),
       child: Scaffold(
@@ -28,7 +47,21 @@ class BookingScreenUser extends StatelessWidget {
                   return Center(child: CircularProgressIndicator());
                 }
                 if (state is BookingError) {
-                  return Center(child: Text(state.message));
+                  final isAuthError = state.message.contains('not_authenticated') ||
+                      state.message.contains('401') ||
+                      state.message.contains('Unauthorized');
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(24.r),
+                      child: Text(
+                        isAuthError
+                            ? 'You must login first'
+                            : state.message,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: Colors.grey, fontSize: 14.sp),
+                      ),
+                    ),
+                  );
                 }
                 if (state is! BookingLoaded) {
                   return Center(child: CircularProgressIndicator());
@@ -36,7 +69,16 @@ class BookingScreenUser extends StatelessWidget {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const BookingHeader(),
+                    Row(
+                      children: [
+                        const Expanded(child: BookingHeader()),
+                        IconButton(
+                          icon: const Icon(Icons.refresh, color: Colors.black),
+                          tooltip: 'Refresh',
+                          onPressed: () => context.read<BookingCubitUser>().loadBookings(),
+                        ),
+                      ],
+                    ),
                     SizedBox(height: 20.h),
                     TabsRow(
                       selectedIndex: state.selectedTab,

@@ -1,4 +1,5 @@
-﻿import 'package:ehtemam_final_project/features/profile_caregiver/ui/screens/caregiver_screen.dart';
+﻿import 'package:ehtemam_final_project/features/payment_cg/ui/screens/cg_payment_screen.dart';
+import 'package:ehtemam_final_project/features/profile_caregiver/ui/screens/caregiver_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,7 +34,7 @@ class _CareGiverBottomNavView extends StatelessWidget {
     final List<Widget> screens = [
       const HcHomeScreen(),
       const CareRequestsScreen(),
-      const EarningsScreen(),
+      const CgPaymentScreen(),
       const CaregiverScreen(),
     ];
 
@@ -81,7 +82,7 @@ class _CareGiverBottomNavView extends StatelessWidget {
                   index: 2,
                   icon: Icons.attach_money_rounded,
                   selectedIcon: Icons.attach_money_rounded,
-                  label: 'Earnings',
+                  label: 'Wallet',
                   scale: s,
                 ),
                 navItem(

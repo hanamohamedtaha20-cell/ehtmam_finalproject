@@ -3,6 +3,7 @@ enum AuthStatus {
   loading,
   registered,
   authenticated,
+  caregiverRejected,
   error,
 }
 

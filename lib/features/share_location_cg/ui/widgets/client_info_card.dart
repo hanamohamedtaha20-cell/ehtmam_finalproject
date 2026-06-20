@@ -40,31 +40,7 @@ class ClientInfoCard extends StatelessWidget {
           SizedBox(height: 12.h),
           Divider(),
           SizedBox(height: 8.h),
-          Container(
-            margin: EdgeInsets.only(left: 8.w, right: 8.w),
-          padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 8.w),
-          decoration: BoxDecoration(
-            color: Color(0xffF8FAFC),
-            borderRadius: BorderRadius.circular(12.r),
-          ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(
-                  children: [
-                    Text('Distance', style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: Colors.grey)),
-                    Text('2.3 km', style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18.sp, color: Colors.black)),
-                  ],
-                ),
-                Column(
-                  children: [
-                    Text('Est. Time', style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: Colors.grey)),
-                    Text('15 min', style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18.sp, color: Colors.black)),
-                  ],
-                ),
-              ],
-            ),
-          ),
+          // 
           SizedBox(height: 12.h),
           StartSharingButton(isSharing: isSharing, onTap: onShareToggle),
         ],

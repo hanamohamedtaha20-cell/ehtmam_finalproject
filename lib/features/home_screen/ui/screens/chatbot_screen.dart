@@ -1,6 +1,5 @@
 ﻿import 'package:ehtemam_final_project/features/home_screen/manager/chatbot_cubit.dart';
 import 'package:ehtemam_final_project/features/home_screen/manager/state/chatbot_state.dart';
-import 'package:ehtemam_final_project/features/home_screen/ui/widgets/language_switcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,6 +23,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   void initState() {
     super.initState();
     _cubit = ChatCubit(ApiService());
+    _cubit.loadHistory();
   }
 
   @override
@@ -144,7 +144,6 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
               ],
             ),
           ),
-          LanguageSwitcher(),
         ],
       ),
     );

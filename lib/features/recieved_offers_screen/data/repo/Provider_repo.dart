@@ -1,7 +1,9 @@
+﻿import 'package:flutter/foundation.dart';
 import 'package:dio/dio.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/network/api_service.dart';
 import '../model/provider_data.dart';
+import '../../../home_screen/data/model/active_bundle_model.dart';
 
 class ProviderRepository {
   final ApiService _apiService = ApiService();
@@ -38,7 +40,7 @@ class ProviderRepository {
     return offers;
   }
 
-  Future<void> acceptOffer(
+  Future<Map<String, dynamic>> acceptOffer(
       String offerId, {
         String? requestId,
       }) async {
@@ -47,12 +49,13 @@ class ProviderRepository {
       throw Exception('Offer id is missing');
     }
     try {
-      print('PROCESS PAYMENT: $trimmedOfferId');
-      await _apiService.processPayment(trimmedOfferId);
-      print('PROCESS PAYMENT DONE');
+      debugPrint('PROCESS PAYMENT: $trimmedOfferId');
+      final response = await _apiService.processPayment(trimmedOfferId);
+      debugPrint('PROCESS PAYMENT DONE: $response');
+      return response;
     } catch (e) {
-      print('ERROR TYPE: ${e.runtimeType}');
-      print('ERROR: $e');
+      debugPrint('ERROR TYPE: ${e.runtimeType}');
+      debugPrint('ERROR: $e');
       rethrow;
     }
   }
@@ -182,6 +185,41 @@ class ProviderRepository {
     return const [];
   }
 
+  /// Returns the user's active purchased bundle (with remaining sessions),
+  /// or null if none exists / none has sessions left.
+  Future<ActiveBundleModel?> getActiveBundle() async {
+    try {
+      final response = await _apiService.getMyActiveBundle();
+      final data = response['data'];
+      if (data == null) return null;
+
+      final Map<String, dynamic> bundleMap;
+      if (data is List) {
+        if (data.isEmpty) return null;
+        final active = data.firstWhere(
+          (b) => b is Map && (b['isActive'] == true || b['status']?.toString().toLowerCase() == 'active'),
+          orElse: () => data.first,
+        );
+        if (active == null) return null;
+        bundleMap = Map<String, dynamic>.from(active as Map);
+      } else if (data is Map) {
+        bundleMap = Map<String, dynamic>.from(data);
+      } else {
+        return null;
+      }
+
+      final model = ActiveBundleModel.fromJson(bundleMap);
+      return model.hasSessions ? model : null;
+    } catch (e) {
+      debugPrint('[Bundle] getActiveBundle error: $e');
+      return null;
+    }
+  }
+
+  Future<Map<String, dynamic>> acceptOfferWithBundle(String offerId) async {
+    return await _apiService.acceptOfferWithBundle(offerId);
+  }
+
   List<dynamic> _extractOffers(dynamic data) {
     if (data is List) return data;
 
@@ -194,3 +232,4 @@ class ProviderRepository {
     return const [];
   }
 }
+

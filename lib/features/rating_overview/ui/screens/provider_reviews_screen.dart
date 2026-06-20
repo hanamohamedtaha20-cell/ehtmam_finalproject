@@ -47,7 +47,15 @@ class _ProviderReviewsView extends StatelessWidget {
 
         title: Text('My Ratings',
             style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold, color: Colors.black)),
-        
+        actions: [
+          Builder(
+            builder: (ctx) => IconButton(
+              icon: const Icon(Icons.refresh, color: Colors.black),
+              tooltip: 'Refresh',
+              onPressed: () => ctx.read<ProviderReviewCubit>().loadReviews(),
+            ),
+          ),
+        ],
       ),
       body: BlocBuilder<ProviderReviewCubit, ProviderReviewState>(
         builder: (context, state) {

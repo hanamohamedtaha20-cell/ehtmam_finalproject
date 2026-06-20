@@ -1,8 +1,10 @@
 import 'dart:async';
-import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:ehtemam_final_project/core/services/location_socket_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../widgets/location_status_banner.dart';
@@ -27,15 +29,15 @@ class ShareLocationCgScreen extends StatefulWidget {
 }
 
 class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
-  static const LatLng _staticLocation = LatLng(30.0444, 31.2357);
+  static const LatLng _defaultLocation = LatLng(30.0444, 31.2357);
 
-  final LatLng _myLocation = _staticLocation;
+  LatLng _myLocation = _defaultLocation;
   bool _isSharing = false;
   String _errorMessage = '';
   String _clientName = '';
   String _serviceType = '';
 
-  final _api = ApiService();
+  final _socket = LocationSocketService();
   final _mapController = MapController();
   Timer? _shareTimer;
 
@@ -50,6 +52,7 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
   @override
   void dispose() {
     _shareTimer?.cancel();
+    _socket.disconnect();
     super.dispose();
   }
 
@@ -62,59 +65,140 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
     }
   }
 
+  // ── Permission ─────────────────────────────────────────────────────────────
+
+  Future<bool> _requestLocationPermission() async {
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      if (mounted) setState(() => _errorMessage = 'Location services are disabled. Please enable GPS.');
+      return false;
+    }
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+    }
+    if (permission == LocationPermission.denied ||
+        permission == LocationPermission.deniedForever) {
+      if (mounted) setState(() => _errorMessage = 'Location permission denied.');
+      return false;
+    }
+    return true;
+  }
+
+  // ── Toggle sharing ─────────────────────────────────────────────────────────
+
   Future<void> _toggleSharing() async {
     if (_isSharing) {
       _shareTimer?.cancel();
-      setState(() => _isSharing = false);
-    } else {
-      setState(() => _isSharing = true);
-      _sendLocation();
-      _shareTimer = Timer.periodic(
-        const Duration(seconds: 10),
-        (_) => _sendLocation(),
-      );
-
-      if (widget.bookingId.isNotEmpty) {
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setBool('loc_shared_${widget.bookingId}', true);
-      }
-
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
-            'Location sharing started successfully. You can now view your tasks.',
-          ),
-          duration: const Duration(seconds: 6),
-          action: SnackBarAction(
-            label: 'View Tasks',
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) =>
-                      MytaskCgScreen(bookingId: widget.bookingId),
-                ),
-              );
-            },
-          ),
-        ),
-      );
+      _socket.disconnect();
+      if (mounted) setState(() { _isSharing = false; _errorMessage = ''; });
+      return;
     }
+
+    // Guard: never start sharing with an empty bookingId — the backend would
+    // receive a POST to /booking//location (404) and nothing would be saved.
+    if (widget.bookingId.isEmpty) {
+      debugPrint('JOIN_BOOKING_FAILED: bookingId is empty');
+      if (mounted) setState(() => _errorMessage = 'Booking ID is missing. Cannot share location.');
+      return;
+    }
+
+    final hasPermission = await _requestLocationPermission();
+    if (!hasPermission) return;
+
+    if (mounted) setState(() { _isSharing = true; _errorMessage = ''; });
+
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? '';
+
+    debugPrint('CAREGIVER_BOOKING_ID = ${widget.bookingId}');
+
+    // connect() handles join_booking INSIDE onConnect so the order is always:
+    //   socket connects → join_booking → first location send
+    _socket.connect(
+      token: token,
+      bookingId: widget.bookingId,
+      onConnected: _sendLocation, // first send guaranteed after room join
+    );
+
+    // Timer for subsequent sends (socket is connected by the time these fire)
+    _shareTimer = Timer.periodic(
+      const Duration(seconds: 10),
+      (_) => _sendLocation(),
+    );
+
+    if (widget.bookingId.isNotEmpty) {
+      await prefs.setBool('loc_shared_${widget.bookingId}', true);
+    }
+
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: const Text(
+          'Location sharing started successfully. You can now view your tasks.',
+        ),
+        duration: const Duration(seconds: 6),
+        action: SnackBarAction(
+          label: 'View Tasks',
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => MytaskCgScreen(bookingId: widget.bookingId),
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
+
+  // ── Send location ──────────────────────────────────────────────────────────
 
   Future<void> _sendLocation() async {
-    if (widget.bookingId.isEmpty) return;
+    if (widget.bookingId.isEmpty) {
+      debugPrint('[ShareLoc] bookingId is empty — skipping send');
+      return;
+    }
+
+    debugPrint('CAREGIVER_BOOKING_ID = ${widget.bookingId}');
+
     try {
-      await _api.updateCaregiverLocation(
-        bookingId: widget.bookingId,
-        latitude: _staticLocation.latitude,
-        longitude: _staticLocation.longitude,
+      final position = await Geolocator.getCurrentPosition(
+        locationSettings: const LocationSettings(
+          accuracy: LocationAccuracy.high,
+          timeLimit: Duration(seconds: 10), // prevent infinite hang on weak GPS
+        ),
       );
+      final lat = position.latitude;
+      final lng = position.longitude;
+
+      debugPrint('GPS_LAT: $lat');
+      debugPrint('GPS_LNG: $lng');
+
+      // Update map marker with real position
+      if (mounted) {
+        setState(() => _myLocation = LatLng(lat, lng));
+        _mapController.move(LatLng(lat, lng), 14);
+      }
+
+      // Emit live update via Socket.IO (only if connected — join_booking already sent)
+      _socket.emitLocationUpdate(
+        bookingId: widget.bookingId,
+        lat: lat,
+        lng: lng,
+      );
+
+      if (mounted && _errorMessage.isNotEmpty) {
+        setState(() => _errorMessage = '');
+      }
     } catch (e) {
-      if (mounted) setState(() => _errorMessage = 'Failed to send location.');
+      debugPrint('[ShareLoc] GPS_ERROR: $e');
+      if (mounted) setState(() => _errorMessage = 'Failed to get GPS position.');
     }
   }
+
+  // ── Build ──────────────────────────────────────────────────────────────────
 
   @override
   Widget build(BuildContext context) {
@@ -124,7 +208,7 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
         backgroundColor: Colors.white,
         elevation: 0,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
+          icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
@@ -195,8 +279,10 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                 children: [
                   ClientInfoCard(
                     name: _clientName.isEmpty ? 'Client' : _clientName,
-                    serviceType: _serviceType.isEmpty ? 'Care Service' : _serviceType,
-                    status: _isSharing ? 'Sharing location' : 'Not sharing',
+                    serviceType:
+                        _serviceType.isEmpty ? 'Care Service' : _serviceType,
+                    status:
+                        _isSharing ? 'Sharing location' : 'Not sharing',
                     statusSubtitle: _isSharing
                         ? 'Client can see your location'
                         : 'Start sharing so the client can track you',
@@ -230,9 +316,9 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                       borderRadius: BorderRadius.circular(16.r),
                       boxShadow: [
                         BoxShadow(
-                          color: Color.fromARGB(55, 0, 0, 0),
+                          color: const Color.fromARGB(55, 0, 0, 0),
                           blurRadius: 6.r,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
@@ -241,7 +327,8 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.circle, color: Colors.blue, size: 10.r),
+                            Icon(Icons.circle,
+                                color: Colors.blue, size: 10.r),
                             SizedBox(width: 4.w),
                             Text(
                               "Privacy Notice",

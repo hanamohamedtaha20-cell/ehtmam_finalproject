@@ -1,50 +1,85 @@
-import 'dart:async';
+﻿import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../../../core/services/location_socket_service.dart';
 import '../data/model/caregiver_location_model.dart';
 import '../data/repo/track_caregiver_repo.dart';
 import 'track_caregiver_state.dart';
 
 class TrackCaregiverCubit extends Cubit<TrackCaregiverState> {
+  // Kept for constructor compatibility with TrackCaregiverScreen.
+  // REST polling has been removed â€” tracking is socket-only.
+  // ignore: unused_field
   final TrackCaregiverRepo _repo;
+  final LocationSocketService _socket = LocationSocketService();
+
+  CaregiverLocationModel? _lastKnown;
+  bool _started = false;
 
   TrackCaregiverCubit(this._repo) : super(TrackCaregiverInitial());
 
-  Timer? _timer;
-  CaregiverLocationModel? _lastKnown;
+  static const _waitingMsg =
+      'Tracking has not started yet. Please wait until the caregiver starts sharing location.';
 
-  static const Duration _pollInterval = Duration(seconds: 7);
-
-  /// Fetches immediately then polls every 7 seconds.
-  /// Safe to call again — cancels any running timer first.
+  /// Call once from didChangeDependencies.
   Future<void> startTracking(String bookingId) async {
-    if (isClosed) return;
-    _timer?.cancel();
-    emit(TrackCaregiverLoading());
-    await _fetchLocation(bookingId);
-    _timer = Timer.periodic(_pollInterval, (_) => _fetchLocation(bookingId));
+    if (isClosed || _started) return;
+    _started = true;
+
+    if (!isClosed) emit(TrackCaregiverLoading());
+
+    debugPrint('TRACK_BOOKING_ID = $bookingId');
+
+    await _connectSocket(bookingId);
   }
 
-  /// Cancels the polling timer without closing the cubit.
-  void stopTracking() {
-    _timer?.cancel();
-    _timer = null;
-  }
+  Future<void> _connectSocket(String bookingId) async {
+    final prefs = await SharedPreferences.getInstance();
+    final token = prefs.getString('token') ?? '';
 
-  Future<void> _fetchLocation(String bookingId) async {
-    if (isClosed) return;
-    try {
-      final location = await _repo.getCaregiverLocation(bookingId);
-      _lastKnown = location;
-      if (!isClosed) emit(TrackCaregiverLoaded(location));
-    } catch (e) {
-      // Keep last known location visible on transient failures
+    void handleLocation(Map<String, dynamic> data) {
+      if (isClosed) return;
+      final lat = (data['lat'] as num?)?.toDouble();
+      final lng = (data['lng'] as num?)?.toDouble();
+      debugPrint('TRACK_LAT: $lat');
+      debugPrint('TRACK_LNG: $lng');
+      if (lat == null || lng == null) return;
+
+      final updated = CaregiverLocationModel(
+        latitude: lat,
+        longitude: lng,
+        lastUpdated: DateTime.now().toIso8601String(),
+      );
+      _lastKnown = updated;
       if (!isClosed) {
-        emit(TrackCaregiverError(e.toString(), lastKnown: _lastKnown));
+        emit(TrackCaregiverLoaded(updated));
+        debugPrint("MAP MARKER UPDATED");
+        debugPrint({"lat": lat, "lng": lng}.toString());
       }
     }
+
+    _socket.onLocationChanged(handleLocation);
+    _socket.onCurrentLocation(handleLocation);
+
+    _socket.connect(
+      token: token,
+      bookingId: bookingId,
+      onConnected: () {
+        // Socket is connected and join_booking emitted â€” if no location has
+        // arrived yet, show the waiting message instead of a spinner.
+        if (!isClosed && state is TrackCaregiverLoading) {
+          emit(TrackCaregiverError(_waitingMsg, lastKnown: _lastKnown));
+        }
+      },
+    );
   }
 
-  /// Automatically cancels the timer when the screen is disposed.
+  void stopTracking() {
+    _socket.off('location_changed');
+    _socket.off('current_location');
+    _socket.disconnect();
+  }
+
   @override
   Future<void> close() {
     stopTracking();

@@ -36,10 +36,13 @@ class CgPaymentRepo {
 
         final txRaw = walletData['transactions'];
         if (txRaw is List) {
-          transactions = txRaw
-              .whereType<Map<String, dynamic>>()
-              .map(CgTransactionModel.fromJson)
-              .toList();
+          final txItems = txRaw.whereType<Map<String, dynamic>>().toList();
+          txItems.sort((a, b) {
+            final aStr = a['createdAt']?.toString() ?? a['_id']?.toString() ?? '';
+            final bStr = b['createdAt']?.toString() ?? b['_id']?.toString() ?? '';
+            return bStr.compareTo(aStr);
+          });
+          transactions = txItems.map(CgTransactionModel.fromJson).toList();
         }
       }
 

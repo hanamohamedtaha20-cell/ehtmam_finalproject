@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/network/api_service.dart';
+import '../../../auth/manager/auth_cubit.dart';
 import '../../../../core/resources/app_colors.dart';
 import '../../../../core/widgets/filter.dart';
 import '../../../home_screen/ui/screens/home_screen.dart';
@@ -17,12 +18,26 @@ class RequestsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (context.read<AuthCubit>().state.isGuest) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(24.r),
+              child: Text(
+                'Please login to view your requests.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey, fontSize: 14.sp),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
 
     return BlocProvider(
-
-      create: (_) =>
-      RequestsCubit(RequestsRepo(ApiService()))..getRequests(),
-
+      create: (_) => RequestsCubit(RequestsRepo(ApiService()))..getRequests(),
       child: const RequestsView(),
     );
   }

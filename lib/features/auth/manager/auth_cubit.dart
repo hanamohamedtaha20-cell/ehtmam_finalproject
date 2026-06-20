@@ -1,3 +1,4 @@
+﻿import 'package:flutter/foundation.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,9 +30,12 @@ class AuthCubit extends Cubit<AuthState> {
     PlatformFile? profileFile,
     PlatformFile? nationalIdFile,
     PlatformFile? certificateFile,
+    PlatformFile? mentalHealthFile,
     String careField = '',
     String specialization = '',
-    String certificateFileName = '', required String street, required String building,
+    String certificateFileName = '',
+    required String street,
+    required String building,
   }) async {
     if (isClosed) return;
     emit(
@@ -54,6 +58,7 @@ class AuthCubit extends Cubit<AuthState> {
         profileFile: profileFile,
         nationalIdFile: nationalIdFile,
         certificateFile: certificateFile,
+        mentalHealthFile: mentalHealthFile,
         careField: careField,
         specialization: specialization,
         phone: phone,
@@ -65,10 +70,14 @@ class AuthCubit extends Cubit<AuthState> {
       await prefs.setString('user_email', email);
       await prefs.setString('user_phone', phone);
       await prefs.setString('user_role', role);
-      print("NAME => ${prefs.getString('user_name')}");
-      print("EMAIL => ${prefs.getString('user_email')}");
-      print("PHONE => ${prefs.getString('user_phone')}");
-      print("GOV => ${prefs.getString('user_government')}");
+      if (careField.isNotEmpty) {
+        await prefs.setString('care_field', careField);
+      }
+      debugPrint("NAME => ${prefs.getString('user_name')}");
+      debugPrint("EMAIL => ${prefs.getString('user_email')}");
+      debugPrint("PHONE => ${prefs.getString('user_phone')}");
+      debugPrint("GOV => ${prefs.getString('user_government')}");
+      debugPrint("CARE_FIELD => ${prefs.getString('care_field')}");
 
       if (!isClosed) {
         emit(
@@ -78,21 +87,14 @@ class AuthCubit extends Cubit<AuthState> {
         );
       }
     } catch (e) {
-      String message = e.toString();
-
-      if (message.contains('Email already exists')) {
-        message = 'Email already exists';
-      } else {
+      debugPrint('[Register] error: $e');
+      // auth_repo already extracted the backend message and wrapped it in Exception(msg)
+      String message = e.toString().replaceFirst('Exception: ', '').trim();
+      if (message.isEmpty || message.startsWith('Exception')) {
         message = 'Registration failed, please try again';
       }
-
       if (!isClosed) {
-        emit(
-          state.copyWith(
-            status: AuthStatus.error,
-            errorMessage: message,
-          ),
-        );
+        emit(state.copyWith(status: AuthStatus.error, errorMessage: message));
       }
     }
   }
@@ -119,6 +121,7 @@ class AuthCubit extends Cubit<AuthState> {
         await prefs.setString('user_role', 'admin');
         await prefs.setString('user_name', 'Admin');
         await prefs.setBool('is_logged_in', true);
+        await prefs.setBool('is_guest', false);
 
         if (!isClosed) {
           emit(
@@ -127,6 +130,7 @@ class AuthCubit extends Cubit<AuthState> {
               token: 'admin_token',
               userRole: 'admin',
               userName: 'Admin',
+              isGuest: false,
             ),
           );
         }
@@ -141,13 +145,37 @@ class AuthCubit extends Cubit<AuthState> {
 
       final prefs = await SharedPreferences.getInstance();
 
+      final userRole = loginResponse.user.role.toLowerCase();
+      final isCaregiver =
+          userRole == 'giver' || userRole == 'caregiver';
+      final isRejected =
+          loginResponse.user.status.toLowerCase() == 'rejected';
+
       await prefs.setString('token', loginResponse.token);
       await prefs.setString('user_role', loginResponse.user.role);
       await prefs.setString('user_name', loginResponse.user.fullName);
       await prefs.setString('user_email', loginResponse.user.email);
       await prefs.setString('userId', loginResponse.user.id);
       await prefs.setString('user_phone', loginResponse.user.phone);
+      await prefs.setString('caregiver_status', loginResponse.user.status);
+
+      if (isCaregiver && isRejected) {
+        debugPrint('[Login] Caregiver status: Rejected â€” blocking home navigation.');
+        if (!isClosed) {
+          emit(
+            state.copyWith(
+              status: AuthStatus.caregiverRejected,
+              token: loginResponse.token,
+              userRole: loginResponse.user.role,
+              userName: loginResponse.user.fullName,
+            ),
+          );
+        }
+        return;
+      }
+
       await prefs.setBool('is_logged_in', true);
+      await prefs.setBool('is_guest', false);
 
       if (!isClosed) {
         emit(
@@ -156,6 +184,7 @@ class AuthCubit extends Cubit<AuthState> {
             token: loginResponse.token,
             userRole: loginResponse.user.role,
             userName: loginResponse.user.fullName,
+            isGuest: false,
           ),
         );
       }
@@ -171,13 +200,28 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
-  void loginAsGuest() {
-    emit(state.copyWith(isGuest: true, status: AuthStatus.initial));
+  Future<void> loginAsGuest() async {
+    // Emit immediately so the UI gets the correct guest state right away.
+    emit(state.copyWith(
+      isGuest: true,
+      status: AuthStatus.initial,
+      userName: 'Guest',
+    ));
+
+    // Persist the flag and wipe any cached user data from a previous session.
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('is_guest', true);
+    await prefs.remove('user_name');
+    await prefs.remove('token');
+    await prefs.remove('userId');
+    await prefs.remove('user_email');
+    await prefs.remove('user_phone');
+    await prefs.remove('is_logged_in');
   }
 
   Future<void> logout() async {
     try {
-      // Best-effort backend logout — ignore errors (token may already be expired).
+      // Best-effort backend logout â€” ignore errors (token may already be expired).
       try { await authRepo.apiService.logout(); } catch (_) {}
 
       final prefs = await SharedPreferences.getInstance();
@@ -194,3 +238,4 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 }
+

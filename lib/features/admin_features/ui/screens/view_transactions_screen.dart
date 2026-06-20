@@ -58,27 +58,11 @@ class ViewTransactionsScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                            height: 26.h,
-                            padding: EdgeInsets.symmetric(horizontal: 8.w),
-                            decoration: BoxDecoration(
-                              color: const Color(0xffF3F7FB),
-                              borderRadius: BorderRadius.circular(20.r),
-                            ),
-                            child: Row(
-                              children: [
-                                Icon(Icons.language,
-                                    size: 14.r, color: Color(0xff64748B)),
-                                SizedBox(width: 4.w),
-                                Text(
-                                  'ع',
-                                  style: TextStyle(
-                                    color: Color(0xff64748B),
-                                    fontSize: 12.sp,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                              ],
+                          Builder(
+                            builder: (ctx) => IconButton(
+                              icon: const Icon(Icons.refresh, color: Color(0xff1F2937)),
+                              tooltip: 'Refresh',
+                              onPressed: () => ctx.read<TransactionsCubit>().getTransactions(),
                             ),
                           ),
                         ],

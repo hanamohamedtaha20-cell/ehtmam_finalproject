@@ -42,7 +42,18 @@ class _CareRequestsViewState extends State<CareRequestsView> {
       backgroundColor: const Color(0xFFF5F7FB),
       body: Column(
         children: [
-          const RequestHeader(),
+          Row(
+            children: [
+              const Expanded(child: RequestHeader()),
+              Builder(
+                builder: (ctx) => IconButton(
+                  icon: const Icon(Icons.refresh, color: Colors.black),
+                  tooltip: 'Refresh',
+                  onPressed: () => ctx.read<CareRequestsCubit>().getAllRequests(),
+                ),
+              ),
+            ],
+          ),
           Filter(
             selectedTab: selectedFilter,
             onTabChanged: (String selectedTab) {

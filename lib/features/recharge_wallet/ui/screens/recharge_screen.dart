@@ -63,7 +63,10 @@ class _RechargeScreenState extends State<RechargeScreen> {
               BoxShadow(color: Color(0x1A000000), offset: Offset(0, 4), blurRadius: 6.r),
             ],
           ),
-          padding: EdgeInsets.fromLTRB(16, 20, 16, 24),
+          padding: EdgeInsets.fromLTRB(
+            16, 20, 16,
+            24 + MediaQuery.of(context).viewInsets.bottom,
+          ),
           child: SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

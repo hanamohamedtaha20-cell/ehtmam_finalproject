@@ -1,3 +1,4 @@
+﻿import 'package:flutter/foundation.dart';
 import 'package:ehtemam_final_project/core/utils/date_formatter.dart';
 
 class BookingDetailsModel {
@@ -11,6 +12,7 @@ class BookingDetailsModel {
   final String phone;
   final String email;
   final double rating;
+  final String clientProfilePicture;
 
   final String serviceType;
   final String petType;
@@ -24,6 +26,7 @@ class BookingDetailsModel {
   final String building;
 
   final String description;
+  final String offerDescription;
   final String specialInstructions;
 
   final double clientBudget;
@@ -40,6 +43,7 @@ class BookingDetailsModel {
     required this.phone,
     required this.email,
     required this.rating,
+    this.clientProfilePicture = '',
     required this.serviceType,
     required this.petType,
     required this.duration,
@@ -50,6 +54,7 @@ class BookingDetailsModel {
     this.street = '',
     this.building = '',
     this.description = '',
+    this.offerDescription = '',
     required this.specialInstructions,
     required this.clientBudget,
     this.tasks = const [],
@@ -67,6 +72,8 @@ class BookingDetailsModel {
     String clientName = '';
     String phone = '';
     String email = '';
+    String clientProfilePicture = '';
+    double clientRating = 0;
     if (client is Map<String, dynamic>) {
       clientName = client['full_name']?.toString() ?? '';
       phone = client['phoneNumber']?.toString() ??
@@ -74,9 +81,17 @@ class BookingDetailsModel {
           client['phone_number']?.toString() ??
           '';
       email = client['email']?.toString() ?? '';
+      clientProfilePicture = client['profile_picture']?.toString() ??
+          client['profilePicture']?.toString() ??
+          client['avatar']?.toString() ??
+          '';
+      clientRating = ((client['rating'] ?? client['averageRating'] ?? 0) as num).toDouble();
     }
 
     final statusValue = (json['status'] ?? 'PENDING').toString();
+    final description = json['description']?.toString() ??
+        json['Description']?.toString() ??
+        '';
 
     return BookingDetailsModel(
       id: json['_id']?.toString() ?? '',
@@ -87,7 +102,8 @@ class BookingDetailsModel {
       clientName: clientName,
       phone: phone,
       email: email,
-      rating: 0,
+      rating: clientRating,
+      clientProfilePicture: clientProfilePicture,
       serviceType: serviceName.isNotEmpty ? serviceName : 'Care Service',
       petType: json['notes']?.toString() ?? '',
       duration: json['duration']?.toString() ?? '',
@@ -98,7 +114,7 @@ class BookingDetailsModel {
       time: _formatTime(json['date']?.toString(), json['time']?.toString()),
       location: json['location']?.toString() ?? '',
       governorate: json['governorate']?.toString() ?? '',
-      description: json['description']?.toString() ?? '',
+      description: description,
       specialInstructions: json['notes']?.toString() ?? '',
       clientBudget: ((json['budget'] ?? 0) as num).toDouble(),
     );
@@ -118,6 +134,8 @@ class BookingDetailsModel {
     String clientName = '';
     String phone = '';
     String email = '';
+    String clientProfilePicture = '';
+    double clientRating = 0;
     if (client is Map<String, dynamic>) {
       clientName = client['full_name']?.toString() ?? '';
       phone = client['phoneNumber']?.toString() ??
@@ -125,11 +143,36 @@ class BookingDetailsModel {
           client['phone_number']?.toString() ??
           '';
       email = client['email']?.toString() ?? '';
+      clientProfilePicture = client['profile_picture']?.toString() ??
+          client['profilePicture']?.toString() ??
+          client['avatar']?.toString() ??
+          '';
+      clientRating = ((client['rating'] ?? client['averageRating'] ?? 0) as num).toDouble();
     }
 
     final statusValue = (json['bookingStatus'] ?? json['status'] ?? 'PENDING').toString();
     final offerPrice = offer is Map ? offer['price'] : null;
     final price = ((offerPrice ?? json['price'] ?? 0) as num).toDouble();
+
+    // Debug: print full API response and offer sub-object
+    debugPrint('[BookingDetails] Full API response: $json');
+    debugPrint('[BookingDetails] offer sub-object: $offer');
+
+    String offerDescription = '';
+    if (offer is Map) {
+      offerDescription = offer['notes']?.toString() ??
+          offer['description']?.toString() ??
+          offer['message']?.toString() ??
+          offer['note']?.toString() ??
+          offer['comment']?.toString() ??
+          '';
+      debugPrint('[BookingDetails] offerDescription resolved: "$offerDescription"');
+      if (offerDescription.isEmpty) {
+        debugPrint('[BookingDetails] Backend does not return offer description in booking details response â€” endpoint to update: GET /booking/{bookingId}');
+      }
+    } else {
+      debugPrint('[BookingDetails] offer field is not a Map (value: $offer) â€” cannot extract offer description');
+    }
 
     return BookingDetailsModel(
       id: json['_id']?.toString() ?? '',
@@ -142,7 +185,8 @@ class BookingDetailsModel {
       clientName: clientName,
       phone: phone,
       email: email,
-      rating: 0,
+      rating: clientRating,
+      clientProfilePicture: clientProfilePicture,
       serviceType: serviceName.isNotEmpty ? serviceName : 'Care Service',
       petType: request is Map ? (request['notes']?.toString() ?? '') : '',
       duration: request is Map ? (request['duration']?.toString() ?? '') : '',
@@ -157,7 +201,12 @@ class BookingDetailsModel {
           : '',
       location: request is Map ? (request['location']?.toString() ?? '') : '',
       governorate: request is Map ? (request['governorate']?.toString() ?? '') : '',
-      description: request is Map ? (request['description']?.toString() ?? '') : '',
+      description: request is Map
+          ? (request['description']?.toString() ??
+              request['Description']?.toString() ??
+              '')
+          : '',
+      offerDescription: offerDescription,
       specialInstructions:
           request is Map ? (request['notes']?.toString() ?? '') : '',
       clientBudget: price,
@@ -169,6 +218,7 @@ class BookingDetailsModel {
     String? phone,
     String? email,
     double? rating,
+    String? clientProfilePicture,
     String? street,
     String? building,
     List<TaskModel>? tasks,
@@ -183,6 +233,7 @@ class BookingDetailsModel {
       phone: phone ?? this.phone,
       email: email ?? this.email,
       rating: rating ?? this.rating,
+      clientProfilePicture: clientProfilePicture ?? this.clientProfilePicture,
       serviceType: serviceType,
       petType: petType,
       duration: duration,
@@ -193,6 +244,7 @@ class BookingDetailsModel {
       street: street ?? this.street,
       building: building ?? this.building,
       description: description,
+      offerDescription: offerDescription,
       specialInstructions: specialInstructions,
       clientBudget: clientBudget,
       tasks: tasks ?? this.tasks,
@@ -216,14 +268,18 @@ class BookingDetailsModel {
         return 'Pending';
       case 'CONFIRMED':
         return 'Confirmed';
+      case 'ACCEPTED':
+        return 'Accepted';
+      case 'IN_PROGRESS':
+      case 'UPCOMING':
+      case 'ACTIVE':
+        return 'In Progress';
       case 'COMPLETED':
         return 'Completed';
       case 'CANCELLED':
         return 'Cancelled';
-      case 'ACCEPTED':
-        return 'Accepted';
       default:
-        return status;
+        return status; // never hide unknown statuses as empty
     }
   }
 }
@@ -255,3 +311,4 @@ class TaskModel {
     );
   }
 }
+

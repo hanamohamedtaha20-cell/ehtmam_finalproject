@@ -2,22 +2,26 @@ class MytaskCgTaskModel {
   final String id;
   final String title;
   final String description;
-  final String status;        // "Pending" | "Completed"
+  final String status;        // display: "Pending" | "Completed" | "Pending Approval" | "Rejected" | "Approved"
+  final String taskState;     // raw from backend: "Pending", "Completed", "Pending Client Approval", "Approved", "Rejected"
   final String assignedTo;
   final String category;
   final String date;
-  final String checkInTime;   // formatted "h:mm AM/PM" from task response
-  final String checkOutTime;  // formatted "h:mm AM/PM" from task response
-  final String taskType;      // "daily", "weekly", etc.
+  final String checkInTime;
+  final String checkOutTime;
+  final String taskType;
   final List<String> mediaProof;
   final bool isDone;
   final bool isAddedByCaregiver;
+  final double price;
+  final String createdBy;
 
   MytaskCgTaskModel({
     required this.id,
     required this.title,
     this.description = '',
     this.status = 'Pending',
+    this.taskState = '',
     required this.assignedTo,
     required this.category,
     required this.date,
@@ -27,6 +31,8 @@ class MytaskCgTaskModel {
     this.mediaProof = const [],
     this.isDone = false,
     this.isAddedByCaregiver = false,
+    this.price = 0,
+    this.createdBy = '',
   });
 
   factory MytaskCgTaskModel.fromJson(
@@ -34,11 +40,28 @@ class MytaskCgTaskModel {
     String category = '',
     String clientName = '',
   }) {
-    final statusStr =
+    final rawState =
         (json['taskState'] ?? json['taskStatus'] ?? json['done'] ?? 'pending')
-            .toString()
-            .toLowerCase();
-    final isDone = statusStr == 'completed' || statusStr == 'true';
+            .toString();
+    final isDone = rawState.toLowerCase() == 'completed' || rawState == 'true';
+
+    String displayStatus;
+    switch (rawState) {
+      case 'Completed':
+        displayStatus = 'Completed';
+        break;
+      case 'Pending Client Approval':
+        displayStatus = 'Pending Approval';
+        break;
+      case 'Rejected':
+        displayStatus = 'Rejected';
+        break;
+      case 'Approved':
+        displayStatus = 'Approved';
+        break;
+      default:
+        displayStatus = isDone ? 'Completed' : 'Pending';
+    }
 
     // Parse proofFiles array: [{ "url": "...", "fileType": "image", ... }]
     List<String> mediaProof = [];
@@ -58,6 +81,8 @@ class MytaskCgTaskModel {
     final rawIn  = json['checkInTime']?.toString()  ?? '';
     final rawOut = json['checkOutTime']?.toString() ?? '';
 
+    final createdBy = json['createdBy']?.toString() ?? '';
+
     return MytaskCgTaskModel(
       id: json['_id']?.toString() ?? json['taskId']?.toString() ?? '',
       title: json['taskName']?.toString() ??
@@ -65,8 +90,11 @@ class MytaskCgTaskModel {
           json['title']?.toString() ??
           json['taskDescription']?.toString() ??
           '',
-      description: json['taskDescription']?.toString() ?? '',
-      status: isDone ? 'Completed' : 'Pending',
+      description: json['taskDescription']?.toString() ??
+          json['description']?.toString() ??
+          '',
+      status: displayStatus,
+      taskState: rawState,
       assignedTo: clientName,
       category: category,
       date: _parseDate(json),
@@ -75,7 +103,9 @@ class MytaskCgTaskModel {
       taskType: json['taskType']?.toString() ?? '',
       mediaProof: mediaProof,
       isDone: isDone,
-      isAddedByCaregiver: false,
+      isAddedByCaregiver: createdBy == 'caregiver',
+      price: (json['price'] as num?)?.toDouble() ?? 0,
+      createdBy: createdBy,
     );
   }
 
@@ -107,6 +137,7 @@ class MytaskCgTaskModel {
     String? title,
     String? description,
     String? status,
+    String? taskState,
     String? assignedTo,
     String? category,
     String? date,
@@ -116,21 +147,26 @@ class MytaskCgTaskModel {
     List<String>? mediaProof,
     bool? isDone,
     bool? isAddedByCaregiver,
+    double? price,
+    String? createdBy,
   }) {
     return MytaskCgTaskModel(
-      id:                id                ?? this.id,
-      title:             title             ?? this.title,
-      description:       description       ?? this.description,
-      status:            status            ?? this.status,
-      assignedTo:        assignedTo        ?? this.assignedTo,
-      category:          category          ?? this.category,
-      date:              date              ?? this.date,
-      checkInTime:       checkInTime       ?? this.checkInTime,
-      checkOutTime:      checkOutTime      ?? this.checkOutTime,
-      taskType:          taskType          ?? this.taskType,
-      mediaProof:        mediaProof        ?? this.mediaProof,
-      isDone:            isDone            ?? this.isDone,
+      id:                 id                ?? this.id,
+      title:              title             ?? this.title,
+      description:        description       ?? this.description,
+      status:             status            ?? this.status,
+      taskState:          taskState         ?? this.taskState,
+      assignedTo:         assignedTo        ?? this.assignedTo,
+      category:           category          ?? this.category,
+      date:               date              ?? this.date,
+      checkInTime:        checkInTime       ?? this.checkInTime,
+      checkOutTime:       checkOutTime      ?? this.checkOutTime,
+      taskType:           taskType          ?? this.taskType,
+      mediaProof:         mediaProof        ?? this.mediaProof,
+      isDone:             isDone            ?? this.isDone,
       isAddedByCaregiver: isAddedByCaregiver ?? this.isAddedByCaregiver,
+      price:              price             ?? this.price,
+      createdBy:          createdBy         ?? this.createdBy,
     );
   }
 }

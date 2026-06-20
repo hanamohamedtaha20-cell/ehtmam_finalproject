@@ -1,4 +1,5 @@
-﻿import 'package:ehtemam_final_project/core/network/api_service.dart';
+﻿import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
+import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/notifications/ui/screens/notification_screen.dart';
 import 'package:ehtemam_final_project/features/account_settings/data/repo/account_settings_repo.dart';
 import 'package:ehtemam_final_project/features/account_settings/manager/account_settings_cubit.dart';
@@ -24,6 +25,24 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (context.read<AuthCubit>().state.isGuest) {
+      return Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.all(24.r),
+              child: Text(
+                'Please login to view your profile.',
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.grey, fontSize: 14.sp),
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
     return BlocProvider(
       create: (_) => ProfileCubit(ProfileRepo())..loadProfile(),
       child: Scaffold(
@@ -100,9 +119,9 @@ class ProfileScreen extends StatelessWidget {
                     ProfileCard(user: state.user),
                     SizedBox(height: 16.h),
                     StatsRow(
-                      totalRequests: state.totalRequests,
-                      completed: state.completed,
-                      rating: state.rating,
+                      totalRequests:     state.totalRequests,
+                      rating:            state.rating,
+                      totalReviewsCount: state.totalReviewsCount,
                     ),
                      SizedBox(height: 16.h),
                     _OptionsCard(),

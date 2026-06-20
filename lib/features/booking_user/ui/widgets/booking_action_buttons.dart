@@ -1,4 +1,5 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
 import 'package:ehtemam_final_project/features/map_user/ui/screens/track_caregiver_screen.dart';
 import 'package:ehtemam_final_project/features/rating/data/repo/rating_repo.dart';
 import 'package:ehtemam_final_project/features/rating/manager/rating_cubit.dart';
@@ -37,11 +38,14 @@ class BookingActionButtons extends StatelessWidget {
                     context,
                     MaterialPageRoute(
                       builder: (_) => TrackCaregiverScreen(
-                        caregiverName: booking.subtitle,
-                        speciality:    booking.speciality,
-                        phoneNumber:   booking.phone,
-                        userLocation:  booking.location,
-                        bookingId:     booking.id,
+                        caregiverName:        booking.subtitle,
+                        speciality:           booking.speciality,
+                        phoneNumber:          booking.phone,
+                        userLocation:         booking.location,
+                        bookingId:            booking.id,
+                        caregiverPicture:     booking.caregiverPicture,
+                        caregiverRating:      booking.caregiverRating,
+                        caregiverReviewCount: booking.caregiverReviewCount,
                       ),
                     ),
                   );
@@ -137,7 +141,7 @@ class BookingActionButtons extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (_) => const RequestsScreen(),
+                builder: (_) => const HomeScreen(),
               ),
             );
           },

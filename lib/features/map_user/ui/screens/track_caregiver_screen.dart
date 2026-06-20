@@ -10,24 +10,15 @@ import '../widgets/eta_banner.dart';
 import '../widgets/caregiver_info_card.dart';
 import '../widgets/location_details.dart';
 
-// ── API-key placeholders ────────────────────────────────────────────────────
-// If you ever switch from flutter_map to google_maps_flutter, add the key here:
-//
-//   Android  →  android/app/src/main/AndroidManifest.xml
-//               inside <application>:
-//               <meta-data android:name="com.google.android.geo.API_KEY"
-//                          android:value="YOUR_GOOGLE_MAPS_API_KEY"/>
-//
-//   iOS      →  ios/Runner/AppDelegate.swift
-//               GMSServices.provideAPIKey("YOUR_GOOGLE_MAPS_API_KEY")
-// ───────────────────────────────────────────────────────────────────────────
-
 class TrackCaregiverScreen extends StatelessWidget {
   final String caregiverName;
   final String speciality;
   final String phoneNumber;
   final String userLocation;
   final String bookingId;
+  final String caregiverPicture;
+  final double caregiverRating;
+  final int caregiverReviewCount;
 
   const TrackCaregiverScreen({
     super.key,
@@ -36,6 +27,9 @@ class TrackCaregiverScreen extends StatelessWidget {
     required this.phoneNumber,
     required this.userLocation,
     required this.bookingId,
+    this.caregiverPicture = '',
+    this.caregiverRating = 0,
+    this.caregiverReviewCount = 0,
   });
 
   @override
@@ -47,26 +41,34 @@ class TrackCaregiverScreen extends StatelessWidget {
         speciality: speciality,
         phoneNumber: phoneNumber,
         userLocation: userLocation,
+        bookingId: bookingId,
+        caregiverPicture: caregiverPicture,
+        caregiverRating: caregiverRating,
+        caregiverReviewCount: caregiverReviewCount,
       ),
     );
   }
 }
-
-// ── Private body ─────────────────────────────────────────────────────────────
-// Keeps a MapController for smooth camera animation while delegating all
-// network/timer logic to TrackCaregiverCubit (disposed automatically via BlocProvider).
 
 class _TrackCaregiverBody extends StatefulWidget {
   final String caregiverName;
   final String speciality;
   final String phoneNumber;
   final String userLocation;
+  final String bookingId;
+  final String caregiverPicture;
+  final double caregiverRating;
+  final int caregiverReviewCount;
 
   const _TrackCaregiverBody({
     required this.caregiverName,
     required this.speciality,
     required this.phoneNumber,
     required this.userLocation,
+    required this.bookingId,
+    this.caregiverPicture = '',
+    this.caregiverRating = 0,
+    this.caregiverReviewCount = 0,
   });
 
   @override
@@ -74,11 +76,20 @@ class _TrackCaregiverBody extends StatefulWidget {
 }
 
 class _TrackCaregiverBodyState extends State<_TrackCaregiverBody> {
-  static const LatLng _defaultCaregiver = LatLng(30.0444, 31.2357);
-  static const LatLng _defaultUser = LatLng(30.0444, 31.2357);
+  static const LatLng _defaultLocation = LatLng(30.0444, 31.2357);
 
-  LatLng _caregiverLocation = _defaultCaregiver;
+  LatLng _caregiverLocation = _defaultLocation;
   final _mapController = MapController();
+  bool _trackingStarted = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_trackingStarted) {
+      _trackingStarted = true;
+      context.read<TrackCaregiverCubit>().startTracking(widget.bookingId);
+    }
+  }
 
   String _formatUpdated(String iso) {
     try {
@@ -96,16 +107,14 @@ class _TrackCaregiverBodyState extends State<_TrackCaregiverBody> {
   Widget build(BuildContext context) {
     return BlocListener<TrackCaregiverCubit, TrackCaregiverState>(
       listener: (context, state) {
-        // Camera animation is a side-effect → handled here, not in BlocBuilder
         if (state is TrackCaregiverLoaded) {
           final newPos =
               LatLng(state.location.latitude, state.location.longitude);
           setState(() => _caregiverLocation = newPos);
           _mapController.move(newPos, 14);
         } else if (state is TrackCaregiverError && state.lastKnown != null) {
-          final pos = LatLng(
-              state.lastKnown!.latitude, state.lastKnown!.longitude);
-          setState(() => _caregiverLocation = pos);
+          setState(() => _caregiverLocation = LatLng(
+              state.lastKnown!.latitude, state.lastKnown!.longitude));
         }
       },
       child: Scaffold(
@@ -129,12 +138,10 @@ class _TrackCaregiverBodyState extends State<_TrackCaregiverBody> {
         ),
         body: BlocBuilder<TrackCaregiverCubit, TrackCaregiverState>(
           builder: (context, state) {
-            // ── Initial loading ───────────────────────────────────────────
             if (state is TrackCaregiverLoading) {
               return const Center(child: CircularProgressIndicator());
             }
 
-            // ── Resolve last-updated timestamp ────────────────────────────
             String lastUpdated = '';
             if (state is TrackCaregiverLoaded) {
               lastUpdated = state.location.lastUpdated;
@@ -147,7 +154,6 @@ class _TrackCaregiverBodyState extends State<_TrackCaregiverBody> {
               children: [
                 const ETABanner(eta: "—", distance: "—"),
 
-                // Non-intrusive error ribbon — map + last known pin stay visible
                 if (state is TrackCaregiverError)
                   Container(
                     color: Colors.red.shade50,
@@ -160,7 +166,7 @@ class _TrackCaregiverBodyState extends State<_TrackCaregiverBody> {
                         SizedBox(width: 8.w),
                         Expanded(
                           child: Text(
-                            'Could not update location. Showing last known position.',
+                            state.message,
                             style: TextStyle(
                                 fontSize: 11.sp,
                                 color: Colors.red.shade700),
@@ -199,7 +205,7 @@ class _TrackCaregiverBodyState extends State<_TrackCaregiverBody> {
                               ),
                             ),
                             Marker(
-                              point: _defaultUser,
+                              point: _defaultLocation,
                               width: 40.w,
                               height: 40.h,
                               child: Icon(
@@ -227,14 +233,17 @@ class _TrackCaregiverBodyState extends State<_TrackCaregiverBody> {
                           speciality: widget.speciality.isEmpty
                               ? "Care Service"
                               : widget.speciality,
-                          rating: "4.8",
-                          reviewCount: "99",
+                          rating: widget.caregiverRating > 0
+                              ? widget.caregiverRating.toStringAsFixed(1)
+                              : "0",
+                          reviewCount: widget.caregiverReviewCount.toString(),
                           status: "On the way",
                           statusSubtitle:
                               "Caregiver is heading to your location",
                           phoneNumber: widget.phoneNumber.isEmpty
                               ? "-"
                               : widget.phoneNumber,
+                          caregiverPicture: widget.caregiverPicture,
                         ),
                         SizedBox(height: 12.h),
                         LocationDetails(

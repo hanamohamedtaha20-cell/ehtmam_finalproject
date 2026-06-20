@@ -202,6 +202,13 @@ class _BookingCgViewState extends State<BookingCgView> {
                           description: booking.description,
                         ),
                         SizedBox(height: 16.h),
+                        if (booking.offerDescription.isNotEmpty) ...[
+                          DescriptionCard(
+                            description: booking.offerDescription,
+                            label: 'OFFER NOTES',
+                          ),
+                          SizedBox(height: 16.h),
+                        ],
                         ServiceDetailsCard(
                           serviceType: booking.serviceType,
                           petType: booking.petType,
@@ -223,32 +230,7 @@ class _BookingCgViewState extends State<BookingCgView> {
                         SizedBox(height: 16.h),
                         ClientBudgetCard(amount: budgetText),
                         SizedBox(height: 16.h),
-                        // SizedBox(
-                        //   width: double.infinity,
-                        //   child: OutlinedButton.icon(
-                        //     onPressed: () => Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //         builder: (_) => ShareLocationCgScreen(
-                        //           bookingId: booking.id,
-                        //           clientName: booking.clientName,
-                        //           serviceType: booking.serviceType,
-                        //         ),
-                        //       ),
-                        //     ),
-                        //     icon: Icon(Icons.location_on_outlined),
-                        //     label: Text('Share My Location'),
-                        //     style: OutlinedButton.styleFrom(
-                        //       foregroundColor: const Color(0xFF3A8BD7),
-                        //       side: BorderSide(color: Color(0xFF3A8BD7)),
-                        //       padding: EdgeInsets.symmetric(vertical: 12.h),
-                        //       shape: RoundedRectangleBorder(
-                        //         borderRadius: BorderRadius.circular(12.r),
-                        //       ),
-                        //     ),
-                        //   ),
-                        // ),
-                        SizedBox(height: 16.h),
+                       
                         ProposedPriceCard(
                           controller: priceController,
                           notesController: notesController,

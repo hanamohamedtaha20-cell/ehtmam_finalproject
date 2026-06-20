@@ -1,70 +1,95 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/network/api_service.dart';
 import '../../data/complaint_model.dart';
+import '../../data/complaint_details_model.dart';
 import 'complaints_state.dart';
 
 class ComplaintsCubit extends Cubit<ComplaintsState> {
-  ComplaintsCubit() : super(const ComplaintsState());
+  final ApiService _api;
+
+  ComplaintsCubit({ApiService? api})
+      : _api = api ?? ApiService(),
+        super(const ComplaintsState());
 
   Future<void> getComplaints() async {
+    // These logs fire before anything else — guaranteed to appear.
+    debugPrint('### MANAGE_COMPLAINTS_SCREEN_OPENED ###');
+    debugPrint('### GET_COMPLAINTS_CALLED ###');
+    debugPrint('GET COMPLAINTS URL: /complaints');
+
+    if (isClosed) return;
     emit(state.copyWith(status: ComplaintsStatus.loading));
 
     try {
-      // TODO: Replace this static list with API later
-      final complaints = [
-        ComplaintModel(
-          id: '1',
-          title: 'Poor service quality and unprofessional behavior',
-          category: 'Service Quality',
-          status: 'pending',
-          fromName: 'Eman hani',
-          fromRole: 'user',
-          againstName: 'Johny Gerges',
-          againstRole: 'provider',
-          date: '2026-03-10',
-          description:
-          'The caregiver arrived 2 hours late and didn’t follow the care instructions provided.',
-        ),
-        ComplaintModel(
-          id: '2',
-          title: 'Inability to Handle Emergencies',
-          category: 'Poor Management',
-          status: 'pending',
-          fromName: 'Sarah’s Care Services',
-          fromRole: 'provider',
-          againstName: 'Omar essam',
-          againstRole: 'user',
-          date: '2026-03-08',
-          description:
-          'The service provider reported difficulty handling an urgent emergency situation during the care session.',
-        ),
-        ComplaintModel(
-          id: '3',
-          title: 'Last minute cancellation without valid reason',
-          category: 'Cancellation',
-          status: 'resolved',
-          fromName: 'ahmed ashraf',
-          fromRole: 'caregiver',
-          againstName: 'fatma adel',
-          againstRole: 'user',
-          date: '2026-03-05',
-          description:
-          'The booking was cancelled at the last minute without providing a valid reason.',
-        ),
-      ];
+      final response = await _api.getComplaints();
 
-      emit(
-        state.copyWith(
+      debugPrint('GET COMPLAINTS RESPONSE: $response');
+
+      // Response shape: { "data": { "complaints": [...] } }
+      final dataMap = response['data'];
+      List<dynamic> raw = [];
+      if (dataMap is Map) {
+        raw = (dataMap['complaints'] as List?) ?? [];
+      } else if (dataMap is List) {
+        raw = dataMap;
+      }
+
+      final complaints = raw
+          .whereType<Map>()
+          .map((item) =>
+              ComplaintModel.fromJson(Map<String, dynamic>.from(item)))
+          .toList();
+
+      debugPrint('COMPLAINTS COUNT: ${complaints.length}');
+
+      if (!isClosed) {
+        emit(state.copyWith(
           status: ComplaintsStatus.success,
           complaints: complaints,
-        ),
-      );
-    } catch (e) {
-      emit(
-        state.copyWith(
+        ));
+      }
+    } catch (e, st) {
+      debugPrint('GET COMPLAINTS ERROR: $e');
+      debugPrint('GET COMPLAINTS STACKTRACE: $st');
+      if (!isClosed) {
+        emit(state.copyWith(
           status: ComplaintsStatus.error,
-          errorMessage: e.toString(),
-        ),
-      );
+          errorMessage: 'Failed to load complaints.',
+        ));
+      }
+    }
+  }
+
+  Future<void> getComplaintDetails(String complaintId) async {
+    debugPrint('GET COMPLAINT DETAILS URL: /complaints/$complaintId');
+
+    if (isClosed) return;
+    emit(state.copyWith(detailsStatus: DetailsStatus.loading));
+
+    try {
+      final response = await _api.getComplaintDetails(complaintId);
+
+      debugPrint('GET COMPLAINT DETAILS RESPONSE: $response');
+
+      final details = ComplaintDetailsModel.fromJson(response);
+
+      if (!isClosed) {
+        emit(state.copyWith(
+          detailsStatus: DetailsStatus.loaded,
+          details: details,
+        ));
+      }
+    } catch (e, st) {
+      debugPrint('GET COMPLAINT DETAILS ERROR: $e');
+      debugPrint('GET COMPLAINT DETAILS STACKTRACE: $st');
+      if (!isClosed) {
+        emit(state.copyWith(
+          detailsStatus: DetailsStatus.error,
+          detailsErrorMessage: 'Failed to load complaint details.',
+        ));
+      }
     }
   }
 }

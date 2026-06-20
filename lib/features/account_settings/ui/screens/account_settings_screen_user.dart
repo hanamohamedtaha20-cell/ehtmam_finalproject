@@ -4,7 +4,6 @@ import 'package:ehtemam_final_project/features/bottom_nav_bar/manager/bottom_nav
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../../../auth/manager/auth_cubit.dart';
 import '../../../auth/ui/screens/login_screen.dart';
 import '../../manager/account_settings_cubit.dart';
@@ -38,6 +37,65 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _showDeleteDialog(BuildContext context) async {
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16.r),
+        ),
+        title: Text(
+          'Delete Account',
+          style: TextStyle(
+            fontFamily: 'Inter',
+            fontWeight: FontWeight.w700,
+            color: Colors.red,
+          ),
+        ),
+        content: Text(
+          'Are you sure you want to permanently delete your account? This action cannot be undone.',
+          style: TextStyle(fontFamily: 'Inter', fontSize: 13.sp),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, false),
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(ctx, true),
+            style: TextButton.styleFrom(foregroundColor: Colors.red),
+            child: Text(
+              'Delete',
+              style: TextStyle(fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
+      ),
+    );
+
+    if (confirmed != true) return;
+    if (!context.mounted) return;
+
+    final error = await context.read<AccountSettingsCubit>().deleteAccount();
+
+    if (!context.mounted) return;
+
+    if (error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error)),
+      );
+    } else {
+      // Reset in-memory auth state so no stale token/user data lingers.
+      await context.read<AuthCubit>().logout();
+      if (!context.mounted) return;
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
+        (_) => false,
+      );
+    }
   }
 
   BoxDecoration cardDecoration() {
@@ -98,7 +156,12 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                               color: Color(0xFF1D2939),
                             ),
                           ),
-                          Spacer(),
+                          const Spacer(),
+                          IconButton(
+                            icon: const Icon(Icons.refresh, color: Color(0xFF1D2939)),
+                            tooltip: 'Refresh',
+                            onPressed: () => context.read<AccountSettingsCubit>().loadUserData(),
+                          ),
                         ],
                       ),
 
@@ -113,12 +176,20 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           children: [
                             CircleAvatar(
                               radius: 31,
-                              backgroundColor: Color(0xFF8EC5FF),
-                              child: Icon(
-                                Icons.person_outline_rounded,
-                                color: Colors.white,
-                                size: 34.r,
-                              ),
+                              backgroundColor: const Color(0xFF8EC5FF),
+                              backgroundImage: state.profileImageUrl.isNotEmpty
+                                  ? NetworkImage(state.profileImageUrl)
+                                  : null,
+                              onBackgroundImageError: state.profileImageUrl.isNotEmpty
+                                  ? (_, _) {}
+                                  : null,
+                              child: state.profileImageUrl.isEmpty
+                                  ? Icon(
+                                      Icons.person_outline_rounded,
+                                      color: Colors.white,
+                                      size: 34.r,
+                                    )
+                                  : null,
                             ),
                             SizedBox(width: 15.w),
                             Expanded(
@@ -207,65 +278,20 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         },
                       ),
 
-                      sectionTitle('NOTIFICATIONS'),
-
-                      // ── Fix: Material wrapper around SwitchListTile ──
-                      Container(
-                        height: 66.h,
-                        decoration: cardDecoration(),
-                        child: Material(
-                          color: Colors.transparent,
-                          borderRadius: BorderRadius.circular(20.r),
-                          child: SwitchListTile(
-                            value: state.notifications,
-                            activeColor: const Color(0xFF4EA3F1),
-                            onChanged: (value) {
-                              context
-                                  .read<AccountSettingsCubit>()
-                                  .toggleNotifications(value);
-                            },
-                            contentPadding:
-                                EdgeInsets.symmetric(horizontal: 14.w),
-                            secondary: CircleAvatar(
-                              radius: 20,
-                              backgroundColor: Color(0xFFFFF0C2),
-                              child: Icon(
-                                Icons.notifications_none_rounded,
-                                color: Colors.orange,
-                                size: 22.r,
-                              ),
-                            ),
-                            title: Text(
-                              'Push Notifications',
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w700,
-                                color: Color(0xFF1D2939),
-                              ),
-                            ),
-                            subtitle: Text(
-                              'Receive app notifications',
-                              style: TextStyle(
-                                fontFamily: 'Inter',
-                                fontSize: 10.5.sp,
-                                color: Color(0xFF98A2B3),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
+                     
 
 
                       sectionTitle('DANGER ZONE', color: Colors.red),
 
-                      const SettingsTile(
+                      SettingsTile(
                         icon: Icons.delete_outline_rounded,
                         title: 'Delete Account',
                         subtitle: 'Permanently delete your account',
                         iconColor: Colors.red,
-                        iconBgColor: Color(0xFFFFE8E8),
+                        iconBgColor: const Color(0xFFFFE8E8),
                         titleColor: Colors.red,
+                        showArrow: true,
+                        onTap: () => _showDeleteDialog(context),
                       ),
 
                       SizedBox(height: 10.h),

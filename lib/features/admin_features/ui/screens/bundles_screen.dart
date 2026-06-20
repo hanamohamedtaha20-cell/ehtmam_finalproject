@@ -90,6 +90,13 @@ class BundlesView extends StatelessWidget {
                       ],
                     ),
                   ),
+                  Builder(
+                    builder: (ctx) => IconButton(
+                      icon: const Icon(Icons.refresh, color: Color(0xff334155)),
+                      tooltip: 'Refresh',
+                      onPressed: () => ctx.read<BundlesCubit>().getBundles(),
+                    ),
+                  ),
                 ],
               ),
             ),

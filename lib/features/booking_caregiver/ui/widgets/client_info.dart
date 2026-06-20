@@ -6,6 +6,7 @@ class ClientInfoCard extends StatelessWidget {
   final String phone;
   final String email;
   final double rating;
+  final String profilePicture;
 
   const ClientInfoCard({
     super.key,
@@ -13,6 +14,7 @@ class ClientInfoCard extends StatelessWidget {
     this.phone = '',
     this.email = '',
     this.rating = 0,
+    this.profilePicture = '',
   });
 
   @override
@@ -73,10 +75,23 @@ class ClientInfoCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Icon(
-                  Icons.person_outline,
-                  color: Colors.white,
-                  size: 24.r,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(14.r),
+                  child: profilePicture.isNotEmpty
+                      ? Image.network(
+                          profilePicture,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, _) => Icon(
+                            Icons.person_outline,
+                            color: Colors.white,
+                            size: 24.r,
+                          ),
+                        )
+                      : Icon(
+                          Icons.person_outline,
+                          color: Colors.white,
+                          size: 24.r,
+                        ),
                 ),
               ),
               SizedBox(width: 14.w),

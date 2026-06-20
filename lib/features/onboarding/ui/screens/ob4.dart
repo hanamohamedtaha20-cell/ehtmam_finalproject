@@ -4,7 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../onboarding/ui/widgets/onboarding_indicator.dart';
 import '../../../../core/resources/app_fonts.dart';
 import '../../../../core/resources/app_images.dart';
-import '../../../../core/resources/language_chip.dart';
 import '../../../../core/resources/skip_button.dart';
 import '../../../auth/ui/screens/login_screen.dart';
 import '../../../splash/ui/widgets/next_button.dart';

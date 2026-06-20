@@ -1,17 +1,19 @@
-import 'package:app_links/app_links.dart';
+﻿import 'package:app_links/app_links.dart';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
 import 'package:ehtemam_final_project/features/account_settings/data/repo/account_settings_repo.dart';
+import 'package:ehtemam_final_project/features/admin_features/ui/screens/manage_complaints_screen.dart';
 import 'package:ehtemam_final_project/features/auth/data/repo/auth_repo.dart';
 import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart';
+import 'package:ehtemam_final_project/features/auth/ui/screens/set_new_password_screen.dart';
 import 'package:ehtemam_final_project/features/bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import 'package:ehtemam_final_project/features/bottom_nav_bar/ui/widget/admin_bottom.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
+import 'package:ehtemam_final_project/features/login_required_screen/ui/screens/login_requred_screen.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/data/repo/mytask_cg_repo.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/manager/mytask_cg_cubit.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
-import 'package:ehtemam_final_project/features/payment_cg/ui/screens/cg_payment_screen.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/data/repo/recharge_repo.dart';
 import 'package:ehtemam_final_project/features/recharge_wallet/manager/recharge_cubit.dart';
 import 'package:ehtemam_final_project/features/splash/manager/splash_cubit.dart';
@@ -29,6 +31,7 @@ import 'features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
 import 'features/rating/data/repo/rating_repo.dart';
 import 'features/rating/manager/rating_cubit.dart';
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Widget _resolveHomeScreen(SharedPreferences prefs) {
   final isLoggedIn = prefs.getBool('is_logged_in') ?? false;
@@ -78,16 +81,30 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     _paymentCubit = PaymentCubit(PaymentRepo())..loadData();
-    _listenForPaymentRedirect();
+    _listenForDeepLinks();
   }
 
-  void _listenForPaymentRedirect() {
+  void _listenForDeepLinks() {
     AppLinks().uriLinkStream.listen((uri) {
-      // Triggered when the payment gateway redirects back to the app.
-      // Both /payment/redirect and /payment/callback reload the wallet.
+      debugPrint('[DeepLink] received: $uri');
+      final host = uri.host.toLowerCase();
       final path = uri.path.toLowerCase();
-      if (path.contains('payment')) {
+
+      if (host == 'payment' || path.contains('payment')) {
         _paymentCubit.loadData();
+        return;
+      }
+
+      if (host == 'reset-password') {
+        final token = uri.queryParameters['token'] ?? '';
+        debugPrint('[DeepLink] reset-password token: $token');
+        if (token.isNotEmpty) {
+          navigatorKey.currentState?.push(
+            MaterialPageRoute(
+              builder: (_) => SetNewPasswordScreen(token: token),
+            ),
+          );
+        }
       }
     });
   }
@@ -137,13 +154,19 @@ class _MyAppState extends State<MyApp> {
         designSize: const Size(375, 812),
         minTextAdapt: true,
         splitScreenMode: true,
-        builder: (context, child) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          locale: context.locale,
-          supportedLocales: context.supportedLocales,
-          localizationsDelegates: context.localizationDelegates,
-          home: SplashScreen(),
-         
+       builder: (context, child) => SafeArea(
+          top: true,
+          left: false,
+          right: false,
+          bottom: true,
+          child: MaterialApp(
+            navigatorKey: navigatorKey,
+            debugShowCheckedModeBanner: false,
+            locale: context.locale,
+            supportedLocales: context.supportedLocales,
+            localizationsDelegates: context.localizationDelegates,
+            home: LoginScreen(),
+          ),
         ),
       ),
     );

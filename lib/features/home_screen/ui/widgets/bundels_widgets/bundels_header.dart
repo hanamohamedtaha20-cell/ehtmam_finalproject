@@ -54,7 +54,7 @@ class BundleHeader extends StatelessWidget {
               ),
             ),
             Text(
-              'SAR',
+              'EGP',
               style: TextStyle(
                 color: Colors.green,
               ),

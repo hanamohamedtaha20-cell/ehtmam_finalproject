@@ -27,9 +27,16 @@ class BookingCubitUser extends Cubit<BookingStateUser> {
   }
 
   Future<void> cancelBooking(String bookingId) async {
+    if (state is! BookingLoaded) return;
+    final s = state as BookingLoaded;
     try {
       await _repo.cancelBooking(bookingId);
-      await loadBookings();
+      // Backend deletes the record, so do NOT reload — keep it locally as
+      // cancelled and switch to the Cancelled tab so the user sees it.
+      final updated = s.bookings
+          .map((b) => b.id == bookingId ? b.copyWith(status: 'cancelled') : b)
+          .toList();
+      if (!isClosed) emit(BookingLoaded(bookings: updated, selectedTab: 2));
     } catch (e) {
       if (!isClosed) emit(BookingError(e.toString()));
     }

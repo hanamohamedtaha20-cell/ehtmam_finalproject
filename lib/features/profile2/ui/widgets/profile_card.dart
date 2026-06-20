@@ -28,18 +28,18 @@ class ProfileCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              Container(
-                width: 60.w,
-                height: 60.h,
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(12.r),
-                ),
-                child: Icon(
-                  Icons.person_outline,
-                  size: 36.r,
-                  color: Colors.white,
-                ),
+              CircleAvatar(
+                radius: 30.r,
+                backgroundColor: Colors.white.withValues(alpha: 0.3),
+                backgroundImage: (user.profilePicture?.isNotEmpty ?? false)
+                    ? NetworkImage(user.profilePicture!)
+                    : null,
+                onBackgroundImageError: (user.profilePicture?.isNotEmpty ?? false)
+                    ? (_, _) {}
+                    : null,
+                child: (user.profilePicture?.isNotEmpty ?? false)
+                    ? null
+                    : Icon(Icons.person_outline, size: 36.r, color: Colors.white),
               ),
               SizedBox(width: 14.w),
               Column(
