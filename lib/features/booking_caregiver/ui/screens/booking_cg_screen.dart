@@ -196,6 +196,7 @@ class _BookingCgViewState extends State<BookingCgView> {
                           phone: booking.phone,
                           email: booking.email,
                           rating: booking.rating,
+                          profilePicture: booking.clientProfilePicture,
                         ),
                         SizedBox(height: 16.h),
                         DescriptionCard(

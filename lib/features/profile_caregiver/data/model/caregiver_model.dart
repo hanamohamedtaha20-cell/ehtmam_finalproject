@@ -10,6 +10,7 @@ class CaregiverModel {
   final double totalEarnings;
   final double completionRate;
   final String avgResponse;
+  final String profilePicture;
 
   CaregiverModel({
     required this.name,
@@ -23,6 +24,7 @@ class CaregiverModel {
     required this.totalEarnings,
     required this.completionRate,
     required this.avgResponse,
+    this.profilePicture = '',
   });
 
   factory CaregiverModel.fromApiData({
@@ -31,12 +33,25 @@ class CaregiverModel {
     String govFallback = '',
     String phoneFallback = '',
   }) {
-    final addr = profile['address'] is Map ? profile['address'] as Map : <dynamic, dynamic>{};
-    final location = addr['governorate']?.toString() ??
-        addr['government']?.toString() ??
-        profile['governorate']?.toString() ??
-        profile['government']?.toString() ??
-        govFallback;
+    String location;
+    final rawAddr = profile['address'];
+    if (rawAddr is String && rawAddr.isNotEmpty) {
+      location = rawAddr;
+    } else if (rawAddr is Map) {
+      location = rawAddr['governorate']?.toString() ??
+          rawAddr['government']?.toString() ??
+          rawAddr['city']?.toString() ??
+          rawAddr['district']?.toString() ??
+          '';
+    } else {
+      location = '';
+    }
+    if (location.isEmpty) {
+      location = profile['governorate']?.toString() ??
+          profile['government']?.toString() ??
+          profile['city']?.toString() ??
+          govFallback;
+    }
 
     return CaregiverModel(
       name: profile['full_name']?.toString() ?? '',
@@ -56,6 +71,7 @@ class CaregiverModel {
       totalEarnings: wallet != null ? ((wallet['totalEarned'] ?? 0) as num).toDouble() : 0,
       completionRate: ((profile['completionRate'] ?? 0) as num).toDouble(),
       avgResponse: profile['avgResponse']?.toString() ?? '—',
+      profilePicture: profile['profile_picture']?.toString() ?? '',
     );
   }
 
@@ -65,6 +81,7 @@ class CaregiverModel {
     required String phone,
     required String location,
     required String specialty,
+    String profilePicture = '',
   }) {
     return CaregiverModel(
       name: name,
@@ -78,6 +95,7 @@ class CaregiverModel {
       totalEarnings: 0,
       completionRate: 0,
       avgResponse: '—',
+      profilePicture: profilePicture,
     );
   }
 }

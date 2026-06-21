@@ -5,4 +5,5 @@ abstract class AdProviderRepository {
 
   Future<void> blockProvider(String providerId);
 
+  Future<void> unblockProvider(String providerId);
 }

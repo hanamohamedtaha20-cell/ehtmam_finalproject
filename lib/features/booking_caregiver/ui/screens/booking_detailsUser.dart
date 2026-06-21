@@ -5,16 +5,13 @@ import 'package:ehtemam_final_project/features/booking_caregiver/manager/booking
 import 'package:ehtemam_final_project/features/booking_caregiver/manager/state/booking_details_state.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/client_budget_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/date_time_card.dart';
-import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/proposed_price_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/service_details_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/description_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/special_instructions_card.dart';
-import 'package:ehtemam_final_project/features/bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/booking_details_appbar/booking_details_appbar.dart';
-import '../../../../core/widgets/gradient_action_button.dart';
 import '../widgets/client_info.dart';
 import '../widgets/tabs.dart';
 import '../widgets/task_item_card.dart';
@@ -34,9 +31,7 @@ class BookingDetailsuser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = BookingDetailsCubit(
-      BookingRepositoryImpl(
-        BookingRemoteDataSourceImpl(ApiService()),
-      ),
+      BookingRepositoryImpl(BookingRemoteDataSourceImpl(ApiService())),
     );
     if (bookingId.isNotEmpty) {
       cubit.loadBookingDetails(bookingId);
@@ -45,7 +40,11 @@ class BookingDetailsuser extends StatelessWidget {
     }
     return BlocProvider(
       create: (_) => cubit,
-      child: BookingCgView(requestId: requestId, bookingId: bookingId, initialTab: initialTab),
+      child: BookingCgView(
+        requestId: requestId,
+        bookingId: bookingId,
+        initialTab: initialTab,
+      ),
     );
   }
 }
@@ -55,7 +54,12 @@ class BookingCgView extends StatefulWidget {
   final String bookingId;
   final int initialTab;
 
-  const BookingCgView({super.key, required this.requestId, this.bookingId = '', this.initialTab = 0});
+  const BookingCgView({
+    super.key,
+    required this.requestId,
+    this.bookingId = '',
+    this.initialTab = 0,
+  });
 
   @override
   State<BookingCgView> createState() => _BookingCgViewState();
@@ -86,49 +90,6 @@ class _BookingCgViewState extends State<BookingCgView> {
         cubit.loadTasks(widget.requestId);
       }
     }
-  }
-
-  Future<void> _submitOffer(BuildContext context) async {
-    if (isSubmittingOffer) return;
-
-    final price = num.tryParse(priceController.text.trim());
-    if (price == null || price <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter a valid price')),
-      );
-      return;
-    }
-
-    setState(() => isSubmittingOffer = true);
-
-    final error = await context.read<BookingDetailsCubit>().submitOffer(
-          requestId: widget.requestId,
-          price: price,
-          notes: notesController.text.trim().isEmpty
-              ? null
-              : notesController.text.trim(),
-        );
-
-    if (!context.mounted) return;
-
-    setState(() => isSubmittingOffer = false);
-
-    if (error != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(error)),
-      );
-      return;
-    }
-
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Offer sent')),
-    );
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (_) => const CareGiverBottomNavScreen(),
-      ),
-    );
   }
 
   @override
@@ -199,9 +160,7 @@ class _BookingCgViewState extends State<BookingCgView> {
                           profilePicture: booking.clientProfilePicture,
                         ),
                         SizedBox(height: 16.h),
-                        DescriptionCard(
-                          description: booking.description,
-                        ),
+                        DescriptionCard(description: booking.description),
                         SizedBox(height: 16.h),
                         if (booking.offerDescription.isNotEmpty) ...[
                           DescriptionCard(
@@ -240,7 +199,9 @@ class _BookingCgViewState extends State<BookingCgView> {
                               )
                             : Column(
                                 children: booking.tasks
-                                    .map((task) => TaskItemCard(title: task.title))
+                                    .map(
+                                      (task) => TaskItemCard(title: task.title),
+                                    )
                                     .toList(),
                               ),
                     ],

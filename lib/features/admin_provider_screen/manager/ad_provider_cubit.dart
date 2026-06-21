@@ -17,7 +17,6 @@ class AdProviderCubit extends Cubit<AdProviderState> {
     emit(AdProviderLoading());
     try {
       final providers = await repo.getProviders();
-      // Show ALL providers so admin can toggle block
       _allProviders = providers;
       if (!isClosed) {
         emit(AdProviderLoaded(
@@ -56,9 +55,13 @@ class AdProviderCubit extends Cubit<AdProviderState> {
   /// Toggles block status. Returns null on success, error message on failure.
   Future<String?> toggleBlockProvider(AdProviderModel provider) async {
     try {
-      await repo.blockProvider(provider.id);
-      // Flip isActive locally — same endpoint is a toggle on the backend
-      final updated = provider.copyWith(isActive: !provider.isActive);
+      if (provider.isBlocked) {
+        await repo.unblockProvider(provider.id);
+      } else {
+        await repo.blockProvider(provider.id);
+      }
+      // Flip isBlocked locally
+      final updated = provider.copyWith(isBlocked: !provider.isBlocked);
       _allProviders = _allProviders
           .map((p) => p.id == provider.id ? updated : p)
           .toList();

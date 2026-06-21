@@ -8,9 +8,7 @@ class AdProviderModel {
   final int reviews;
 
   final bool isVerified;
-  final bool isActive;
-
-  bool get isBlocked => !isActive;
+  final bool isBlocked;
 
   final String status;
   final String profilePicture;
@@ -23,7 +21,7 @@ class AdProviderModel {
     required this.rating,
     required this.reviews,
     required this.isVerified,
-    required this.isActive,
+    required this.isBlocked,
     required this.status,
     required this.profilePicture,
   });
@@ -36,17 +34,18 @@ class AdProviderModel {
 
       email: json['email']?.toString() ?? '',
 
-      service: json['specialty']?.toString() ?? '',
+      service:
+          json['speciality']?.toString() ?? json['specialty']?.toString() ?? '',
 
-      rating: (json['averageRating'] ?? 0).toDouble(),
+      rating: ((json['averageRating'] ?? 0) as num).toDouble(),
 
-      reviews: ((json['totalReviewsCount'] ?? 0) as num).toInt(),
+      reviews:
+          ((json['bookingsCount'] ?? json['totalReviewsCount'] ?? 0) as num)
+              .toInt(),
 
       isVerified: ['Verified', 'Approved'].contains(json['status']?.toString()),
 
-      isActive: json['active'] is bool
-          ? json['active'] as bool
-          : json['active'] == 1,
+      isBlocked: json['isBlocked'] == true,
 
       status: json['status']?.toString() ?? '',
 
@@ -62,7 +61,7 @@ class AdProviderModel {
     double? rating,
     int? reviews,
     bool? isVerified,
-    bool? isActive,
+    bool? isBlocked,
     String? status,
     String? profilePicture,
   }) {
@@ -74,7 +73,7 @@ class AdProviderModel {
       rating: rating ?? this.rating,
       reviews: reviews ?? this.reviews,
       isVerified: isVerified ?? this.isVerified,
-      isActive: isActive ?? this.isActive,
+      isBlocked: isBlocked ?? this.isBlocked,
       status: status ?? this.status,
       profilePicture: profilePicture ?? this.profilePicture,
     );

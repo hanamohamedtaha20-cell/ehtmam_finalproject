@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class TaskProgressItem extends StatelessWidget {
@@ -118,13 +119,21 @@ class TaskProgressItem extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: mediaUrls.length,
                 separatorBuilder: (_, __) => SizedBox(width: 8.w),
-                itemBuilder: (_, i) => ClipRRect(
-                  borderRadius: BorderRadius.circular(8.r),
-                  child: Image.network(
-                    mediaUrls[i],
-                    width: 80.w,
-                    height: 80.h,
-                    fit: BoxFit.cover,
+                itemBuilder: (_, i) => GestureDetector(
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => FullScreenImagePage(imageUrl: mediaUrls[i]),
+                    ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(8.r),
+                    child: Image.network(
+                      mediaUrls[i],
+                      width: 80.w,
+                      height: 80.h,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

@@ -1,4 +1,5 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
 import 'package:ehtemam_final_project/features/profile2/data/model/profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,18 +29,28 @@ class ProfileCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                radius: 30.r,
-                backgroundColor: Colors.white.withValues(alpha: 0.3),
-                backgroundImage: (user.profilePicture?.isNotEmpty ?? false)
-                    ? NetworkImage(user.profilePicture!)
+              GestureDetector(
+                onTap: (user.profilePicture?.isNotEmpty ?? false)
+                    ? () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => FullScreenImagePage(imageUrl: user.profilePicture!),
+                          ),
+                        )
                     : null,
-                onBackgroundImageError: (user.profilePicture?.isNotEmpty ?? false)
-                    ? (_, _) {}
-                    : null,
-                child: (user.profilePicture?.isNotEmpty ?? false)
-                    ? null
-                    : Icon(Icons.person_outline, size: 36.r, color: Colors.white),
+                child: CircleAvatar(
+                  radius: 30.r,
+                  backgroundColor: Colors.white.withValues(alpha: 0.3),
+                  backgroundImage: (user.profilePicture?.isNotEmpty ?? false)
+                      ? NetworkImage(user.profilePicture!)
+                      : null,
+                  onBackgroundImageError: (user.profilePicture?.isNotEmpty ?? false)
+                      ? (_, _) {}
+                      : null,
+                  child: (user.profilePicture?.isNotEmpty ?? false)
+                      ? null
+                      : Icon(Icons.person_outline, size: 36.r, color: Colors.white),
+                ),
               ),
               SizedBox(width: 14.w),
               Column(

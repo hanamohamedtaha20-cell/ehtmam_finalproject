@@ -45,17 +45,20 @@ class AdUserCubit extends Cubit<AdUsersState> {
   /// Toggles block status. Returns null on success, error message on failure.
   Future<String?> toggleBlockUser(AdUserModel user) async {
     try {
-      await apiService.blockUser(user.id);
-      // Flip the status locally — same endpoint is a toggle on the backend
-      final newStatus = user.isBlocked ? 'active' : 'blocked';
+      if (user.isBlocked) {
+        await apiService.unblockUser(user.id);
+      } else {
+        await apiService.blockUser(user.id);
+      }
+      final updated = user.copyWith(isBlocked: !user.isBlocked);
       _allUsers = _allUsers
-          .map((u) => u.id == user.id ? u.copyWith(status: newStatus) : u)
+          .map((u) => u.id == user.id ? updated : u)
           .toList();
       if (!isClosed) {
         emit(state.copyWith(
           allUsers: _allUsers,
           filteredUsers: state.filteredUsers
-              .map((u) => u.id == user.id ? u.copyWith(status: newStatus) : u)
+              .map((u) => u.id == user.id ? updated : u)
               .toList(),
         ));
       }

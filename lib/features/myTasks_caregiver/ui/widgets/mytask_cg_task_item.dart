@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -358,16 +359,24 @@ class MytaskCgTaskItem extends StatelessWidget {
                                       color: Colors.white, size: 32.r),
                                 )
                               : isUrl
-                                  ? Image.network(
-                                      path,
-                                      width: 70.w,
-                                      height: 70.h,
-                                      fit: BoxFit.cover,
-                                      errorBuilder: (_, _, _) => Container(
+                                  ? GestureDetector(
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => FullScreenImagePage(imageUrl: path),
+                                        ),
+                                      ),
+                                      child: Image.network(
+                                        path,
                                         width: 70.w,
                                         height: 70.h,
-                                        color: Colors.grey.shade200,
-                                        child: Icon(Icons.broken_image, color: Colors.grey),
+                                        fit: BoxFit.cover,
+                                        errorBuilder: (_, _, _) => Container(
+                                          width: 70.w,
+                                          height: 70.h,
+                                          color: Colors.grey.shade200,
+                                          child: Icon(Icons.broken_image, color: Colors.grey),
+                                        ),
                                       ),
                                     )
                                   : Image.file(

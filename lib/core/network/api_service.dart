@@ -1165,6 +1165,10 @@ class ApiService {
     return Map<String, dynamic>.from(response.data as Map);
   }
 
+  Future<void> unblockUser(String id) async {
+    await _dio.patch('/admin/unblock/$id');
+  }
+
   Future<ChatMessageModel> sendMessage({
     required String sessionId,
     required String message,
@@ -1367,5 +1371,9 @@ class ApiService {
     if (data is Map) return Map<String, dynamic>.from(data);
     // fallback if the API returns a list directly
     return {'data': data};
+  }
+
+  Future<void> unblockProvider(String providerId) async {
+    await _dio.patch('/admin/unblock/$providerId');
   }
 }

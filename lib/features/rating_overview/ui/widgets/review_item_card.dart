@@ -1,4 +1,5 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intl/intl.dart';
@@ -75,15 +76,25 @@ class _ReviewerInfo extends StatelessWidget {
     final picUrl = review.reviewerProfilePicture;
     return Row(
       children: [
-        CircleAvatar(
-          radius: 21,
-          backgroundColor: _avatarBg,
-          backgroundImage:
-              (picUrl != null && picUrl.isNotEmpty) ? NetworkImage(picUrl) : null,
-          child: (picUrl == null || picUrl.isEmpty)
-              ? Text(_initials,
-                  style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700))
+        GestureDetector(
+          onTap: (picUrl != null && picUrl.isNotEmpty)
+              ? () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => FullScreenImagePage(imageUrl: picUrl),
+                    ),
+                  )
               : null,
+          child: CircleAvatar(
+            radius: 21,
+            backgroundColor: _avatarBg,
+            backgroundImage:
+                (picUrl != null && picUrl.isNotEmpty) ? NetworkImage(picUrl) : null,
+            child: (picUrl == null || picUrl.isEmpty)
+                ? Text(_initials,
+                    style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700))
+                : null,
+          ),
         ),
         SizedBox(width: 10.w),
         Expanded(

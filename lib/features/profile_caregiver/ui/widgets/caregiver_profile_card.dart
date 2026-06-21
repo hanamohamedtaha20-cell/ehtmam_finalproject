@@ -1,4 +1,5 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/screens/account_settings_screen_careprovider.dart';
 import 'package:ehtemam_final_project/features/profile_caregiver/data/model/caregiver_model.dart';
 import 'package:flutter/material.dart';
@@ -34,16 +35,37 @@ class CaregiverProfileCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Container(
-              margin: EdgeInsets.all(8.r),
-              width: 60.w,
-              height: 60.h,
-              decoration: BoxDecoration(
-                color: Color(0xFF00A6F4),
-                borderRadius: BorderRadius.circular(12.r),
+              GestureDetector(
+                onTap: profile.profilePicture.isNotEmpty
+                    ? () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => FullScreenImagePage(imageUrl: profile.profilePicture),
+                          ),
+                        )
+                    : null,
+                child: Container(
+                  margin: EdgeInsets.all(8.r),
+                  width: 60.w,
+                  height: 60.h,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF00A6F4),
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: profile.profilePicture.isNotEmpty
+                      ? Image.network(
+                          profile.profilePicture,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, _, _) => Icon(
+                            Icons.person,
+                            size: 28.r,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Icon(Icons.person, size: 28.r, color: Colors.white),
+                ),
               ),
-              child: Icon(Icons.favorite, size: 28.r, color: Colors.white),
-            ),
               SizedBox(width: 24.w),
               Expanded(
                 child: Column(

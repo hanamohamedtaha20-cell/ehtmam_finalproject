@@ -1,4 +1,5 @@
-﻿import 'package:ehtemam_final_project/features/account_settings/ui/screens/change_password_screen.dart';
+﻿import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
+import 'package:ehtemam_final_project/features/account_settings/ui/screens/change_password_screen.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/widgets/settings_title.dart';
 import 'package:ehtemam_final_project/features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
 import 'package:flutter/material.dart';
@@ -174,22 +175,33 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         decoration: cardDecoration(),
                         child: Row(
                           children: [
-                            CircleAvatar(
-                              radius: 31,
-                              backgroundColor: const Color(0xFF8EC5FF),
-                              backgroundImage: state.profileImageUrl.isNotEmpty
-                                  ? NetworkImage(state.profileImageUrl)
+                            GestureDetector(
+                              onTap: state.profileImageUrl.isNotEmpty
+                                  ? () => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (_) => FullScreenImagePage(
+                                              imageUrl: state.profileImageUrl),
+                                        ),
+                                      )
                                   : null,
-                              onBackgroundImageError: state.profileImageUrl.isNotEmpty
-                                  ? (_, _) {}
-                                  : null,
-                              child: state.profileImageUrl.isEmpty
-                                  ? Icon(
-                                      Icons.person_outline_rounded,
-                                      color: Colors.white,
-                                      size: 34.r,
-                                    )
-                                  : null,
+                              child: CircleAvatar(
+                                radius: 31,
+                                backgroundColor: const Color(0xFF8EC5FF),
+                                backgroundImage: state.profileImageUrl.isNotEmpty
+                                    ? NetworkImage(state.profileImageUrl)
+                                    : null,
+                                onBackgroundImageError: state.profileImageUrl.isNotEmpty
+                                    ? (_, _) {}
+                                    : null,
+                                child: state.profileImageUrl.isEmpty
+                                    ? Icon(
+                                        Icons.person_outline_rounded,
+                                        color: Colors.white,
+                                        size: 34.r,
+                                      )
+                                    : null,
+                              ),
                             ),
                             SizedBox(width: 15.w),
                             Expanded(

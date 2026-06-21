@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -35,17 +36,32 @@ class AdUserCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              CircleAvatar(
-                radius: 20,
-                backgroundColor: const Color(0xff2F93E6),
-                child: Text(
-                  user.name.length >= 2
-                      ? user.name.substring(0, 2).toUpperCase()
-                      : user.name.toUpperCase(),
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                  ),
+              GestureDetector(
+                onTap: user.profilePicture.isNotEmpty
+                    ? () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => FullScreenImagePage(imageUrl: user.profilePicture),
+                          ),
+                        )
+                    : null,
+                child: CircleAvatar(
+                  radius: 20,
+                  backgroundColor: const Color(0xff2F93E6),
+                  backgroundImage: user.profilePicture.isNotEmpty
+                      ? NetworkImage(user.profilePicture)
+                      : null,
+                  child: user.profilePicture.isEmpty
+                      ? Text(
+                          user.name.length >= 2
+                              ? user.name.substring(0, 2).toUpperCase()
+                              : user.name.toUpperCase(),
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      : null,
                 ),
               ),
 

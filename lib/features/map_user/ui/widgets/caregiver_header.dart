@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class _CaregiverAvatar extends StatelessWidget {
@@ -61,7 +62,20 @@ class CaregiverHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        _CaregiverAvatar(pictureUrl: caregiverPicture, radius: 28),
+        GestureDetector(
+          onTap: caregiverPicture.isNotEmpty &&
+                  caregiverPicture != 'null' &&
+                  (caregiverPicture.startsWith('http://') ||
+                      caregiverPicture.startsWith('https://'))
+              ? () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => FullScreenImagePage(imageUrl: caregiverPicture),
+                    ),
+                  )
+              : null,
+          child: _CaregiverAvatar(pictureUrl: caregiverPicture, radius: 28),
+        ),
         SizedBox(width: 12.w),
         Expanded(
           child: Column(

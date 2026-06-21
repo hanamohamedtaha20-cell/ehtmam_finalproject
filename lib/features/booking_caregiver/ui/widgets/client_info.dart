@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+﻿import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ClientInfoCard extends StatelessWidget {
@@ -61,37 +62,47 @@ class ClientInfoCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                height: 50.h,
-                width: 50.w,
-                decoration: BoxDecoration(
-                  color: const Color(0xff169CE8),
-                  borderRadius: BorderRadius.circular(14.r),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.2),
-                      offset: Offset(0, 6),
-                      blurRadius: 8.r,
-                    ),
-                  ],
-                ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(14.r),
-                  child: profilePicture.isNotEmpty
-                      ? Image.network(
-                          profilePicture,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, _) => Icon(
+              GestureDetector(
+                onTap: profilePicture.isNotEmpty
+                    ? () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => FullScreenImagePage(imageUrl: profilePicture),
+                          ),
+                        )
+                    : null,
+                child: Container(
+                  height: 50.h,
+                  width: 50.w,
+                  decoration: BoxDecoration(
+                    color: const Color(0xff169CE8),
+                    borderRadius: BorderRadius.circular(14.r),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.2),
+                        offset: Offset(0, 6),
+                        blurRadius: 8.r,
+                      ),
+                    ],
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(14.r),
+                    child: profilePicture.isNotEmpty
+                        ? Image.network(
+                            profilePicture,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, _, _) => Icon(
+                              Icons.person_outline,
+                              color: Colors.white,
+                              size: 24.r,
+                            ),
+                          )
+                        : Icon(
                             Icons.person_outline,
                             color: Colors.white,
                             size: 24.r,
                           ),
-                        )
-                      : Icon(
-                          Icons.person_outline,
-                          color: Colors.white,
-                          size: 24.r,
-                        ),
+                  ),
                 ),
               ),
               SizedBox(width: 14.w),

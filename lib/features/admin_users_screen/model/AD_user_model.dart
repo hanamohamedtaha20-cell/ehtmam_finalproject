@@ -4,7 +4,8 @@ class AdUserModel {
   final String email;
   final int bookingsCount;
   final String createdAt;
-  final String status;
+  final bool isBlocked;
+  final String profilePicture;
 
   AdUserModel({
     required this.id,
@@ -12,37 +13,38 @@ class AdUserModel {
     required this.email,
     required this.bookingsCount,
     required this.createdAt,
-    this.status = 'active',
+    this.isBlocked = false,
+    this.profilePicture = '',
   });
 
-  bool get isBlocked => status == 'blocked';
-
-  AdUserModel copyWith({String? status}) => AdUserModel(
-        id: id,
-        name: name,
-        email: email,
-        bookingsCount: bookingsCount,
-        createdAt: createdAt,
-        status: status ?? this.status,
+  AdUserModel copyWith({
+    String? id,
+    String? name,
+    String? email,
+    int? bookingsCount,
+    String? createdAt,
+    bool? isBlocked,
+    String? profilePicture,
+  }) =>
+      AdUserModel(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        email: email ?? this.email,
+        bookingsCount: bookingsCount ?? this.bookingsCount,
+        createdAt: createdAt ?? this.createdAt,
+        isBlocked: isBlocked ?? this.isBlocked,
+        profilePicture: profilePicture ?? this.profilePicture,
       );
 
   factory AdUserModel.fromJson(Map<String, dynamic> json) {
-    String status = 'active';
-    if (json['status'] != null) {
-      status = json['status'].toString().toLowerCase();
-    } else if (json['isActive'] == false) {
-      status = 'blocked';
-    } else if (json['isBlocked'] == true) {
-      status = 'blocked';
-    }
-
     return AdUserModel(
       id: json['_id']?.toString() ?? '',
       name: json['full_name']?.toString() ?? 'Unknown User',
       email: json['email']?.toString() ?? '',
-      bookingsCount: json['bookingsCount'] ?? 0,
+      bookingsCount: ((json['bookingsCount'] ?? 0) as num).toInt(),
       createdAt: json['createdAt']?.toString() ?? '',
-      status: status,
+      isBlocked: json['isBlocked'] == true,
+      profilePicture: json['profile_picture']?.toString() ?? '',
     );
   }
 }

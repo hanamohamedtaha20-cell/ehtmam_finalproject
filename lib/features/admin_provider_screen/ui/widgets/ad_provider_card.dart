@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,22 +44,32 @@ class AdProviderCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // Avatar
-              CircleAvatar(
-                radius: 24.r,
-                backgroundColor: const Color(0xff2F93E6),
-                backgroundImage: provider.profilePicture.isNotEmpty
-                    ? NetworkImage(provider.profilePicture)
+              GestureDetector(
+                onTap: provider.profilePicture.isNotEmpty
+                    ? () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => FullScreenImagePage(imageUrl: provider.profilePicture),
+                          ),
+                        )
                     : null,
-                child: provider.profilePicture.isEmpty
-                    ? Text(
-                        initials,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 13.sp,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      )
-                    : null,
+                child: CircleAvatar(
+                  radius: 24.r,
+                  backgroundColor: const Color(0xff2F93E6),
+                  backgroundImage: provider.profilePicture.isNotEmpty
+                      ? NetworkImage(provider.profilePicture)
+                      : null,
+                  child: provider.profilePicture.isEmpty
+                      ? Text(
+                          initials,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 13.sp,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        )
+                      : null,
+                ),
               ),
 
               SizedBox(width: 12.w),
@@ -78,6 +89,15 @@ class AdProviderCard extends StatelessWidget {
                     ),
                     SizedBox(height: 2.h),
                     Text(
+                      provider.email,
+                      style: TextStyle(
+                        color: const Color(0xff6B7280),
+                        fontSize: 11.sp,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    SizedBox(height: 2.h),
+                    Text(
                       provider.service,
                       style: TextStyle(
                         color: const Color(0xff6B7280),
@@ -86,13 +106,13 @@ class AdProviderCard extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 6.h),
-                    // Rating
+                    // Bookings count
                     Row(
                       children: [
-                        Icon(Icons.star_rounded, color: const Color(0xffF59E0B), size: 14.r),
+                        Icon(Icons.bookmark_outline_rounded, color: const Color(0xff2F93E6), size: 14.r),
                         SizedBox(width: 3.w),
                         Text(
-                          '${provider.rating.toStringAsFixed(1)} (${provider.reviews} reviews)',
+                          '${provider.reviews} bookings',
                           style: TextStyle(
                             color: const Color(0xff64748B),
                             fontSize: 11.sp,

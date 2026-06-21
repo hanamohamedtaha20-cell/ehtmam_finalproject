@@ -2,14 +2,10 @@ import '../../../../core/network/api_service.dart';
 import '../ad_provider_model.dart';
 import 'ad_provider_repo.dart';
 
-class AdProviderRepositoryImpl
-    implements AdProviderRepository {
-
+class AdProviderRepositoryImpl implements AdProviderRepository {
   final ApiService apiService;
 
-  AdProviderRepositoryImpl(
-      this.apiService,
-      );
+  AdProviderRepositoryImpl(this.apiService);
 
   @override
   Future<List<AdProviderModel>> getProviders() async {
@@ -42,11 +38,12 @@ class AdProviderRepositoryImpl
   }
 
   @override
-  Future<void> blockProvider(
-      String providerId,
-      ) async {
-    await apiService.blockProvider(
-      providerId,
-    );
+  Future<void> blockProvider(String providerId) async {
+    await apiService.blockProvider(providerId);
+  }
+
+  @override
+  Future<void> unblockProvider(String providerId) async {
+    await apiService.unblockProvider(providerId);
   }
 }

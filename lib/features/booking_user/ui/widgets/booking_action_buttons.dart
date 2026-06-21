@@ -8,8 +8,6 @@ import 'package:ehtemam_final_project/features/task_progress_user/ui/screens/tas
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../requests_screen_user/ui/screens/requests_screen.dart';
 import '../../data/model/booking_model_user.dart';
 
 class BookingActionButtons extends StatelessWidget {
@@ -17,8 +15,12 @@ class BookingActionButtons extends StatelessWidget {
   final VoidCallback? onCancel;
   final BookingModelUser booking;
 
-
-  const BookingActionButtons({super.key, required this.status, this.onCancel, required this.booking});
+  const BookingActionButtons({
+    super.key,
+    required this.status,
+    this.onCancel,
+    required this.booking,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,106 +29,108 @@ class BookingActionButtons extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-          children: [
-            Expanded(
-              child: _FilledButton(
-                label: "Track location",
-                icon: Icons.location_on_outlined,
-                color: AppColors.green,
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (_) => TrackCaregiverScreen(
-                        caregiverName:        booking.subtitle,
-                        speciality:           booking.speciality,
-                        phoneNumber:          booking.phone,
-                        userLocation:         booking.location,
-                        bookingId:            booking.id,
-                        caregiverPicture:     booking.caregiverPicture,
-                        caregiverRating:      booking.caregiverRating,
-                        caregiverReviewCount: booking.caregiverReviewCount,
+            children: [
+              Expanded(
+                child: _FilledButton(
+                  label: "Track location",
+                  icon: Icons.location_on_outlined,
+                  color: AppColors.green,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => TrackCaregiverScreen(
+                          caregiverName: booking.subtitle,
+                          speciality: booking.speciality,
+                          phoneNumber: booking.phone,
+                          userLocation: booking.location,
+                          bookingId: booking.id,
+                          caregiverPicture: booking.caregiverPicture,
+                          caregiverRating: booking.caregiverRating,
+                          caregiverReviewCount: booking.caregiverReviewCount,
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
-            ),
-            SizedBox(width: 8.w),
-            Expanded(
-              child: _FilledButton(
-                label: "Tasks",
-                icon: Icons.arrow_outward_outlined,
-                color: AppColors.blue,
-                onTap: () {
-                   Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => TaskProgressScreen(bookingId: booking.id),
-                  ),
-                );
-                },
+              SizedBox(width: 8.w),
+              Expanded(
+                child: _FilledButton(
+                  label: "Tasks",
+                  icon: Icons.arrow_outward_outlined,
+                  color: AppColors.blue,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) =>
+                            TaskProgressScreen(bookingId: booking.id),
+                      ),
+                    );
+                  },
+                ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
           SizedBox(height: 8.h),
           GestureDetector(
-            onTap:  onCancel,
+            onTap: onCancel,
             child: Center(
-            child: Center(
-              child:  Text(
-                "Cancel Booking",
-                style: TextStyle(
-                  fontFamily: "Arimo",
-                  fontSize: 13.sp,
-                  color: Colors.red,
+              child: Center(
+                child: Text(
+                  "Cancel Booking",
+                  style: TextStyle(
+                    fontFamily: "Arimo",
+                    fontSize: 13.sp,
+                    color: Colors.red,
+                  ),
                 ),
               ),
             ),
           ),
-       ) ],
+        ],
       );
     }
 
-   if (status == 'completed'){
-  return GestureDetector(
-    onTap: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => RatingCubit(RatingRepo()),
-            child: RatingScreen(
-              bookingId:     booking.id,
-              caregiverName: booking.subtitle,
-              caregiverRole: booking.speciality,
+    if (status == 'completed') {
+      return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => BlocProvider(
+                create: (_) => RatingCubit(RatingRepo()),
+                child: RatingScreen(
+                  bookingId: booking.id,
+                  caregiverName: booking.subtitle,
+                  caregiverRole: booking.speciality,
+                ),
+              ),
+            ),
+          );
+        },
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.symmetric(vertical: 8.h),
+          decoration: BoxDecoration(
+            border: Border.all(color: Color(0xFFFEE685)),
+            borderRadius: BorderRadius.circular(8.r),
+          ),
+          child: Center(
+            child: Text(
+              "Rate the service",
+              style: TextStyle(
+                fontFamily: "Arimo",
+                fontSize: 12.sp,
+                fontWeight: FontWeight.bold,
+                color: Color.fromARGB(255, 235, 189, 6),
+              ),
             ),
           ),
         ),
       );
-    },
-    child: Container(
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 8.h),
-      decoration: BoxDecoration(
-        border: Border.all(color: Color(0xFFFEE685)),
-        borderRadius: BorderRadius.circular(8.r),
-      ),
-      child: Center(
-        child: Text(
-          "Rate the service",
-          style: TextStyle(
-            fontFamily: "Arimo",
-            fontSize: 12.sp,
-            fontWeight: FontWeight.bold,
-            color: Color.fromARGB(255, 235, 189, 6),
-          ),
-        ),
-      ),
-    ),
-  );}
-    
+    }
 
     if (status == 'cancelled') {
       return Container(
@@ -140,9 +144,7 @@ class BookingActionButtons extends StatelessWidget {
           onTap: () {
             Navigator.push(
               context,
-              MaterialPageRoute(
-                builder: (_) => const HomeScreen(),
-              ),
+              MaterialPageRoute(builder: (_) => const HomeScreen()),
             );
           },
           child: Center(
@@ -163,6 +165,7 @@ class BookingActionButtons extends StatelessWidget {
     return SizedBox();
   }
 }
+
 class _FilledButton extends StatelessWidget {
   final String label;
   final Color color;
@@ -182,13 +185,13 @@ class _FilledButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         height: 36.h,
-          width: double.infinity,
+        width: double.infinity,
         padding: EdgeInsets.symmetric(horizontal: 14.w),
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.circular(20.r),
         ),
-          child: Row(
+        child: Row(
           mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -197,18 +200,18 @@ class _FilledButton extends StatelessWidget {
               Icon(icon, color: Colors.white, size: 14.r),
               SizedBox(width: 4.w),
             ],
-                Text(
-                  label,
-                  style: TextStyle(
-                    fontFamily: "Arimo",
-                    fontSize: 13.sp,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                ),
-              ],
+            Text(
+              label,
+              style: TextStyle(
+                fontFamily: "Arimo",
+                fontSize: 13.sp,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-          ),
-        );
+          ],
+        ),
+      ),
+    );
   }
 }
