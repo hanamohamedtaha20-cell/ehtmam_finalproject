@@ -75,25 +75,34 @@ class RatingCubit extends Cubit<RatingState> {
       if (!isClosed) emit(RatingSuccess());
     } on DioException catch (e) {
       final code = e.response?.statusCode;
-      debugPrint('[Rating] DioException â€” statusCode: $code');
-      debugPrint('[Rating] DioException â€” response.data: ${e.response?.data}');
-      debugPrint('[Rating] DioException â€” headers: ${e.response?.headers}');
+      final data = e.response?.data;
+      debugPrint('[Rating] DioException – statusCode: $code');
+      debugPrint('[Rating] DioException – response.data: $data');
 
       if (!isClosed) {
-        if (code == 403) {
-          emit(RatingError('You are not allowed to submit this review.'));
+        String serverMsg = '';
+        if (data is Map) {
+          serverMsg = data['message']?.toString() ?? '';
+        }
+        final msgLower = serverMsg.toLowerCase();
+        if (msgLower.contains('already reviewed') || msgLower.contains('already submitted')) {
+          emit(RatingAlreadyReviewed());
         } else if (code == 401) {
-          emit(RatingError('Your session has expired. Please log in again.'));
+          emit(RatingError('Session expired. Please log in again.'));
+        } else if (code == 403) {
+          emit(RatingError('You are not allowed to submit this review.'));
         } else if (code == 404) {
-          emit(RatingError('Booking not found. Please try again.'));
+          emit(RatingError('Booking not found.'));
+        } else if (serverMsg.isNotEmpty) {
+          emit(RatingError(serverMsg));
         } else {
-          emit(RatingError('Failed to submit review. Please try again.'));
+          emit(RatingError('Error $code: Failed to submit review.'));
         }
       }
     } catch (e) {
       debugPrint('[Rating] Unexpected error: $e');
       if (!isClosed) {
-        emit(RatingError('Failed to submit review. Please try again.'));
+        emit(RatingError(e.toString()));
       }
     }
   }

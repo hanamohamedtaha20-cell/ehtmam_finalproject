@@ -10,6 +10,8 @@ class AdProviderModel {
   final bool isVerified;
   final bool isActive;
 
+  bool get isBlocked => !isActive;
+
   final String status;
   final String profilePicture;
 
@@ -26,9 +28,7 @@ class AdProviderModel {
     required this.profilePicture,
   });
 
-  factory AdProviderModel.fromJson(
-      Map<String, dynamic> json,
-      ) {
+  factory AdProviderModel.fromJson(Map<String, dynamic> json) {
     return AdProviderModel(
       id: json['_id']?.toString() ?? '',
 
@@ -38,25 +38,19 @@ class AdProviderModel {
 
       service: json['specialty']?.toString() ?? '',
 
-      rating:
-      (json['averageRating'] ?? 0)
-          .toDouble(),
+      rating: (json['averageRating'] ?? 0).toDouble(),
 
-      reviews:
-      json['totalReviewsCount'] ?? 0,
+      reviews: ((json['totalReviewsCount'] ?? 0) as num).toInt(),
 
-      isVerified:
-      (json['status']?.toString() ?? '') ==
-          'Approved',
+      isVerified: ['Verified', 'Approved'].contains(json['status']?.toString()),
 
-      isActive:
-      json['active'] ?? false,
+      isActive: json['active'] is bool
+          ? json['active'] as bool
+          : json['active'] == 1,
 
-      status:
-      json['status']?.toString() ?? '',
+      status: json['status']?.toString() ?? '',
 
-      profilePicture:
-      json['profile_picture']?.toString() ?? '',
+      profilePicture: json['profile_picture']?.toString() ?? '',
     );
   }
 
@@ -82,8 +76,7 @@ class AdProviderModel {
       isVerified: isVerified ?? this.isVerified,
       isActive: isActive ?? this.isActive,
       status: status ?? this.status,
-      profilePicture:
-      profilePicture ?? this.profilePicture,
+      profilePicture: profilePicture ?? this.profilePicture,
     );
   }
 }

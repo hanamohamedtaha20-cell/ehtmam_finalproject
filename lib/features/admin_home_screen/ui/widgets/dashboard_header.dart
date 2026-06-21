@@ -4,6 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class DashboardHeader extends StatelessWidget {
   const DashboardHeader({super.key});
 
+  String _formatDate() {
+    const days   = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+    const months = ['January','February','March','April','May','June',
+                    'July','August','September','October','November','December'];
+    final now = DateTime.now();
+    return '${days[now.weekday - 1]}, ${months[now.month - 1]} ${now.day}, ${now.year}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -71,7 +79,7 @@ class DashboardHeader extends StatelessWidget {
           ),
           SizedBox(height: 10.h),
           Text(
-            'Sunday, March 8, 2026',
+            _formatDate(),
             style: TextStyle(
               color: Colors.white,
               fontSize: 12.sp,

@@ -17,8 +17,16 @@ class AdUserModel {
 
   bool get isBlocked => status == 'blocked';
 
+  AdUserModel copyWith({String? status}) => AdUserModel(
+        id: id,
+        name: name,
+        email: email,
+        bookingsCount: bookingsCount,
+        createdAt: createdAt,
+        status: status ?? this.status,
+      );
+
   factory AdUserModel.fromJson(Map<String, dynamic> json) {
-    // API may return status as 'blocked'/'active' or isActive: false
     String status = 'active';
     if (json['status'] != null) {
       status = json['status'].toString().toLowerCase();

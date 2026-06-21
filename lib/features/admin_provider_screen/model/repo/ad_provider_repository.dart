@@ -12,22 +12,33 @@ class AdProviderRepositoryImpl
       );
 
   @override
-  Future<List<AdProviderModel>>
-  getProviders() async {
+  Future<List<AdProviderModel>> getProviders() async {
+    final response = await apiService.getAllProviders();
 
-    final response =
-    await apiService
-        .getPendingCaregivers();
+    // Try every common shape the backend might return:
+    // { data: [...] }  |  { data: { caregivers: [...] } }  |  { caregivers: [...] }  |  [...]
+    final raw = _extractList(response);
 
-    final List caregivers =
-    response['data']['caregivers'];
-
-    return caregivers
-        .map(
-          (e) =>
-          AdProviderModel.fromJson(e),
-    )
+    return raw
+        .whereType<Map>()
+        .map((e) => AdProviderModel.fromJson(Map<String, dynamic>.from(e)))
         .toList();
+  }
+
+  List _extractList(Map<String, dynamic> response) {
+    for (final key in ['data', 'caregivers', 'result', 'results']) {
+      final val = response[key];
+      if (val is List) return val;
+      if (val is Map) {
+        for (final inner in ['caregivers', 'data', 'result', 'results']) {
+          if (val[inner] is List) return val[inner] as List;
+        }
+      }
+    }
+    // If the whole response is just a list wrapped by getAllProviders()
+    final direct = response['data'];
+    if (direct is List) return direct;
+    return [];
   }
 
   @override

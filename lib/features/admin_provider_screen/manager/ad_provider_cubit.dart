@@ -17,6 +17,7 @@ class AdProviderCubit extends Cubit<AdProviderState> {
     emit(AdProviderLoading());
     try {
       final providers = await repo.getProviders();
+      // Show ALL providers so admin can toggle block
       _allProviders = providers;
       if (!isClosed) {
         emit(AdProviderLoaded(
@@ -30,6 +31,8 @@ class AdProviderCubit extends Cubit<AdProviderState> {
   }
 
   void searchProviders(String value) {
+    final current = state;
+    if (current is! AdProviderLoaded) return;
     final query = value.trim().toLowerCase();
     if (query.isEmpty) {
       emit(AdProviderLoaded(
@@ -39,9 +42,9 @@ class AdProviderCubit extends Cubit<AdProviderState> {
       ));
       return;
     }
-    final filtered = _allProviders.where((provider) {
-      return provider.name.toLowerCase().contains(query) ||
-          provider.service.toLowerCase().contains(query);
+    final filtered = _allProviders.where((p) {
+      return p.name.toLowerCase().contains(query) ||
+          p.service.toLowerCase().contains(query);
     }).toList();
     emit(AdProviderLoaded(
       allProviders: _allProviders,
@@ -50,18 +53,22 @@ class AdProviderCubit extends Cubit<AdProviderState> {
     ));
   }
 
-  /// Returns null on success, an error message string on failure.
-  Future<String?> blockProvider(AdProviderModel provider) async {
+  /// Toggles block status. Returns null on success, error message on failure.
+  Future<String?> toggleBlockProvider(AdProviderModel provider) async {
     try {
       await repo.blockProvider(provider.id);
-      _allProviders = _allProviders.where((p) => p.id != provider.id).toList();
+      // Flip isActive locally — same endpoint is a toggle on the backend
+      final updated = provider.copyWith(isActive: !provider.isActive);
+      _allProviders = _allProviders
+          .map((p) => p.id == provider.id ? updated : p)
+          .toList();
       if (!isClosed) {
         final current = state;
         if (current is AdProviderLoaded) {
           emit(AdProviderLoaded(
             allProviders: _allProviders,
             providers: current.providers
-                .where((p) => p.id != provider.id)
+                .map((p) => p.id == provider.id ? updated : p)
                 .toList(),
             searchText: current.searchText,
           ));

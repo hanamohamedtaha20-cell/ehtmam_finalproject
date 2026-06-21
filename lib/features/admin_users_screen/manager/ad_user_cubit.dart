@@ -17,10 +17,10 @@ class AdUserCubit extends Cubit<AdUsersState> {
   Future<void> getUsers() async {
     try {
       final users = await apiService.getAllUsers();
-      final active = users.where((u) => !u.isBlocked).toList();
-      _allUsers = active;
+      // Show ALL users (blocked and active) so admin can toggle
+      _allUsers = users;
       if (!isClosed) {
-        emit(state.copyWith(allUsers: active, filteredUsers: active));
+        emit(state.copyWith(allUsers: users, filteredUsers: users));
       }
     } catch (e) {
       if (!isClosed) {
@@ -42,15 +42,21 @@ class AdUserCubit extends Cubit<AdUsersState> {
     emit(state.copyWith(searchText: value, filteredUsers: filtered));
   }
 
-  /// Returns null on success, an error message string on failure.
-  Future<String?> blockUser(String id) async {
+  /// Toggles block status. Returns null on success, error message on failure.
+  Future<String?> toggleBlockUser(AdUserModel user) async {
     try {
-      await apiService.blockUser(id);
-      _allUsers = _allUsers.where((u) => u.id != id).toList();
+      await apiService.blockUser(user.id);
+      // Flip the status locally — same endpoint is a toggle on the backend
+      final newStatus = user.isBlocked ? 'active' : 'blocked';
+      _allUsers = _allUsers
+          .map((u) => u.id == user.id ? u.copyWith(status: newStatus) : u)
+          .toList();
       if (!isClosed) {
         emit(state.copyWith(
           allUsers: _allUsers,
-          filteredUsers: state.filteredUsers.where((u) => u.id != id).toList(),
+          filteredUsers: state.filteredUsers
+              .map((u) => u.id == user.id ? u.copyWith(status: newStatus) : u)
+              .toList(),
         ));
       }
       return null;

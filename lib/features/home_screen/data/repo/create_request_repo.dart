@@ -3,6 +3,7 @@ import 'create_request_remote_datasource.dart';
 abstract class CreateRequestRepository {
   Future<void> createRequest({
     required String serviceId,
+    required String serviceType,
     required String governorate,
     required String date,
     required String time,
@@ -14,18 +15,15 @@ abstract class CreateRequestRepository {
   });
 }
 
-class CreateRequestRepositoryImpl
-    implements CreateRequestRepository {
-
+class CreateRequestRepositoryImpl implements CreateRequestRepository {
   final CreateRequestRemoteDatasource remoteDatasource;
 
-  CreateRequestRepositoryImpl(
-      this.remoteDatasource,
-      );
+  CreateRequestRepositoryImpl(this.remoteDatasource);
 
   @override
   Future<void> createRequest({
     required String serviceId,
+    required String serviceType,
     required String governorate,
     required String date,
     required String time,
@@ -36,15 +34,16 @@ class CreateRequestRepositoryImpl
     List<String> tasks = const [],
   }) async {
     await remoteDatasource.createRequest(
-      serviceId: serviceId,
+      serviceId:   serviceId,
+      serviceType: serviceType,
       governorate: governorate,
-      date: date,
-      time: time,
+      date:        date,
+      time:        time,
       description: description,
-      duration: duration,
-      notes: notes,
-      budget: budget,
-      tasks: tasks,
+      duration:    duration,
+      notes:       notes,
+      budget:      budget,
+      tasks:       tasks,
     );
   }
 }

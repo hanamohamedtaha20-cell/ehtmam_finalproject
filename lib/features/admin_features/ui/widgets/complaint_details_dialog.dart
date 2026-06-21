@@ -218,19 +218,19 @@ class ComplaintDetailsDialog extends StatelessWidget {
                       children: [
                         _detailRow(label: 'Client', value: d.clientName),
                         SizedBox(height: 4.h),
-                        _detailRow(
-                            label: 'Client Email', value: d.clientEmail),
+                        _detailRow(label: 'Client Email', value: d.clientEmail),
                         SizedBox(height: 10.h),
                         _detailRow(label: 'Caregiver', value: d.caregiverName),
                         SizedBox(height: 4.h),
-                        _detailRow(
-                            label: 'Caregiver Email', value: d.caregiverEmail),
+                        _detailRow(label: 'Caregiver Email', value: d.caregiverEmail),
                         SizedBox(height: 10.h),
-                        _detailRow(
-                            label: 'Created', value: d.formattedCreatedAt),
+                        _detailRow(label: 'Category', value: d.complaintCategory),
                         SizedBox(height: 4.h),
-                        _detailRow(
-                            label: 'Updated', value: d.formattedUpdatedAt),
+                        _detailRow(label: 'Booking ID', value: d.bookingId),
+                        SizedBox(height: 10.h),
+                        _detailRow(label: 'Created', value: d.formattedCreatedAt),
+                        SizedBox(height: 4.h),
+                        _detailRow(label: 'Updated', value: d.formattedUpdatedAt),
                       ],
                     ),
                   ),

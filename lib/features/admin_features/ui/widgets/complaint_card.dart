@@ -16,8 +16,7 @@ class ComplaintCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusLower = complaint.status.toLowerCase();
-    final isResolved =
-        statusLower == 'resolved' || statusLower == 'closed';
+    final isResolved = statusLower == 'resolved' || statusLower == 'closed';
 
     return Container(
       margin: EdgeInsets.only(bottom: 14.h),
@@ -96,11 +95,11 @@ class ComplaintCard extends StatelessWidget {
             text: 'Caregiver: ${complaint.caregiverName}',
           ),
           SizedBox(height: 5.h),
-          if (complaint.bookingStatus.isNotEmpty) ...[
+          if (complaint.status.isNotEmpty) ...[
             _infoRow(
               icon: Icons.bookmark_outline,
               iconColor: Color(0xff64748B),
-              text: 'Booking: ${complaint.bookingStatus}',
+              text: 'Booking: ${complaint.status}',
             ),
             SizedBox(height: 5.h),
           ],

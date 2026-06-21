@@ -25,6 +25,7 @@ class CreateRequestRepository {
       tasks: tasks,
       duration: duration,
       notes: notes,
+      serviceType: '',
     );
   }
 }

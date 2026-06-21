@@ -26,7 +26,7 @@ class SettingsTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 66.h,
+      constraints: BoxConstraints(minHeight: 66.h),
       margin: EdgeInsets.only(bottom: 8.h),
       decoration: BoxDecoration(
         color: Colors.white,

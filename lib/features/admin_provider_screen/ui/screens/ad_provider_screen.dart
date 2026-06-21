@@ -5,16 +5,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../bottom_nav_bar/ui/widget/admin_bottom.dart';
+import '../../../../core/network/api_service.dart';
 import '../../manager/ad_provider_cubit.dart';
 import '../../manager/ad_provider_state.dart';
+import '../../model/repo/ad_provider_repository.dart';
 
 class AdProviderScreen extends StatelessWidget {
   const AdProviderScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const AdProviderView();
+    return BlocProvider(
+      create: (_) => AdProviderCubit(
+        AdProviderRepositoryImpl(ApiService()),
+      )..getProviders(),
+      child: const AdProviderView(),
+    );
   }
 }
 
@@ -95,11 +101,28 @@ class AdProviderView extends StatelessWidget {
 
                     if (state is AdProviderError) {
                       return Center(
-                        child: Text(state.message),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(Icons.error_outline, size: 48.r, color: Colors.red),
+                            SizedBox(height: 12.h),
+                            Text(
+                              state.message,
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.red, fontSize: 14.sp),
+                            ),
+                            SizedBox(height: 16.h),
+                            ElevatedButton.icon(
+                              onPressed: () => context.read<AdProviderCubit>().getProviders(),
+                              icon: Icon(Icons.refresh),
+                              label: Text('Retry'),
+                            ),
+                          ],
+                        ),
                       );
                     }
 
-                    return SizedBox();
+                    return const SizedBox();
 
                   },
                 ),

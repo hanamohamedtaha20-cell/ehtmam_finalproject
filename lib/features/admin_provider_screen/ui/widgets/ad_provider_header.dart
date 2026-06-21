@@ -24,9 +24,9 @@ class AdProviderHeader extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Providers',
+            'Care Providers',
             style: TextStyle(
-              fontSize: 32.sp,
+              fontSize: 28.sp,
               fontWeight: FontWeight.w700,
               color: Color(0xff1F2937),
             ),

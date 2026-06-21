@@ -162,7 +162,19 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     emit(CreateRequestInitial());
   }
 
-  void submitRequest({required String serviceId}) {
+  void submitRequest({required String serviceId, required String serviceType}) {
+    debugPrint('[CreateRequest] serviceId="$serviceId"');
+    debugPrint('SELECTED_SERVICE_TYPE: $serviceType');
+
+    if (serviceId.trim().isEmpty) {
+      emit(CreateRequestError('Service type is missing. Please go back and select a service.'));
+      return;
+    }
+    if (serviceType.trim().isEmpty) {
+      emit(CreateRequestError('Service type is required.'));
+      return;
+    }
+
     bool hasError = false;
 
     if (selectedDate == null) { isDateEmpty = true; hasError = true; }
@@ -179,6 +191,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     if (formKey.currentState!.validate()) {
       createRequest(
         serviceId:   serviceId,
+        serviceType: serviceType,
         governorate: selectedGovernorate!,
         date: '${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}',
         time: '${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}',
@@ -198,6 +211,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
 
   Future<void> createRequest({
     required String serviceId,
+    required String serviceType,
     required String governorate,
     required String date,
     required String time,
@@ -211,15 +225,16 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     emit(CreateRequestLoading());
     try {
       await repository.createRequest(
-        serviceId: serviceId,
+        serviceId:   serviceId,
+        serviceType: serviceType,
         governorate: governorate,
-        date: date,
-        time: time,
+        date:        date,
+        time:        time,
         description: description,
-        duration: duration,
-        notes: notes,
-        budget: budget,
-        tasks: tasks,
+        duration:    duration,
+        notes:       notes,
+        budget:      budget,
+        tasks:       tasks,
       );
       if (!isClosed) {
         emit(CreateRequestSuccess());

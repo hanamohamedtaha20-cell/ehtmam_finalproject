@@ -24,14 +24,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'features/account_settings/manager/account_settings_cubit.dart';
-import 'features/admin_provider_screen/manager/ad_provider_cubit.dart';
-import 'features/admin_provider_screen/model/repo/ad_provider_repository.dart';
 import 'features/admin_users_screen/manager/ad_user_cubit.dart';
 import 'features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
 import 'features/rating/data/repo/rating_repo.dart';
 import 'features/rating/manager/rating_cubit.dart';
-
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+import 'core/navigation/app_navigator.dart';
 
 Widget _resolveHomeScreen(SharedPreferences prefs) {
   final isLoggedIn = prefs.getBool('is_logged_in') ?? false;
@@ -140,11 +137,6 @@ class _MyAppState extends State<MyApp> {
         ),
         BlocProvider(
           create: (_) => BottomNavCubit(),
-        ),
-        BlocProvider(
-          create: (_) => AdProviderCubit(
-            AdProviderRepositoryImpl(ApiService()),
-          )..getProviders(),
         ),
         BlocProvider(
           create: (_) => AdUserCubit()..getUsers(),

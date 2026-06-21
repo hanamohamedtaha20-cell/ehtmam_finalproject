@@ -5,14 +5,15 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ThankYouDialog extends StatelessWidget {
   final int rating;
+  final String bookingId;
 
-  const ThankYouDialog({super.key, required this.rating});
+  const ThankYouDialog({super.key, required this.rating, required this.bookingId});
 
-  static void show(BuildContext context, int rating) {
+  static void show(BuildContext context, {required int rating, required String bookingId}) {
     showDialog(
       context: context,
       barrierDismissible: false,
-      builder: (_) => ThankYouDialog(rating: rating),
+      builder: (_) => ThankYouDialog(rating: rating, bookingId: bookingId),
     );
   }
 
@@ -139,7 +140,7 @@ class ThankYouDialog extends StatelessWidget {
                   Navigator.of(context).pop();
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (_) => const ComplaintScreen()),
+                    MaterialPageRoute(builder: (_) => ComplaintScreen(bookingId: bookingId)),
                   );
                 },
                 style: OutlinedButton.styleFrom(

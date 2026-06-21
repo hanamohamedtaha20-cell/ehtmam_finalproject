@@ -4,24 +4,21 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class PendingApprovalCard extends StatelessWidget {
   final Map<String, dynamic> provider;
   final VoidCallback onViewDocuments;
-  final VoidCallback onApprove;
-  final VoidCallback onReject;
 
   const PendingApprovalCard({
     super.key,
     required this.provider,
     required this.onViewDocuments,
-    required this.onApprove,
-    required this.onReject,
   });
 
   @override
   Widget build(BuildContext context) {
-    final status = provider['status'];
+    final status = (provider['status'] ?? '').toString();
+    final statusLower = status.toLowerCase();
 
-    final isPending = status == 'Pending';
-    final isRejected = status == 'Rejected';
-    final isApproved = status == 'Approved';
+    final isPending  = statusLower.contains('pending');
+    final isRejected = statusLower == 'rejected';
+    final isApproved = statusLower == 'approved';
 
     return Container(
       margin: EdgeInsets.only(bottom: 18.h),
@@ -210,41 +207,6 @@ class PendingApprovalCard extends StatelessWidget {
             ),
           ),
 
-          if (isPending) ...[
-            SizedBox(height: 12.h),
-
-            SizedBox(
-              width: double.infinity,
-              height: 45.h,
-              child: OutlinedButton.icon(
-                onPressed: onApprove,
-                icon: Icon(Icons.check_circle_outline, size: 17.r),
-                label: Text('Approve'),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: const Color(0xff059669),
-                  side: BorderSide(color: Color(0xff059669)),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 10.h),
-
-            SizedBox(
-              width: double.infinity,
-              height: 45.h,
-              child: TextButton.icon(
-                onPressed: onReject,
-                icon: Icon(Icons.cancel_outlined, size: 17.r),
-                label: Text('Reject'),
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.red,
-                ),
-              ),
-            ),
-          ],
         ],
       ),
     );
@@ -269,10 +231,11 @@ class _StatusTag extends StatelessWidget {
     Color bg;
     Color color;
 
-    if (isPending) {
+    final lower = text.toLowerCase();
+    if (lower.contains('pending')) {
       bg = const Color(0xffFEF3C7);
       color = const Color(0xffD97706);
-    } else if (isRejected) {
+    } else if (lower == 'rejected') {
       bg = const Color(0xffFEE2E2);
       color = Colors.red;
     } else {
@@ -285,7 +248,7 @@ class _StatusTag extends StatelessWidget {
       decoration: BoxDecoration(
         color: bg,
         borderRadius: BorderRadius.circular(20.r),
-        border: Border.all(color: color.withOpacity(0.35)),
+        border: Border.all(color: color.withValues(alpha: 0.35)),
       ),
       child: Text(
         text,

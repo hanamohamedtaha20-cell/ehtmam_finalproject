@@ -28,6 +28,17 @@ class HomeContent extends StatefulWidget {
   State<HomeContent> createState() => _HomeContentState();
 }
 
+String _mapServiceType(String name) {
+  final n = name.toLowerCase();
+  if (n.contains('elderly'))  return 'Elderly Care';
+  if (n.contains('pet'))      return 'Pet Care';
+  if (n.contains('child'))    return 'Child Care';
+  if (n.contains('plant'))    return 'Plant Care';
+  if (n.contains('shopping')) return 'Shopping Assistant';
+  if (n.contains('nursing') || n.contains('nurse')) return 'Nursing Assistant';
+  return name;
+}
+
 class _HomeContentState extends State<HomeContent> {
   UserModel _user = UserModel(name: '');
 
@@ -265,8 +276,9 @@ class _HomeContentState extends State<HomeContent> {
                         subtitle: service.description,
                         gradientBGColors: bgColors,
                         page: CreateRequestScreen(
-                          serviceId: service.id,
+                          serviceId:   service.id,
                           serviceName: service.name,
+                          serviceType: _mapServiceType(service.name),
                         ),
                       );
                     }),

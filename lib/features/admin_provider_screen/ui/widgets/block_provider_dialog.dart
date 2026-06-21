@@ -5,14 +5,21 @@ import '../../model/ad_provider_model.dart';
 
 class BlockProviderDialog extends StatelessWidget {
   final AdProviderModel provider;
+  final bool isBlocking;
 
   const BlockProviderDialog({
     super.key,
     required this.provider,
+    this.isBlocking = true,
   });
 
   @override
   Widget build(BuildContext context) {
+    final color  = isBlocking ? Colors.red : Colors.orange;
+    final icon   = isBlocking ? Icons.block : Icons.lock_open_rounded;
+    final title  = isBlocking ? 'Block Provider' : 'Unblock Provider';
+    final action = isBlocking ? 'Block' : 'Unblock';
+
     return Dialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -26,20 +33,20 @@ class BlockProviderDialog extends StatelessWidget {
           children: [
             Row(
               children: [
-                Icon(Icons.warning_amber_rounded, color: Colors.red),
+                Icon(icon, color: color),
                 SizedBox(width: 8.w),
                 Text(
-                  'Block Provider',
+                  title,
                   style: TextStyle(
-                    color: Colors.red,
+                    color: color,
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                Spacer(),
+                const Spacer(),
                 IconButton(
                   onPressed: () => Navigator.pop(context, false),
-                  icon: Icon(Icons.close),
+                  icon: const Icon(Icons.close),
                 ),
               ],
             ),
@@ -48,66 +55,66 @@ class BlockProviderDialog extends StatelessWidget {
 
             Text(
               'Provider:',
-              style: TextStyle(color: Color(0xff64748B), fontSize: 12.sp),
+              style: TextStyle(color: const Color(0xff64748B), fontSize: 12.sp),
             ),
-
             SizedBox(height: 4.h),
-
             Text(
               provider.name,
               style: TextStyle(
                 fontSize: 18.sp,
                 fontWeight: FontWeight.w700,
-                color: Color(0xff111827),
+                color: const Color(0xff111827),
               ),
             ),
-
             Text(
               provider.service,
-              style: TextStyle(color: Color(0xff64748B), fontSize: 12.sp),
+              style: TextStyle(color: const Color(0xff64748B), fontSize: 12.sp),
             ),
 
             SizedBox(height: 20.h),
 
-            Text(
-              'Reason for Blocking *',
-              style: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: Color(0xff111827),
-              ),
-            ),
-
-            SizedBox(height: 8.h),
-
-            TextField(
-              maxLines: 4,
-              decoration: InputDecoration(
-                hintText: 'Explain why you are blocking this provider...',
-                hintStyle: TextStyle(
-                  color: Color(0xff94A3B8),
-                  fontSize: 13.sp,
-                ),
-                filled: true,
-                fillColor: const Color(0xffF8FAFC),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                  borderSide: BorderSide(color: Color(0xffE2E8F0)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12.r),
-                  borderSide: BorderSide(color: Color(0xffE2E8F0)),
+            if (isBlocking) ...[
+              Text(
+                'Reason for Blocking *',
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  color: const Color(0xff111827),
                 ),
               ),
-            ),
-
-            SizedBox(height: 12.h),
-
-            Text(
-              'This reason will be stored for record keeping and may be shared with the provider.',
-              style: TextStyle(fontSize: 11.sp, color: Color(0xff64748B)),
-            ),
-
-            SizedBox(height: 20.h),
+              SizedBox(height: 8.h),
+              TextField(
+                maxLines: 4,
+                decoration: InputDecoration(
+                  hintText: 'Explain why you are blocking this provider...',
+                  hintStyle: TextStyle(
+                    color: const Color(0xff94A3B8),
+                    fontSize: 13.sp,
+                  ),
+                  filled: true,
+                  fillColor: const Color(0xffF8FAFC),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
+                  ),
+                ),
+              ),
+              SizedBox(height: 12.h),
+              Text(
+                'This reason will be stored for record keeping and may be shared with the provider.',
+                style: TextStyle(fontSize: 11.sp, color: const Color(0xff64748B)),
+              ),
+              SizedBox(height: 20.h),
+            ] else ...[
+              Text(
+                'This provider will be able to access the app again.',
+                style: TextStyle(fontSize: 13.sp, color: const Color(0xff64748B)),
+              ),
+              SizedBox(height: 20.h),
+            ],
 
             Row(
               children: [
@@ -124,7 +131,7 @@ class BlockProviderDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(13.r),
                         ),
                       ),
-                      child: Text('Cancel'),
+                      child: const Text('Cancel'),
                     ),
                   ),
                 ),
@@ -135,14 +142,14 @@ class BlockProviderDialog extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () => Navigator.pop(context, true),
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
+                        backgroundColor: color,
                         foregroundColor: Colors.white,
                         elevation: 0,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(13.r),
                         ),
                       ),
-                      child: Text('Block'),
+                      child: Text(action),
                     ),
                   ),
                 ),

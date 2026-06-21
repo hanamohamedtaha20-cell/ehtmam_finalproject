@@ -15,11 +15,13 @@ import 'tasks_section.dart';
 class CreateRequestBody extends StatelessWidget {
   final String serviceId;
   final String serviceName;
+  final String serviceType;
 
   const CreateRequestBody({
     super.key,
     required this.serviceId,
     required this.serviceName,
+    required this.serviceType,
   });
 
   @override
@@ -165,7 +167,8 @@ class CreateRequestBody extends StatelessWidget {
                   return SubmitRequest(
                     onSubmit: () {
                       context.read<CreateRequestCubit>().submitRequest(
-                        serviceId: serviceId,
+                        serviceId:   serviceId,
+                        serviceType: serviceType,
                       );
                     },
                   );

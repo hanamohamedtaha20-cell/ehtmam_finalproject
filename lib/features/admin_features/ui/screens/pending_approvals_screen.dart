@@ -1,7 +1,8 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../manager/pending_approvals/pending_approvals_cubit.dart';
+import '../../../../features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
+import '../../manager/pending_approvals/pending_approvals_cubit.dart' show PendingApprovalsCubit;
 import '../../manager/pending_approvals/pending_approvals_state.dart';
 import '../widgets/pending_approval_card.dart';
 import 'pending_documents_screen.dart';
@@ -100,31 +101,26 @@ class PendingApprovalsView extends StatelessWidget {
                       return PendingApprovalCard(
                         provider: provider,
 
-                        // هنا التعديل
-                        onViewDocuments: () {
-                          final cubit =
-                              context.read<PendingApprovalsCubit>();
-                          Navigator.push(
+                        onViewDocuments: () async {
+                          final approvalsCubit = context.read<PendingApprovalsCubit>();
+                          final navCubit      = context.read<BottomNavCubit>();
+
+                          final approved = await Navigator.push<bool>(
                             context,
                             MaterialPageRoute(
                               builder: (_) => PendingDocumentsScreen(
                                 provider: provider,
-                                cubit: cubit,
+                                onApprove: () => approvalsCubit.approveProvider(provider['id']),
+                                onReject:  () => approvalsCubit.rejectProvider(provider['id']),
                               ),
                             ),
                           );
-                        },
 
-                        onApprove: () {
-                          context
-                              .read<PendingApprovalsCubit>()
-                              .approveProvider(provider['id']);
-                        },
-
-                        onReject: () {
-                          context
-                              .read<PendingApprovalsCubit>()
-                              .rejectProvider(provider['id']);
+                          if (approved == true && context.mounted) {
+                            // Switch to Providers tab (index 2) and close the approvals screen
+                            navCubit.changeTab(2);
+                            Navigator.maybePop(context);
+                          }
                         },
                       );
                     },

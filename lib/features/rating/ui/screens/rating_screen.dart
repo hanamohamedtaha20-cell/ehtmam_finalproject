@@ -77,7 +77,46 @@ class _RatingBodyState extends State<_RatingBody> {
         child: BlocListener<RatingCubit, RatingState>(
           listener: (context, state) {
             if (state is RatingSuccess) {
-              ThankYouDialog.show(context, _overall);
+              ThankYouDialog.show(context, rating: _overall, bookingId: widget.bookingId);
+            }
+            if (state is RatingAlreadyReviewed) {
+              showDialog(
+                context: context,
+                barrierDismissible: false,
+                builder: (_) => AlertDialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20.r),
+                  ),
+                  icon: Icon(Icons.check_circle, color: Colors.green, size: 48.r),
+                  title: Text(
+                    'Already Reviewed',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.sp),
+                  ),
+                  content: Text(
+                    'You have already submitted a review for this booking.',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 13.sp, color: const Color(0xFF6B7280)),
+                  ),
+                  actionsAlignment: MainAxisAlignment.center,
+                  actions: [
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                        Navigator.of(context).pop();
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFF3A8BD7),
+                        foregroundColor: Colors.white,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12.r),
+                        ),
+                      ),
+                      child: const Text('Go Back'),
+                    ),
+                  ],
+                ),
+              );
             }
             if (state is RatingError) {
               ScaffoldMessenger.of(context).showSnackBar(

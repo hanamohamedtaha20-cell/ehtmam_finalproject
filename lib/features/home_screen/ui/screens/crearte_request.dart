@@ -10,11 +10,13 @@ import '../../data/repo/create_request_remote_datasource.dart';
 class CreateRequestScreen extends StatelessWidget {
   final String serviceId;
   final String serviceName;
+  final String serviceType;
 
   const CreateRequestScreen({
     super.key,
     required this.serviceId,
     required this.serviceName,
+    required this.serviceType,
   });
 
   @override
@@ -26,8 +28,9 @@ class CreateRequestScreen extends StatelessWidget {
         ),
       ),
       child: CreateRequestBody(
-        serviceId: serviceId,
+        serviceId:   serviceId,
         serviceName: serviceName,
+        serviceType: serviceType,
       ),
     );
   }

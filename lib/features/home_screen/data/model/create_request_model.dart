@@ -4,6 +4,7 @@ class CreateRequestModel {
   final String location;
   final String budget;
   final String specialRequirements;
+  final String serviceType;
 
   CreateRequestModel({
     required this.description,
@@ -11,6 +12,7 @@ class CreateRequestModel {
     required this.location,
     required this.budget,
     required this.specialRequirements,
+    required this.serviceType,
   });
 
   Map<String, dynamic> toJson() {
@@ -20,17 +22,17 @@ class CreateRequestModel {
       "location": location,
       "budget": budget,
       "special_requirements": specialRequirements,
+      "serviceType": serviceType,
     };
   }
-  factory CreateRequestModel.fromJson(
-      Map<String, dynamic> json) {
+  factory CreateRequestModel.fromJson(Map<String, dynamic> json) {
     return CreateRequestModel(
-      description: json['description'],
-      duration: json['duration'],
-      location: json['location'],
-      budget: json['budget'].toString(),
-      specialRequirements:
-      json['special_requirements'],
+      description:       json['description']?.toString()        ?? '',
+      duration:          json['duration']?.toString()           ?? '',
+      location:          json['location']?.toString()           ?? '',
+      budget:            json['budget']?.toString()             ?? '',
+      specialRequirements: json['special_requirements']?.toString() ?? '',
+      serviceType:       json['serviceType']?.toString()        ?? '',
     );
   }
 }

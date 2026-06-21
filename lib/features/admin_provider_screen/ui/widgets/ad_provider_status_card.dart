@@ -1,4 +1,4 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AdProviderStatsCard extends StatelessWidget {
@@ -12,28 +12,38 @@ class AdProviderStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 88.w,
-      padding: EdgeInsets.symmetric(vertical: 14.h, horizontal: 10.w),
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 20.h, horizontal: 16.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(14.r),
+        borderRadius: BorderRadius.circular(16.r),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0x14000000),
+            blurRadius: 8.r,
+            offset: const Offset(0, 3),
+          ),
+        ],
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
           Text(
             total.toString(),
             style: TextStyle(
-              color: Color(0xff2F93E6),
-              fontSize: 22.sp,
-              fontWeight: FontWeight.w700,
+              color: const Color(0xff2F93E6),
+              fontSize: 32.sp,
+              fontWeight: FontWeight.w800,
+              height: 1,
             ),
           ),
-          SizedBox(height: 4.h),
+          SizedBox(height: 6.h),
           Text(
-            'Total Provider',
+            'Total Providers',
             style: TextStyle(
-              color: Color(0xff111827),
-              fontSize: 10.sp,
+              color: const Color(0xff64748B),
+              fontSize: 13.sp,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],

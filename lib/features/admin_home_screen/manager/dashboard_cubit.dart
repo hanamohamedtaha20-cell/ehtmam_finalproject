@@ -3,41 +3,35 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../model/repo/dashboard_repository.dart';
 
-class DashboardCubit
-    extends Cubit<DashboardState> {
+class DashboardCubit extends Cubit<DashboardState> {
   final DashboardRepository repository;
 
-  DashboardCubit(this.repository)
-      : super(DashboardInitial());
+  DashboardCubit(this.repository) : super(DashboardInitial());
 
-  Future<void>
-  getDashboardData() async {
+  Future<void> getDashboardData() async {
     if (isClosed) return;
+    emit(DashboardLoading());
     try {
-      emit(DashboardLoading());
+      // Start all three fetches concurrently before awaiting any.
+      final activitiesFuture   = repository.getActivities();
+      final quickActionsFuture = repository.getQuickActions();
+      final statsFuture        = repository.getStats();
 
-      final activities =
-      await repository.getActivities();
-
-      final quickActions =
-      await repository.getQuickActions();
+      final activities   = await activitiesFuture;
+      final quickActions = await quickActionsFuture;
+      final stats        = await statsFuture;
 
       if (!isClosed) {
-        emit(
-          DashboardLoaded(
-            activities: activities,
-            quickActions: quickActions,
-          ),
-        );
+        emit(DashboardLoaded(
+          activities:     activities,
+          quickActions:   quickActions,
+          totalUsers:     stats['totalUsers']     ?? 0,
+          totalProviders: stats['totalProviders'] ?? 0,
+          activeBookings: stats['activeBookings'] ?? 0,
+        ));
       }
     } catch (e) {
-      if (!isClosed) {
-        emit(
-          DashboardError(
-            e.toString(),
-          ),
-        );
-      }
+      if (!isClosed) emit(DashboardError(e.toString()));
     }
   }
 }

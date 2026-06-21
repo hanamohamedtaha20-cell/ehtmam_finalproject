@@ -1,26 +1,29 @@
 ﻿import 'dart:io';
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../features/admin_features/data/bundle_model.dart';
 import '../../features/admin_features/data/transaction_model.dart';
 import '../../features/admin_users_screen/model/AD_user_model.dart';
 import '../../features/home_screen/data/model/chat_message_model.dart';
+import '../navigation/app_navigator.dart';
+import '../../features/auth/ui/screens/login_screen.dart';
 import 'api_constants.dart';
-
 
 class ApiService {
   late final Dio _dio;
 
   ApiService() {
-    _dio = Dio(BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 180),
-      receiveTimeout: const Duration(seconds: 180),
-      sendTimeout: const Duration(seconds: 180),
-      headers: {'Content-Type': 'application/json'},
-    ));
+    _dio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        connectTimeout: const Duration(seconds: 180),
+        receiveTimeout: const Duration(seconds: 180),
+        sendTimeout: const Duration(seconds: 180),
+        headers: {'Content-Type': 'application/json'},
+      ),
+    );
 
     _dio.interceptors.add(
       InterceptorsWrapper(
@@ -32,10 +35,20 @@ class ApiService {
           }
           handler.next(options);
         },
-        onError: (error, handler) {
+        onError: (error, handler) async {
           debugPrint("API ERROR URL: ${error.requestOptions.uri}");
           debugPrint("API ERROR STATUS: ${error.response?.statusCode}");
           debugPrint("API ERROR BODY: ${error.response?.data}");
+          if (error.response?.statusCode == 401) {
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.remove('token');
+            await prefs.remove('userId');
+            await prefs.setBool('is_logged_in', false);
+            navigatorKey.currentState?.pushAndRemoveUntil(
+              MaterialPageRoute(builder: (_) => const LoginScreen()),
+              (route) => false,
+            );
+          }
           handler.next(error);
         },
       ),
@@ -58,9 +71,9 @@ class ApiService {
     String? building,
   }) async {
     final formData = FormData.fromMap({
-      'full_name':            fullName,
-      'email':                email,
-      'password':             password,
+      'full_name': fullName,
+      'email': email,
+      'password': password,
       'passwordConfirmation': passwordConfirmation,
       if (profilePicture != null)
         'profile_picture': await MultipartFile.fromFile(profilePicture.path),
@@ -142,12 +155,14 @@ class ApiService {
     // Must NOT send the Authorization token â€” use a clean Dio with no interceptors.
     // The global _dio interceptor overwrites Options(headers:{'Authorization':null}),
     // so we create a standalone instance for this call only.
-    final cleanDio = Dio(BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      headers: {'Content-Type': 'application/json'},
-    ));
+    final cleanDio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        headers: {'Content-Type': 'application/json'},
+      ),
+    );
 
     final fullUrl = '$baseUrl$forgotPasswordEndpoint';
     final body = {'email': email.trim()};
@@ -169,12 +184,14 @@ class ApiService {
     required String passwordConfirmation,
   }) async {
     // Clean Dio â€” no auth interceptor, no token sent (same reason as forgotPassword).
-    final cleanDio = Dio(BaseOptions(
-      baseUrl: baseUrl,
-      connectTimeout: const Duration(seconds: 30),
-      receiveTimeout: const Duration(seconds: 30),
-      headers: {'Content-Type': 'application/json'},
-    ));
+    final cleanDio = Dio(
+      BaseOptions(
+        baseUrl: baseUrl,
+        connectTimeout: const Duration(seconds: 30),
+        receiveTimeout: const Duration(seconds: 30),
+        headers: {'Content-Type': 'application/json'},
+      ),
+    );
 
     final endpoint = '/userlog/resetpassword/$token';
     final body = {
@@ -201,8 +218,8 @@ class ApiService {
     final response = await _dio.patch(
       updatePasswordEndpoint,
       data: {
-        'currentPassword':      currentPassword,
-        'password':             password,
+        'currentPassword': currentPassword,
+        'password': password,
         'passwordConfirmation': passwordConfirmation,
       },
     );
@@ -219,7 +236,7 @@ class ApiService {
   // On 404 it tries the next URL. On any other error it fails immediately.
   Future<Map<String, dynamic>> deleteAccount() async {
     final prefs = await SharedPreferences.getInstance();
-    final token  = prefs.getString('token')  ?? '';
+    final token = prefs.getString('token') ?? '';
     final userId = prefs.getString('userId') ?? '';
 
     debugPrint('[DeleteAccount] token exists: ${token.isNotEmpty}');
@@ -274,25 +291,26 @@ class ApiService {
     List<File>? verificationDocuments,
   }) async {
     final map = <String, dynamic>{
-      'full_name':            fullName,
-      'email':                email,
-      'password':             password,
+      'full_name': fullName,
+      'email': email,
+      'password': password,
       'passwordConfirmation': passwordConfirmation,
-      if (speciality   != null) 'speciality':   speciality,
-      if (price        != null) 'price':        price.toString(),
+      if (speciality != null) 'speciality': speciality,
+      if (price != null) 'price': price.toString(),
       if (availability != null) 'availability': availability,
-      if (experience   != null) 'experience':   experience,
+      if (experience != null) 'experience': experience,
       if (profilePicture != null)
         'profile_picture': await MultipartFile.fromFile(profilePicture.path),
     };
     if (certifications != null) {
       map['certifications'] = [
-        for (final f in certifications) await MultipartFile.fromFile(f.path)
+        for (final f in certifications) await MultipartFile.fromFile(f.path),
       ];
     }
     if (verificationDocuments != null) {
       map['verifcation_documents'] = [
-        for (final f in verificationDocuments) await MultipartFile.fromFile(f.path)
+        for (final f in verificationDocuments)
+          await MultipartFile.fromFile(f.path),
       ];
     }
     final response = await _dio.post(
@@ -312,27 +330,39 @@ class ApiService {
 
     if (profileFile != null) {
       map['profile_picture'] = profileFile.bytes != null
-          ? MultipartFile.fromBytes(profileFile.bytes!,
-              filename: profileFile.name)
-          : await MultipartFile.fromFile(profileFile.path!,
-              filename: profileFile.name);
+          ? MultipartFile.fromBytes(
+              profileFile.bytes!,
+              filename: profileFile.name,
+            )
+          : await MultipartFile.fromFile(
+              profileFile.path!,
+              filename: profileFile.name,
+            );
     }
     if (nationalIdFile != null) {
       map['verifcation_documents'] = [
         nationalIdFile.bytes != null
-            ? MultipartFile.fromBytes(nationalIdFile.bytes!,
-                filename: nationalIdFile.name)
-            : await MultipartFile.fromFile(nationalIdFile.path!,
-                filename: nationalIdFile.name),
+            ? MultipartFile.fromBytes(
+                nationalIdFile.bytes!,
+                filename: nationalIdFile.name,
+              )
+            : await MultipartFile.fromFile(
+                nationalIdFile.path!,
+                filename: nationalIdFile.name,
+              ),
       ];
     }
     if (certificateFile != null) {
       map['certifications'] = [
         certificateFile.bytes != null
-            ? MultipartFile.fromBytes(certificateFile.bytes!,
-                filename: certificateFile.name)
-            : await MultipartFile.fromFile(certificateFile.path!,
-                filename: certificateFile.name),
+            ? MultipartFile.fromBytes(
+                certificateFile.bytes!,
+                filename: certificateFile.name,
+              )
+            : await MultipartFile.fromFile(
+                certificateFile.path!,
+                filename: certificateFile.name,
+              ),
       ];
     }
 
@@ -365,7 +395,9 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> updateCaregiver(
-      String id, Map<String, dynamic> fields) async {
+    String id,
+    Map<String, dynamic> fields,
+  ) async {
     final response = await _dio.patch('$caregiverEndpoint/$id', data: fields);
     return response.data;
   }
@@ -402,6 +434,7 @@ class ApiService {
 
   Future<Map<String, dynamic>> createRequest({
     required String serviceId,
+    required String serviceType,
     required String governorate,
     required String date,
     required String time,
@@ -411,19 +444,25 @@ class ApiService {
     String? duration,
     String? notes,
   }) async {
-    final response = await _dio.post(requestEndpoint, data: {
-      'service':     serviceId,
+    final body = {
+      'service': serviceId,
+      'serviceType': serviceType,
       'governorate': governorate,
-      'date':        date,
-      'time':        time,
-      'budget':      budget,
-      'tasks':       tasks.map((t) => {'taskDescription': t}).toList(),
-      if (description != null && description.isNotEmpty) 'description': description,
-      if (duration    != null && duration.isNotEmpty)    'duration':    duration,
-      if (notes       != null && notes.isNotEmpty)       'notes':       notes,
-    });
+      'date': date,
+      'time': time,
+      'budget': budget,
+      'tasks': tasks.map((t) => {'taskDescription': t}).toList(),
+      if (description != null && description.isNotEmpty)
+        'description': description,
+      if (duration != null && duration.isNotEmpty) 'duration': duration,
+      if (notes != null && notes.isNotEmpty) 'notes': notes,
+    };
+    debugPrint('SELECTED_SERVICE_TYPE: $serviceType');
+    debugPrint('CREATE_REQUEST_BODY: $body');
+    final response = await _dio.post(requestEndpoint, data: body);
     return response.data;
   }
+
   Future<Map<String, dynamic>> getMyRequests() async {
     try {
       final response = await _dio.get(requestEndpoint);
@@ -574,7 +613,9 @@ class ApiService {
       debugPrint('REST_LOCATION_RESPONSE: ${response.data}');
       return response.data;
     } on DioException catch (e) {
-      debugPrint('REST_LOCATION_ERROR: status=${e.response?.statusCode} body=${e.response?.data}');
+      debugPrint(
+        'REST_LOCATION_ERROR: status=${e.response?.statusCode} body=${e.response?.data}',
+      );
       rethrow;
     } catch (e) {
       debugPrint('REST_LOCATION_ERROR: $e');
@@ -583,14 +624,16 @@ class ApiService {
   }
 
   Future<Map<String, dynamic>> confirmAndPayBooking(String bookingId) async {
-    final response = await _dio.patch('/booking/confirmbookingandpay/$bookingId');
+    final response = await _dio.patch(
+      '/booking/confirmbookingandpay/$bookingId',
+    );
     return response.data;
   }
 
   Future<Map<String, dynamic>> deleteBooking(String bookingId) async {
-  final response = await _dio.delete('$bookingEndpoint/$bookingId');
-  return response.data;
-}
+    final response = await _dio.delete('$bookingEndpoint/$bookingId');
+    return response.data;
+  }
 
   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   //  PAYMENTS â€” /payment
@@ -600,12 +643,11 @@ class ApiService {
     required num amount,
     required String paymentMethod,
   }) async {
-    final response = await _dio.post(createPaymentEndpoint, data: {
-      'amount':        amount,
-      'paymentMethod': paymentMethod,
-    });
+    final response = await _dio.post(
+      createPaymentEndpoint,
+      data: {'amount': amount, 'paymentMethod': paymentMethod},
+    );
     debugPrint('FULL RESPONSE: ${response.data}');
-
 
     return response.data;
   }
@@ -617,6 +659,7 @@ class ApiService {
     );
     return response.data;
   }
+
   Future<Map<String, dynamic>> processPayment(String offerId) async {
     final response = await _dio.post('$processPaymentEndpoint/$offerId');
     return response.data;
@@ -624,15 +667,22 @@ class ApiService {
 
   /// Charges the user wallet for a caregiver-added extra task that was approved.
   /// POST /payment/pay-extra-task/{taskId}
-  Future<Map<String, dynamic>> payExtraTask(String taskId, {String? bookingId}) async {
+  Future<Map<String, dynamic>> payExtraTask(
+    String taskId, {
+    String? bookingId,
+  }) async {
     const path = '/payment/pay-extra-task';
     final url = '$path/$taskId';
     final body = <String, dynamic>{};
-    if (bookingId != null && bookingId.isNotEmpty) body['bookingId'] = bookingId;
+    if (bookingId != null && bookingId.isNotEmpty)
+      body['bookingId'] = bookingId;
     debugPrint('PAYMENT REQUEST URL: $baseUrl$url');
     debugPrint('PAYMENT REQUEST BODY: $body');
     try {
-      final response = await _dio.post(url, data: body.isNotEmpty ? body : null);
+      final response = await _dio.post(
+        url,
+        data: body.isNotEmpty ? body : null,
+      );
       debugPrint('PAYMENT RESPONSE STATUS: ${response.statusCode}');
       debugPrint('PAYMENT RESPONSE: ${response.data}');
       return Map<String, dynamic>.from(response.data as Map);
@@ -648,25 +698,21 @@ class ApiService {
   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
 
   Future<Map<String, dynamic>> createWallet(String userId) async {
-    final response = await _dio.post(
-      walletEndpoint,
-      data: {'userlog': userId},
-    );
+    final response = await _dio.post(walletEndpoint, data: {'userlog': userId});
     return response.data;
   }
 
   Future<Map<String, dynamic>> getWalletById(String id) async {
     debugPrint("malak");
-    final response = await _dio.get(
-      walletEndpoint
-    );
+    final response = await _dio.get(walletEndpoint);
     debugPrint(response.toString());
     return response.data;
   }
+
   Future<Map<String, dynamic>> getMyWallet() async {
-  final response = await _dio.get(myWalletEndpoint);
-  return response.data;
-}
+    final response = await _dio.get(myWalletEndpoint);
+    return response.data;
+  }
 
   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   //  REVIEWS â€” /review
@@ -828,8 +874,12 @@ class ApiService {
     final token = prefs.getString('token') ?? '';
 
     debugPrint('[MyTasks] bookingId â†’ "$bookingId"');
-    debugPrint('[MyTasks] URL     â†’ ${baseUrl}$bookingEndpoint/$bookingId/tasks');
-    debugPrint('[MyTasks] token   â†’ ${token.isEmpty ? "EMPTY/NULL â€” will 403" : "${token.substring(0, token.length.clamp(0, 24))}â€¦"}');
+    debugPrint(
+      '[MyTasks] URL     â†’ ${baseUrl}$bookingEndpoint/$bookingId/tasks',
+    );
+    debugPrint(
+      '[MyTasks] token   â†’ ${token.isEmpty ? "EMPTY/NULL â€” will 403" : "${token.substring(0, token.length.clamp(0, 24))}â€¦"}',
+    );
 
     if (token.isEmpty) {
       throw Exception('auth_required');
@@ -843,7 +893,9 @@ class ApiService {
       if (data is List) return data;
       return [];
     } on DioException catch (e) {
-      debugPrint('[MyTasks] error   â†’ HTTP ${e.response?.statusCode}: ${e.response?.data}');
+      debugPrint(
+        '[MyTasks] error   â†’ HTTP ${e.response?.statusCode}: ${e.response?.data}',
+      );
       if (e.response?.statusCode == 403) {
         throw Exception('forbidden_403');
       }
@@ -859,15 +911,16 @@ class ApiService {
     return request?.toString() == requestId;
   }
 
-  Future<Map<String, dynamic>> createTask({
-    required String description,
-  }) async {
-    final response = await _dio.post(tasksEndpoint, data: {
-      'taskDescription': description,
-      'taskTitle':       description,
-      'taskID':          DateTime.now().millisecondsSinceEpoch.toString(),
-      'proofUrl':        '',
-    });
+  Future<Map<String, dynamic>> createTask({required String description}) async {
+    final response = await _dio.post(
+      tasksEndpoint,
+      data: {
+        'taskDescription': description,
+        'taskTitle': description,
+        'taskID': DateTime.now().millisecondsSinceEpoch.toString(),
+        'proofUrl': '',
+      },
+    );
     return response.data;
   }
 
@@ -879,10 +932,7 @@ class ApiService {
   }) async {
     final response = await _dio.post(
       '$bookingEndpoint/$bookingId/tasks',
-      data: {
-        'taskName': taskName,
-        'taskDescription': taskName,
-      },
+      data: {'taskName': taskName, 'taskDescription': taskName},
     );
     return response.data;
   }
@@ -897,8 +947,12 @@ class ApiService {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token') ?? '';
     debugPrint('[ExtraTask] POST $tasksEndpoint/booking/$bookingId');
-    debugPrint('[ExtraTask] token: ${token.isNotEmpty ? "present" : "MISSING"}');
-    debugPrint('[ExtraTask] body: {title: $title, description: $description, price: $price}');
+    debugPrint(
+      '[ExtraTask] token: ${token.isNotEmpty ? "present" : "MISSING"}',
+    );
+    debugPrint(
+      '[ExtraTask] body: {title: $title, description: $description, price: $price}',
+    );
     final response = await _dio.post(
       '$tasksEndpoint/booking/$bookingId',
       data: {'title': title, 'description': description, 'price': price},
@@ -958,10 +1012,12 @@ class ApiService {
     );
     return response.data;
   }
+
   Future<Map<String, dynamic>> deleteTask(String id) async {
     final response = await _dio.delete('$tasksEndpoint/$id');
     return response.data;
   }
+
   Future<Map<String, dynamic>> getPendingCaregivers() async {
     final response = await _dio.get(adminPendingCaregiversEndpoint);
     return Map<String, dynamic>.from(response.data as Map);
@@ -978,53 +1034,61 @@ class ApiService {
   }) async {
     final response = await _dio.patch(
       '$adminCaregiversEndpoint/$id/reject',
-      data: {
-        'reason': reason,
-      },
+      data: {'reason': reason},
     );
 
     return Map<String, dynamic>.from(response.data as Map);
   }
-  Future<Map<String, dynamic>> blockProvider(
-      String id,
-      ) async {
-    final response = await _dio.patch(
-      '$adminBlockEndpoint/$id',
-    );
 
-    return Map<String, dynamic>.from(
-      response.data as Map,
-    );
+  Future<Map<String, dynamic>> blockProvider(String id) async {
+    final response = await _dio.patch('$adminBlockEndpoint/$id');
+
+    return Map<String, dynamic>.from(response.data as Map);
   }
+
+  Future<Map<String, dynamic>> submitComplaint({
+    required String bookingId,
+    required String subject,
+    required String message,
+    required String complaintCategory,
+  }) async {
+    final response = await _dio.post(
+      '$complaintsEndpoint/$bookingId',
+      data: {
+        'subject': subject,
+        'message': message,
+        'complaint_category': complaintCategory,
+      },
+    );
+    return Map<String, dynamic>.from(response.data as Map);
+  }
+
   Future<Map<String, dynamic>> getComplaints() async {
-    debugPrint('GET COMPLAINTS URL: /complaints');
-    final response = await _dio.get(complaintsEndpoint);
+    debugPrint('GET COMPLAINTS URL: /admin/complaints');
+    final response = await _dio.get(adminComplaintsEndpoint);
     debugPrint('GET COMPLAINTS RESPONSE: ${response.data}');
     return Map<String, dynamic>.from(response.data as Map);
   }
 
   Future<Map<String, dynamic>> getComplaintDetails(String complaintId) async {
-    debugPrint('GET COMPLAINT DETAILS URL: /complaints/$complaintId');
-    final response = await _dio.get('$complaintsEndpoint/$complaintId');
+    debugPrint('GET COMPLAINT DETAILS URL: /admin/complaints/$complaintId');
+    final response = await _dio.get('$adminComplaintsEndpoint/$complaintId');
     debugPrint('GET COMPLAINT DETAILS RESPONSE: ${response.data}');
     return Map<String, dynamic>.from(response.data as Map);
   }
-  Future<List<BundleModel>> getBundles() async {
-    final response = await _dio.get(
-      bundleEndpoint,
-    );
 
-    final List<dynamic> data =
-        response.data['data'] ?? [];
+  Future<List<BundleModel>> getBundles() async {
+    final response = await _dio.get(bundleEndpoint);
+
+    final List<dynamic> data = response.data['data'] ?? [];
 
     return data
         .map<BundleModel>(
-          (e) => BundleModel.fromJson(
-        Map<String, dynamic>.from(e),
-      ),
-    )
+          (e) => BundleModel.fromJson(Map<String, dynamic>.from(e)),
+        )
         .toList();
   }
+
   Future<void> createBundle({
     required String name,
     required String sessions,
@@ -1067,66 +1131,50 @@ class ApiService {
       },
     );
   }
-  Future<void> deleteBundle(
-      String id,
-      ) async {
-    await _dio.delete(
-      '$deleteBundleEndpoint/$id',
-    );
 
+  Future<void> deleteBundle(String id) async {
+    await _dio.delete('$deleteBundleEndpoint/$id');
   }
-  Future<List<TransactionModel>>
-  getAllTransactions() async {
 
-    final response = await _dio.get(
-      allTransactionsEndpoint,
-    );
+  Future<List<TransactionModel>> getAllTransactions() async {
+    final response = await _dio.get(allTransactionsEndpoint);
 
-    final List data =
-    response.data['data'];
+    final List data = response.data['data'];
 
     return data
         .map<TransactionModel>(
-          (e) => TransactionModel.fromJson(
-        Map<String, dynamic>.from(e),
-      ),
-    )
+          (e) => TransactionModel.fromJson(Map<String, dynamic>.from(e)),
+        )
         .toList();
   }
-  Future<List<AdUserModel>> getAllUsers() async {
-    final response = await _dio.get(
-      allUsersEndpoint,
-    );
 
-    final List data =
-        response.data['data'] ?? [];
+  Future<List<AdUserModel>> getAllUsers() async {
+    final response = await _dio.get(allUsersEndpoint);
+
+    final List data = response.data['data'] ?? [];
 
     return data
         .map<AdUserModel>(
-          (e) => AdUserModel.fromJson(
-        Map<String, dynamic>.from(e),
-      ),
-    )
+          (e) => AdUserModel.fromJson(Map<String, dynamic>.from(e)),
+        )
         .toList();
   }
+
   Future<Map<String, dynamic>> blockUser(String id) async {
     final response = await _dio.patch('$adminBlockEndpoint/$id');
     return Map<String, dynamic>.from(response.data as Map);
   }
+
   Future<ChatMessageModel> sendMessage({
     required String sessionId,
     required String message,
   }) async {
     final response = await _dio.post(
       '/chat/$sessionId/messages',
-      data: {
-        "message": message,
-      },
+      data: {"message": message},
     );
 
-    return ChatMessageModel.fromJson(
-      response.data['data']['message'],
-    );
+    return ChatMessageModel.fromJson(response.data['data']['message']);
   }
 
   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -1141,22 +1189,30 @@ class ApiService {
     final token = prefs.getString('token') ?? '';
 
     // Sanitize filename â€” multer rejects filenames with spaces
-    final rawName  = proofFile.path.replaceAll('\\', '/').split('/').last;
-    final ext      = rawName.contains('.') ? rawName.split('.').last.toLowerCase() : '';
+    final rawName = proofFile.path.replaceAll('\\', '/').split('/').last;
+    final ext = rawName.contains('.')
+        ? rawName.split('.').last.toLowerCase()
+        : '';
     final fileName = rawName
         .replaceAll(RegExp(r'\s+'), '_')
         .replaceAll(RegExp(r'[^\w.\-]'), '_');
     final mimeType = _guessMimeType(ext);
     final endpoint = '$tasksEndpoint/upload-proof/$taskId';
 
-    debugPrint('[UploadProof] â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•');
+    debugPrint(
+      '[UploadProof] â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•',
+    );
     debugPrint('[UploadProof] taskId    â†’ "$taskId"');
     debugPrint('[UploadProof] url       â†’ "$baseUrl$endpoint"');
     debugPrint('[UploadProof] rawName   â†’ "$rawName"');
     debugPrint('[UploadProof] cleanName â†’ "$fileName"');
     debugPrint('[UploadProof] mimeType  â†’ "$mimeType"');
-    debugPrint('[UploadProof] token     â†’ ${token.isEmpty ? "EMPTY/NULL" : "${token.substring(0, token.length.clamp(0, 30))}â€¦"}');
-    debugPrint('[UploadProof] â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•');
+    debugPrint(
+      '[UploadProof] token     â†’ ${token.isEmpty ? "EMPTY/NULL" : "${token.substring(0, token.length.clamp(0, 30))}â€¦"}',
+    );
+    debugPrint(
+      '[UploadProof] â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•',
+    );
 
     if (token.isEmpty) throw Exception('auth_required');
 
@@ -1170,7 +1226,9 @@ class ApiService {
 
     for (int i = 0; i < fieldNames.length; i++) {
       final field = fieldNames[i];
-      debugPrint('[UploadProof] â”€â”€ attempt ${i + 1}/${fieldNames.length}  field="$field"');
+      debugPrint(
+        '[UploadProof] â”€â”€ attempt ${i + 1}/${fieldNames.length}  field="$field"',
+      );
 
       // Create a fresh MultipartFile each attempt â€” the stream is consumed
       // after the first POST so we cannot reuse the same instance.
@@ -1189,15 +1247,19 @@ class ApiService {
           //    and causes an unparseable body â†’ 500 on the server.
           options: Options(headers: {'Authorization': 'Bearer $token'}),
         );
-        debugPrint('[UploadProof] âœ“ SUCCESS  field="$field"  status=${response.statusCode}');
+        debugPrint(
+          '[UploadProof] âœ“ SUCCESS  field="$field"  status=${response.statusCode}',
+        );
         debugPrint('[UploadProof] response â†’ ${response.data}');
         return response.data is Map<String, dynamic>
             ? response.data as Map<String, dynamic>
             : {'data': response.data};
       } on DioException catch (e) {
         final status = e.response?.statusCode;
-        final body   = e.response?.data;
-        debugPrint('[UploadProof] âœ—  field="$field"  HTTP $status  body=$body');
+        final body = e.response?.data;
+        debugPrint(
+          '[UploadProof] âœ—  field="$field"  HTTP $status  body=$body',
+        );
 
         lastDioError = e;
 
@@ -1208,7 +1270,9 @@ class ApiService {
         }
         // 500 with last field name â†’ give up and throw
         if (i == fieldNames.length - 1) {
-          debugPrint('[UploadProof] All field names exhausted â€” this is a backend error.');
+          debugPrint(
+            '[UploadProof] All field names exhausted â€” this is a backend error.',
+          );
           _throwUploadException(status, body);
         }
         // 500 â†’ try next field name
@@ -1222,21 +1286,24 @@ class ApiService {
   void _throwUploadException(int? status, dynamic body) {
     String backendMsg = '';
     if (body is Map) {
-      backendMsg =
-          (body['message'] ?? body['error'] ?? body['msg'] ?? '').toString().trim();
+      backendMsg = (body['message'] ?? body['error'] ?? body['msg'] ?? '')
+          .toString()
+          .trim();
     } else if (body is String) {
       backendMsg = body.trim();
     }
 
     if (status == 500) {
       throw Exception(
-          'upload_error_500:${backendMsg.isNotEmpty ? backendMsg : 'Internal server error'}');
+        'upload_error_500:${backendMsg.isNotEmpty ? backendMsg : 'Internal server error'}',
+      );
     }
     if (status == 403) throw Exception('forbidden_403');
     if (status == 401) throw Exception('auth_required');
     if (status == 400 || status == 422) {
       throw Exception(
-          'upload_bad_request:${backendMsg.isNotEmpty ? backendMsg : 'Bad request'}');
+        'upload_bad_request:${backendMsg.isNotEmpty ? backendMsg : 'Bad request'}',
+      );
     }
     if (backendMsg.isNotEmpty) throw Exception('upload_failed:$backendMsg');
     throw Exception('upload_failed:HTTP $status');
@@ -1245,15 +1312,24 @@ class ApiService {
   static String _guessMimeType(String ext) {
     switch (ext) {
       case 'jpg':
-      case 'jpeg': return 'image/jpeg';
-      case 'png':  return 'image/png';
-      case 'gif':  return 'image/gif';
-      case 'webp': return 'image/webp';
-      case 'mp4':  return 'video/mp4';
-      case 'mov':  return 'video/quicktime';
-      case 'avi':  return 'video/x-msvideo';
-      case 'pdf':  return 'application/pdf';
-      default:     return 'application/octet-stream';
+      case 'jpeg':
+        return 'image/jpeg';
+      case 'png':
+        return 'image/png';
+      case 'gif':
+        return 'image/gif';
+      case 'webp':
+        return 'image/webp';
+      case 'mp4':
+        return 'video/mp4';
+      case 'mov':
+        return 'video/quicktime';
+      case 'avi':
+        return 'video/x-msvideo';
+      case 'pdf':
+        return 'application/pdf';
+      default:
+        return 'application/octet-stream';
     }
   }
 
@@ -1277,5 +1353,19 @@ class ApiService {
   Future<Map<String, dynamic>> getNotifications() async {
     final response = await _dio.get(notificationsEndpoint);
     return response.data;
+  }
+
+  Future<Map<String, dynamic>> getDashboardStats() async {
+    final response = await _dio.get('/admin/dashboard/stats');
+
+    return response.data;
+  }
+
+  Future<Map<String, dynamic>> getAllProviders() async {
+    final response = await _dio.get(caregiverEndpoint);
+    final data = response.data;
+    if (data is Map) return Map<String, dynamic>.from(data);
+    // fallback if the API returns a list directly
+    return {'data': data};
   }
 }

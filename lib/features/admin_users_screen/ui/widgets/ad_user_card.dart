@@ -100,38 +100,47 @@ class AdUserCard extends StatelessWidget {
             isBlocked: user.isBlocked,
           ),
 
-          if (!user.isBlocked) ...[
-            SizedBox(height: 12.h),
-            TextButton.icon(
-              onPressed: () async {
+          SizedBox(height: 12.h),
+          TextButton.icon(
+            onPressed: () async {
+              final isBlocked = user.isBlocked;
               final confirmed = await showDialog<bool>(
                 context: context,
                 builder: (_) => BlockUserDialog(
                   name: user.name,
                   email: user.email,
+                  isBlocking: !isBlocked,
                 ),
               );
               if (confirmed != true || !context.mounted) return;
 
-              final error = await context.read<AdUserCubit>().blockUser(user.id);
+              final error = await context.read<AdUserCubit>().toggleBlockUser(user);
 
               if (!context.mounted) return;
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text(
                     error == null
-                        ? '${user.name} has been blocked'
-                        : 'Failed to block user: $error',
+                        ? '${user.name} has been ${isBlocked ? 'unblocked' : 'blocked'}'
+                        : 'Failed: $error',
                   ),
                   backgroundColor: error == null ? Colors.green : Colors.red,
                   behavior: SnackBarBehavior.floating,
                 ),
               );
             },
-            icon: Icon(Icons.block, color: Colors.red, size: 18.r),
-            label: Text('Block User', style: TextStyle(color: Colors.red)),
+            icon: Icon(
+              user.isBlocked ? Icons.lock_open_rounded : Icons.block,
+              color: user.isBlocked ? Colors.orange : Colors.red,
+              size: 18.r,
+            ),
+            label: Text(
+              user.isBlocked ? 'Unblock User' : 'Block User',
+              style: TextStyle(
+                color: user.isBlocked ? Colors.orange : Colors.red,
+              ),
+            ),
           ),
-          ],
         ],
       ),
     );
