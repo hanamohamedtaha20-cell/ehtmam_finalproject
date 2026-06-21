@@ -4,6 +4,7 @@ import 'package:ehtemam_final_project/features/splash/ui/widgets/next_button.dar
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 class PendingInfoCard extends StatelessWidget {
   final String fullName;
   final String email;
@@ -74,8 +75,7 @@ class PendingInfoCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 14.h),
-          Text(
-            'Your account is under review',
+          Text('account_under_review'.tr(),
             textAlign: TextAlign.center,
             style: AppTextStyle.medium.copyWith(
               fontSize: 18.sp,
@@ -104,8 +104,7 @@ class PendingInfoCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Registration Complete!',
+                Text('registration_complete'.tr(),
                   style: AppTextStyle.bold.copyWith(
                     fontSize: 16.sp,
                     color: const Color(0xFF46566B),
@@ -120,8 +119,7 @@ class PendingInfoCard extends StatelessWidget {
                 SizedBox(height: 14.h),
                 Row(
                   children: [
-                    Text(
-                      'Approval Status:',
+                    Text('approval_status'.tr(),
                       style: AppTextStyle.medium.copyWith(
                         fontSize: 14.sp,
                         color: const Color(0xFF667085),
@@ -137,8 +135,7 @@ class PendingInfoCard extends StatelessWidget {
                         color: const Color(0xFFFFE7BF),
                         borderRadius: BorderRadius.circular(20.r),
                       ),
-                      child: Text(
-                        'Pending',
+                      child: Text('pending'.tr(),
                         style: AppTextStyle.semiBold.copyWith(
                           fontSize: 13.sp,
                           color: const Color(0xFFDD8A00),

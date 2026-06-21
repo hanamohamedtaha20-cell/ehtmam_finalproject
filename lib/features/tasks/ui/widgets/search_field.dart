@@ -1,6 +1,7 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TaskSearchField extends StatelessWidget {
   final ValueChanged<String> onChanged;
@@ -28,7 +29,7 @@ class TaskSearchField extends StatelessWidget {
                 child: TextField(
                   onChanged: onChanged,
                   decoration: InputDecoration(
-                    hintText: "Enter task description...",
+                    hintText: 'enter_task_desc'.tr(),
                     hintStyle: TextStyle(
                         fontFamily: "Arimo",
                         fontSize: 13.sp,
@@ -72,8 +73,7 @@ class TaskSearchField extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(14, 0, 14, 10),
-            child: Text(
-              "Please select a request to add tasks",
+            child: Text('select_request_first'.tr(),
               style: TextStyle(
                   fontFamily: "Arimo",
                   fontSize: 11.sp,

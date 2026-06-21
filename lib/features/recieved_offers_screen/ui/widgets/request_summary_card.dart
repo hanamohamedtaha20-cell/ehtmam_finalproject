@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RequestSummaryCard extends StatelessWidget {
   final int offersCount;
@@ -39,16 +40,14 @@ class RequestSummaryCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Received Offers',
+              Text('received_offers'.tr(),
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 5.h),
-              Text(
-                'Care providers have responded',
+              Text('providers_responded'.tr(),
                 style: TextStyle(
                   color: Colors.white70,
                   fontSize: 12.sp,

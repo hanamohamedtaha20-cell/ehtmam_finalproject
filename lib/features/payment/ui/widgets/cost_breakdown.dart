@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ehtemam_final_project/features/payment/ui/widgets/pay_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 // ─── Main Widget ───────────────────────────────────────────────────────────────
 class CostBreakdown extends StatelessWidget {
   final double serviceCost;
@@ -137,8 +138,7 @@ class _CostBreakdownCard extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      'Remaining Sessions',
+                    Text('remaining_sessions'.tr(),
                       style: TextStyle(
                           fontFamily: 'Arimo', fontSize: 14.sp),
                     ),
@@ -188,8 +188,7 @@ class _CostBreakdownTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      "Cost Breakdown",
+    return Text('cost_breakdown'.tr(),
       style: TextStyle(
         fontFamily: "Arimo",
         fontWeight: FontWeight.bold,

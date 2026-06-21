@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../manager/create_request_cubit.dart';
 import '../../../manager/state/create_request_state.dart';
 import 'app_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class GovernorateField extends StatelessWidget {
   static const governorates = ['Giza', 'Cairo'];
@@ -21,15 +22,14 @@ class GovernorateField extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Governorate',
+              Text('governorate'.tr(),
                 style: TextStyle(fontWeight: FontWeight.w600),
               ),
               SizedBox(height: 12.h),
               DropdownButtonFormField<String>(
                 value: cubit.selectedGovernorate,
                 decoration: InputDecoration(
-                  hintText: 'Select governorate',
+                  hintText: 'select_governorate'.tr(),
                   prefixIcon: Icon(Icons.map_outlined),
                   filled: true,
                   fillColor: const Color(0xFFF5F7FA),

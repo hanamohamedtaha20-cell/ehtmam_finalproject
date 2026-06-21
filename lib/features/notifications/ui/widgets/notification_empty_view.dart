@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NotificationEmptyView extends StatelessWidget {
   const NotificationEmptyView({super.key});
@@ -17,8 +18,7 @@ class NotificationEmptyView extends StatelessWidget {
             color: const Color(0xFFBFDAFF),
           ),
           SizedBox(height: 16.h),
-          Text(
-            'No notifications yet',
+          Text('no_notifications'.tr(),
             style: TextStyle(
               fontFamily: 'Arimo',
               fontSize: 16.sp,

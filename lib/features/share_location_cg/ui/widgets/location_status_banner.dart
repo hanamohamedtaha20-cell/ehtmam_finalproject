@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LocationStatusBanner extends StatelessWidget {
   final String eta;
@@ -40,9 +41,7 @@ class LocationStatusBanner extends StatelessWidget {
             ],
           ),
           SizedBox(height: 6.h),
-          Text(
-            "Start sharing your location to let the client track your arrival"
-              ,style: TextStyle(color: Colors.white70, fontSize: 14.sp),
+          Text('start_sharing_desc'.tr(),style: TextStyle(color: Colors.white70, fontSize: 14.sp),
 
           )
         ],

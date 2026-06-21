@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/network/api_service.dart';
 import '../../manager/ad_provider_cubit.dart';
 import '../../manager/ad_provider_state.dart';
-import '../../model/repo/ad_provider_repository.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AdProviderScreen extends StatelessWidget {
   const AdProviderScreen({super.key});
@@ -64,8 +64,7 @@ class AdProviderView extends StatelessWidget {
                             SizedBox(height: 40.h),
 
                             Center(
-                              child: Text(
-                                'No providers found',
+                              child: Text('no_providers_found'.tr(),
                                 style: TextStyle(
                                   color: Color(0xff64748B),
                                   fontSize: 14.sp,

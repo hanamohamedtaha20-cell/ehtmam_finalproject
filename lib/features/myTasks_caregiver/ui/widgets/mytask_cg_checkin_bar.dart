@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/mytask_cg_booking_model.dart';
 import '../../manager/mytask_cg_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MytaskCgCheckinBar extends StatelessWidget {
   final MytaskCgBookingModel booking;
@@ -170,8 +171,7 @@ class MytaskCgCheckinBar extends StatelessWidget {
                         icon: Icon(Icons.logout,
                             size: 16.r,
                             color: canCheckOut ? Colors.white : Colors.white54),
-                        label: Text(
-                          'Check Out',
+                        label: Text('check_out'.tr(),
                           style: TextStyle(
                               color: canCheckOut
                                   ? Colors.white
@@ -190,8 +190,7 @@ class MytaskCgCheckinBar extends StatelessWidget {
                       if (!booking.allTasksHaveProof) ...[
                         SizedBox(height: 4.h),
                         Center(
-                          child: Text(
-                            'Upload proof for all tasks before checking out',
+                          child: Text('upload_proof_first'.tr(),
                             style:
                                 TextStyle(fontSize: 11.sp, color: Colors.white70),
                             textAlign: TextAlign.center,
@@ -213,16 +212,15 @@ class MytaskCgCheckinBar extends StatelessWidget {
                         );
                       } else {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Checked in successfully'),
+                          SnackBar(
+                            content: Text('checked_in_success'.tr()),
                             backgroundColor: Colors.green,
                           ),
                         );
                       }
                     },
                     icon: Icon(Icons.login, size: 16.r, color: Colors.blue),
-                    label: const Text(
-                      'Check In to Start Work',
+                    label: Text('check_in_to_start'.tr(),
                       style: TextStyle(color: Color(0xFF1976D2)),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -238,8 +236,7 @@ class MytaskCgCheckinBar extends StatelessWidget {
             Padding(
               padding: EdgeInsets.only(top: 4.h),
               child: Center(
-                child: Text(
-                  'You must check in before completing tasks',
+                child: Text('must_check_in_first'.tr(),
                   style: TextStyle(fontSize: 11.sp, color: Colors.white),
                 ),
               ),

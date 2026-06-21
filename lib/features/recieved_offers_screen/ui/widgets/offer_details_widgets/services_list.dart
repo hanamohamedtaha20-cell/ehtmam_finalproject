@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ServicesList extends StatelessWidget {
   ServicesList({super.key});
@@ -25,8 +26,7 @@ class ServicesList extends StatelessWidget {
         children: [
 
           /// 🔹 Title
-          Text(
-            "Services Includes",
+          Text('services_includes'.tr(),
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 14.sp,

@@ -9,6 +9,7 @@ import '../widgets/mytask_cg_filter_tabs.dart';
 import '../widgets/mytask_cg_task_item.dart';
 import '../widgets/mytask_cg_add_task_sheet.dart';
 import '../widgets/mytask_cg_checkin_bar.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MytaskCgScreen extends StatelessWidget {
   final String? bookingId;
@@ -48,14 +49,13 @@ class _MytaskCgView extends StatelessWidget {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: const Text(
-          'My Tasks',
+        title: Text('my_tasks'.tr(),
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
         ),
         actions: [
           IconButton(
             icon: const Icon(Icons.refresh, color: Colors.black),
-            tooltip: 'Refresh',
+            tooltip: 'refresh'.tr(),
             onPressed: () {
               final cubit = context.read<MytaskCgCubit>();
               if (bookingId != null && bookingId!.isNotEmpty) {
@@ -88,7 +88,7 @@ class _MytaskCgView extends StatelessWidget {
                         cubit.loadBookings();
                       }
                     },
-                    child: const Text('Retry'),
+                    child: Text('retry'.tr()),
                   ),
                 ],
               ),
@@ -145,8 +145,7 @@ class _MytaskCgView extends StatelessWidget {
               Expanded(
                 child: filteredTasks.isEmpty
                     ? Center(
-                        child: Text(
-                          'No tasks found',
+                        child: Text('no_tasks_found'.tr(),
                           style: TextStyle(color: Colors.grey, fontSize: 14.sp),
                         ),
                       )

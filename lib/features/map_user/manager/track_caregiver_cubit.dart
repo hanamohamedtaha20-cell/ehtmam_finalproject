@@ -1,4 +1,5 @@
-﻿import 'package:flutter/foundation.dart';
+﻿import 'dart:async';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/services/location_socket_service.dart';
@@ -15,6 +16,7 @@ class TrackCaregiverCubit extends Cubit<TrackCaregiverState> {
 
   CaregiverLocationModel? _lastKnown;
   bool _started = false;
+  Timer? _loadingTimeout;
 
   TrackCaregiverCubit(this._repo) : super(TrackCaregiverInitial());
 
@@ -61,20 +63,36 @@ class TrackCaregiverCubit extends Cubit<TrackCaregiverState> {
     _socket.onLocationChanged(handleLocation);
     _socket.onCurrentLocation(handleLocation);
 
+    // Safety net: if neither connected nor errored within 15 s, stop spinning.
+    _loadingTimeout = Timer(const Duration(seconds: 15), () {
+      if (!isClosed && state is TrackCaregiverLoading) {
+        emit(TrackCaregiverError(_waitingMsg, lastKnown: _lastKnown));
+      }
+    });
+
     _socket.connect(
       token: token,
       bookingId: bookingId,
       onConnected: () {
-        // Socket is connected and join_booking emitted â€” if no location has
-        // arrived yet, show the waiting message instead of a spinner.
+        _loadingTimeout?.cancel();
         if (!isClosed && state is TrackCaregiverLoading) {
           emit(TrackCaregiverError(_waitingMsg, lastKnown: _lastKnown));
         }
+      },
+      onConnectError: (message) {
+        _loadingTimeout?.cancel();
+        if (isClosed) return;
+        final isBlocked = message.toLowerCase().contains('blocked');
+        final display = isBlocked
+            ? 'Your account has been blocked. Please contact support.'
+            : message;
+        emit(TrackCaregiverError(display, lastKnown: _lastKnown));
       },
     );
   }
 
   void stopTracking() {
+    _loadingTimeout?.cancel();
     _socket.off('location_changed');
     _socket.off('current_location');
     _socket.disconnect();

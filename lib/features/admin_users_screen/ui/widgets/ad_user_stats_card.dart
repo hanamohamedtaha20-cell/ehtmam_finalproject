@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AdUserStatsCard extends StatelessWidget {
   final int total;
@@ -29,8 +30,7 @@ class AdUserStatsCard extends StatelessWidget {
             ),
           ),
           SizedBox(height: 4.h),
-          Text(
-            'Total Users',
+          Text('total_users'.tr(),
             style: TextStyle(
               color: Color(0xff111827),
               fontSize: 10.sp,

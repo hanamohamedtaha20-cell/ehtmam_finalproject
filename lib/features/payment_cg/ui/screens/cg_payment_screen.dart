@@ -9,6 +9,7 @@ import '../../manager/cg_payment_state.dart';
 import '../widgets/cg_earnings_header.dart';
 import '../widgets/cg_filter_tabs.dart';
 import '../widgets/cg_transaction_item.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CgPaymentScreen extends StatelessWidget {
   const CgPaymentScreen({super.key});
@@ -32,12 +33,8 @@ class _CgPaymentView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          'Payments Received',
+       
+        title: Text('payments_received'.tr(),
           style: TextStyle(
             fontFamily: "Arimo",
             fontWeight: FontWeight.bold,
@@ -49,7 +46,7 @@ class _CgPaymentView extends StatelessWidget {
           Builder(
             builder: (ctx) => IconButton(
               icon: const Icon(Icons.refresh, color: Colors.black),
-              tooltip: 'Refresh',
+              tooltip: 'refresh'.tr(),
               onPressed: () => ctx.read<CgPaymentCubit>().loadData(),
             ),
           ),
@@ -73,8 +70,7 @@ class _CgPaymentView extends StatelessWidget {
                       color: Colors.red.shade300,
                     ),
                     SizedBox(height: 12.h),
-                    Text(
-                      'Could not load payment data',
+                    Text('could_not_load_payment'.tr(),
                       style: TextStyle(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w600,
@@ -82,8 +78,7 @@ class _CgPaymentView extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: 8.h),
-                    Text(
-                      'Please check your connection and try again.',
+                    Text('check_connection_retry'.tr(),
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 13.sp, color: Colors.grey),
                     ),
@@ -98,7 +93,7 @@ class _CgPaymentView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(8.r),
                         ),
                       ),
-                      child: const Text('Retry'),
+                      child: Text('retry'.tr()),
                     ),
                   ],
                 ),

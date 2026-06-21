@@ -37,7 +37,11 @@
       "Bash(curl -s \"https://graduation-production-b4c1.up.railway.app/booking/6a2d8413aa7df0441048b28d/checkin\" -H \"Authorization: Bearer dummy\")",
       "Bash(curl -s -X POST \"https://graduation-production-b4c1.up.railway.app/booking/6a2f2e99ce4cf534d39fd971/checkin\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer dummy\")",
       "Bash(curl -s \"https://graduation-production-b4c1.up.railway.app/request/available\" -H \"Authorization: Bearer dummy\")",
-      "Bash(dart analyze *)"
+      "Bash(dart analyze *)",
+      "Bash(flutter build *)",
+      "Bash(python -c \"import json; en=json.load\\(open\\('assets/translations/en.json',encoding='utf-8'\\)\\); ar=json.load\\(open\\('assets/translations/ar.json',encoding='utf-8'\\)\\); print\\('en keys',len\\(en\\)\\); print\\('ar keys',len\\(ar\\)\\); print\\('in en not ar:', set\\(en\\)-set\\(ar\\)\\); print\\('in ar not en:', set\\(ar\\)-set\\(en\\)\\)\")",
+      "PowerShell(flutter analyze lib 2>&1)",
+      "Bash(python3 scripts/extract_strings.py)"
     ]
   }
 }

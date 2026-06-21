@@ -6,6 +6,7 @@ import '../../manager/complaints/complaints_cubit.dart';
 import '../../manager/complaints/complaints_state.dart';
 import '../widgets/complaint_card.dart';
 import '../widgets/complaint_details_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ManageComplaintsScreen extends StatefulWidget {
   const ManageComplaintsScreen({super.key});
@@ -70,8 +71,7 @@ class ManageComplaintsView extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Manage Complaints',
+                        Text('manage_complaints'.tr(),
                           style: TextStyle(
                             color: Color(0xff1E293B),
                             fontSize: 19.sp,
@@ -93,7 +93,7 @@ class ManageComplaintsView extends StatelessWidget {
                   Builder(
                     builder: (ctx) => IconButton(
                       icon: const Icon(Icons.refresh, color: Color(0xff334155)),
-                      tooltip: 'Refresh',
+                      tooltip: 'refresh'.tr(),
                       onPressed: () => ctx.read<ComplaintsCubit>().getComplaints(),
                     ),
                   ),
@@ -137,7 +137,7 @@ class ManageComplaintsView extends StatelessWidget {
                               onPressed: () =>
                                   context.read<ComplaintsCubit>().getComplaints(),
                               icon: const Icon(Icons.refresh),
-                              label: const Text('Retry'),
+                              label: Text('retry'.tr()),
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xff2F93E6),
                                 foregroundColor: Colors.white,
@@ -156,8 +156,7 @@ class ManageComplaintsView extends StatelessWidget {
                   if (state.status == ComplaintsStatus.success &&
                       state.complaints.isEmpty) {
                     return Center(
-                      child: Text(
-                        'No complaints found.',
+                      child: Text('no_complaints'.tr(),
                         style: TextStyle(
                           color: Color(0xff64748B),
                           fontSize: 14.sp,

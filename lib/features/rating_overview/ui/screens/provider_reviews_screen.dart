@@ -10,6 +10,7 @@ import '../widgets/review_score_header.dart';
 import '../widgets/review_filter_tabs.dart';
 import '../widgets/review_item_card.dart';
 import '../widgets/review_empty_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProviderReviewsScreen extends StatelessWidget {
   const ProviderReviewsScreen({super.key});
@@ -36,22 +37,24 @@ class _ProviderReviewsView extends StatelessWidget {
         centerTitle: true,
         leading:  GestureDetector(
             onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CaregiverScreen(),
-                ),
-              );
+              
             },
-            child: Icon(Icons.arrow_back)),
+            child: IconButton(
+                        onPressed: () => Navigator.pop(context),
+                        icon: Icon(
+                          Icons.arrow_back_ios_new_rounded,
+                          size: 17.r,
+                          color: const Color(0xFF1D2939),
+                        ),
+                      ),),
 
-        title: Text('My Ratings',
+        title: Text('my_ratings'.tr(),
             style: TextStyle(fontSize: 17.sp, fontWeight: FontWeight.bold, color: Colors.black)),
         actions: [
           Builder(
             builder: (ctx) => IconButton(
               icon: const Icon(Icons.refresh, color: Colors.black),
-              tooltip: 'Refresh',
+              tooltip: 'refresh'.tr(),
               onPressed: () => ctx.read<ProviderReviewCubit>().loadReviews(),
             ),
           ),

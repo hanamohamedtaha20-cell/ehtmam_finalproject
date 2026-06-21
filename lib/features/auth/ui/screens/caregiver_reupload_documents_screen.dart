@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/network/api_service.dart';
 import '../screens/pending_aproval_screen.dart';
 import '../widgets/upload_box.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CaregiverReuploadDocumentsScreen extends StatefulWidget {
   const CaregiverReuploadDocumentsScreen({super.key});
@@ -39,7 +40,7 @@ class _CaregiverReuploadDocumentsScreenState
         _certificateFile == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Please upload at least one document.'),
+          content: Text('upload_at_least_one_doc'.tr()),
           backgroundColor: const Color(0xffEF4444),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -86,7 +87,7 @@ class _CaregiverReuploadDocumentsScreenState
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Failed to submit documents. Please try again.'),
+          content: Text('failed_submit_docs'.tr()),
           backgroundColor: const Color(0xffEF4444),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
@@ -122,8 +123,7 @@ class _CaregiverReuploadDocumentsScreenState
                           color: const Color(0xff64748B),
                         ),
                         SizedBox(width: 2.w),
-                        Text(
-                          'Back',
+                        Text('back'.tr(),
                           style: TextStyle(
                             color: const Color(0xff64748B),
                             fontSize: 12.sp,
@@ -170,8 +170,7 @@ class _CaregiverReuploadDocumentsScreenState
                             ),
                             SizedBox(width: 10.w),
                             Expanded(
-                              child: Text(
-                                'Please upload clear, correct documents for review.',
+                              child: Text('upload_clear_docs'.tr(),
                                 style: TextStyle(
                                   fontSize: 12.sp,
                                   color: const Color(0xff1D4ED8),
@@ -184,8 +183,7 @@ class _CaregiverReuploadDocumentsScreenState
                       ),
                       SizedBox(height: 24.h),
 
-                      Text(
-                        'Upload Documents',
+                      Text('upload_documents'.tr(),
                         style: TextStyle(
                           fontSize: 20.sp,
                           fontWeight: FontWeight.w700,
@@ -193,8 +191,7 @@ class _CaregiverReuploadDocumentsScreenState
                         ),
                       ),
                       SizedBox(height: 6.h),
-                      Text(
-                        'Update your documents and resubmit for approval.',
+                      Text('update_docs_resubmit'.tr(),
                         style: TextStyle(
                           fontSize: 12.sp,
                           color: const Color(0xff64748B),
@@ -252,8 +249,7 @@ class _CaregiverReuploadDocumentsScreenState
                                     color: Colors.white,
                                   ),
                                 )
-                              : Text(
-                                  'Submit Documents',
+                              : Text('submit_documents'.tr(),
                                   style: TextStyle(
                                     fontSize: 15.sp,
                                     fontWeight: FontWeight.w600,

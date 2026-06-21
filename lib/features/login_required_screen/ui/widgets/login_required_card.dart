@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../home_screen/ui/screens/home_screen.dart';
 import 'outline_bottom.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginRequiredCard extends StatelessWidget {
   const LoginRequiredCard({super.key});
@@ -34,8 +35,7 @@ class LoginRequiredCard extends StatelessWidget {
             Image.asset("assets/images/lock90.png", height: 90.h),
             SizedBox(height: 10.h),
 
-            Text(
-              "Login Required",
+            Text('login_required'.tr(),
               style: TextStyle(
                 color: Colors.red,
                 fontWeight: FontWeight.bold,
@@ -46,8 +46,7 @@ class LoginRequiredCard extends StatelessWidget {
             SizedBox(height: 10.h),
 
             /// 🔹 Description
-            Text(
-              "You need to login or create an account to create service requests",
+            Text('login_to_create_requests'.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.grey),
             ),
@@ -63,8 +62,7 @@ class LoginRequiredCard extends StatelessWidget {
               ),
               child: Column(
                 children: [
-                  Text(
-                    "As a guest, you can browse the app but cannot create requests",
+                  Text('guest_browse_notice'.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(color: Colors.grey),
                   ),
@@ -110,8 +108,7 @@ class LoginRequiredCard extends StatelessWidget {
                   MaterialPageRoute(builder: (context) => HomeScreen()),
                 );
               },
-              child: Text(
-                "Back to Home",
+              child: Text('back_to_home'.tr(),
                 style: TextStyle(color: Colors.green),
               ),
             ),

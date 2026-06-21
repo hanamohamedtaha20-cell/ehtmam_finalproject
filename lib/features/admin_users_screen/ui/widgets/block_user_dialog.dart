@@ -1,6 +1,7 @@
 import 'package:ehtemam_final_project/core/widgets/action_buttons_row.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BlockUserDialog extends StatelessWidget {
   final String name;
@@ -36,8 +37,7 @@ class BlockUserDialog extends StatelessWidget {
               children: [
                 Icon(icon, color: color),
                 SizedBox(width: 8.w),
-                Text(
-                  title,
+                Text('block_user'.tr(),
                   style: TextStyle(
                     color: color,
                     fontSize: 20.sp,
@@ -64,37 +64,32 @@ class BlockUserDialog extends StatelessWidget {
 
             SizedBox(height: 20.h),
 
-            if (isBlocking) ...[
-              Text(
-                'Reason for Blocking *',
-                style: TextStyle(fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: 8.h),
-              TextField(
-                maxLines: 4,
-                decoration: InputDecoration(
-                  hintText: 'Explain why you are blocking this user...',
-                  filled: true,
-                  fillColor: const Color(0xffE5E7EB),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                    borderSide: BorderSide.none,
-                  ),
+            Text('reason_for_blocking'.tr(),
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+
+            SizedBox(height: 8.h),
+
+            TextField(
+              maxLines: 4,
+              decoration: InputDecoration(
+                hintText: 'explain_block_user'.tr(),
+                filled: true,
+                fillColor: const Color(0xffE5E7EB),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide.none,
                 ),
               ),
-              SizedBox(height: 12.h),
-              Text(
-                'This reason will be stored for record keeping.',
-                style: TextStyle(fontSize: 11.sp, color: Colors.grey),
-              ),
-              SizedBox(height: 20.h),
-            ] else ...[
-              Text(
-                'This user will be able to access the app again.',
-                style: TextStyle(fontSize: 13.sp, color: Colors.grey),
-              ),
-              SizedBox(height: 20.h),
-            ],
+            ),
+
+            SizedBox(height: 12.h),
+
+            Text('block_reason_note_user'.tr(),
+              style: TextStyle(fontSize: 11.sp, color: Colors.grey),
+            ),
+
+            SizedBox(height: 20.h),
 
             ActionButtonsRow(
               firstText: 'Cancel',

@@ -2,6 +2,7 @@
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class ProfileHeader extends StatelessWidget {
@@ -22,7 +23,7 @@ class ProfileHeader extends StatelessWidget {
             },
             child: Icon(Icons.arrow_back)),
 
-        Text("My Profile",
+        Text('my_profile'.tr(),
             style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18.sp, color: AppColors.textDark)),
         const Spacer(),
         //localization

@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/network/api_service.dart';
 import '../../data/model/chat_message_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ChatbotScreen extends StatefulWidget {
   const ChatbotScreen({super.key});
@@ -137,8 +138,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                   ),
                 ),
                 SizedBox(height: 4.h),
-                Text(
-                  "Powered by Artificial Intelligence",
+                Text('powered_by_ai'.tr(),
                   style: TextStyle(color: Colors.white70, fontSize: 11.sp),
                 ),
               ],
@@ -219,7 +219,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 textInputAction: TextInputAction.send,
                 onSubmitted: (_) => _sendMessage(),
                 decoration: InputDecoration(
-                  hintText: "Type message",
+                  hintText: 'type_message'.tr(),
                   hintStyle:
                       TextStyle(color: Colors.grey.shade500, fontSize: 13.sp),
                   border: InputBorder.none,

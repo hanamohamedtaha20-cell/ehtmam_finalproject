@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class WalletHeader extends StatelessWidget {
   final double balance; 
@@ -34,8 +35,7 @@ class WalletHeader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Available Balance",
+            Text('available_balance'.tr(),
               style: TextStyle(
                 fontFamily: "Arimo",
                 fontSize: 14.sp,

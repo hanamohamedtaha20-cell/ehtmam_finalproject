@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/provider_data.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RatingRow extends StatelessWidget {
   const RatingRow({super.key,required this.provider});
@@ -68,8 +69,7 @@ class RatingRow extends StatelessWidget {
                   ),
                 ),
                 SizedBox(height: 4.h),
-                Text(
-                  "years experience",
+                Text('years_experience'.tr(),
                   style: TextStyle(color: Colors.grey, fontSize: 12.sp),
                 ),
               ],
@@ -95,8 +95,7 @@ class RatingRow extends StatelessWidget {
                   ],
                 ),
                 SizedBox(height: 4.h),
-                Text(
-                  "Completed Services",
+                Text('completed_services'.tr(),
                   style: TextStyle(color: Colors.grey, fontSize: 12.sp),
                 ),
               ],

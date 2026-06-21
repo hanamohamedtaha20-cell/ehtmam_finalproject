@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RequestHeader extends StatelessWidget {
   const RequestHeader({super.key});
@@ -27,8 +28,7 @@ class RequestHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           /// LEFT SIDE
-          Text(
-            "Care Requests",
+          Text('care_requests'.tr(),
             style: TextStyle(
               fontSize: 22.sp,
               fontWeight: FontWeight.w700,

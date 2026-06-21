@@ -1,4 +1,5 @@
-﻿import 'package:flutter/foundation.dart';
+﻿import 'package:ehtemam_final_project/core/services/notification_socket_service.dart';
+import 'package:flutter/foundation.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -72,6 +73,7 @@ class AuthCubit extends Cubit<AuthState> {
       await prefs.setString('user_role', role);
       if (careField.isNotEmpty) {
         await prefs.setString('care_field', careField);
+        await prefs.setString('speciality', careField.toLowerCase());
       }
       debugPrint("NAME => ${prefs.getString('user_name')}");
       debugPrint("EMAIL => ${prefs.getString('user_email')}");
@@ -158,6 +160,11 @@ class AuthCubit extends Cubit<AuthState> {
       await prefs.setString('userId', loginResponse.user.id);
       await prefs.setString('user_phone', loginResponse.user.phone);
       await prefs.setString('caregiver_status', loginResponse.user.status);
+      if (loginResponse.user.speciality.isNotEmpty) {
+        await prefs.setString('speciality', loginResponse.user.speciality);
+        await prefs.setString('care_field', loginResponse.user.speciality);
+        debugPrint('LOGIN_SPECIALITY_SAVED: ${loginResponse.user.speciality}');
+      }
 
       if (isCaregiver && isRejected) {
         debugPrint('[Login] Caregiver status: Rejected â€” blocking home navigation.');
@@ -176,6 +183,8 @@ class AuthCubit extends Cubit<AuthState> {
 
       await prefs.setBool('is_logged_in', true);
       await prefs.setBool('is_guest', false);
+
+      NotificationSocketService.instance.connect(loginResponse.token);
 
       if (!isClosed) {
         emit(
@@ -223,6 +232,8 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       // Best-effort backend logout â€” ignore errors (token may already be expired).
       try { await authRepo.apiService.logout(); } catch (_) {}
+
+      NotificationSocketService.instance.disconnect();
 
       final prefs = await SharedPreferences.getInstance();
       await prefs.clear();

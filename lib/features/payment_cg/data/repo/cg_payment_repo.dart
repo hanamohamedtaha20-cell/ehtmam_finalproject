@@ -5,6 +5,10 @@ import '../model/cg_payment_model.dart';
 class CgPaymentRepo {
   final ApiService _api = ApiService();
 
+  Future<Map<String, dynamic>> getTransactionDetails(String id) async {
+    return await _api.getTransactionDetails(id);
+  }
+
   Future<Map<String, dynamic>> getEarningsData() async {
     double balance     = 0;
     double totalEarned = 0;

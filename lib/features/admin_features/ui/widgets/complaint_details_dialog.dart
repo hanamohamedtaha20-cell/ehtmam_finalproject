@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/complaint_details_model.dart';
 import '../../manager/complaints/complaints_cubit.dart';
 import '../../manager/complaints/complaints_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ComplaintDetailsDialog extends StatelessWidget {
   const ComplaintDetailsDialog({super.key});
@@ -85,7 +86,7 @@ class ComplaintDetailsDialog extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10.r),
                               ),
                             ),
-                            child: Text('Close',
+                            child: Text('close'.tr(),
                                 style: TextStyle(
                                     fontSize: 12.sp,
                                     fontWeight: FontWeight.w700)),
@@ -122,8 +123,7 @@ class ComplaintDetailsDialog extends StatelessWidget {
       child: Row(
         children: [
           Expanded(
-            child: Text(
-              'Complaint Details',
+            child: Text('complaint_details'.tr(),
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 16.sp,
@@ -238,8 +238,7 @@ class ComplaintDetailsDialog extends StatelessWidget {
                   SizedBox(height: 16.h),
 
                   // Message
-                  Text(
-                    'Message',
+                  Text('message'.tr(),
                     style: TextStyle(
                       color: Color(0xff334155),
                       fontSize: 12.sp,

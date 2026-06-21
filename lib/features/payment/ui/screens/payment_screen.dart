@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PaymentScreen extends StatefulWidget {
   /// When set, this screen is used to pay for a caregiver-added extra task.
@@ -100,7 +101,7 @@ class _PaymentScreenState extends State<PaymentScreen>
                                   .read<PaymentCubit>()
                                   .loadData(offerPrice: widget.extraTaskPrice),
                               icon: const Icon(Icons.refresh),
-                              tooltip: 'Refresh',
+                              tooltip: 'refresh'.tr(),
                             ),
                           ],
                         ),

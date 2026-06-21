@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NotificationErrorView extends StatelessWidget {
   final String message;
@@ -26,8 +27,7 @@ class NotificationErrorView extends StatelessWidget {
               color: Colors.grey.shade300,
             ),
             SizedBox(height: 16.h),
-            Text(
-              'Could not load notifications',
+            Text('could_not_load_notif'.tr(),
               style: TextStyle(
                 fontFamily: 'Arimo',
                 fontSize: 16.sp,
@@ -49,8 +49,7 @@ class NotificationErrorView extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: onRetry,
               icon: Icon(Icons.refresh_rounded, size: 18.r),
-              label: Text(
-                'Try Again',
+              label: Text('try_again'.tr(),
                 style: TextStyle(fontFamily: 'Arimo', fontSize: 14.sp),
               ),
               style: ElevatedButton.styleFrom(

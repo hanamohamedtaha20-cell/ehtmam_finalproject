@@ -15,6 +15,7 @@ import '../widgets/offer_details_widgets/provider_notes.dart';
 import '../widgets/offer_details_widgets/reviews_section.dart';
 import '../widgets/offer_details_widgets/services_list.dart';
 import '../../utils/offer_accept_handler.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OfferDetailsScreen extends StatelessWidget {
   final String requestId;
@@ -60,7 +61,7 @@ class OfferDetailsScreen extends StatelessWidget {
               }
 
               if (state is ProviderEmpty) {
-                return Center(child: Text('No offer details available'));
+                return Center(child: Text('no_offer_details'.tr()));
               }
 
               if (state is ProviderLoaded) {
@@ -75,8 +76,7 @@ class OfferDetailsScreen extends StatelessWidget {
                           icon: Icon(Icons.arrow_back),
                         ),
                         SizedBox(width: 10.w),
-                        Text(
-                          'Offer Details',
+                        Text('offer_details'.tr(),
                           style: TextStyle(fontWeight: FontWeight.bold),
                         ),
                       ],
@@ -119,8 +119,7 @@ class OfferDetailsScreen extends StatelessWidget {
                                     Icon(Icons.check_circle,
                                         color: Color(0xFF2E7D32)),
                                     SizedBox(width: 8.w),
-                                    Text(
-                                      'Offer Accepted',
+                                    Text('offer_accepted'.tr(),
                                       style: TextStyle(
                                         color: Color(0xFF2E7D32),
                                         fontWeight: FontWeight.bold,

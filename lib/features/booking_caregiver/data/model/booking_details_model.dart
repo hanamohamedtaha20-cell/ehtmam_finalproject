@@ -1,4 +1,4 @@
-﻿import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import 'package:ehtemam_final_project/core/utils/date_formatter.dart';
 
 class BookingDetailsModel {
@@ -30,6 +30,7 @@ class BookingDetailsModel {
   final String specialInstructions;
 
   final double clientBudget;
+  final double caregiverBudget;
 
   final List<TaskModel> tasks;
 
@@ -57,10 +58,62 @@ class BookingDetailsModel {
     this.offerDescription = '',
     required this.specialInstructions,
     required this.clientBudget,
+    this.caregiverBudget = 0,
     this.tasks = const [],
   });
 
+  // ── Description extraction ────────────────────────────────────────────────
+  // Searches every known nesting path for the description field and logs each
+  // candidate so the real backend path is visible in the debug output.
+
+  static String _extractDescription(
+    Map<String, dynamic> root, {
+    Map? requestMap,
+    String context = '',
+  }) {
+    final dataMap = root['data'] is Map ? root['data'] as Map : null;
+    final rootRequest = root['request'] is Map ? root['request'] as Map : null;
+    final dataRequest = dataMap != null && dataMap['request'] is Map
+        ? dataMap['request'] as Map
+        : null;
+
+    // Effective "request" sub-object: explicit param wins, then nested paths.
+    final req = requestMap ?? rootRequest ?? dataRequest;
+
+    debugPrint('DESCRIPTION_ROOT: ${root['Description']}');
+    debugPrint('DESCRIPTION_LOWER_ROOT: ${root['description']}');
+    debugPrint('DESCRIPTION_REQUEST: ${req?['Description']}');
+    debugPrint('DESCRIPTION_REQUEST_LOWER: ${req?['description']}');
+
+    // All search paths in priority order (matches task requirements):
+    final candidates = <String?>[
+      root['Description']?.toString(),          // json['Description']
+      root['description']?.toString(),          // json['description']
+      dataMap?['Description']?.toString(),      // json['data']['Description']
+      dataMap?['description']?.toString(),      // json['data']['description']
+      dataRequest?['Description']?.toString(),  // json['data']['request']['Description']
+      dataRequest?['description']?.toString(),  // json['data']['request']['description']
+      req?['Description']?.toString(),          // json['request']['Description']
+      req?['description']?.toString(),          // json['request']['description']
+    ];
+
+    for (final v in candidates) {
+      if (v != null && v.trim().isNotEmpty) {
+        debugPrint('[$context] DESCRIPTION_RESOLVED: "$v"');
+        return v.trim();
+      }
+    }
+
+    debugPrint('[$context] DESCRIPTION_RESOLVED: <empty — check backend field name>');
+    return '';
+  }
+
+  // ─────────────────────────────────────────────────────────────────────────
+
   factory BookingDetailsModel.fromRequestJson(Map<String, dynamic> json) {
+    debugPrint('[RequestModel] keys: ${json.keys.toList()}');
+    debugPrint('[RequestModel] full json: $json');
+
     final service = json['service'];
     final client = json['client'];
 
@@ -85,13 +138,12 @@ class BookingDetailsModel {
           client['profilePicture']?.toString() ??
           client['avatar']?.toString() ??
           '';
-      clientRating = ((client['rating'] ?? client['averageRating'] ?? 0) as num).toDouble();
+      clientRating =
+          ((client['rating'] ?? client['averageRating'] ?? 0) as num).toDouble();
     }
 
     final statusValue = (json['status'] ?? 'PENDING').toString();
-    final description = json['description']?.toString() ??
-        json['Description']?.toString() ??
-        '';
+    final description = _extractDescription(json, context: 'RequestModel');
 
     return BookingDetailsModel(
       id: json['_id']?.toString() ?? '',
@@ -121,6 +173,9 @@ class BookingDetailsModel {
   }
 
   factory BookingDetailsModel.fromBookingJson(Map<String, dynamic> json) {
+    debugPrint('[BookingModel] keys: ${json.keys.toList()}');
+    debugPrint('[BookingModel] full json: $json');
+
     final service = json['service'];
     final request = json['request'];
     final offer = json['offer'];
@@ -147,32 +202,55 @@ class BookingDetailsModel {
           client['profilePicture']?.toString() ??
           client['avatar']?.toString() ??
           '';
-      clientRating = ((client['rating'] ?? client['averageRating'] ?? 0) as num).toDouble();
+      clientRating =
+          ((client['rating'] ?? client['averageRating'] ?? 0) as num).toDouble();
     }
 
-    final statusValue = (json['bookingStatus'] ?? json['status'] ?? 'PENDING').toString();
-    final offerPrice = offer is Map ? offer['price'] : null;
-    final price = ((offerPrice ?? json['price'] ?? 0) as num).toDouble();
+    final statusValue =
+        (json['bookingStatus'] ?? json['status'] ?? 'PENDING').toString();
 
-    // Debug: print full API response and offer sub-object
-    debugPrint('[BookingDetails] Full API response: $json');
-    debugPrint('[BookingDetails] offer sub-object: $offer');
+    final offerPrice = offer is Map ? offer['price'] : null;
+    final selectedOffer = json['selectedOffer'];
+    final selectedOfferPrice = selectedOffer is Map ? selectedOffer['price'] : null;
+    final price = _parsePrice(offerPrice) ??
+        _parsePrice(json['finalPrice']) ??
+        _parsePrice(selectedOfferPrice) ??
+        _parsePrice(json['caregiverBudget']) ??
+        _parsePrice(json['price']) ??
+        0.0;
+
+    debugPrint('[BookingModel] offer sub-object: $offer');
 
     String offerDescription = '';
     if (offer is Map) {
       offerDescription = offer['notes']?.toString() ??
-          offer['description']?.toString() ??
+          offer['Description']?.toString() ??
           offer['message']?.toString() ??
           offer['note']?.toString() ??
           offer['comment']?.toString() ??
           '';
-      debugPrint('[BookingDetails] offerDescription resolved: "$offerDescription"');
+      debugPrint('[BookingModel] offerDescription resolved: "$offerDescription"');
       if (offerDescription.isEmpty) {
-        debugPrint('[BookingDetails] Backend does not return offer description in booking details response â€” endpoint to update: GET /booking/{bookingId}');
+        debugPrint(
+            '[BookingModel] Backend does not return offer description — endpoint: GET /booking/{bookingId}');
       }
     } else {
-      debugPrint('[BookingDetails] offer field is not a Map (value: $offer) â€” cannot extract offer description');
+      debugPrint(
+          '[BookingModel] offer field is not a Map (value: $offer) — cannot extract offer description');
     }
+
+    debugPrint('CAREGIVER_BUDGET_VALUE: $price');
+
+    // Normalise the request sub-object so _extractDescription can search it.
+    final reqMap = request is Map<String, dynamic>
+        ? request
+        : (request is Map ? Map<String, dynamic>.from(request) : null);
+
+    final description = _extractDescription(
+      json,
+      requestMap: reqMap,
+      context: 'BookingModel',
+    );
 
     return BookingDetailsModel(
       id: json['_id']?.toString() ?? '',
@@ -197,19 +275,18 @@ class BookingDetailsModel {
             )
           : '',
       time: request is Map
-          ? _formatTime(request['date']?.toString(), request['time']?.toString())
+          ? _formatTime(
+              request['date']?.toString(), request['time']?.toString())
           : '',
       location: request is Map ? (request['location']?.toString() ?? '') : '',
-      governorate: request is Map ? (request['governorate']?.toString() ?? '') : '',
-      description: request is Map
-          ? (request['description']?.toString() ??
-              request['Description']?.toString() ??
-              '')
-          : '',
+      governorate:
+          request is Map ? (request['governorate']?.toString() ?? '') : '',
+      description: description,
       offerDescription: offerDescription,
       specialInstructions:
           request is Map ? (request['notes']?.toString() ?? '') : '',
       clientBudget: price,
+      caregiverBudget: price,
     );
   }
 
@@ -247,8 +324,16 @@ class BookingDetailsModel {
       offerDescription: offerDescription,
       specialInstructions: specialInstructions,
       clientBudget: clientBudget,
+      caregiverBudget: caregiverBudget,
       tasks: tasks ?? this.tasks,
     );
+  }
+
+  static double? _parsePrice(dynamic v) {
+    if (v == null) return null;
+    if (v is num) return v.toDouble();
+    if (v is String) return double.tryParse(v);
+    return null;
   }
 
   static String _formatTime(String? dateRaw, String? timeRaw) {
@@ -279,7 +364,7 @@ class BookingDetailsModel {
       case 'CANCELLED':
         return 'Cancelled';
       default:
-        return status; // never hide unknown statuses as empty
+        return status;
     }
   }
 }
@@ -301,7 +386,9 @@ class TaskModel {
     final done = statusStr == 'completed' || statusStr == 'true';
 
     return TaskModel(
-      id: json['_id']?.toString() ?? json['taskId']?.toString() ?? 'task_$index',
+      id: json['_id']?.toString() ??
+          json['taskId']?.toString() ??
+          'task_$index',
       title: json['taskName']?.toString() ??
           json['taskTitle']?.toString() ??
           json['title']?.toString() ??
@@ -311,4 +398,3 @@ class TaskModel {
     );
   }
 }
-

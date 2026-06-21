@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../manager/ad_provider_cubit.dart';
 import '../../model/ad_provider_model.dart';
 import 'block_provider_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AdProviderCard extends StatelessWidget {
   final AdProviderModel provider;
@@ -198,6 +199,14 @@ class AdProviderCard extends StatelessWidget {
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w700,
                 ),
+              );
+            },
+            icon: Icon(Icons.block, color: Colors.red, size: 16.r),
+            label: Text('block_provider'.tr(),
+              style: TextStyle(
+                color: Colors.red,
+                fontSize: 12.sp,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ),

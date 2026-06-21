@@ -1,0 +1,1253 @@
+{
+  "Reject": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart",
+    "lib/features/admin_features/ui/widgets/pending_approval_card.dart",
+    "lib/features/admin_features/ui/widgets/pending_documents_dialog.dart",
+    "lib/features/task_progress_user/ui/screens/task_progress_screen.dart"
+  ],
+  "Accept": [
+    "lib/features/homescreen_caregiver/ui/widgets/hc_request_card.dart",
+    "lib/features/task_progress_user/ui/screens/task_progress_screen.dart"
+  ],
+  "Task Progress": [
+    "lib/features/task_progress_user/ui/screens/task_progress_screen.dart",
+    "lib/features/task_progress_user/ui/widgets/progress_card.dart"
+  ],
+  "Could not load task progress": [
+    "lib/features/task_progress_user/ui/screens/task_progress_screen.dart"
+  ],
+  "Retry": [
+    "lib/features/admin_features/ui/screens/manage_complaints_screen.dart",
+    "lib/features/booking_caregiver/ui/screens/booking_cg_screen.dart",
+    "lib/features/booking_caregiver/ui/screens/booking_detailsUser.dart",
+    "lib/features/earnings_screen/ui/screens/earnings_screen.dart",
+    "lib/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart",
+    "lib/features/payment_cg/ui/screens/cg_payment_screen.dart",
+    "lib/features/profile_caregiver/ui/screens/caregiver_screen.dart",
+    "lib/features/recieved_offers_screen/ui/screens/received_screen.dart",
+    "lib/features/request_screen_caregiver/ui/screens/care_requests_screen.dart",
+    "lib/features/task_progress_user/ui/screens/task_progress_screen.dart"
+  ],
+  "Refresh": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart",
+    "lib/features/admin_features/ui/screens/bundles_screen.dart",
+    "lib/features/admin_features/ui/screens/manage_complaints_screen.dart",
+    "lib/features/admin_features/ui/screens/pending_approvals_screen.dart",
+    "lib/features/admin_features/ui/screens/view_transactions_screen.dart",
+    "lib/features/booking_user/ui/screens/booking_screen_user.dart",
+    "lib/features/home_screen/ui/screens/bundels_screen.dart",
+    "lib/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart",
+    "lib/features/payment/ui/screens/payment_screen.dart",
+    "lib/features/payment_cg/ui/screens/cg_payment_screen.dart",
+    "lib/features/rating_overview/ui/screens/provider_reviews_screen.dart",
+    "lib/features/request_screen_caregiver/ui/screens/care_requests_screen.dart",
+    "lib/features/task_progress_user/ui/screens/task_progress_screen.dart"
+  ],
+  "Progress": [
+    "lib/features/task_progress_user/ui/widgets/progress_card.dart"
+  ],
+  "✓ Done": [
+    "lib/features/task_progress_user/ui/widgets/task_progress_item.dart"
+  ],
+  "Task is pending completion by caregiver": [
+    "lib/features/task_progress_user/ui/widgets/task_progress_item.dart"
+  ],
+  "My Tasks": [
+    "lib/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart",
+    "lib/features/tasks/ui/screens/task_screen.dart"
+  ],
+  "Add New Task": [
+    "lib/features/tasks/ui/widgets/add_task_dialog.dart"
+  ],
+  "Task Description": [
+    "lib/features/tasks/ui/widgets/add_task_dialog.dart"
+  ],
+  "Cancel": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart",
+    "lib/features/admin_features/ui/widgets/bundle_dialog.dart",
+    "lib/features/admin_provider_screen/ui/widgets/block_provider_dialog.dart",
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_add_task_sheet.dart",
+    "lib/features/recharge_wallet/ui/widgets/action_buttons.dart",
+    "lib/features/tasks/ui/widgets/add_task_dialog.dart"
+  ],
+  "Add Task": [
+    "lib/features/tasks/ui/widgets/add_task_dialog.dart"
+  ],
+  "Enter task description...": [
+    "lib/features/tasks/ui/widgets/add_task_dialog.dart",
+    "lib/features/tasks/ui/widgets/search_field.dart"
+  ],
+  "Add \\n Task": [
+    "lib/features/tasks/ui/widgets/search_field.dart"
+  ],
+  "Please select a request to add tasks": [
+    "lib/features/tasks/ui/widgets/search_field.dart"
+  ],
+  "No tasks found": [
+    "lib/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart",
+    "lib/features/tasks/ui/widgets/task_list.dart"
+  ],
+  "Connecting families with\\ntrusted care services": [
+    "lib/features/splash/ui/screens/splash_screen.dart"
+  ],
+  "Location sharing started successfully. You can now view your tasks.": [
+    "lib/features/share_location_cg/ui/screens/share_location_cg_screen.dart"
+  ],
+  "Your location is only shared with the client while sharing is active. You can stop at any time.": [
+    "lib/features/share_location_cg/ui/screens/share_location_cg_screen.dart"
+  ],
+  "Share Location": [
+    "lib/features/share_location_cg/ui/screens/share_location_cg_screen.dart"
+  ],
+  "Location Details": [
+    "lib/features/share_location_cg/ui/screens/share_location_cg_screen.dart"
+  ],
+  "Privacy Notice": [
+    "lib/features/share_location_cg/ui/screens/share_location_cg_screen.dart"
+  ],
+  "No ratings yet": [
+    "lib/features/share_location_cg/ui/widgets/client_header.dart"
+  ],
+  "Arriving Soon": [
+    "lib/features/map_user/ui/widgets/caregiver_status.dart",
+    "lib/features/share_location_cg/ui/widgets/client_status.dart"
+  ],
+  "Expected in 15 min.": [
+    "lib/features/share_location_cg/ui/widgets/client_status.dart"
+  ],
+  "Your Current Location": [
+    "lib/features/share_location_cg/ui/widgets/location_details_cg.dart"
+  ],
+  "Client's Location": [
+    "lib/features/share_location_cg/ui/widgets/location_details_cg.dart"
+  ],
+  "Start sharing your location to let the client track your arrival": [
+    "lib/features/share_location_cg/ui/widgets/location_status_banner.dart"
+  ],
+  "You are currently unavailable. Turn availability on to receive requests.": [
+    "lib/features/homescreen_caregiver/ui/screens/home_screen_caregiver.dart",
+    "lib/features/request_screen_caregiver/ui/screens/care_requests_screen.dart"
+  ],
+  "No requests found": [
+    "lib/features/request_screen_caregiver/ui/screens/care_requests_screen.dart"
+  ],
+  "Booking not ready yet. Please wait and refresh.": [
+    "lib/features/request_screen_caregiver/ui/widgets/care_request_card.dart"
+  ],
+  "You must share your location first before viewing tasks.": [
+    "lib/features/request_screen_caregiver/ui/widgets/care_request_card.dart"
+  ],
+  "View Details": [
+    "lib/features/admin_features/ui/widgets/complaint_card.dart",
+    "lib/features/request_screen_caregiver/ui/widgets/care_request_card.dart"
+  ],
+  "Decline": [
+    "lib/features/homescreen_caregiver/ui/widgets/hc_request_card.dart",
+    "lib/features/request_screen_caregiver/ui/widgets/care_request_card.dart"
+  ],
+  "View Tasks": [
+    "lib/features/request_screen_caregiver/ui/widgets/care_request_card.dart"
+  ],
+  "Rate Client": [
+    "lib/features/request_screen_caregiver/ui/widgets/care_request_card.dart"
+  ],
+  "Care Requests": [
+    "lib/features/request_screen_caregiver/ui/widgets/care_request_header.dart"
+  ],
+  "Please login to view your requests.": [
+    "lib/features/requests_screen_user/ui/screens/requests_screen.dart"
+  ],
+  "try_again": [
+    "lib/features/requests_screen_user/ui/screens/requests_screen.dart"
+  ],
+  "No offer details available": [
+    "lib/features/recieved_offers_screen/ui/screens/offer_details_screen.dart"
+  ],
+  "Offer Details": [
+    "lib/features/recieved_offers_screen/ui/screens/offer_details_screen.dart"
+  ],
+  "Offer Accepted": [
+    "lib/features/recieved_offers_screen/ui/screens/offer_details_screen.dart"
+  ],
+  "No offers received yet": [
+    "lib/features/recieved_offers_screen/ui/screens/received_screen.dart"
+  ],
+  "Provider Notes:": [
+    "lib/features/recieved_offers_screen/ui/widgets/notes.dart"
+  ],
+  "Received Offers": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_header.dart",
+    "lib/features/recieved_offers_screen/ui/widgets/request_summary_card.dart"
+  ],
+  "Proposed Price": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/provider_card.dart",
+    "lib/features/recieved_offers_screen/ui/widgets/price_row.dart"
+  ],
+  "Best Value": [
+    "lib/features/recieved_offers_screen/ui/widgets/price_row.dart"
+  ],
+  "Verified": [
+    "lib/features/recieved_offers_screen/ui/widgets/provider_info.dart"
+  ],
+  "Certified": [
+    "lib/features/recieved_offers_screen/ui/widgets/provider_info.dart"
+  ],
+  "years experience": [
+    "lib/features/recieved_offers_screen/ui/widgets/rating_row.dart"
+  ],
+  "Completed Services": [
+    "lib/features/recieved_offers_screen/ui/widgets/rating_row.dart"
+  ],
+  "Care providers have responded": [
+    "lib/features/recieved_offers_screen/ui/widgets/request_summary_card.dart"
+  ],
+  "Specialization": [
+    "lib/features/recieved_offers_screen/ui/widgets/specialization_box.dart"
+  ],
+  "5+ years": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/about_provider.dart"
+  ],
+  "Error loading provider data": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/about_provider.dart"
+  ],
+  "About Provider": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/about_provider.dart"
+  ],
+  "Experience": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/about_provider.dart"
+  ],
+  "Contact Information": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/about_provider.dart"
+  ],
+  "Error loading data": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/ProviderInfoCard.dart"
+  ],
+  "Governorate": [
+    "lib/features/booking_caregiver/ui/widgets/date_time_card.dart",
+    "lib/features/home_screen/ui/widgets/create_req_widgets/governorate_field.dart",
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/ProviderInfoCard.dart"
+  ],
+  "Response Time": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/ProviderInfoCard.dart"
+  ],
+  "Error": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/provider_card.dart"
+  ],
+  "Location": [
+    "lib/features/booking_caregiver/ui/widgets/date_time_card.dart",
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/provider_card.dart"
+  ],
+  "Provider Proposal": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/provider_notes.dart"
+  ],
+  "Provider Notes": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/provider_notes.dart"
+  ],
+  "Error loading reviews": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/reviews_section.dart"
+  ],
+  "Services Includes": [
+    "lib/features/recieved_offers_screen/ui/widgets/offer_details_widgets/services_list.dart"
+  ],
+  "Please enter a valid amount": [
+    "lib/features/recharge_wallet/ui/screens/recharge_screen.dart"
+  ],
+  "Add Funds": [
+    "lib/features/recharge_wallet/ui/screens/recharge_screen.dart"
+  ],
+  "Select Payment Method": [
+    "lib/features/recharge_wallet/ui/screens/recharge_screen.dart"
+  ],
+  "Quick Amounts": [
+    "lib/features/recharge_wallet/ui/screens/recharge_screen.dart"
+  ],
+  "Custom Amount": [
+    "lib/features/recharge_wallet/ui/screens/recharge_screen.dart"
+  ],
+  "Confirm": [
+    "lib/features/recharge_wallet/ui/widgets/action_buttons.dart"
+  ],
+  "My Ratings": [
+    "lib/features/rating_overview/ui/screens/provider_reviews_screen.dart"
+  ],
+  "Review submitted successfully!": [
+    "lib/features/rating_caregiver/ui/screens/rating_screen.dart"
+  ],
+  "Rate Your Experience": [
+    "lib/features/rating/ui/screens/rating_screen.dart",
+    "lib/features/rating_caregiver/ui/screens/rating_screen.dart"
+  ],
+  "How was your experience with the client?": [
+    "lib/features/rating_caregiver/ui/screens/rating_screen.dart"
+  ],
+  "Overall Rating": [
+    "lib/features/rating/ui/screens/rating_screen.dart",
+    "lib/features/rating_caregiver/ui/screens/rating_screen.dart"
+  ],
+  "Tap to rate": [
+    "lib/features/rating/ui/screens/rating_screen.dart",
+    "lib/features/rating_caregiver/ui/screens/rating_screen.dart"
+  ],
+  "Detailed Ratings": [
+    "lib/features/rating/ui/screens/rating_screen.dart",
+    "lib/features/rating_caregiver/ui/screens/rating_screen.dart"
+  ],
+  "Your honest feedback helps improve our services": [
+    "lib/features/rating/ui/screens/rating_screen.dart",
+    "lib/features/rating_caregiver/ui/screens/rating_screen.dart"
+  ],
+  "Write a Review (optional)": [
+    "lib/features/rating/ui/widgets/review_field.dart",
+    "lib/features/rating_caregiver/ui/widgets/review_field.dart"
+  ],
+  "Share your thoughts about the service...": [
+    "lib/features/rating_caregiver/ui/widgets/review_field.dart"
+  ],
+  "Submit Review": [
+    "lib/features/rating/ui/widgets/submit_button.dart",
+    "lib/features/rating_caregiver/ui/widgets/submit_button.dart"
+  ],
+  "Client": [
+    "lib/features/rating_caregiver/ui/widgets/user_card.dart"
+  ],
+  "Complaint submitted successfully": [
+    "lib/features/rating/ui/screens/complaint_screen.dart"
+  ],
+  "Submit Complaint": [
+    "lib/features/rating/ui/screens/complaint_screen.dart"
+  ],
+  "Select a category": [
+    "lib/features/rating/ui/screens/complaint_screen.dart"
+  ],
+  "Minimum 20 characters": [
+    "lib/features/rating/ui/screens/complaint_screen.dart"
+  ],
+  "By submitting, you agree that the information provided is accurate.": [
+    "lib/features/rating/ui/screens/complaint_screen.dart"
+  ],
+  "We're here to help": [
+    "lib/features/rating/ui/screens/complaint_screen.dart"
+  ],
+  "Please provide as much detail as possible.\\nWe'll review your complaint within 24-48 hours.": [
+    "lib/features/rating/ui/screens/complaint_screen.dart"
+  ],
+  "How Was Your Service Experience": [
+    "lib/features/rating/ui/screens/rating_screen.dart"
+  ],
+  "Share your feedback about the client, The app...": [
+    "lib/features/rating/ui/widgets/review_field.dart"
+  ],
+  "Thank You for Your\\nReview!": [
+    "lib/features/rating/ui/widgets/thank_you_dialog.dart"
+  ],
+  "Your feedback helps us improve our services": [
+    "lib/features/rating/ui/widgets/thank_you_dialog.dart"
+  ],
+  "Back to Home": [
+    "lib/features/login_required_screen/ui/widgets/login_required_card.dart",
+    "lib/features/rating/ui/widgets/thank_you_dialog.dart"
+  ],
+  "Submit a Complaint": [
+    "lib/features/rating/ui/widgets/thank_you_dialog.dart"
+  ],
+  "CONTACT INFORMATION": [
+    "lib/features/profile_caregiver/ui/widgets/contact_info_card.dart"
+  ],
+  "Logout": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart",
+    "lib/features/admin_settings_screen/ui/screens/admin_settings_screen.dart",
+    "lib/features/profile2/ui/widgets/logout_button.dart",
+    "lib/features/profile_caregiver/ui/widgets/logout_row.dart"
+  ],
+  "PERFORMANCE": [
+    "lib/features/profile_caregiver/ui/widgets/performance_card.dart"
+  ],
+  "Profile": [
+    "lib/features/profile_caregiver/ui/widgets/screen_header.dart"
+  ],
+  "Please login to view your profile.": [
+    "lib/features/profile2/ui/screens/profile_screen.dart"
+  ],
+  "Session Expired": [
+    "lib/features/profile2/ui/screens/profile_screen.dart"
+  ],
+  "Please log in again to view your profile.": [
+    "lib/features/profile2/ui/screens/profile_screen.dart"
+  ],
+  "Log In": [
+    "lib/features/profile2/ui/screens/profile_screen.dart"
+  ],
+  "My Profile": [
+    "lib/features/profile2/ui/widgets/profile_header.dart"
+  ],
+  "Payments Received": [
+    "lib/features/payment_cg/ui/screens/cg_payment_screen.dart"
+  ],
+  "Could not load payment data": [
+    "lib/features/payment_cg/ui/screens/cg_payment_screen.dart"
+  ],
+  "Please check your connection and try again.": [
+    "lib/features/payment_cg/ui/screens/cg_payment_screen.dart"
+  ],
+  "View Details →": [
+    "lib/features/payment_cg/ui/widgets/cg_transaction_item.dart"
+  ],
+  "Transaction Details": [
+    "lib/features/payment_cg/ui/widgets/transaction_details_sheet.dart"
+  ],
+  "Close": [
+    "lib/features/admin_features/ui/widgets/complaint_details_dialog.dart",
+    "lib/features/auth/ui/screens/login_screen.dart",
+    "lib/features/map_user/ui/widgets/contact_dialog.dart",
+    "lib/features/payment_cg/ui/widgets/transaction_details_sheet.dart"
+  ],
+  "Payment Breakdown": [
+    "lib/features/payment_cg/ui/widgets/transaction_details_sheet.dart"
+  ],
+  "Transaction ID": [
+    "lib/features/payment_cg/ui/widgets/transaction_details_sheet.dart"
+  ],
+  "Available Balance": [
+    "lib/features/payment/ui/widgets/wallet_header.dart",
+    "lib/features/payment_cg/ui/widgets/wallet_header.dart"
+  ],
+  "Reference number copied successfully.": [
+    "lib/features/payment_cg/ui/widgets/withdraw.dart"
+  ],
+  "Withdrawal Request Created": [
+    "lib/features/payment_cg/ui/widgets/withdraw.dart"
+  ],
+  "Your withdrawal request has been successfully created.": [
+    "lib/features/payment_cg/ui/widgets/withdraw.dart"
+  ],
+  "Reference Number": [
+    "lib/features/payment_cg/ui/widgets/withdraw.dart"
+  ],
+  "Please visit any Fawry outlet and provide this reference number to receive your payment.": [
+    "lib/features/payment_cg/ui/widgets/withdraw.dart"
+  ],
+  "Done": [
+    "lib/features/payment_cg/ui/widgets/withdraw.dart"
+  ],
+  "Copy Reference Number": [
+    "lib/features/payment_cg/ui/widgets/withdraw.dart"
+  ],
+  "- Withdraw Funds": [
+    "lib/features/payment_cg/ui/widgets/withdraw.dart"
+  ],
+  "Your bundle discount has been applied.": [
+    "lib/features/payment/ui/widgets/cost_breakdown.dart"
+  ],
+  "Remaining Sessions": [
+    "lib/features/payment/ui/widgets/cost_breakdown.dart"
+  ],
+  "Cost Breakdown": [
+    "lib/features/payment/ui/widgets/cost_breakdown.dart"
+  ],
+  "Total Added": [
+    "lib/features/payment/ui/widgets/income_expense_row.dart"
+  ],
+  "Total Spent": [
+    "lib/features/payment/ui/widgets/income_expense_row.dart"
+  ],
+  "Transaction History": [
+    "lib/features/payment/ui/widgets/transaction_history.dart"
+  ],
+  "+ Add Funds": [
+    "lib/features/payment/ui/widgets/withdraw.dart"
+  ],
+  "Welcome to\\nEhtemam": [
+    "lib/features/onboarding/ui/screens/ob1.dart"
+  ],
+  "Your Trusted platform for quality\\ncare services - pet care, elderly\\ncare, and child care all in one\\nplace.": [
+    "lib/features/onboarding/ui/screens/ob1.dart"
+  ],
+  "AI-Powered Requests": [
+    "lib/features/onboarding/ui/screens/ob2.dart"
+  ],
+  "Our intelligent chatbot helps you create\\ncare requests by asking the right\\nquestions and gathering all necessary\\ndetails.": [
+    "lib/features/onboarding/ui/screens/ob2.dart"
+  ],
+  "Verified Providers": [
+    "lib/features/onboarding/ui/screens/ob3.dart",
+    "lib/features/onboarding/ui/screens/ob4.dart"
+  ],
+  "All our care providers are thoroughly\\nvetted and verified to ensure the safety\\n and quality of service for your loved\\n ones.": [
+    "lib/features/onboarding/ui/screens/ob3.dart",
+    "lib/features/onboarding/ui/screens/ob4.dart"
+  ],
+  "Notifications": [
+    "lib/features/notifications/ui/screens/notification_screen.dart"
+  ],
+  "No notifications yet": [
+    "lib/features/notifications/ui/widgets/notification_empty_view.dart"
+  ],
+  "You're all caught up!\\nWe'll notify you when something new arrives.": [
+    "lib/features/notifications/ui/widgets/notification_empty_view.dart"
+  ],
+  "Could not load notifications": [
+    "lib/features/notifications/ui/widgets/notification_error_view.dart"
+  ],
+  "Try Again": [
+    "lib/features/notifications/ui/widgets/notification_error_view.dart"
+  ],
+  "Add Extra Task": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_add_task_sheet.dart"
+  ],
+  "This task will be sent to the client for approval.": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_add_task_sheet.dart"
+  ],
+  "Title": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_add_task_sheet.dart"
+  ],
+  "Description": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/request_description_field.dart",
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_add_task_sheet.dart"
+  ],
+  "Price (EGP)": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_add_task_sheet.dart"
+  ],
+  "Send for Approval": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_add_task_sheet.dart"
+  ],
+  "e.g. PC Cleaning": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_add_task_sheet.dart"
+  ],
+  "e.g. Clean personal computer area": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_add_task_sheet.dart"
+  ],
+  "e.g. 150": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_add_task_sheet.dart"
+  ],
+  "Tasks": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/tasks_section.dart",
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_booking_card.dart"
+  ],
+  "Checked In": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_booking_card.dart",
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_checkin_bar.dart"
+  ],
+  "Location tracked": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_booking_card.dart",
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_checkin_bar.dart"
+  ],
+  "Check Out": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_booking_card.dart",
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_checkin_bar.dart"
+  ],
+  "Check In to Start Work": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_booking_card.dart",
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_checkin_bar.dart"
+  ],
+  "You must check in before completing tasks": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_booking_card.dart",
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_checkin_bar.dart"
+  ],
+  "Upload proof for all tasks before checking out": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_checkin_bar.dart"
+  ],
+  "Checked in successfully": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_checkin_bar.dart"
+  ],
+  "Upload photo/video proof before marking as done": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_task_item.dart"
+  ],
+  "Waiting for client to approve this task.": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_task_item.dart"
+  ],
+  "Client rejected this extra task.": [
+    "lib/features/myTasks_caregiver/ui/widgets/mytask_cg_task_item.dart"
+  ],
+  "Track Caregiver": [
+    "lib/features/map_user/ui/screens/track_caregiver_screen.dart"
+  ],
+  "Caregiver is heading to your location": [
+    "lib/features/map_user/ui/screens/track_caregiver_screen.dart"
+  ],
+  "Expected in 14 min.": [
+    "lib/features/map_user/ui/widgets/caregiver_status.dart"
+  ],
+  "Contact": [
+    "lib/features/map_user/ui/widgets/contact_button.dart"
+  ],
+  "Contact Caregiver": [
+    "lib/features/map_user/ui/widgets/contact_dialog.dart"
+  ],
+  "Live Location Tracking": [
+    "lib/features/map_user/ui/widgets/eta_banner.dart"
+  ],
+  "Your Location": [
+    "lib/features/map_user/ui/widgets/location_details.dart"
+  ],
+  "Caregiver's Current Location": [
+    "lib/features/map_user/ui/widgets/location_details.dart"
+  ],
+  "Login Required": [
+    "lib/features/login_required_screen/ui/widgets/login_required_card.dart"
+  ],
+  "You need to login or create an account to create service requests": [
+    "lib/features/login_required_screen/ui/widgets/login_required_card.dart"
+  ],
+  "As a guest, you can browse the app but cannot create requests": [
+    "lib/features/login_required_screen/ui/widgets/login_required_card.dart"
+  ],
+  "No bundles available": [
+    "lib/features/home_screen/ui/screens/bundels_screen.dart"
+  ],
+  "Bundle purchased successfully": [
+    "lib/features/home_screen/ui/screens/bundle_payment_screen.dart"
+  ],
+  "✨ AI Assistant": [
+    "lib/features/home_screen/ui/screens/chatbot_screen.dart"
+  ],
+  "Powered by Artificial Intelligence": [
+    "lib/features/home_screen/ui/screens/chatbot_screen.dart"
+  ],
+  "Type message": [
+    "lib/features/home_screen/ui/screens/chatbot_screen.dart"
+  ],
+  "Save with Bundles": [
+    "lib/features/home_screen/ui/widgets/bundles_card.dart"
+  ],
+  "Get up to 40% off with service packages": [
+    "lib/features/home_screen/ui/widgets/bundles_card.dart"
+  ],
+  "View Bundles": [
+    "lib/features/home_screen/ui/widgets/bundles_card.dart"
+  ],
+  "No services available": [
+    "lib/features/home_screen/ui/widgets/home_content.dart"
+  ],
+  "Trusted Care": [
+    "lib/features/home_screen/ui/widgets/home_content.dart"
+  ],
+  "Experienced\\nStaff": [
+    "lib/features/home_screen/ui/widgets/home_content.dart"
+  ],
+  "Purchased": [
+    "lib/features/home_screen/ui/widgets/bundels_widgets/bundels_card.dart"
+  ],
+  "Purchase Bundle": [
+    "lib/features/home_screen/ui/widgets/bundels_widgets/bundels_card.dart"
+  ],
+  "EGP": [
+    "lib/features/home_screen/ui/widgets/bundels_widgets/bundels_header.dart"
+  ],
+  "Can I use bundle sessions for different services?": [
+    "lib/features/home_screen/ui/widgets/bundels_widgets/faq_section.dart"
+  ],
+  "What happens if I don't use all sessions?": [
+    "lib/features/home_screen/ui/widgets/bundels_widgets/faq_section.dart"
+  ],
+  "Why Choose Bundles?": [
+    "lib/features/home_screen/ui/widgets/bundels_widgets/why_choose_card.dart"
+  ],
+  "Budget is required": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/create_request_body.dart"
+  ],
+  "Please add at least one task": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/create_request_body.dart"
+  ],
+  "Service type is required. Please go back and select a service.": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/create_request_body.dart"
+  ],
+  "Create Request": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/create_request_body.dart"
+  ],
+  "Request Created Successfully": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/create_request_body.dart"
+  ],
+  "Duration": [
+    "lib/features/booking_caregiver/ui/widgets/service_details_card.dart",
+    "lib/features/home_screen/ui/widgets/create_req_widgets/create_request_body.dart"
+  ],
+  "Special Requirements": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/create_request_body.dart"
+  ],
+  "Date": [
+    "lib/features/booking_caregiver/ui/widgets/date_time_card.dart",
+    "lib/features/home_screen/ui/widgets/create_req_widgets/date_time_section.dart"
+  ],
+  "Time": [
+    "lib/features/booking_caregiver/ui/widgets/date_time_card.dart",
+    "lib/features/home_screen/ui/widgets/create_req_widgets/date_time_section.dart"
+  ],
+  "Select governorate": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/governorate_field.dart"
+  ],
+  "Describe what you need...": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/request_description_field.dart"
+  ],
+  "Submit Request": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/submit_request.dart"
+  ],
+  "Add specific tasks you'd like the caregiver to complete": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/tasks_section.dart"
+  ],
+  "Add": [
+    "lib/features/admin_features/ui/widgets/bundle_dialog.dart",
+    "lib/features/home_screen/ui/widgets/create_req_widgets/tasks_section.dart"
+  ],
+  "Enter a task...": [
+    "lib/features/home_screen/ui/widgets/create_req_widgets/tasks_section.dart"
+  ],
+  "Active Bookings": [
+    "lib/features/homescreen_caregiver/ui/screens/home_screen_caregiver.dart"
+  ],
+  "No active bookings yet.": [
+    "lib/features/homescreen_caregiver/ui/screens/home_screen_caregiver.dart"
+  ],
+  "Availability Status": [
+    "lib/features/homescreen_caregiver/ui/widgets/hc_availability_card.dart"
+  ],
+  "Welcome back,": [
+    "lib/features/homescreen_caregiver/ui/widgets/hc_header_section.dart"
+  ],
+  "New Care Requests": [
+    "lib/features/homescreen_caregiver/ui/widgets/hc_pending_requests_header.dart"
+  ],
+  "Earnings": [
+    "lib/features/earnings_screen/ui/screens/earnings_screen.dart"
+  ],
+  "Jobs": [
+    "lib/features/earnings_screen/ui/screens/earnings_screen.dart"
+  ],
+  "Avg Job": [
+    "lib/features/earnings_screen/ui/screens/earnings_screen.dart"
+  ],
+  "Hours": [
+    "lib/features/earnings_screen/ui/screens/earnings_screen.dart"
+  ],
+  "Total Earnings": [
+    "lib/features/earnings_screen/ui/widgets/earnings_header_card.dart"
+  ],
+  "No transactions yet": [
+    "lib/features/earnings_screen/ui/widgets/recent_transactions.dart"
+  ],
+  "Recent Transactions": [
+    "lib/features/earnings_screen/ui/widgets/recent_transactions.dart"
+  ],
+  "Please login to view your bookings.": [
+    "lib/features/booking_user/ui/screens/booking_screen_user.dart"
+  ],
+  "No bookings found": [
+    "lib/features/booking_user/ui/screens/booking_screen_user.dart"
+  ],
+  "Cancel Booking": [
+    "lib/features/booking_user/ui/widgets/booking_action_buttons.dart"
+  ],
+  "Rate the service": [
+    "lib/features/booking_user/ui/widgets/booking_action_buttons.dart"
+  ],
+  "Rebook": [
+    "lib/features/booking_user/ui/widgets/booking_action_buttons.dart"
+  ],
+  "Paid by Bundle": [
+    "lib/features/booking_user/ui/widgets/booking_card.dart"
+  ],
+  "My Bookings": [
+    "lib/features/booking_user/ui/widgets/booking_header.dart"
+  ],
+  "Please enter a valid price": [
+    "lib/features/booking_caregiver/ui/screens/booking_cg_screen.dart",
+    "lib/features/booking_caregiver/ui/screens/booking_detailsUser.dart"
+  ],
+  "Offer sent": [
+    "lib/features/booking_caregiver/ui/screens/booking_cg_screen.dart",
+    "lib/features/booking_caregiver/ui/screens/booking_detailsUser.dart"
+  ],
+  "No tasks available": [
+    "lib/features/booking_caregiver/ui/screens/booking_cg_screen.dart",
+    "lib/features/booking_caregiver/ui/screens/booking_detailsUser.dart"
+  ],
+  "CLIENT INFORMATION": [
+    "lib/features/booking_caregiver/ui/widgets/client_info.dart"
+  ],
+  "DATE & TIME": [
+    "lib/features/booking_caregiver/ui/widgets/date_time_card.dart"
+  ],
+  "Street": [
+    "lib/features/booking_caregiver/ui/widgets/date_time_card.dart"
+  ],
+  "Building": [
+    "lib/features/booking_caregiver/ui/widgets/date_time_card.dart"
+  ],
+  "YOUR PROPOSED PRICE": [
+    "lib/features/booking_caregiver/ui/widgets/proposed_price_card.dart"
+  ],
+  "Enter the price you'd charge for this service": [
+    "lib/features/booking_caregiver/ui/widgets/proposed_price_card.dart"
+  ],
+  "Notes (Optional)": [
+    "lib/features/booking_caregiver/ui/widgets/proposed_price_card.dart"
+  ],
+  "Enter your price...": [
+    "lib/features/booking_caregiver/ui/widgets/proposed_price_card.dart"
+  ],
+  "Add any notes about your offer..": [
+    "lib/features/booking_caregiver/ui/widgets/proposed_price_card.dart"
+  ],
+  "SERVICE DETAILS": [
+    "lib/features/booking_caregiver/ui/widgets/service_details_card.dart"
+  ],
+  "Service Type": [
+    "lib/features/booking_caregiver/ui/widgets/service_details_card.dart"
+  ],
+  "Notes": [
+    "lib/features/booking_caregiver/ui/widgets/service_details_card.dart"
+  ],
+  "SPECIAL INSTRUCTIONS": [
+    "lib/features/booking_caregiver/ui/widgets/special_instructions_card.dart"
+  ],
+  "Details": [
+    "lib/features/booking_caregiver/ui/widgets/tabs.dart"
+  ],
+  "Please upload at least one document.": [
+    "lib/features/auth/ui/screens/caregiver_reupload_documents_screen.dart"
+  ],
+  "Failed to submit documents. Please try again.": [
+    "lib/features/auth/ui/screens/caregiver_reupload_documents_screen.dart"
+  ],
+  "Back": [
+    "lib/features/admin_features/ui/screens/pending_approvals_screen.dart",
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart",
+    "lib/features/auth/ui/screens/caregiver_reupload_documents_screen.dart"
+  ],
+  "Please upload clear, correct documents for review.": [
+    "lib/features/auth/ui/screens/caregiver_reupload_documents_screen.dart"
+  ],
+  "Upload Documents": [
+    "lib/features/auth/ui/screens/caregiver_reupload_documents_screen.dart"
+  ],
+  "Update your documents and resubmit for approval.": [
+    "lib/features/auth/ui/screens/caregiver_reupload_documents_screen.dart"
+  ],
+  "Submit Documents": [
+    "lib/features/auth/ui/screens/caregiver_reupload_documents_screen.dart"
+  ],
+  "Profile Picture": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart",
+    "lib/features/admin_features/ui/widgets/pending_documents_dialog.dart",
+    "lib/features/auth/ui/screens/caregiver_reupload_documents_screen.dart"
+  ],
+  "National ID": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart",
+    "lib/features/admin_features/ui/widgets/pending_documents_dialog.dart",
+    "lib/features/auth/ui/screens/caregiver_reupload_documents_screen.dart"
+  ],
+  "Certificate": [
+    "lib/features/auth/ui/screens/caregiver_reupload_documents_screen.dart"
+  ],
+  "Documents Need Review": [
+    "lib/features/auth/ui/screens/login_screen.dart"
+  ],
+  "Your uploaded documents contain incorrect or unclear information. Please review your documents and upload the correct files to continue.": [
+    "lib/features/auth/ui/screens/login_screen.dart"
+  ],
+  "Upload Documents Again": [
+    "lib/features/auth/ui/screens/login_screen.dart"
+  ],
+  "Welcome back": [
+    "lib/features/auth/ui/screens/login_screen.dart"
+  ],
+  "Email": [
+    "lib/features/admin_features/ui/widgets/pending_approval_card.dart",
+    "lib/features/auth/ui/screens/login_screen.dart"
+  ],
+  "Password": [
+    "lib/features/auth/ui/screens/login_screen.dart"
+  ],
+  "Forgot Password?": [
+    "lib/features/auth/ui/screens/login_screen.dart"
+  ],
+  "Continue as a Guest!": [
+    "lib/features/auth/ui/screens/login_screen.dart"
+  ],
+  "your@email.com": [
+    "lib/features/auth/ui/screens/login_screen.dart",
+    "lib/features/auth/ui/widgets/register_password_card.dart"
+  ],
+  "Please enter email and password": [
+    "lib/features/auth/ui/screens/login_screen.dart"
+  ],
+  "Invalid email or password": [
+    "lib/features/auth/ui/screens/login_screen.dart"
+  ],
+  "Back to Login": [
+    "lib/features/account_settings/ui/screens/change_password_screen.dart",
+    "lib/features/auth/ui/screens/select_role_screen.dart",
+    "lib/features/auth/ui/widgets/register_password_card.dart"
+  ],
+  "User": [
+    "lib/features/auth/ui/screens/select_role_screen.dart"
+  ],
+  "Care giver": [
+    "lib/features/auth/ui/screens/select_role_screen.dart"
+  ],
+  "Please fill in both fields.": [
+    "lib/features/auth/ui/screens/set_new_password_screen.dart"
+  ],
+  "Set New Password": [
+    "lib/features/auth/ui/screens/set_new_password_screen.dart"
+  ],
+  "Choose a strong password\\nfor your account": [
+    "lib/features/auth/ui/screens/set_new_password_screen.dart"
+  ],
+  "New password": [
+    "lib/features/auth/ui/screens/set_new_password_screen.dart"
+  ],
+  "Confirm new password": [
+    "lib/features/auth/ui/screens/set_new_password_screen.dart"
+  ],
+  "Pending\\nApproval": [
+    "lib/features/auth/ui/widgets/pending_info_card.dart"
+  ],
+  "Your account is under review": [
+    "lib/features/auth/ui/widgets/pending_info_card.dart"
+  ],
+  "Please wait while our admin team\\nreviews your documents. You will\\nbe notified once approved.": [
+    "lib/features/auth/ui/widgets/pending_info_card.dart"
+  ],
+  "Registration Complete!": [
+    "lib/features/auth/ui/widgets/pending_info_card.dart"
+  ],
+  "Approval Status:": [
+    "lib/features/auth/ui/widgets/pending_info_card.dart"
+  ],
+  "Pending": [
+    "lib/core/widgets/filter.dart",
+    "lib/features/auth/ui/widgets/pending_info_card.dart"
+  ],
+  "Enter your full name": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Enter your email": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Select Care Field...": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Select Specialization...": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Select your Government": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Enter your street": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Enter your building number": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Enter your phone number": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Enter your password": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Confirm your password": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Upload Profile Picture": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Upload National ID": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Upload Certificate": [
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Mental Health Document": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart",
+    "lib/features/auth/ui/widgets/register_form.dart"
+  ],
+  "Documents Required": [
+    "lib/features/admin_features/ui/widgets/pending_approval_card.dart",
+    "lib/features/auth/ui/widgets/register_header.dart"
+  ],
+  "Please enter your email address.": [
+    "lib/features/auth/ui/widgets/register_password_card.dart"
+  ],
+  "Please enter a valid email address.": [
+    "lib/features/auth/ui/widgets/register_password_card.dart"
+  ],
+  "Reset Password": [
+    "lib/features/auth/ui/widgets/register_password_card.dart"
+  ],
+  "Enter your email address and we'll\\nsend you a link to reset your\\npassword": [
+    "lib/features/auth/ui/widgets/register_password_card.dart"
+  ],
+  "Select Your Role": [
+    "lib/features/auth/ui/widgets/select_role_logo_section.dart"
+  ],
+  "Trusted Care Services Platform": [
+    "lib/features/auth/ui/widgets/select_role_logo_section.dart"
+  ],
+  "Users": [
+    "lib/features/admin_users_screen/ui/ad_user_screen.dart",
+    "lib/features/admin_users_screen/ui/widgets/ad_user_header.dart"
+  ],
+  "No users found": [
+    "lib/features/admin_users_screen/ui/ad_user_screen.dart"
+  ],
+  "Search users...": [
+    "lib/features/admin_users_screen/ui/ad_user_screen.dart",
+    "lib/features/admin_users_screen/ui/widgets/ad_user_header.dart"
+  ],
+  "Total Users": [
+    "lib/features/admin_users_screen/ui/ad_user_screen.dart",
+    "lib/features/admin_users_screen/ui/widgets/ad_user_stats_card.dart"
+  ],
+  "Block User": [
+    "lib/features/admin_users_screen/ui/widgets/ad_user_card.dart",
+    "lib/features/admin_users_screen/ui/widgets/block_user_dialog.dart"
+  ],
+  "User:": [
+    "lib/features/admin_users_screen/ui/widgets/block_user_dialog.dart"
+  ],
+  "Reason for Blocking *": [
+    "lib/features/admin_provider_screen/ui/widgets/block_provider_dialog.dart",
+    "lib/features/admin_users_screen/ui/widgets/block_user_dialog.dart"
+  ],
+  "This reason will be stored for record keeping and may be shared with the user.": [
+    "lib/features/admin_users_screen/ui/widgets/block_user_dialog.dart"
+  ],
+  "Explain why you are blocking this user...": [
+    "lib/features/admin_users_screen/ui/widgets/block_user_dialog.dart"
+  ],
+  "Settings": [
+    "lib/features/admin_settings_screen/ui/screens/admin_settings_screen.dart"
+  ],
+  "Super Admin": [
+    "lib/features/admin_settings_screen/ui/screens/admin_settings_screen.dart"
+  ],
+  "Full Name": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart",
+    "lib/features/admin_settings_screen/ui/screens/admin_settings_screen.dart"
+  ],
+  "Email Address": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart",
+    "lib/features/admin_settings_screen/ui/screens/admin_settings_screen.dart"
+  ],
+  "Address": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart",
+    "lib/features/admin_settings_screen/ui/screens/admin_settings_screen.dart"
+  ],
+  "Cairo, Egypt\\nstreet:El Geish Street\\nbuilding:15": [
+    "lib/features/admin_settings_screen/ui/screens/admin_settings_screen.dart"
+  ],
+  "No providers found": [
+    "lib/features/admin_provider_screen/ui/screens/ad_provider_screen.dart"
+  ],
+  "Block Provider": [
+    "lib/features/admin_provider_screen/ui/widgets/ad_provider_card.dart",
+    "lib/features/admin_provider_screen/ui/widgets/block_provider_dialog.dart"
+  ],
+  "Providers": [
+    "lib/features/admin_provider_screen/ui/widgets/ad_provider_header.dart"
+  ],
+  "Search Providers...": [
+    "lib/features/admin_provider_screen/ui/widgets/ad_provider_header.dart"
+  ],
+  "Total Provider": [
+    "lib/features/admin_provider_screen/ui/widgets/ad_provider_status_card.dart"
+  ],
+  "Provider:": [
+    "lib/features/admin_provider_screen/ui/widgets/block_provider_dialog.dart"
+  ],
+  "This reason will be stored for record keeping and may be shared with the provider.": [
+    "lib/features/admin_provider_screen/ui/widgets/block_provider_dialog.dart"
+  ],
+  "Block": [
+    "lib/features/admin_provider_screen/ui/widgets/block_provider_dialog.dart"
+  ],
+  "Explain why you are blocking this provider...": [
+    "lib/features/admin_provider_screen/ui/widgets/block_provider_dialog.dart"
+  ],
+  "Admin Dashboard": [
+    "lib/features/admin_home_screen/ui/widgets/dashboard_header.dart"
+  ],
+  "Ehtemam": [
+    "lib/features/admin_home_screen/ui/widgets/dashboard_header.dart"
+  ],
+  "Sunday, March 8, 2026": [
+    "lib/features/admin_home_screen/ui/widgets/dashboard_header.dart"
+  ],
+  "Quick Actions": [
+    "lib/features/admin_home_screen/ui/widgets/quick_actions_widget.dart"
+  ],
+  "Manage\\nBundles": [
+    "lib/features/admin_features/ui/screens/bundles_screen.dart"
+  ],
+  "Create and manage\\nservice packages": [
+    "lib/features/admin_features/ui/screens/bundles_screen.dart"
+  ],
+  "No bundles found": [
+    "lib/features/admin_features/ui/screens/bundles_screen.dart"
+  ],
+  "Create New Bundle": [
+    "lib/features/admin_features/ui/screens/bundles_screen.dart"
+  ],
+  "Edit Bundle": [
+    "lib/features/admin_features/ui/screens/bundles_screen.dart"
+  ],
+  "Manage Complaints": [
+    "lib/features/admin_features/ui/screens/manage_complaints_screen.dart"
+  ],
+  "Review and resolve user, caregiver\\ncomplaints": [
+    "lib/features/admin_features/ui/screens/manage_complaints_screen.dart"
+  ],
+  "No complaints found.": [
+    "lib/features/admin_features/ui/screens/manage_complaints_screen.dart"
+  ],
+  "Pending Approvals": [
+    "lib/features/admin_features/ui/screens/pending_approvals_screen.dart"
+  ],
+  "Review and approve provider registrations": [
+    "lib/features/admin_features/ui/screens/pending_approvals_screen.dart"
+  ],
+  "Caregiver approved successfully": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart"
+  ],
+  "Failed to approve. Please try again.": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart"
+  ],
+  "Caregiver application rejected successfully.": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart"
+  ],
+  "Failed to reject. Please try again.": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart"
+  ],
+  "Ø§Ù„Ø¹Ø±Ø¨ÙŠØ©": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart"
+  ],
+  "Certificates": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart",
+    "lib/features/admin_features/ui/widgets/pending_documents_dialog.dart"
+  ],
+  "Approve": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart",
+    "lib/features/admin_features/ui/widgets/pending_approval_card.dart",
+    "lib/features/admin_features/ui/widgets/pending_documents_dialog.dart"
+  ],
+  "PDF link copied to clipboard": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart"
+  ],
+  "Open": [
+    "lib/features/admin_features/ui/screens/pending_documents_screen.dart"
+  ],
+  "View Transactions": [
+    "lib/features/admin_features/ui/screens/view_transactions_screen.dart"
+  ],
+  "Monitor all platform\\ntransactions": [
+    "lib/features/admin_features/ui/screens/view_transactions_screen.dart"
+  ],
+  "No transactions found": [
+    "lib/features/admin_features/ui/screens/view_transactions_screen.dart"
+  ],
+  "0 sold": [
+    "lib/features/admin_features/ui/widgets/bundle_card.dart"
+  ],
+  "Edit": [
+    "lib/features/admin_features/ui/widgets/bundle_card.dart"
+  ],
+  "Delete": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart",
+    "lib/features/admin_features/ui/widgets/bundle_card.dart"
+  ],
+  "No features added yet. Type a feature and press Add.": [
+    "lib/features/admin_features/ui/widgets/bundle_dialog.dart"
+  ],
+  "e.g., Priority support": [
+    "lib/features/admin_features/ui/widgets/bundle_dialog.dart"
+  ],
+  "Complaint Details": [
+    "lib/features/admin_features/ui/widgets/complaint_details_dialog.dart"
+  ],
+  "Message": [
+    "lib/features/admin_features/ui/widgets/complaint_details_dialog.dart"
+  ],
+  "View Documents": [
+    "lib/features/admin_features/ui/widgets/pending_approval_card.dart"
+  ],
+  "Phone Number": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart",
+    "lib/features/admin_features/ui/widgets/pending_approval_card.dart"
+  ],
+  "View Documents -\\nFatma Hassan": [
+    "lib/features/admin_features/ui/widgets/pending_documents_dialog.dart"
+  ],
+  "Delete Account?": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart"
+  ],
+  "This action will permanently delete your account and cannot be undone.": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart"
+  ],
+  "Push Notifications": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart"
+  ],
+  "New request alerts": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart"
+  ],
+  "Certified Provider": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart"
+  ],
+  "Account Settings": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart"
+  ],
+  "CareConnect Provider v1.0.0\\n© 2024 All Rights Reserved": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart"
+  ],
+  "Service Area": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart"
+  ],
+  "Elsheikh zayed, Giza": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart"
+  ],
+  "Service Types": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart"
+  ],
+  "Experience & Bio": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart"
+  ],
+  "Change Password": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart",
+    "lib/features/account_settings/ui/screens/change_password_screen.dart"
+  ],
+  "Update your password": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart"
+  ],
+  "Delete Account": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart"
+  ],
+  "Permanently delete your account": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_careprovider.dart",
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart"
+  ],
+  "Are you sure you want to permanently delete your account? This action cannot be undone.": [
+    "lib/features/account_settings/ui/screens/account_settings_screen_user.dart"
+  ],
+  "Enter your current password and\\nchoose a new password": [
+    "lib/features/account_settings/ui/screens/change_password_screen.dart"
+  ],
+  "All": [
+    "lib/core/widgets/filter.dart"
+  ],
+  "Accepted": [
+    "lib/core/widgets/filter.dart"
+  ],
+  "Completed": [
+    "lib/core/widgets/filter.dart"
+  ]
+}

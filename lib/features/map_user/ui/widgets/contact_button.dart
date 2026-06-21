@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'contact_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ContactButton extends StatelessWidget {
   final String name;
@@ -36,8 +37,7 @@ class ContactButton extends StatelessWidget {
             children: [
               Icon(Icons.contact_phone, color: Colors.white, size: 18.r),
               SizedBox(width: 6.w),
-              Text(
-                "Contact",
+              Text('contact'.tr(),
                 style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: FontWeight.bold,

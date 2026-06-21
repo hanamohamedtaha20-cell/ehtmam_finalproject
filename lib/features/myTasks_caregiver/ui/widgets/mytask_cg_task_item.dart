@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/mytask_cg_task_model.dart';
 import '../../manager/mytask_cg_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MytaskCgTaskItem extends StatelessWidget {
   final MytaskCgTaskModel task;
@@ -96,8 +97,8 @@ class MytaskCgTaskItem extends StatelessWidget {
                   }
                   if (!hasProof) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Upload photo/video proof before marking as done'),
+                      SnackBar(
+                        content: Text('upload_proof_before_done'.tr()),
                         backgroundColor: Colors.red,
                       ),
                     );
@@ -214,8 +215,7 @@ class MytaskCgTaskItem extends StatelessWidget {
                         Icon(Icons.hourglass_empty, size: 14.r, color: const Color(0xFFD97706)),
                         SizedBox(width: 6.w),
                         Expanded(
-                          child: Text(
-                            'Waiting for client to approve this task.',
+                          child: Text('waiting_client_approval'.tr(),
                             style: TextStyle(fontSize: 12.sp, color: const Color(0xFFD97706)),
                           ),
                         ),
@@ -238,8 +238,7 @@ class MytaskCgTaskItem extends StatelessWidget {
                         Icon(Icons.cancel_outlined, size: 14.r, color: const Color(0xFFDC2626)),
                         SizedBox(width: 6.w),
                         Expanded(
-                          child: Text(
-                            'Client rejected this extra task.',
+                          child: Text('client_rejected_task'.tr(),
                             style: TextStyle(fontSize: 12.sp, color: const Color(0xFFDC2626)),
                           ),
                         ),

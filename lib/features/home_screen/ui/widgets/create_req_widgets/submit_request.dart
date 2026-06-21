@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SubmitRequest extends StatelessWidget {
   final VoidCallback onSubmit;
@@ -47,8 +48,7 @@ class SubmitRequest extends StatelessWidget {
             size: 18.r,
           ),
 
-          label: Text(
-            "Submit Request",
+          label: Text('submit_request'.tr(),
 
             style: TextStyle(
               color: Colors.white,

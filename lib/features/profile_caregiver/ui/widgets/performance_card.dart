@@ -39,14 +39,8 @@ class PerformanceCard extends StatelessWidget {
               Expanded(child: _StatBox(value: "${profile.totalEarnings}K", label: "Total Earnings", bgColor: Color(0xFF1F9E0E), textColor:Colors.white )),
             ],
           ),
-          SizedBox(height: 12.h),
-          Row(
-            children: [
-              Expanded(child: _StatBox(value: "${profile.completionRate.toInt()}%", label: "Completion Rate", bgColor: Color.fromARGB(255, 250, 234, 63), textColor: Colors.white)),
-              SizedBox(width: 12.w),
-              Expanded(child: _StatBox(value: profile.avgResponse, label: "Avg Response", bgColor: Color(0xFFE17100), textColor:Colors.white )),
-            ],
-          ),
+          
+          
         ],
       ),
     );

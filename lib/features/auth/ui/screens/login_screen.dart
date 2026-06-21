@@ -16,6 +16,7 @@ import '../../../bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import '../../../bottom_nav_bar/ui/widget/admin_bottom.dart';
 import '../../manager/auth_cubit.dart';
 import '../../manager/auth_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -101,8 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               SizedBox(height: 16.h),
-              Text(
-                'Documents Need Review',
+              Text('documents_need_review'.tr(),
                 style: TextStyle(
                   fontSize: 18.sp,
                   fontWeight: FontWeight.w700,
@@ -143,8 +143,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     padding: EdgeInsets.symmetric(vertical: 14.h),
                   ),
-                  child: Text(
-                    'Upload Documents Again',
+                  child: Text('upload_docs_again'.tr(),
                     style: TextStyle(
                       fontSize: 14.sp,
                       fontWeight: FontWeight.w600,
@@ -155,8 +154,7 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: 8.h),
               TextButton(
                 onPressed: () => Navigator.pop(ctx),
-                child: Text(
-                  'Close',
+                child: Text('close'.tr(),
                   style: TextStyle(
                     fontSize: 13.sp,
                     color: const Color(0xff64748B),
@@ -216,8 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               fit: BoxFit.contain,
                             ),
                             SizedBox(height: 14.h),
-                            Text(
-                              'Welcome back',
+                            Text('welcome_back'.tr(),
                               textAlign: TextAlign.center,
                               style: AppTextStyle.extraBold.copyWith(
                                 fontSize: 36.sp,
@@ -235,8 +232,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Email',
+                              child: Text('email'.tr(),
                                 style: AppTextStyle.medium.copyWith(
                                   fontSize: 16.sp,
                                   color: const Color(0xFF3F4D63),
@@ -246,7 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(height: 10.h),
                             AuthTextField(
                               controller: emailController,
-                              hintText: 'your@email.com',
+                              hintText: 'email_placeholder'.tr(),
                               prefixIcon: Icons.mail_outline_rounded,
                             ),
 
@@ -254,8 +250,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                             Align(
                               alignment: Alignment.centerLeft,
-                              child: Text(
-                                'Password',
+                              child: Text('password'.tr(),
                                 style: AppTextStyle.medium.copyWith(
                                   fontSize: 16.sp,
                                   color: const Color(0xFF3F4D63),
@@ -307,8 +302,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                                   );
                                 },
-                                child: Text(
-                                  'Forgot Password?',
+                                child: Text('forgot_password'.tr(),
                                   style: AppTextStyle.medium.copyWith(
                                     fontSize: 13.sp,
                                     color: AppColors.primaryBlue,
@@ -360,8 +354,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   MaterialPageRoute(builder: (_) => const HomeScreen()),
                                 );
                               },
-                              child: Text(
-                                'Continue as a Guest!',
+                              child: Text('continue_as_guest'.tr(),
                                 style: AppTextStyle.semiBold.copyWith(
                                   fontSize: 16.sp,
                                   color: const Color(0xFF2EA63A),

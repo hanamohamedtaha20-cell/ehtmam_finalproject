@@ -36,8 +36,7 @@ class HcHeaderSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Welcome back,',
+                Text('welcome_back_comma'.tr(),
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 14.sp,

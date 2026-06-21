@@ -1,6 +1,10 @@
 ﻿import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/cg_payment_model.dart';
+import '../../manager/cg_payment_cubit.dart';
+import 'transaction_details_sheet.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CgTransactionItem extends StatelessWidget {
   final CgTransactionModel transaction;
@@ -67,7 +71,7 @@ class CgTransactionItem extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 2.h),
                     decoration: BoxDecoration(
-                      color: _statusColor.withOpacity(0.1),
+                      color: _statusColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(8.r),
                     ),
                     child: Row(
@@ -91,8 +95,24 @@ class CgTransactionItem extends StatelessWidget {
               Text('Transaction ID: ${transaction.id.substring(0, 8)}',
                   style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: Colors.black87)),
               GestureDetector(
-                onTap: () {},
-                child: Text('View Details →',
+                onTap: () {
+                  final cubit = context.read<CgPaymentCubit>();
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(24.r)),
+                    ),
+                    builder: (_) => BlocProvider.value(
+                      value: cubit,
+                      child: TransactionDetailsSheet(
+                          transaction: transaction),
+                    ),
+                  );
+                },
+                child: Text('view_details_arrow'.tr(),
                     style: TextStyle(fontFamily: "Arimo", fontSize: 11.sp, color: Color(0xFF3A8BD7))),
               ),
             ],

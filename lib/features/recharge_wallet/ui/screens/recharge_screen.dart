@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RechargeScreen extends StatefulWidget {
   const RechargeScreen({super.key});
@@ -73,8 +74,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Center(
-                  child: Text(
-                    "Add Funds",
+                  child: Text('add_funds'.tr(),
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
                   ),
                 ),
                 SizedBox(height: 20.h),
-                Text("Select Payment Method",
+                Text('select_payment_method'.tr(),
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontSize: 13.sp,
@@ -93,7 +93,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
                   onSelected: (i) => setState(() => _selectedMethod = i),
                 ),
                 SizedBox(height: 20.h),
-                Text("Quick Amounts",
+                Text('quick_amounts'.tr(),
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontSize: 13.sp,
@@ -107,7 +107,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
                   }),
                 ),
                 SizedBox(height: 20.h),
-                Text("Custom Amount",
+                Text('custom_amount'.tr(),
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontSize: 13.sp,
@@ -120,7 +120,7 @@ class _RechargeScreenState extends State<RechargeScreen> {
                     final amount = double.tryParse(_customAmountController.text) ?? 0;
                     if (amount <= 0) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Please enter a valid amount')),
+                        SnackBar(content: Text('enter_valid_amount'.tr())),
                       );
                       return;
                     }

@@ -3,10 +3,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class ClientBudgetCard extends StatelessWidget {
   final String amount;
+  final String label;
 
   const ClientBudgetCard({
     super.key,
     required this.amount,
+    this.label = "CLIENT'S BUDGET",
   });
 
   @override
@@ -49,7 +51,7 @@ class ClientBudgetCard extends StatelessWidget {
               SizedBox(width: 6.w),
 
               Text(
-                "CLIENT'S BUDGET",
+                label,
 
                 style: TextStyle(
                   fontSize: 12.sp,

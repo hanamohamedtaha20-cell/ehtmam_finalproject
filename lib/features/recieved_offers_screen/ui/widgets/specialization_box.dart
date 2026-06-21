@@ -2,6 +2,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/model/provider_data.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class SpecializationBox extends StatelessWidget {
@@ -26,8 +27,7 @@ class SpecializationBox extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
 
-          Text(
-            "Specialization",
+          Text('specialization'.tr(),
             style: TextStyle(
               color: Color(0xFF432DD7),
               fontSize: 12.sp,

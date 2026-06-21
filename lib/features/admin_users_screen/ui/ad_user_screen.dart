@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../manager/ad_user_cubit.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AdUserScreen extends StatelessWidget {
   const AdUserScreen({super.key});
@@ -36,8 +37,7 @@ class UsersView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Users',
+                  Text('users'.tr(),
                     style: TextStyle(
                       fontSize: 20.sp,
                       fontWeight: FontWeight.w800,
@@ -50,7 +50,7 @@ class UsersView extends StatelessWidget {
                       context.read<AdUserCubit>().searchUsers(value);
                     },
                     decoration: InputDecoration(
-                      hintText: 'Search users...',
+                      hintText: 'search_users'.tr(),
                       hintStyle: TextStyle(
                         color: Color(0xff94A3B8),
                         fontSize: 13.sp,
@@ -89,8 +89,7 @@ class UsersView extends StatelessWidget {
                         Center(
                           child: Padding(
                             padding: EdgeInsets.only(top: 40.h),
-                            child: Text(
-                              'No users found',
+                            child: Text('no_users_found'.tr(),
                               style: TextStyle(
                                 color: Color(0xff64748B),
                                 fontSize: 14.sp,

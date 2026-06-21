@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../manager/create_request_cubit.dart';
 import '../../../manager/state/create_request_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TasksSection extends StatefulWidget {
   const TasksSection({super.key});
@@ -57,8 +58,7 @@ class _TasksSectionState extends State<TasksSection> {
                     color: const Color(0xFF4A90E2),
                   ),
                   SizedBox(width: 8.w),
-                  Text(
-                    "Tasks",
+                  Text('tasks'.tr(),
                     style: TextStyle(
                       fontSize: 15.sp,
                       fontWeight: FontWeight.w700,
@@ -68,8 +68,7 @@ class _TasksSectionState extends State<TasksSection> {
                 ],
               ),
               SizedBox(height: 10.h),
-              Text(
-                "Add specific tasks you'd like the caregiver to complete",
+              Text('add_tasks_desc'.tr(),
                 style: TextStyle(
                   fontSize: 12.5.sp,
                   color: Colors.grey.shade500,
@@ -92,7 +91,7 @@ class _TasksSectionState extends State<TasksSection> {
                       child: TextField(
                         controller: _taskController,
                         decoration: InputDecoration(
-                          hintText: "Enter a task...",
+                          hintText: 'enter_task'.tr(),
                           hintStyle: TextStyle(
                             color: Colors.grey.shade400,
                             fontSize: 14.sp,
@@ -128,8 +127,7 @@ class _TasksSectionState extends State<TasksSection> {
                             size: 18.r,
                           ),
                           SizedBox(width: 6.w),
-                          Text(
-                            "Add",
+                          Text('add'.tr(),
                             style: TextStyle(
                               color: Colors.white,
                               fontWeight: FontWeight.w600,

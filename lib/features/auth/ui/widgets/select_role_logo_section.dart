@@ -1,6 +1,7 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SelectRoleLogoSection extends StatelessWidget {
   const SelectRoleLogoSection({super.key});
@@ -16,8 +17,7 @@ class SelectRoleLogoSection extends StatelessWidget {
           fit: BoxFit.contain,
         ),
         SizedBox(height: 18.h),
-        Text(
-          'Select Your Role',
+        Text('select_your_role'.tr(),
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: 'InriaSerif',
@@ -35,8 +35,7 @@ class SelectRoleLogoSection extends StatelessWidget {
           ),
         ),
         SizedBox(height: 8.h),
-        Text(
-          'Trusted Care Services Platform',
+        Text('trusted_care_platform'.tr(),
           textAlign: TextAlign.center,
           style: AppTextStyle.regular.copyWith(
             fontSize: 14.sp,

@@ -7,6 +7,7 @@ import '../../../../core/resources/app_images.dart';
 import '../../../../core/resources/skip_button.dart';
 import '../../../auth/ui/screens/login_screen.dart';
 import '../../../splash/ui/widgets/next_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OnboardingScreen4 extends StatelessWidget {
   const OnboardingScreen4({super.key});
@@ -66,8 +67,7 @@ class OnboardingScreen4 extends StatelessWidget {
 
                   SizedBox(height: 40.h),
 
-                  Text(
-                    'Verified Providers',
+                  Text('verified_providers'.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: AppFonts.inter,

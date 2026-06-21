@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../../core/resources/app_text_style.dart';
 import '../../../splash/ui/widgets/next_button.dart';
 import 'auth_text_field.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ResetPasswordCard extends StatelessWidget {
   const ResetPasswordCard({super.key});
@@ -46,7 +47,7 @@ class _ResetPasswordCardBodyState extends State<_ResetPasswordCardBody> {
     if (email.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Please enter your email address.'),
+          content: Text('enter_email_address'.tr()),
           backgroundColor: Colors.red.shade600,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
@@ -58,7 +59,7 @@ class _ResetPasswordCardBodyState extends State<_ResetPasswordCardBody> {
     if (!_isValidEmail(email)) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Please enter a valid email address.'),
+          content: Text('enter_valid_email'.tr()),
           backgroundColor: Colors.red.shade600,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
@@ -135,8 +136,7 @@ class _ResetPasswordCardBodyState extends State<_ResetPasswordCardBody> {
                   children: [
                     Icon(Icons.arrow_back, size: 18.r, color: const Color(0xFF465A76)),
                     SizedBox(width: 8.w),
-                    Text(
-                      'Back to Login',
+                    Text('back_to_login'.tr(),
                       style: AppTextStyle.medium.copyWith(
                         fontSize: 14.sp,
                         color: const Color(0xFF465A76),
@@ -173,8 +173,7 @@ class _ResetPasswordCardBodyState extends State<_ResetPasswordCardBody> {
 
             SizedBox(height: 24.h),
 
-            Text(
-              'Reset Password',
+            Text('reset_password'.tr(),
               textAlign: TextAlign.center,
               style: AppTextStyle.extraBold.copyWith(
                 fontSize: 24.sp,
@@ -199,7 +198,7 @@ class _ResetPasswordCardBodyState extends State<_ResetPasswordCardBody> {
             // ── Email field ───────────────────────────────────────────────
             AuthTextField(
               controller: _emailController,
-              hintText: 'your@email.com',
+              hintText: 'email_placeholder'.tr(),
               prefixIcon: Icons.mail_outline_rounded,
             ),
 

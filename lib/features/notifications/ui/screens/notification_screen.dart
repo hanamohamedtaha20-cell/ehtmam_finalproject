@@ -8,6 +8,7 @@ import '../../manager/notification_state.dart';
 import '../widgets/notification_list.dart';
 import '../widgets/notification_empty_view.dart';
 import '../widgets/notification_error_view.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
@@ -36,8 +37,7 @@ class _NotificationView extends StatelessWidget {
           icon: Icon(Icons.arrow_back, color: AppColors.textDark, size: 22.r),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          'Notifications',
+        title: Text('notifications'.tr(),
           style: TextStyle(
             fontFamily: 'Arimo',
             fontSize: 18.sp,

@@ -1,6 +1,7 @@
 ﻿import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HcRequestCard extends StatelessWidget {
   final CareRequestModel request;
@@ -210,8 +211,7 @@ class _AcceptButton extends StatelessWidget {
             children: [
               Icon(Icons.check_rounded, color: Colors.white, size: 18.r * scale),
               SizedBox(width: 6.w * scale),
-              Text(
-                'Accept',
+              Text('accept'.tr(),
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 14.sp * scale,
@@ -255,8 +255,7 @@ class _DeclineButton extends StatelessWidget {
             children: [
               Icon(Icons.close_rounded, color: const Color(0xFF667085), size: 18.r * scale),
               SizedBox(width: 6.w * scale),
-              Text(
-                'Decline',
+              Text('decline'.tr(),
                 style: TextStyle(
                   fontFamily: 'Inter',
                   fontSize: 14.sp * scale,

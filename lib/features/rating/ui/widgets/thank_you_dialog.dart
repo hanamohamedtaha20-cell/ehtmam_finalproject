@@ -2,6 +2,7 @@ import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_scree
 import 'package:ehtemam_final_project/features/rating/ui/screens/complaint_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ThankYouDialog extends StatelessWidget {
   final int rating;
@@ -59,8 +60,7 @@ class ThankYouDialog extends StatelessWidget {
 
             SizedBox(height: 10.h),
 
-            Text(
-              'Your feedback helps us improve our services',
+            Text('feedback_helps'.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Arimo',
@@ -118,8 +118,7 @@ class ThankYouDialog extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14.r),
                   ),
                 ),
-                child: Text(
-                  'Back to Home',
+                child: Text('back_to_home'.tr(),
                   style: TextStyle(
                     fontFamily: 'Arimo',
                     fontSize: 15.sp,
@@ -151,8 +150,7 @@ class ThankYouDialog extends StatelessWidget {
                   ),
                 ),
                 icon: Icon(Icons.error_outline, size: 18.r, color: Colors.red),
-                label: Text(
-                  'Submit a Complaint',
+                label: Text('submit_a_complaint'.tr(),
                   style: TextStyle(
                     fontFamily: 'Arimo',
                     fontSize: 14.sp,

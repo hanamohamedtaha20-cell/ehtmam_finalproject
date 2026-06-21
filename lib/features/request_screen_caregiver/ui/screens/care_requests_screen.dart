@@ -11,6 +11,7 @@ import '../../../../core/widgets/filter.dart';
 import '../widgets/care_request_card.dart';
 import '../widgets/care_request_header.dart';
 import '../widgets/care_request_stats_row.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CareRequestsScreen extends StatelessWidget {
   const CareRequestsScreen({super.key});
@@ -46,10 +47,13 @@ class _CareRequestsViewState extends State<CareRequestsView> {
             children: [
               const Expanded(child: RequestHeader()),
               Builder(
-                builder: (ctx) => IconButton(
-                  icon: const Icon(Icons.refresh, color: Colors.black),
-                  tooltip: 'Refresh',
-                  onPressed: () => ctx.read<CareRequestsCubit>().getAllRequests(),
+                builder: (ctx) => Container(
+                  color: Colors.white,
+                  child: IconButton(
+                    icon: const Icon(Icons.refresh, color: Colors.black),
+                    tooltip: 'refresh'.tr(),
+                    onPressed: () => ctx.read<CareRequestsCubit>().getAllRequests(),
+                  ),
                 ),
               ),
             ],
@@ -63,6 +67,22 @@ class _CareRequestsViewState extends State<CareRequestsView> {
           Expanded(
             child: BlocBuilder<CareRequestsCubit, CareRequestsState>(
               builder: (context, state) {
+                if (state is CareRequestsUnavailable) {
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 32.w),
+                      child: Text('currently_unavailable'.tr(),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontFamily: 'Inter',
+                          fontSize: 14.sp,
+                          color: Color(0xFF667085),
+                        ),
+                      ),
+                    ),
+                  );
+                }
+
                 if (state is CareRequestsLoading) {
                   return Center(child: CircularProgressIndicator());
                 }
@@ -77,7 +97,7 @@ class _CareRequestsViewState extends State<CareRequestsView> {
                         ElevatedButton(
                           onPressed: () =>
                               context.read<CareRequestsCubit>().getAllRequests(),
-                          child: Text('Retry'),
+                          child: Text('retry'.tr()),
                         ),
                       ],
                     ),
@@ -102,7 +122,7 @@ class _CareRequestsViewState extends State<CareRequestsView> {
                 }).toList();
 
                 if (filteredRequests.isEmpty) {
-                  return Center(child: Text('No requests found'));
+                  return Center(child: Text('no_requests_found'.tr()));
                 }
 
                 return Padding(

@@ -1,4 +1,5 @@
 ﻿import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_cg_screen.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_detailsUser.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
 import 'package:ehtemam_final_project/features/rating_caregiver/ui/screens/rating_screen.dart';
 import 'package:ehtemam_final_project/features/request_screen_caregiver/data/model/care_request.dart';
@@ -7,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../../core/widgets/gradient_action_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RequestCard extends StatelessWidget {
   final CareRequestModel request;
@@ -98,7 +100,7 @@ class RequestCard extends StatelessWidget {
               ),
             ),
           ],
-          SizedBox(height: 18.h),
+          SizedBox(height: 9.h),
           if (request.date.isNotEmpty)
             _info(Icons.calendar_today_outlined, "Start: ${request.date}"),
           if (request.duration.isNotEmpty)
@@ -107,7 +109,7 @@ class RequestCard extends StatelessWidget {
             _info(Icons.location_on_outlined, request.location),
           if (request.price.isNotEmpty)
             Padding(
-              padding: EdgeInsets.only(bottom: 10.h),
+              padding: EdgeInsets.only(bottom: 5.h),
               child: Text(
                 request.price,
                 style: TextStyle(
@@ -175,8 +177,7 @@ class RequestCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(18.r),
                       ),
                     ),
-                    child: Text(
-                      "Decline",
+                    child: Text('decline'.tr(),
                       style: TextStyle(
                         color: Colors.red,
                         fontSize: 13.sp,
@@ -193,12 +194,14 @@ class RequestCard extends StatelessWidget {
     }
 
     if (request.status == "Accepted") {
-      return Column(
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: GradientActionButton(
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                GradientActionButton(
                   text: "Share Location",
                   height: 46.h,
                   fontSize: 13.sp,
@@ -207,16 +210,9 @@ class RequestCard extends StatelessWidget {
                     final bid = request.bookingId ?? '';
                     debugPrint('CAREGIVER_BOOKING_ID = $bid');
                     if (bid.isEmpty) {
-                      // bookingId is null when this card was built from a raw
-                      // request (fromRequestJson) instead of a booking document.
-                      // Prevent navigating with an empty ID — nothing would be
-                      // sent to the backend and the caregiver would see a false
-                      // "Sharing location" state.
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text(
-                            'Booking not ready yet. Please wait and refresh.',
-                          ),
+                        SnackBar(
+                          content: Text('booking_not_ready'.tr()),
                         ),
                       );
                       return;
@@ -228,97 +224,141 @@ class RequestCard extends StatelessWidget {
                           bookingId: bid,
                           clientName: request.clientName,
                           serviceType: request.serviceName,
+                          clientRating: request.clientRating,
                         ),
                       ),
                     );
                   },
                 ),
-              ),
-              SizedBox(width: 15.w),
-              Expanded(
-                child: SizedBox(
-                  height: 46.h,
-                  child: OutlinedButton(
-                    onPressed: () async {
-                      final bookingId = request.bookingId ?? '';
-                      final prefs = await SharedPreferences.getInstance();
-                      final locationShared =
-                          prefs.getBool('loc_shared_$bookingId') ?? false;
-                      if (!context.mounted) return;
-                      if (!locationShared) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'You must share your location first before viewing tasks.',
-                            ),
-                          ),
-                        );
-                        return;
-                      }
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => MytaskCgScreen(
-                            bookingId: request.bookingId,
-                          ),
-                        ),
-                      );
-                    },
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: Colors.blue),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(18.r),
+                _viewDetailsLink(context),
+              ],
+            ),
+          ),
+          SizedBox(width: 15.w),
+          Expanded(
+            child: SizedBox(
+              height: 46.h,
+              child: OutlinedButton(
+                onPressed: () async {
+                  final bookingId = request.bookingId ?? '';
+                  final prefs = await SharedPreferences.getInstance();
+                  final locationShared =
+                      prefs.getBool('loc_shared_$bookingId') ?? false;
+                  if (!context.mounted) return;
+                  if (!locationShared) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('share_location_first'.tr()),
+                      ),
+                    );
+                    return;
+                  }
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => MytaskCgScreen(
+                        bookingId: request.bookingId,
                       ),
                     ),
-                    child: Text(
-                      "View Tasks",
-                      style: TextStyle(
-                        color: Colors.blue,
-                        fontSize: 13.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Colors.blue),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.r),
+                  ),
+                ),
+                child: Text('view_tasks'.tr(),
+                  style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 13.sp,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
-            ],
+            ),
           ),
         ],
       );
     }
 
-    return SizedBox(
-      width: double.infinity,
-      child: SizedBox(
-        height: 46.h,
-        child: OutlinedButton(
-          onPressed: () {
-            final bookingId = request.bookingId ?? '';
-            if (bookingId.isEmpty) return;
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (_) => RatingGiverScreen(
-                  bookingId: bookingId,
-                  clientName: request.clientName,
+    return Column(
+      children: [
+        SizedBox(
+          width: double.infinity,
+          child: SizedBox(
+            height: 46.h,
+            child: OutlinedButton(
+              onPressed: () {
+                final bookingId = request.bookingId ?? '';
+                if (bookingId.isEmpty) return;
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (_) => RatingGiverScreen(
+                      bookingId: bookingId,
+                      clientName: request.clientName,
+                    ),
+                  ),
+                );
+              },
+              style: OutlinedButton.styleFrom(
+                side: BorderSide(color: Colors.orange),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18.r),
                 ),
               ),
-            );
-          },
-          style: OutlinedButton.styleFrom(
-            side: BorderSide(color: Colors.orange),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.r),
+              child: Text('rate_client'.tr(),
+                style: TextStyle(
+                  color: Colors.orange,
+                  fontSize: 13.sp,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
             ),
           ),
-          child: Text(
-            "Rate Client",
-            style: TextStyle(
-              color: Colors.orange,
-              fontSize: 13.sp,
-              fontWeight: FontWeight.w600,
+        ),
+      ],
+    );
+  }
+
+  Widget _viewDetailsLink(BuildContext context) {
+    return GestureDetector(
+      onTap: () => _openBookingDetailsUser(context),
+      child: Padding(
+        padding: EdgeInsets.only(top: 8.h, left: 4.w),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text('view_details'.tr(),
+              style: TextStyle(
+                color: Colors.grey.shade500,
+                fontSize: 12.sp,
+                decoration: TextDecoration.underline,
+                decorationColor: Colors.grey.shade500,
+              ),
             ),
-          ),
+            SizedBox(width: 3.w),
+            Icon(
+              Icons.arrow_forward,
+              size: 12.r,
+              color: Colors.grey.shade500,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _openBookingDetailsUser(BuildContext context) {
+    final bookingId = request.bookingId ?? '';
+    debugPrint('VIEW_DETAILS_BOOKING_ID: $bookingId');
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (_) => BookingDetailsuser(
+          requestId: request.id,
+          bookingId: bookingId,
         ),
       ),
     );

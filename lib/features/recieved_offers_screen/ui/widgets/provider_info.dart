@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/provider_data.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProviderInfo extends StatelessWidget {
   const ProviderInfo({super.key,required this.provider});
@@ -81,8 +82,7 @@ class ProviderInfo extends StatelessWidget {
                           Icon(Icons.verified_outlined,
                               size: 14.r, color: Colors.blue),
                           SizedBox(width: 4.w),
-                          Text(
-                            "Verified",
+                          Text('verified'.tr(),
                             style: TextStyle(
                               color: Colors.blue,
                               fontSize: 12.sp,
@@ -106,8 +106,7 @@ class ProviderInfo extends StatelessWidget {
                           Icon(Icons.workspace_premium_outlined,
                               size: 14.r, color: Colors.green),
                           SizedBox(width: 4.w),
-                          Text(
-                            "Certified",
+                          Text('certified'.tr(),
                             style: TextStyle(
                               color: Colors.green,
                               fontSize: 12.sp,

@@ -2,6 +2,7 @@
 import 'package:ehtemam_final_project/features/payment/ui/widgets/transaction_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TransactionHistory extends StatelessWidget {
   final List<TransactionModel> transactions;
@@ -46,8 +47,7 @@ class TransactionHistory extends StatelessWidget {
                 ),
               ),
               SizedBox(width: 4.w),
-              Text(
-                "Transaction History",
+              Text('transaction_history'.tr(),
                 style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: FontWeight.bold,

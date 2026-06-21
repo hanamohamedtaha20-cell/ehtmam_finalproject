@@ -1,5 +1,5 @@
-﻿import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
-import 'package:ehtemam_final_project/features/account_settings/ui/screens/change_password_screen.dart';
+﻿import 'package:ehtemam_final_project/features/account_settings/ui/screens/change_password_screen.dart';
+import 'package:ehtemam_final_project/features/account_settings/ui/widgets/language_card.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/widgets/settings_title.dart';
 import 'package:ehtemam_final_project/features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +9,7 @@ import '../../../auth/manager/auth_cubit.dart';
 import '../../../auth/ui/screens/login_screen.dart';
 import '../../manager/account_settings_cubit.dart';
 import '../../manager/account_settings_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({super.key});
@@ -47,28 +48,25 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.r),
         ),
-        title: Text(
-          'Delete Account',
+        title: Text('delete_account'.tr(),
           style: TextStyle(
             fontFamily: 'Inter',
             fontWeight: FontWeight.w700,
             color: Colors.red,
           ),
         ),
-        content: Text(
-          'Are you sure you want to permanently delete your account? This action cannot be undone.',
+        content: Text('confirm_delete_account'.tr(),
           style: TextStyle(fontFamily: 'Inter', fontSize: 13.sp),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(ctx, false),
-            child: Text('Cancel'),
+            child: Text('cancel'.tr()),
           ),
           TextButton(
             onPressed: () => Navigator.pop(ctx, true),
             style: TextButton.styleFrom(foregroundColor: Colors.red),
-            child: Text(
-              'Delete',
+            child: Text('delete'.tr(),
               style: TextStyle(fontWeight: FontWeight.w700),
             ),
           ),
@@ -148,8 +146,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                               color: Color(0xFF1D2939),
                             ),
                           ),
-                          Text(
-                            'Account Settings',
+                          Text('account_settings'.tr(),
                             style: TextStyle(
                               fontFamily: 'Inter',
                               fontSize: 20.sp,
@@ -160,7 +157,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                           const Spacer(),
                           IconButton(
                             icon: const Icon(Icons.refresh, color: Color(0xFF1D2939)),
-                            tooltip: 'Refresh',
+                            tooltip: 'refresh'.tr(),
                             onPressed: () => context.read<AccountSettingsCubit>().loadUserData(),
                           ),
                         ],
@@ -290,8 +287,9 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                         },
                       ),
 
-                     
+                      sectionTitle('PREFERENCES'),
 
+                      const LanguageCard(),
 
                       sectionTitle('DANGER ZONE', color: Colors.red),
 
@@ -330,8 +328,7 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
                             color: Colors.red,
                             size: 18.r,
                           ),
-                          label: Text(
-                            'Logout',
+                          label: Text('logout'.tr(),
                             style: TextStyle(
                               fontFamily: 'Inter',
                               fontSize: 13.sp,

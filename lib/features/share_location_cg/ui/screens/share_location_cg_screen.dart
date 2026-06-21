@@ -11,17 +11,20 @@ import '../widgets/location_status_banner.dart';
 import '../widgets/client_info_card.dart';
 import '../widgets/location_details_cg.dart';
 import 'package:ehtemam_final_project/features/myTasks_caregiver/ui/screens/mytask_cg_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ShareLocationCgScreen extends StatefulWidget {
   final String bookingId;
   final String clientName;
   final String serviceType;
+  final double clientRating;
 
   const ShareLocationCgScreen({
     super.key,
     required this.bookingId,
     this.clientName = '',
     this.serviceType = '',
+    this.clientRating = 0,
   });
 
   @override
@@ -36,6 +39,7 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
   String _errorMessage = '';
   String _clientName = '';
   String _serviceType = '';
+  double _clientRating = 0;
 
   final _socket = LocationSocketService();
   final _mapController = MapController();
@@ -46,7 +50,11 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
     super.initState();
     _clientName = widget.clientName;
     _serviceType = widget.serviceType;
-    if (_clientName.isEmpty) _loadClientName();
+    _clientRating = widget.clientRating;
+    _loadFallbacks();
+    debugPrint('CLIENT_NAME: $_clientName');
+    debugPrint('CLIENT_RATING: $_clientRating');
+    debugPrint('SERVICE_NAME: $_serviceType');
   }
 
   @override
@@ -56,11 +64,15 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
     super.dispose();
   }
 
-  Future<void> _loadClientName() async {
+  Future<void> _loadFallbacks() async {
     final prefs = await SharedPreferences.getInstance();
     if (mounted) {
       setState(() {
-        _clientName = prefs.getString('user_name') ?? 'Client';
+        if (_clientName.isEmpty) _clientName = prefs.getString('user_name') ?? 'Client';
+        if (_serviceType.isEmpty) {
+          _serviceType = prefs.getString('care_field') ?? '';
+          debugPrint('SERVICE_NAME (from prefs care_field): $_serviceType');
+        }
       });
     }
   }
@@ -118,7 +130,19 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
     _socket.connect(
       token: token,
       bookingId: widget.bookingId,
-      onConnected: _sendLocation, // first send guaranteed after room join
+      onConnected: _sendLocation,
+      onConnectError: (message) {
+        _shareTimer?.cancel();
+        final isBlocked = message.toLowerCase().contains('blocked');
+        if (mounted) {
+          setState(() {
+            _isSharing = false;
+            _errorMessage = isBlocked
+                ? 'Your account has been blocked. Please contact support.'
+                : 'Connection failed: $message';
+          });
+        }
+      },
     );
 
     // Timer for subsequent sends (socket is connected by the time these fire)
@@ -134,8 +158,7 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
     if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: const Text(
-          'Location sharing started successfully. You can now view your tasks.',
+        content: Text('location_sharing_started'.tr(),
         ),
         duration: const Duration(seconds: 6),
         action: SnackBarAction(
@@ -211,8 +234,7 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(
-          "Share Location",
+        title: Text('share_location'.tr(),
           style: TextStyle(
             fontFamily: "Arimo",
             fontWeight: FontWeight.bold,
@@ -281,6 +303,7 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                     name: _clientName.isEmpty ? 'Client' : _clientName,
                     serviceType:
                         _serviceType.isEmpty ? 'Care Service' : _serviceType,
+                    clientRating: _clientRating,
                     status:
                         _isSharing ? 'Sharing location' : 'Not sharing',
                     statusSubtitle: _isSharing
@@ -290,8 +313,7 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                     onShareToggle: _toggleSharing,
                   ),
                   SizedBox(height: 16.h),
-                  Text(
-                    "Location Details",
+                  Text('location_details'.tr(),
                     style: TextStyle(
                       fontFamily: "Arimo",
                       fontWeight: FontWeight.bold,
@@ -330,8 +352,7 @@ class _ShareLocationCgScreenState extends State<ShareLocationCgScreen> {
                             Icon(Icons.circle,
                                 color: Colors.blue, size: 10.r),
                             SizedBox(width: 4.w),
-                            Text(
-                              "Privacy Notice",
+                            Text('privacy_notice'.tr(),
                               style: TextStyle(
                                 fontFamily: "Arimo",
                                 fontSize: 13.sp,

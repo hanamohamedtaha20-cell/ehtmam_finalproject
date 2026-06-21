@@ -2,6 +2,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/bundle_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BundleCard extends StatelessWidget {
   final BundleModel bundle;
@@ -105,7 +106,7 @@ class BundleCard extends StatelessWidget {
                     Icons.edit_outlined,
                     size: 16.r,
                   ),
-                  label: Text('Edit'),
+                  label: Text('edit'.tr()),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color(0xff2F93E6),
                     side: BorderSide(
@@ -128,8 +129,7 @@ class BundleCard extends StatelessWidget {
                     color: Colors.red,
                     size: 16.r,
                   ),
-                  label: Text(
-                    'Delete',
+                  label: Text('delete'.tr(),
                     style: TextStyle(
                       color: Colors.red,
                     ),

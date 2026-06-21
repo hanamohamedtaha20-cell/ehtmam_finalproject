@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MytaskCgAddTaskSheet extends StatefulWidget {
   final String bookingId;
@@ -87,8 +88,7 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              const Text(
-                'Add Extra Task',
+              Text('add_extra_task'.tr(),
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
               IconButton(
@@ -98,37 +98,36 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
             ],
           ),
           const SizedBox(height: 4),
-          const Text(
-            'This task will be sent to the client for approval.',
+          Text('task_sent_for_approval'.tr(),
             style: TextStyle(fontSize: 12, color: Colors.grey),
           ),
           const SizedBox(height: 16),
-          const Text('Title', style: TextStyle(fontWeight: FontWeight.w600)),
+          Text('title_label'.tr(), style: TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           TextField(
             controller: _titleController,
             textInputAction: TextInputAction.next,
             decoration: InputDecoration(
-              hintText: 'e.g. PC Cleaning',
+              hintText: 'eg_task_title'.tr(),
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
               contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
           ),
           const SizedBox(height: 14),
-          const Text('Description', style: TextStyle(fontWeight: FontWeight.w600)),
+          Text('description'.tr(), style: TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           TextField(
             controller: _descriptionController,
             textInputAction: TextInputAction.next,
             maxLines: 2,
             decoration: InputDecoration(
-              hintText: 'e.g. Clean personal computer area',
+              hintText: 'eg_task_desc'.tr(),
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
               contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             ),
           ),
           const SizedBox(height: 14),
-          const Text('Price (EGP)', style: TextStyle(fontWeight: FontWeight.w600)),
+          Text('price_egp'.tr(), style: TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(height: 6),
           TextField(
             controller: _priceController,
@@ -137,7 +136,7 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
             textInputAction: TextInputAction.done,
             onSubmitted: (_) => _submit(),
             decoration: InputDecoration(
-              hintText: 'e.g. 150',
+              hintText: 'eg_price'.tr(),
               border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
               contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
               prefixText: 'EGP  ',
@@ -163,7 +162,7 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
                         color: Colors.white,
                       ),
                     )
-                  : const Text('Send for Approval', style: TextStyle(fontSize: 16)),
+                  : Text('send_for_approval'.tr(), style: TextStyle(fontSize: 16)),
             ),
           ),
           const SizedBox(height: 8),
@@ -171,7 +170,7 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
             width: double.infinity,
             child: TextButton(
               onPressed: _isLoading ? null : () => Navigator.pop(context),
-              child: const Text('Cancel', style: TextStyle(color: Colors.red)),
+              child: Text('cancel'.tr(), style: TextStyle(color: Colors.red)),
             ),
           ),
         ],

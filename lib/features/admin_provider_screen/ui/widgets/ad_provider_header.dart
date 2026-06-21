@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AdProviderHeader extends StatelessWidget {
   final Function(String)? onSearch;
@@ -23,8 +24,7 @@ class AdProviderHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Care Providers',
+          Text('providers'.tr(),
             style: TextStyle(
               fontSize: 28.sp,
               fontWeight: FontWeight.w700,
@@ -39,7 +39,7 @@ class AdProviderHeader extends StatelessWidget {
             child: TextField(
               onChanged: onSearch,
               decoration: InputDecoration(
-                hintText: 'Search Providers...',
+                hintText: 'search_providers'.tr(),
                 hintStyle: TextStyle(
                   color: Color(0xff9CA3AF),
                   fontSize: 15.sp,

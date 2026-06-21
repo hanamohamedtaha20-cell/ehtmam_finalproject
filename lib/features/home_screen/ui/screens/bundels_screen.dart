@@ -9,6 +9,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/bundels_widgets/bundels_card.dart';
 import '../widgets/bundels_widgets/faq_section.dart';
 import '../widgets/bundels_widgets/why_choose_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ServiceBundlesScreen extends StatelessWidget {
   const ServiceBundlesScreen({super.key});
@@ -39,7 +40,7 @@ class _ServiceBundlesBody extends StatelessWidget {
           Builder(
             builder: (ctx) => IconButton(
               icon: const Icon(Icons.refresh, color: Colors.black),
-              tooltip: 'Refresh',
+              tooltip: 'refresh'.tr(),
               onPressed: () => ctx.read<BundleCubit>().getBundles(),
             ),
           ),
@@ -67,7 +68,7 @@ class _ServiceBundlesBody extends StatelessWidget {
 
                   if (state is BundleSuccess) {
                     if (state.bundles.isEmpty) {
-                      return const Text('No bundles available');
+                      return Text('no_bundles'.tr());
                     }
 
                     return ListView.builder(

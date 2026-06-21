@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 const _kRefNumber = 'FWY-258963147';
 
@@ -55,8 +56,7 @@ class _WithdrawDialog extends StatelessWidget {
             Icon(Icons.check_circle, color: Colors.white, size: 16.r),
             SizedBox(width: 8.w),
             Expanded(
-              child: Text(
-                'Reference number copied successfully.',
+              child: Text('reference_copied'.tr(),
                 style: TextStyle(fontFamily: 'Arimo', fontSize: 13.sp),
               ),
             ),
@@ -112,8 +112,7 @@ class _WithdrawDialog extends StatelessWidget {
             SizedBox(height: 18.h),
 
             // ── Title ─────────────────────────────────────────────────────
-            Text(
-              'Withdrawal Request Created',
+            Text('withdrawal_created'.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Arimo',
@@ -125,8 +124,7 @@ class _WithdrawDialog extends StatelessWidget {
             SizedBox(height: 8.h),
 
             // ── Subtitle ──────────────────────────────────────────────────
-            Text(
-              'Your withdrawal request has been successfully created.',
+            Text('withdrawal_success'.tr(),
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontFamily: 'Arimo',
@@ -154,8 +152,7 @@ class _WithdrawDialog extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'Reference Number',
+                        Text('reference_number'.tr(),
                           style: TextStyle(
                             fontFamily: 'Arimo',
                             fontSize: 11.sp,
@@ -241,8 +238,7 @@ class _WithdrawDialog extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14.r),
                   ),
                 ),
-                child: Text(
-                  'Done',
+                child: Text('done'.tr(),
                   style: TextStyle(
                     fontFamily: 'Arimo',
                     fontWeight: FontWeight.bold,
@@ -265,8 +261,7 @@ class _WithdrawDialog extends StatelessWidget {
                     borderRadius: BorderRadius.circular(14.r),
                   ),
                 ),
-                child: Text(
-                  'Copy Reference Number',
+                child: Text('copy_reference'.tr(),
                   style: TextStyle(
                     fontFamily: 'Arimo',
                     fontWeight: FontWeight.w600,

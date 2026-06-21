@@ -23,6 +23,14 @@ class CgPaymentCubit extends Cubit<CgPaymentState> {
     }
   }
 
+  Future<Map<String, dynamic>?> fetchTransactionDetails(String id) async {
+    try {
+      return await repo.getTransactionDetails(id);
+    } catch (_) {
+      return null;
+    }
+  }
+
   void filterBy(String filter) {
     if (state is CgPaymentLoaded) {
       final current = state as CgPaymentLoaded;

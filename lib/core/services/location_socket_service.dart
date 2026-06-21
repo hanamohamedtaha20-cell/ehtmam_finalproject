@@ -22,6 +22,7 @@ class LocationSocketService {
     String? token,
     required String bookingId,
     void Function()? onConnected,
+    void Function(String message)? onConnectError,
   }) {
     debugPrint('SOCKET_BOOKING_ID: $bookingId');
 
@@ -43,6 +44,8 @@ class LocationSocketService {
       onConnected?.call();
       return;
     }
+    // Capture callback to outlive the connect() stack frame.
+    final connectErrorCb = onConnectError;
 
     final tokenPreview = (token != null && token.length > 20)
         ? '${token.substring(0, 20)}...'
@@ -92,12 +95,25 @@ class LocationSocketService {
 
     socket?.onDisconnect((_) => debugPrint('SOCKET_DISCONNECTED'));
     socket?.onConnectError((err) {
-      debugPrint("CLIENT SOCKET ERROR");
-      debugPrint(err);
+      String message = 'Socket connection error';
+      if (err is Map) {
+        message = err['message']?.toString()
+            ?? err['data']?.toString()
+            ?? message;
+      } else if (err is String) {
+        message = err;
+      } else if (err != null) {
+        message = err.toString();
+      }
+      debugPrint('LOCATION_SOCKET_CONNECT_ERROR: $message');
+      if (message.toLowerCase().contains('blocked')) {
+        debugPrint('SOCKET_BLOCKED_ACCOUNT: disconnecting');
+        socket.disconnect();
+      }
+      connectErrorCb?.call(message);
     });
     socket?.onError((err) {
-      debugPrint("SOCKET ERROR");
-      debugPrint(err);
+      debugPrint('SOCKET_ERROR: $err');
     });
 
     socket?.connect();

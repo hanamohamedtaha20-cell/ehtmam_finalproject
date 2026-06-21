@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../manager/account_settings_cubit.dart';
 import '../../manager/account_settings_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});
@@ -189,8 +190,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                                   onPressed: () => Navigator.pop(context),
                                   icon: Icon(Icons.arrow_back,
                                       color: Colors.red, size: 16.r),
-                                  label: Text(
-                                    'Back to Login',
+                                  label: Text('back_to_login'.tr(),
                                     style: TextStyle(
                                       fontFamily: 'Inter',
                                       fontSize: 11.sp,
@@ -212,8 +212,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
 
                               SizedBox(height: 16.h),
 
-                              Text(
-                                'Change Password',
+                              Text('change_password'.tr(),
                                 style: TextStyle(
                                   fontFamily: 'Inter',
                                   fontSize: 30.sp,

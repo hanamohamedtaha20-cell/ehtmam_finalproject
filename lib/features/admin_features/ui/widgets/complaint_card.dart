@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../data/complaint_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ComplaintCard extends StatelessWidget {
   final ComplaintModel complaint;
@@ -118,7 +119,7 @@ class ComplaintCard extends StatelessWidget {
             child: ElevatedButton.icon(
               onPressed: onViewDetails,
               icon: Icon(Icons.remove_red_eye_outlined, size: 14.r),
-              label: Text('View Details'),
+              label: Text('view_details'.tr()),
               style: ElevatedButton.styleFrom(
                 backgroundColor: const Color(0xffEEF4FF),
                 foregroundColor: const Color(0xff2F93E6),

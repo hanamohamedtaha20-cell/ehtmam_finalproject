@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/earnings_header_card.dart';
 import '../widgets/recent_transactions.dart';
 import '../widgets/stats_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class EarningsScreen extends StatelessWidget {
   const EarningsScreen({super.key});
@@ -32,8 +33,7 @@ class EarningsView extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Text(
-          "Earnings",
+        title: Text('earnings'.tr(),
           style: TextStyle(
             color: Color(0xFF2B2D42),
             fontWeight: FontWeight.bold,
@@ -56,7 +56,7 @@ class EarningsView extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () =>
                         context.read<EarningsCubit>().getEarnings(),
-                    child: Text('Retry'),
+                    child: Text('retry'.tr()),
                   ),
                 ],
               ),

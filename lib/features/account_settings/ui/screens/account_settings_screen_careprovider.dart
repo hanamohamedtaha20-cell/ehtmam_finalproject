@@ -1,5 +1,6 @@
 ﻿import 'package:ehtemam_final_project/features/account_settings/manager/account_settings_cubit.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/screens/change_password_screen.dart';
+import 'package:ehtemam_final_project/features/account_settings/ui/widgets/language_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,6 +11,7 @@ import '../../manager/account_settings_cubit.dart';
 import '../../manager/account_settings_state.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CareProviderAccountSettingsScreen extends StatefulWidget {
   const CareProviderAccountSettingsScreen({super.key});
@@ -30,15 +32,14 @@ class _CareProviderAccountSettingsScreenState
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20),
         ),
-        title: const Row(
+        title: Row(
           children: [
-            Icon(
+            const Icon(
               Icons.warning_amber_rounded,
               color: Color(0xFFF04438),
             ),
-            SizedBox(width: 8),
-            Text(
-              'Delete Account?',
+            const SizedBox(width: 8),
+            Text('delete_account_q'.tr(),
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 color: Color(0xFFF04438),
@@ -46,14 +47,12 @@ class _CareProviderAccountSettingsScreenState
             ),
           ],
         ),
-        content: const Text(
-          'This action will permanently delete your account and cannot be undone.',
+        content: Text('delete_account_warning'.tr(),
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(dialogContext),
-            child: const Text(
-              'Cancel',
+            child: Text('cancel'.tr(),
               style: TextStyle(
                 color: Color(0xFF667085),
               ),
@@ -101,8 +100,7 @@ class _CareProviderAccountSettingsScreenState
                 );
               }
             },
-            child: const Text(
-              'Delete',
+            child: Text('delete'.tr(),
               style: TextStyle(color: Colors.white),
             ),
           ),
@@ -294,8 +292,7 @@ class _CareProviderAccountSettingsScreenState
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Push Notifications',
+                Text('push_notifications'.tr(),
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 13.sp,
@@ -304,8 +301,7 @@ class _CareProviderAccountSettingsScreenState
                   ),
                 ),
                 SizedBox(height: 3.h),
-                Text(
-                  'New request alerts',
+                Text('new_request_alerts'.tr(),
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 10.5.sp,
@@ -475,8 +471,7 @@ class _CareProviderAccountSettingsScreenState
                   ),
                 ),
                 SizedBox(height: 3.h),
-                Text(
-                  'Certified Provider',
+                Text('certified_provider'.tr(),
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 10.sp,
@@ -517,8 +512,7 @@ class _CareProviderAccountSettingsScreenState
                           color: const Color(0xFF1D2939),
                         ),
                       ),
-                      Text(
-                        'Account Settings',
+                      Text('account_settings'.tr(),
                         style: TextStyle(
                           fontFamily: 'Inter',
                           fontSize: 16.sp,
@@ -529,7 +523,7 @@ class _CareProviderAccountSettingsScreenState
                       const Spacer(),
                       IconButton(
                         icon: const Icon(Icons.refresh, color: Color(0xFF1D2939)),
-                        tooltip: 'Refresh',
+                        tooltip: 'refresh'.tr(),
                         onPressed: () => context.read<AccountSettingsCubit>().loadUserData(),
                       ),
                     ],
@@ -602,7 +596,7 @@ class _CareProviderAccountSettingsScreenState
                                   context: context,
                                   icon: Icons.medical_services_outlined,
                                   title: 'Service Types',
-                                  subtitle: state.careField,
+                                  subtitle: state.speciality,
                                   iconColor: const Color(0xFF22C55E),
                                   bg: const Color(0xFFE6F9F0),
                                 ),
@@ -639,6 +633,10 @@ class _CareProviderAccountSettingsScreenState
                                   },
                                 ),
                               ]),
+                              sectionTitle(context, 'PREFERENCES'),
+
+                              const LanguageCard(),
+
                               sectionTitle(
                                 context,
                                 'DANGER ZONE',
@@ -689,8 +687,7 @@ class _CareProviderAccountSettingsScreenState
                                     color: const Color(0xFFF04438),
                                     size: 17.r,
                                   ),
-                                  label: Text(
-                                    'Logout',
+                                  label: Text('logout'.tr(),
                                     style: TextStyle(
                                       fontFamily: 'Inter',
                                       color: const Color(0xFFF04438),

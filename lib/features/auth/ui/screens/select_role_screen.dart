@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../../onboarding/ui/widgets/onboarding_background.dart';
 import '../../../../core/resources/app_text_style.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SelectRoleScreen extends StatelessWidget {
   const SelectRoleScreen({super.key});
@@ -64,8 +65,7 @@ class SelectRoleScreen extends StatelessWidget {
                   onTap: () {
                     Navigator.pop(context);
                   },
-                  child:  Text(
-                    'Back to Login',
+                  child:  Text('back_to_login'.tr(),
                     style: AppTextStyle.bold.copyWith(
                       fontSize: 16.sp,
                       color: Colors.red,

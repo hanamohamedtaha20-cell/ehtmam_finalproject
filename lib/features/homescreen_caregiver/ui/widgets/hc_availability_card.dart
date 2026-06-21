@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HcAvailabilityCard extends StatelessWidget {
   final bool isAvailable;
@@ -31,8 +32,7 @@ class HcAvailabilityCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    'Availability Status',
+                  Text('availability_status'.tr(),
                     style: TextStyle(
                       fontFamily: 'Inter',
                       fontSize: 15.sp,

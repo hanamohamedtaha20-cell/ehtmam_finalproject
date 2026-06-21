@@ -9,8 +9,8 @@ class AccountSettingsRepo {
     return await _apiService.getUserProfile(userId);
   }
 
-  Future<Map<String, dynamic>> deleteAccount() async {
-    return await _apiService.deleteAccount();
+  Future<Map<String, dynamic>> deleteAccount({String role = ''}) async {
+    return await _apiService.deleteAccount(role: role);
   }
 
   Future<void> changePassword({

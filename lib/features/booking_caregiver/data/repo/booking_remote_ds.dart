@@ -1,4 +1,4 @@
-﻿import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart';
 import '../../../../core/network/api_service.dart';
 import '../model/booking_details_model.dart';
 
@@ -67,8 +67,17 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
   @override
   Future<BookingDetailsModel> getBookingDetails(String bookingId) async {
     final response = await apiService.getBookingById(bookingId);
+    debugPrint('BOOKING_DETAILS_RAW_RESPONSE: $response');
+
     final raw = response['data'];
-    final data = raw is Map<String, dynamic> ? raw : (raw is List && raw.isNotEmpty ? raw.first as Map<String, dynamic> : <String, dynamic>{});
+    final data = raw is Map<String, dynamic>
+        ? raw
+        : (raw is List && raw.isNotEmpty
+            ? raw.first as Map<String, dynamic>
+            : <String, dynamic>{});
+
+    debugPrint('[BookingDS] data keys: ${data.keys.toList()}');
+
     var details = BookingDetailsModel.fromBookingJson(data);
     return _enrichWithClientProfile(details, data);
   }
@@ -76,8 +85,17 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
   @override
   Future<BookingDetailsModel> getRequestDetails(String requestId) async {
     final response = await apiService.getRequestById(requestId);
+    debugPrint('REQUEST_DETAILS_RAW_RESPONSE: $response');
+
     final raw = response['data'];
-    final data = raw is Map<String, dynamic> ? raw : (raw is List && raw.isNotEmpty ? raw.first as Map<String, dynamic> : <String, dynamic>{});
+    final data = raw is Map<String, dynamic>
+        ? raw
+        : (raw is List && raw.isNotEmpty
+            ? raw.first as Map<String, dynamic>
+            : <String, dynamic>{});
+
+    debugPrint('[RequestDS] data keys: ${data.keys.toList()}');
+
     var details = BookingDetailsModel.fromRequestJson(data);
     return _enrichWithClientProfile(details, data);
   }
@@ -132,5 +150,5 @@ class BookingRemoteDataSourceImpl implements BookingRemoteDatasource {
     throw Exception(
       response['message']?.toString() ?? 'Failed to send offer',
     );
-  }}
-
+  }
+}

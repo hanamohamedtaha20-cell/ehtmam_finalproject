@@ -11,6 +11,7 @@ import 'date_time_section.dart';
 import 'governorate_field.dart';
 import 'request_description_field.dart';
 import 'tasks_section.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CreateRequestBody extends StatelessWidget {
   final String serviceId;
@@ -21,7 +22,7 @@ class CreateRequestBody extends StatelessWidget {
     super.key,
     required this.serviceId,
     required this.serviceName,
-    required this.serviceType,
+    this.serviceType = '',
   });
 
   @override
@@ -82,8 +83,7 @@ class CreateRequestBody extends StatelessWidget {
                       if (cubit.isBudgetEmpty)
                         Padding(
                           padding: EdgeInsets.only(top: 6.h, left: 4.w),
-                          child: Text(
-                            'Budget is required',
+                          child: Text('budget_required'.tr(),
                             style: TextStyle(color: Colors.red, fontSize: 12.sp),
                           ),
                         ),
@@ -113,8 +113,7 @@ class CreateRequestBody extends StatelessWidget {
                       if (cubit.isTasksEmpty)
                         Padding(
                           padding: EdgeInsets.only(top: 6.h, left: 4.w),
-                          child: Text(
-                            'Please add at least one task',
+                          child: Text('add_at_least_one_task'.tr(),
                             style: TextStyle(color: Colors.red, fontSize: 12.sp),
                           ),
                         ),
@@ -132,7 +131,7 @@ class CreateRequestBody extends StatelessWidget {
                   if (state is CreateRequestSuccess) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text("Request Created Successfully"),
+                        content: Text('request_created'.tr()),
                       ),
                     );
 
@@ -155,22 +154,30 @@ class CreateRequestBody extends StatelessWidget {
                 },
 
                 builder: (context, state) {
+                  final cubit = context.read<CreateRequestCubit>();
 
-                  if (state
-                  is CreateRequestLoading) {
-                    return Center(
-                      child:
-                      CircularProgressIndicator(),
-                    );
+                  if (state is CreateRequestLoading) {
+                    return Center(child: CircularProgressIndicator());
                   }
 
-                  return SubmitRequest(
-                    onSubmit: () {
-                      context.read<CreateRequestCubit>().submitRequest(
-                        serviceId:   serviceId,
-                        serviceType: serviceType,
-                      );
-                    },
+                  return Column(
+                    children: [
+                      if (cubit.isServiceTypeEmpty)
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 8.h),
+                          child: Text('service_type_required'.tr(),
+                            style: TextStyle(color: Colors.red, fontSize: 12.sp),
+                          ),
+                        ),
+                      SubmitRequest(
+                        onSubmit: () {
+                          cubit.submitRequest(
+                            serviceId: serviceId,
+                            serviceType: serviceType,
+                          );
+                        },
+                      ),
+                    ],
                   );
                 },
               ),

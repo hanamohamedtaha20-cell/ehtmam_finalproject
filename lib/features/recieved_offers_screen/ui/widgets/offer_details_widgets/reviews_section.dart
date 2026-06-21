@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'reviews.dart';
 import '../../../manager/reviews_cubit.dart';
 import '../../../manager/state/reviews_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class ReviewsSection extends StatelessWidget {
@@ -19,7 +20,7 @@ class ReviewsSection extends StatelessWidget {
         }
 
         if (state is ReviewError) {
-          return Text("Error loading reviews");
+          return Text('error_loading_reviews'.tr());
         }
 
         if (state is ReviewLoaded) {

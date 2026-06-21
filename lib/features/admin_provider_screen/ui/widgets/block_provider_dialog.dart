@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../model/ad_provider_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BlockProviderDialog extends StatelessWidget {
   final AdProviderModel provider;
@@ -35,8 +36,7 @@ class BlockProviderDialog extends StatelessWidget {
               children: [
                 Icon(icon, color: color),
                 SizedBox(width: 8.w),
-                Text(
-                  title,
+                Text('block_provider'.tr(),
                   style: TextStyle(
                     color: color,
                     fontSize: 20.sp,
@@ -73,48 +73,43 @@ class BlockProviderDialog extends StatelessWidget {
 
             SizedBox(height: 20.h),
 
-            if (isBlocking) ...[
-              Text(
-                'Reason for Blocking *',
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  color: const Color(0xff111827),
+            Text('reason_for_blocking'.tr(),
+              style: TextStyle(
+                fontWeight: FontWeight.w700,
+                color: Color(0xff111827),
+              ),
+            ),
+
+            SizedBox(height: 8.h),
+
+            TextField(
+              maxLines: 4,
+              decoration: InputDecoration(
+                hintText: 'explain_block_provider'.tr(),
+                hintStyle: TextStyle(
+                  color: Color(0xff94A3B8),
+                  fontSize: 13.sp,
+                ),
+                filled: true,
+                fillColor: const Color(0xffF8FAFC),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide(color: Color(0xffE2E8F0)),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12.r),
+                  borderSide: BorderSide(color: Color(0xffE2E8F0)),
                 ),
               ),
-              SizedBox(height: 8.h),
-              TextField(
-                maxLines: 4,
-                decoration: InputDecoration(
-                  hintText: 'Explain why you are blocking this provider...',
-                  hintStyle: TextStyle(
-                    color: const Color(0xff94A3B8),
-                    fontSize: 13.sp,
-                  ),
-                  filled: true,
-                  fillColor: const Color(0xffF8FAFC),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                    borderSide: const BorderSide(color: Color(0xffE2E8F0)),
-                  ),
-                ),
-              ),
-              SizedBox(height: 12.h),
-              Text(
-                'This reason will be stored for record keeping and may be shared with the provider.',
-                style: TextStyle(fontSize: 11.sp, color: const Color(0xff64748B)),
-              ),
-              SizedBox(height: 20.h),
-            ] else ...[
-              Text(
-                'This provider will be able to access the app again.',
-                style: TextStyle(fontSize: 13.sp, color: const Color(0xff64748B)),
-              ),
-              SizedBox(height: 20.h),
-            ],
+            ),
+
+            SizedBox(height: 12.h),
+
+            Text('block_reason_note_prov'.tr(),
+              style: TextStyle(fontSize: 11.sp, color: Color(0xff64748B)),
+            ),
+
+            SizedBox(height: 20.h),
 
             Row(
               children: [
@@ -131,7 +126,7 @@ class BlockProviderDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(13.r),
                         ),
                       ),
-                      child: const Text('Cancel'),
+                      child: Text('cancel'.tr()),
                     ),
                   ),
                 ),
@@ -149,7 +144,7 @@ class BlockProviderDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(13.r),
                         ),
                       ),
-                      child: Text(action),
+                      child: Text('block'.tr()),
                     ),
                   ),
                 ),

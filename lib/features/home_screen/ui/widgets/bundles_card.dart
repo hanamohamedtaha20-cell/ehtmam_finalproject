@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BundlesCard extends StatelessWidget {
   final VoidCallback onTap;
@@ -73,8 +74,7 @@ class BundlesCard extends StatelessWidget {
                   CrossAxisAlignment.start,
 
                   children:[
-                    Text(
-                      "Save with Bundles",
+                    Text('save_with_bundles'.tr(),
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 17.sp,
@@ -84,8 +84,7 @@ class BundlesCard extends StatelessWidget {
 
                     SizedBox(height: 4.h),
 
-                    Text(
-                      "Get up to 40% off with service packages",
+                    Text('bundles_discount_desc'.tr(),
 
                       style: TextStyle(
                         color: Colors.white,
@@ -139,8 +138,7 @@ class BundlesCard extends StatelessWidget {
 
                   SizedBox(width: 9.w),
 
-                  Text(
-                    "View Bundles",
+                  Text('view_bundles'.tr(),
 
                     style: TextStyle(
                       color: Color(0xFF00A86B),

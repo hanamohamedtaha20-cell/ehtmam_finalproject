@@ -4,6 +4,8 @@ import '../../data/model/care_request.dart';
 
 abstract class CareRequestsState {}
 
+class CareRequestsUnavailable extends CareRequestsState {}
+
 class CareRequestsInitial
     extends CareRequestsState {}
 

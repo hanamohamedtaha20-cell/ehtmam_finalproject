@@ -234,44 +234,27 @@ class ApiService {
   // â”€â”€ DELETE ACCOUNT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
   // Tries each candidate URL in order. Stops at the first success.
   // On 404 it tries the next URL. On any other error it fails immediately.
-  Future<Map<String, dynamic>> deleteAccount() async {
+  Future<Map<String, dynamic>> deleteAccount({String role = ''}) async {
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token') ?? '';
-    final userId = prefs.getString('userId') ?? '';
+    final token = prefs.getString('token');
 
-    debugPrint('[DeleteAccount] token exists: ${token.isNotEmpty}');
-    debugPrint('[DeleteAccount] userId: $userId');
+    final isCaregiver = role.toLowerCase() == 'giver' ||
+        role.toLowerCase() == 'caregiver';
+    final endpoint =
+        isCaregiver ? '/caregiver/delete_me' : '/userlog/delete_me';
 
-    final candidates = [
-      '/userlog/delete-account',
-      '/userlog/me',
-      '/users/me',
-      if (userId.isNotEmpty) '/userlog/$userId',
-    ];
+    debugPrint('DELETE_ACCOUNT_ROLE: $role');
+    debugPrint('DELETE_ACCOUNT_URL: $endpoint');
+    debugPrint('TOKEN_EXISTS: ${token != null}');
 
-    DioException? lastError;
-
-    for (final url in candidates) {
-      try {
-        debugPrint('[DeleteAccount] trying DELETE $url');
-        final response = await _dio.delete(url);
-        debugPrint('[DeleteAccount] SUCCESS â†’ $url');
-        debugPrint('[DeleteAccount] statusCode: ${response.statusCode}');
-        debugPrint('[DeleteAccount] response data: ${response.data}');
-        return Map<String, dynamic>.from(response.data as Map? ?? {});
-      } on DioException catch (e) {
-        final code = e.response?.statusCode;
-        debugPrint('[DeleteAccount] FAILED $url â†’ status: $code');
-        debugPrint('[DeleteAccount] error response data: ${e.response?.data}');
-        lastError = e;
-        // 404 = endpoint doesn't exist, try next candidate.
-        // Any other status (401, 403, 500â€¦) means the endpoint was reached â€” stop.
-        if (code != 404) rethrow;
-      }
+    try {
+      final response = await _dio.delete(endpoint);
+      debugPrint('DELETE_RESPONSE: ${response.data}');
+      return Map<String, dynamic>.from(response.data as Map? ?? {});
+    } on DioException catch (e) {
+      debugPrint('DELETE_ERROR: ${e.response?.data}');
+      rethrow;
     }
-
-    // All candidates returned 404.
-    throw lastError ?? Exception('Delete account endpoint not found.');
   }
   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   //  CAREGIVER â€” /caregiver
@@ -443,23 +426,21 @@ class ApiService {
     String? description,
     String? duration,
     String? notes,
+    String? serviceType,
   }) async {
-    final body = {
-      'service': serviceId,
-      'serviceType': serviceType,
+    debugPrint('SERVICE_TYPE_SENT: $serviceType');
+    final response = await _dio.post(requestEndpoint, data: {
+      'service':     serviceId,
       'governorate': governorate,
-      'date': date,
-      'time': time,
-      'budget': budget,
-      'tasks': tasks.map((t) => {'taskDescription': t}).toList(),
-      if (description != null && description.isNotEmpty)
-        'description': description,
-      if (duration != null && duration.isNotEmpty) 'duration': duration,
-      if (notes != null && notes.isNotEmpty) 'notes': notes,
-    };
-    debugPrint('SELECTED_SERVICE_TYPE: $serviceType');
-    debugPrint('CREATE_REQUEST_BODY: $body');
-    final response = await _dio.post(requestEndpoint, data: body);
+      'date':        date,
+      'time':        time,
+      'budget':      budget,
+      'tasks':       tasks.map((t) => {'taskDescription': t}).toList(),
+      if (description != null && description.isNotEmpty) 'description': description,
+      if (duration    != null && duration.isNotEmpty)    'duration':    duration,
+      if (notes       != null && notes.isNotEmpty)       'notes':       notes,
+      if (serviceType != null && serviceType.isNotEmpty) 'serviceType': serviceType,
+    });
     return response.data;
   }
 
@@ -712,6 +693,13 @@ class ApiService {
   Future<Map<String, dynamic>> getMyWallet() async {
     final response = await _dio.get(myWalletEndpoint);
     return response.data;
+  }
+
+  Future<Map<String, dynamic>> getTransactionDetails(String transactionId) async {
+    debugPrint('TRANSACTION_DETAILS_ID: $transactionId');
+    final response = await _dio.get('$transactionEndpoint/$transactionId');
+    debugPrint('TRANSACTION_DETAILS_RESPONSE: ${response.data}');
+    return Map<String, dynamic>.from(response.data as Map? ?? {});
   }
 
   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•

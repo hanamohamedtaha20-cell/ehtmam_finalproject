@@ -1,6 +1,7 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/provider_data.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class NotesBox extends StatelessWidget {
@@ -18,8 +19,7 @@ class NotesBox extends StatelessWidget {
       children: [
 
         /// 🔹 Title
-        Text(
-          "Provider Notes:",
+        Text('provider_notes_label'.tr(),
           style: TextStyle(
             fontSize: 12.sp,
             fontWeight: FontWeight.w500,

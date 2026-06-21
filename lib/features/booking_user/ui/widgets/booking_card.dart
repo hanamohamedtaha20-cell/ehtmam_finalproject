@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/booking_model_user.dart';
 import 'booking_action_buttons.dart';
 import 'booking_info_row.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BookingCard extends StatelessWidget {
   final BookingModelUser booking;
@@ -85,8 +86,7 @@ final VoidCallback? onCancel;
                       Icon(Icons.inventory_2_outlined,
                           color: const Color(0xFF3A8BD7), size: 11.r),
                       SizedBox(width: 3.w),
-                      Text(
-                        'Paid by Bundle',
+                      Text('paid_by_bundle'.tr(),
                         style: TextStyle(
                           fontFamily: 'Arimo',
                           fontSize: 10.sp,

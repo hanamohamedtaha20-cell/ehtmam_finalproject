@@ -14,6 +14,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/register_header.dart';
 import 'package:ehtemam_final_project/features/auth/ui/widgets/register_input_field.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class RegisterForm extends StatefulWidget {
@@ -244,7 +245,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 6.h),
               RegisterInputField(
                 controller: fullNameController,
-                hintText: 'Enter your full name',
+                hintText: 'enter_full_name'.tr(),
                 prefixIcon: Icons.person_outline_rounded,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) {
@@ -263,7 +264,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 6.h),
               RegisterInputField(
                 controller: emailController,
-                hintText: 'Enter your email',
+                hintText: 'enter_your_email'.tr(),
                 prefixIcon: Icons.mail_outline_rounded,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
@@ -288,7 +289,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 SizedBox(height: 6.h),
                 _dropdownField(
                   value: selectedCareField,
-                  hintText: 'Select Care Field...',
+                  hintText: 'select_care_field'.tr(),
                   icon: Icons.medical_services_outlined,
                   items: [
                     'Pet Care',
@@ -313,7 +314,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 SizedBox(height: 6.h),
                 _dropdownField(
                   value: selectedSpecialization,
-                  hintText: 'Select Specialization...',
+                  hintText: 'select_specialization'.tr(),
                   icon: Icons.workspace_premium_outlined,
                   items: currentSpecializations,
                   onChanged: (value) {
@@ -331,7 +332,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 6.h),
               _dropdownField(
                 value: selectedGovernment,
-                hintText: 'Select your Government',
+                hintText: 'select_government'.tr(),
                 icon: Icons.location_on_outlined,
                 items: [
                   'Giza',
@@ -352,7 +353,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 6.h),
               RegisterInputField(
                 controller: streetController,
-                hintText: 'Enter your street',
+                hintText: 'enter_street'.tr(),
                 prefixIcon: Icons.signpost_outlined,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) return 'Street is required';
@@ -364,7 +365,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 6.h),
               RegisterInputField(
                 controller: buildingController,
-                hintText: 'Enter your building number',
+                hintText: 'enter_building'.tr(),
                 prefixIcon: Icons.apartment_outlined,
                 validator: (value) {
                   if (value == null || value.trim().isEmpty) return 'Building is required';
@@ -376,7 +377,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 6.h),
               RegisterInputField(
                 controller: phoneController,
-                hintText: 'Enter your phone number',
+                hintText: 'enter_phone'.tr(),
                 prefixIcon: Icons.phone_outlined,
                 keyboardType: TextInputType.phone,
                 validator: (value) {
@@ -404,7 +405,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 6.h),
               RegisterInputField(
                 controller: passwordController,
-                hintText: 'Enter your password',
+                hintText: 'enter_password'.tr(),
                 prefixIcon: Icons.lock_outline_rounded,
                 obscureText: isPasswordHidden,
                 suffixIcon: IconButton(
@@ -440,7 +441,7 @@ class _RegisterFormState extends State<RegisterForm> {
               SizedBox(height: 6.h),
               RegisterInputField(
                 controller: confirmPasswordController,
-                hintText: 'Confirm your password',
+                hintText: 'confirm_password'.tr(),
                 prefixIcon: Icons.lock_outline_rounded,
                 obscureText: isConfirmPasswordHidden,
                 suffixIcon: IconButton(

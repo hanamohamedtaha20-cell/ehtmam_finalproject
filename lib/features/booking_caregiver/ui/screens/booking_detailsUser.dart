@@ -15,6 +15,7 @@ import '../../../../core/booking_details_appbar/booking_details_appbar.dart';
 import '../widgets/client_info.dart';
 import '../widgets/tabs.dart';
 import '../widgets/task_item_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BookingDetailsuser extends StatelessWidget {
   final String requestId;
@@ -92,6 +93,49 @@ class _BookingCgViewState extends State<BookingCgView> {
     }
   }
 
+  Future<void> _submitOffer(BuildContext context) async {
+    if (isSubmittingOffer) return;
+
+    final price = num.tryParse(priceController.text.trim());
+    if (price == null || price <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('enter_valid_price'.tr())),
+      );
+      return;
+    }
+
+    setState(() => isSubmittingOffer = true);
+
+    final error = await context.read<BookingDetailsCubit>().submitOffer(
+          requestId: widget.requestId,
+          price: price,
+          notes: notesController.text.trim().isEmpty
+              ? null
+              : notesController.text.trim(),
+        );
+
+    if (!context.mounted) return;
+
+    setState(() => isSubmittingOffer = false);
+
+    if (error != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(error)),
+      );
+      return;
+    }
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(content: Text('offer_sent'.tr())),
+    );
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) => const CareGiverBottomNavScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BookingDetailsCubit, BookingDetailsState>(
@@ -114,7 +158,7 @@ class _BookingCgViewState extends State<BookingCgView> {
                     onPressed: () => context
                         .read<BookingDetailsCubit>()
                         .loadRequestDetails(widget.requestId),
-                    child: Text('Retry'),
+                    child: Text('retry'.tr()),
                   ),
                 ],
               ),
@@ -129,6 +173,9 @@ class _BookingCgViewState extends State<BookingCgView> {
         final booking = state.booking;
         final budgetText = booking.clientBudget > 0
             ? '${booking.clientBudget.toStringAsFixed(0)} EGP'
+            : '—';
+        final caregiverBudgetText = booking.caregiverBudget > 0
+            ? '${booking.caregiverBudget.toStringAsFixed(0)} EGP'
             : '—';
 
         return Scaffold(
@@ -190,12 +237,17 @@ class _BookingCgViewState extends State<BookingCgView> {
                         SizedBox(height: 16.h),
                         ClientBudgetCard(amount: budgetText),
                         SizedBox(height: 16.h),
+                        ClientBudgetCard(
+                          amount: caregiverBudgetText,
+                          label: "CAREGIVER'S BUDGET",
+                        ),
+                        SizedBox(height: 16.h),
                       ],
                       if (selectedTab == 1)
                         booking.tasks.isEmpty
                             ? Padding(
                                 padding: EdgeInsets.all(24.r),
-                                child: Text('No tasks available'),
+                                child: Text('no_tasks_available'.tr()),
                               )
                             : Column(
                                 children: booking.tasks

@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HcPendingRequestsHeader extends StatelessWidget {
   final int pendingCount;
@@ -18,8 +19,7 @@ class HcPendingRequestsHeader extends StatelessWidget {
       padding: EdgeInsets.fromLTRB(16 * s, 20 * s, 16 * s, 12 * s),
       child: Row(
         children: [
-          Text(
-            'New Care Requests',
+          Text('new_care_requests'.tr(),
             style: TextStyle(
               fontFamily: 'Inter',
               fontSize: 18.sp,

@@ -6,6 +6,7 @@ import '../../manager/pending_approvals/pending_approvals_cubit.dart' show Pendi
 import '../../manager/pending_approvals/pending_approvals_state.dart';
 import '../widgets/pending_approval_card.dart';
 import 'pending_documents_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PendingApprovalsScreen extends StatelessWidget {
   const PendingApprovalsScreen({super.key});
@@ -41,7 +42,7 @@ class PendingApprovalsView extends StatelessWidget {
                       OutlinedButton.icon(
                         onPressed: () => Navigator.maybePop(context),
                         icon: Icon(Icons.arrow_back_ios_new, size: 13.r),
-                        label: Text('Back'),
+                        label: Text('back'.tr()),
                         style: OutlinedButton.styleFrom(
                           foregroundColor: const Color(0xff64748B),
                           side: BorderSide(color: Color(0xffE2E8F0)),
@@ -54,15 +55,14 @@ class PendingApprovalsView extends StatelessWidget {
                       Builder(
                         builder: (ctx) => IconButton(
                           icon: const Icon(Icons.refresh, color: Color(0xff64748B)),
-                          tooltip: 'Refresh',
+                          tooltip: 'refresh'.tr(),
                           onPressed: () => ctx.read<PendingApprovalsCubit>().getPendingApprovals(),
                         ),
                       ),
                     ],
                   ),
                   SizedBox(height: 14.h),
-                  Text(
-                    'Pending Approvals',
+                  Text('pending_approvals'.tr(),
                     style: TextStyle(
                       color: Color(0xff111827),
                       fontSize: 27.sp,
@@ -70,8 +70,7 @@ class PendingApprovalsView extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 6.h),
-                  Text(
-                    'Review and approve provider registrations',
+                  Text('review_approve_providers'.tr(),
                     style: TextStyle(
                       color: Color(0xff2F93E6),
                       fontSize: 13.sp,

@@ -22,6 +22,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../requests_screen_user/ui/screens/requests_screen.dart';
 
 import '../widgets/add_task_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 
@@ -123,7 +124,7 @@ class _TaskScreenBody extends StatelessWidget {
 
                             child: Icon(Icons.arrow_back)),
 
-                         Text("My Tasks", style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18.sp, color: AppColors.textDark)),
+                         Text('my_tasks'.tr(), style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 18.sp, color: AppColors.textDark)),
 
                          Spacer(),
 

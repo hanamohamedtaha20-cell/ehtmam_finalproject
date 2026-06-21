@@ -1,6 +1,7 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class UserCard extends StatelessWidget {
   final String name;
@@ -55,7 +56,7 @@ class UserCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 15.sp,
                       color: AppColors.textDark)),
-              Text("Client",
+              Text('client'.tr(),
                   style: TextStyle(
                       fontFamily: "Arimo",
                       fontSize: 12.sp,

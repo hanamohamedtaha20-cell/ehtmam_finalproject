@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 void showAddTaskDialog(BuildContext context) {
   final controller = TextEditingController();
@@ -10,16 +11,14 @@ void showAddTaskDialog(BuildContext context) {
     builder: (_) => AlertDialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      title: Text(
-        "Add New Task",
+      title: Text('add_new_task'.tr(),
         style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold),
       ),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Task Description",
+          Text('task_description'.tr(),
             style: TextStyle(
                 fontFamily: "Arimo",
                 fontWeight: FontWeight.bold,
@@ -30,7 +29,7 @@ void showAddTaskDialog(BuildContext context) {
             controller: controller,
             maxLines: 3,
             decoration: InputDecoration(
-              hintText: "Enter task description...",
+              hintText: 'enter_task_desc'.tr(),
               hintStyle: TextStyle(fontFamily: "Arimo", fontSize: 13.sp),
               filled: true,
               fillColor: const Color(0xFFF1F5F9),
@@ -58,8 +57,7 @@ void showAddTaskDialog(BuildContext context) {
                 borderRadius: BorderRadius.circular(8.r)),
           ),
           onPressed: () => Navigator.pop(context),
-          child: Text(
-            "Cancel",
+          child: Text('cancel'.tr(),
             style: TextStyle(
                 fontFamily: "Arimo",
                 fontWeight: FontWeight.bold,
@@ -73,8 +71,7 @@ void showAddTaskDialog(BuildContext context) {
                 borderRadius: BorderRadius.circular(8.r)),
           ),
           icon: Icon(Icons.add, color: Colors.white, size: 16.r),
-          label: Text(
-            "Add Task",
+          label: Text('add_task'.tr(),
             style: TextStyle(fontFamily: "Arimo", color: Colors.white),
           ),
           onPressed: () {

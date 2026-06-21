@@ -1,6 +1,7 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RegisterHeader extends StatelessWidget {
   final String role;
@@ -51,8 +52,7 @@ class RegisterHeader extends StatelessWidget {
           ),
         ),
         SizedBox(height: 4.h),
-        Text(
-          'Documents Required',
+        Text('documents_required'.tr(),
           textAlign: TextAlign.center,
           style: AppTextStyle.regular.copyWith(
             fontSize: 12.sp,

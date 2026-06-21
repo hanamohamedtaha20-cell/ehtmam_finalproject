@@ -2,6 +2,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../data/model/mytask_cg_booking_model.dart';
 import 'mytask_cg_task_item.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class MytaskCgBookingCard extends StatelessWidget {
   final MytaskCgBookingModel booking;
@@ -72,7 +73,7 @@ class MytaskCgBookingCard extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text('Tasks', style: TextStyle(fontSize: 11.sp, color: isCheckedIn ? Colors.white70 : Colors.grey)),
+              Text('tasks'.tr(), style: TextStyle(fontSize: 11.sp, color: isCheckedIn ? Colors.white70 : Colors.grey)),
               Text(
                 '${booking.completedTasks}/${booking.totalTasks}',
                 style: TextStyle(fontWeight: FontWeight.bold, color: isCheckedIn ? Colors.white : Colors.black),
@@ -118,7 +119,7 @@ class MytaskCgBookingCard extends StatelessWidget {
             child: OutlinedButton.icon(
               onPressed: onCheckOut,
               icon: Icon(Icons.logout, size: 16.r),
-              label: Text('Check Out'),
+              label: Text('check_out'.tr()),
               style: OutlinedButton.styleFrom(foregroundColor: const Color(0xFF1976D2)),
             ),
           ),
@@ -135,7 +136,7 @@ class MytaskCgBookingCard extends StatelessWidget {
           child: ElevatedButton.icon(
             onPressed: onCheckIn,
             icon: Icon(Icons.login, size: 16.r),
-            label: Text('Check In to Start Work'),
+            label: Text('check_in_to_start'.tr()),
             style: ElevatedButton.styleFrom(
               backgroundColor: const Color(0xFF1976D2),
               foregroundColor: Colors.white,
@@ -144,7 +145,7 @@ class MytaskCgBookingCard extends StatelessWidget {
           ),
         ),
         SizedBox(height: 4.h),
-        Text('You must check in before completing tasks',
+        Text('must_check_in_first'.tr(),
             style: TextStyle(fontSize: 11.sp, color: Colors.grey)),
       ],
     ),

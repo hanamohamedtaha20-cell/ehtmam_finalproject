@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/transactions_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ViewTransactionsScreen extends StatelessWidget {
   const ViewTransactionsScreen({super.key});
@@ -39,8 +40,7 @@ class ViewTransactionsScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  'View Transactions',
+                                Text('view_transactions'.tr(),
                                   style: TextStyle(
                                     color: Color(0xff111827),
                                     fontSize: 18.sp,
@@ -61,7 +61,7 @@ class ViewTransactionsScreen extends StatelessWidget {
                           Builder(
                             builder: (ctx) => IconButton(
                               icon: const Icon(Icons.refresh, color: Color(0xff1F2937)),
-                              tooltip: 'Refresh',
+                              tooltip: 'refresh'.tr(),
                               onPressed: () => ctx.read<TransactionsCubit>().getTransactions(),
                             ),
                           ),
@@ -92,8 +92,7 @@ class ViewTransactionsScreen extends StatelessWidget {
 
                           if (state.transactions.isEmpty) {
                             return Center(
-                              child: Text(
-                                'No transactions found',
+                              child: Text('no_transactions_found'.tr(),
                               ),
                             );
                           }

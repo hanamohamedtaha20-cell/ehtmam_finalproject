@@ -1,15 +1,16 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class WalletHeader extends StatelessWidget {
   final double balance; 
 
-  const WalletHeader({super.key, required this.balance}); // 👈 عدلي ده
+  const WalletHeader({super.key, required this.balance}); 
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      crossAxisAlignment: CrossAxisAlignment.center, // 👈 مهم
+      crossAxisAlignment: CrossAxisAlignment.center, 
       children: [
         /// 🔹 ICON BOX
         Container(
@@ -34,8 +35,7 @@ class WalletHeader extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Available Balance",
+            Text('available_balance'.tr(),
               style: TextStyle(
                 fontFamily: "Arimo",
                 fontSize: 14.sp,

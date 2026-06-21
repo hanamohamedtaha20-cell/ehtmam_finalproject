@@ -10,6 +10,7 @@ import 'package:ehtemam_final_project/features/homescreen_caregiver/ui/widgets/h
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class HcHomeScreen extends StatelessWidget {
   const HcHomeScreen({super.key});
@@ -46,7 +47,7 @@ class _HcHomeView extends StatelessWidget {
                 ),
                 SliverToBoxAdapter(
                   child: HcStatsGrid(
-                    requestsToday: state.requestsToday,
+                    requestsToday: state.isAvailable ? state.requestsToday : 0,
                     earningsThisWeek: state.earningsThisWeek,
                     rating: state.rating,
                     activeHours: state.activeHours,
@@ -60,10 +61,25 @@ class _HcHomeView extends StatelessWidget {
                 ),
                 SliverToBoxAdapter(
                   child: HcPendingRequestsHeader(
-                    pendingCount: state.pendingCount,
+                    pendingCount: state.isAvailable ? state.pendingCount : 0,
                   ),
                 ),
-                if (state.pendingRequests.isEmpty)
+                if (!state.isAvailable)
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+                      child: Center(
+                        child: Text('currently_unavailable'.tr(),
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontFamily: 'Inter',
+                            color: Color(0xFF667085),
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                else if (state.pendingRequests.isEmpty)
                   SliverToBoxAdapter(
                     child: Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
@@ -83,7 +99,8 @@ class _HcHomeView extends StatelessWidget {
                   SliverList(
                     delegate: SliverChildBuilderDelegate(
                       (context, index) {
-                        final request = state.pendingRequests[index];
+                        final visibleRequests = state.pendingRequests.take(2).toList();
+                        final request = visibleRequests[index];
                         final cubit = context.read<HcCubit>();
 
                         return HcRequestCard(
@@ -112,7 +129,7 @@ class _HcHomeView extends StatelessWidget {
                               : null,
                         );
                       },
-                      childCount: state.pendingRequests.length,
+                      childCount: state.pendingRequests.length.clamp(0, 2),
                     ),
                   ),
                 // Active Bookings section — always visible
@@ -130,8 +147,7 @@ class _HcHomeView extends StatelessWidget {
                           ),
                         ),
                         SizedBox(width: 10.w),
-                        Text(
-                          'Active Bookings',
+                        Text('active_bookings'.tr(),
                           style: TextStyle(
                             fontFamily: 'Inter',
                             fontSize: 18.sp,
@@ -172,8 +188,7 @@ class _HcHomeView extends StatelessWidget {
                             color: Color(0xFFBFCDD9),
                           ),
                           SizedBox(height: 12.h),
-                          Text(
-                            'No active bookings yet.',
+                          Text('no_active_bookings'.tr(),
                             style: TextStyle(
                               fontFamily: 'Inter',
                               fontSize: 14.sp,

@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AdUserHeader extends StatelessWidget {
   final Function(String)? onSearch;
@@ -23,8 +24,7 @@ class AdUserHeader extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Users',
+          Text('users'.tr(),
             style: TextStyle(
               fontSize: 32.sp,
               fontWeight: FontWeight.w700,
@@ -39,7 +39,7 @@ class AdUserHeader extends StatelessWidget {
             child: TextField(
               onChanged: onSearch,
               decoration: InputDecoration(
-                hintText: 'Search users...',
+                hintText: 'search_users'.tr(),
                 hintStyle: TextStyle(
                   color: Color(0xff9CA3AF),
                   fontSize: 15.sp,

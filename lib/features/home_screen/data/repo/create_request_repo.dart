@@ -11,6 +11,7 @@ abstract class CreateRequestRepository {
     String? duration,
     String? budget,
     String? notes,
+    String? serviceType,
     List<String> tasks = const [],
   });
 }
@@ -31,6 +32,7 @@ class CreateRequestRepositoryImpl implements CreateRequestRepository {
     String? duration,
     String? notes,
     String? budget,
+    String? serviceType,
     List<String> tasks = const [],
   }) async {
     await remoteDatasource.createRequest(
@@ -40,10 +42,11 @@ class CreateRequestRepositoryImpl implements CreateRequestRepository {
       date:        date,
       time:        time,
       description: description,
-      duration:    duration,
-      notes:       notes,
-      budget:      budget,
-      tasks:       tasks,
+      duration: duration,
+      notes: notes,
+      budget: budget,
+      serviceType: serviceType,
+      tasks: tasks,
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:ehtemam_final_project/core/utils/date_formatter.dart';
+import 'package:flutter/foundation.dart';
 
 enum CareRequestSource { request, booking }
 
@@ -12,6 +13,7 @@ class CareRequestModel {
   final String time;
   final String notes;
   final String clientName;
+  final double clientRating;
   final String price;
   final CareRequestSource sourceType;
   final String? bookingId;
@@ -26,6 +28,7 @@ class CareRequestModel {
     required this.time,
     required this.notes,
     required this.clientName,
+    this.clientRating = 0,
     required this.price,
     required this.sourceType,
     this.bookingId,
@@ -37,12 +40,25 @@ class CareRequestModel {
 
     String serviceName = '';
     if (service is Map<String, dynamic>) {
-      serviceName = service['serviceName']?.toString() ?? '';
+      serviceName = service['serviceName']?.toString() ??
+          service['name']?.toString() ??
+          service['type']?.toString() ??
+          service['careField']?.toString() ??
+          '';
     }
+    if (serviceName.isEmpty) {
+      serviceName = json['serviceName']?.toString() ??
+          json['careField']?.toString() ??
+          json['speciality']?.toString() ??
+          '';
+    }
+    debugPrint('[CareRequest] SERVICE_NAME_PARSED (request): "$serviceName" | service=$service');
 
     String clientName = '';
+    double clientRating = 0;
     if (client is Map<String, dynamic>) {
       clientName = client['full_name']?.toString() ?? '';
+      clientRating = ((client['rating'] ?? client['averageRating'] ?? client['average_rating'] ?? 0) as num).toDouble();
     }
 
     final statusValue = json['status']?.toString() ?? 'PENDING';
@@ -60,6 +76,7 @@ class CareRequestModel {
       ),
       notes: json['notes']?.toString() ?? '',
       clientName: clientName,
+      clientRating: clientRating,
       price: json['budget']?.toString() ?? '',
       sourceType: CareRequestSource.request,
     );
@@ -75,15 +92,36 @@ class CareRequestModel {
       serviceName = service['serviceName']?.toString() ??
           service['name']?.toString() ??
           service['type']?.toString() ??
+          service['careField']?.toString() ??
+          service['speciality']?.toString() ??
           '';
     }
+    // Fallback: try request.service, then direct fields on json
+    if (serviceName.isEmpty && request is Map) {
+      final reqService = request['service'];
+      if (reqService is Map) {
+        serviceName = reqService['serviceName']?.toString() ??
+            reqService['name']?.toString() ??
+            reqService['type']?.toString() ??
+            '';
+      }
+    }
+    if (serviceName.isEmpty) {
+      serviceName = json['serviceName']?.toString() ??
+          json['careField']?.toString() ??
+          json['speciality']?.toString() ??
+          '';
+    }
+    debugPrint('[CareRequest] SERVICE_NAME_PARSED: "$serviceName" | service=$service');
 
     String clientName = '';
+    double clientRating = 0;
     if (client is Map<String, dynamic>) {
       clientName = client['full_name']?.toString() ??
           client['fullName']?.toString() ??
           client['name']?.toString() ??
           '';
+      clientRating = ((client['rating'] ?? client['averageRating'] ?? client['average_rating'] ?? 0) as num).toDouble();
     } else {
       clientName = json['clientName']?.toString() ?? '';
     }
@@ -126,6 +164,7 @@ class CareRequestModel {
           ? (request['notes']?.toString() ?? '')
           : (json['notes']?.toString() ?? ''),
       clientName: clientName,
+      clientRating: clientRating,
       price: price,
       sourceType: CareRequestSource.booking,
       bookingId: json['_id']?.toString(),
@@ -143,6 +182,7 @@ class CareRequestModel {
       time: time,
       notes: notes,
       clientName: clientName,
+      clientRating: clientRating,
       price: price,
       sourceType: sourceType,
       bookingId: bookingId,

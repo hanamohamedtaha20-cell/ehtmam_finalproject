@@ -7,6 +7,7 @@ import '../../manager/bundles/bundles_cubit.dart';
 import '../../manager/bundles/bundles_state.dart';
 import '../widgets/bundle_card.dart';
 import '../widgets/bundle_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BundlesScreen extends StatelessWidget {
   const BundlesScreen({super.key});
@@ -93,7 +94,7 @@ class BundlesView extends StatelessWidget {
                   Builder(
                     builder: (ctx) => IconButton(
                       icon: const Icon(Icons.refresh, color: Color(0xff334155)),
-                      tooltip: 'Refresh',
+                      tooltip: 'refresh'.tr(),
                       onPressed: () => ctx.read<BundlesCubit>().getBundles(),
                     ),
                   ),
@@ -112,8 +113,7 @@ class BundlesView extends StatelessWidget {
 
                   if (state.bundles.isEmpty) {
                     return Center(
-                      child: Text(
-                        'No bundles found',
+                      child: Text('no_bundles_found'.tr(),
                         style: TextStyle(
                           color: Color(0xff64748B),
                           fontSize: 14.sp,

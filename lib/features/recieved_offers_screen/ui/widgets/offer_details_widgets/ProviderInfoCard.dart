@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../manager/state/provider_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class ProviderInfoCard extends StatelessWidget {
@@ -21,7 +22,7 @@ class ProviderInfoCard extends StatelessWidget {
 
         /// 🔹 Error
         if (state is ProviderError) {
-          return Text("Error loading data");
+          return Text('error_loading_data'.tr());
         }
 
         /// 🔹 Success

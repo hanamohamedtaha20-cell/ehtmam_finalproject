@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PendingApprovalCard extends StatelessWidget {
   final Map<String, dynamic> provider;
@@ -116,8 +117,7 @@ class PendingApprovalCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Documents Required',
+                Text('documents_required'.tr(),
                   style: TextStyle(
                     color: Color(0xff111827),
                     fontSize: 13.sp,
@@ -188,8 +188,7 @@ class PendingApprovalCard extends StatelessWidget {
                   size: 18.r,
                   color: Colors.white,
                 ),
-                label: Text(
-                  'View Documents',
+                label: Text('view_documents'.tr(),
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.w700,
@@ -207,6 +206,41 @@ class PendingApprovalCard extends StatelessWidget {
             ),
           ),
 
+          if (isPending) ...[
+            SizedBox(height: 12.h),
+
+            SizedBox(
+              width: double.infinity,
+              height: 45.h,
+              child: OutlinedButton.icon(
+                onPressed: onApprove,
+                icon: Icon(Icons.check_circle_outline, size: 17.r),
+                label: Text('approve'.tr()),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: const Color(0xff059669),
+                  side: BorderSide(color: Color(0xff059669)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.r),
+                  ),
+                ),
+              ),
+            ),
+
+            SizedBox(height: 10.h),
+
+            SizedBox(
+              width: double.infinity,
+              height: 45.h,
+              child: TextButton.icon(
+                onPressed: onReject,
+                icon: Icon(Icons.cancel_outlined, size: 17.r),
+                label: Text('reject'.tr()),
+                style: TextButton.styleFrom(
+                  foregroundColor: Colors.red,
+                ),
+              ),
+            ),
+          ],
         ],
       ),
     );

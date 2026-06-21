@@ -3,6 +3,7 @@ import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class LogoutButton extends StatelessWidget {
   const LogoutButton({super.key});
@@ -23,8 +24,7 @@ class LogoutButton extends StatelessWidget {
           ],
         ),
         child: Center(
-          child: Text(
-            "Logout",
+          child: Text('logout'.tr(),
             style: TextStyle(
               fontFamily: "Arimo",
               fontWeight: FontWeight.bold,

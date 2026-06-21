@@ -40,7 +40,7 @@ class LocationDetailsCg extends StatelessWidget {
             iconColor: Colors.blue,
             title: "Client's Location",
             
-            subtitle: clientLocation,
+            subtitle: caregiverLocation,
           ),
         ],
       ),

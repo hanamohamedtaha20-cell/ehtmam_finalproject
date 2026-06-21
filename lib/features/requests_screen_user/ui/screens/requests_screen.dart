@@ -25,8 +25,7 @@ class RequestsScreen extends StatelessWidget {
           child: Center(
             child: Padding(
               padding: EdgeInsets.all(24.r),
-              child: Text(
-                'Please login to view your requests.',
+              child: Text('login_to_view_requests'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey, fontSize: 14.sp),
               ),

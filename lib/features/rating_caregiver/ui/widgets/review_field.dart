@@ -1,6 +1,7 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ReviewField extends StatelessWidget {
   final TextEditingController controller;
@@ -12,7 +13,7 @@ class ReviewField extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Write a Review (optional)",
+        Text('write_review_optional'.tr(),
             style: TextStyle(
                 fontFamily: "Arimo",
                 fontWeight: FontWeight.bold,
@@ -23,7 +24,7 @@ class ReviewField extends StatelessWidget {
           controller: controller,
           maxLines: 4,
           decoration: InputDecoration(
-            hintText: "Share your thoughts about the service...",
+            hintText: 'share_thoughts'.tr(),
             hintStyle: TextStyle(
                 fontFamily: "Arimo",
                 fontSize: 13.sp,

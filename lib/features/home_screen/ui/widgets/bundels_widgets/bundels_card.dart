@@ -5,6 +5,7 @@ import '../../../data/model/bundels_model.dart';
 import '../../screens/bundle_payment_screen.dart';
 import 'bundels_features.dart';
 import 'bundels_header.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BundleCard extends StatelessWidget {
   final VoidCallback? onPurchased;
@@ -97,8 +98,7 @@ class BundleCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
-                    child: Text(
-                      'Purchased',
+                    child: Text('purchased'.tr(),
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.bold,
@@ -130,8 +130,7 @@ class BundleCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12.r),
                       ),
                     ),
-                    child: Text(
-                      'Purchase Bundle',
+                    child: Text('purchase_bundle'.tr(),
                       style: TextStyle(
                         fontSize: 15.sp,
                         fontWeight: FontWeight.bold,

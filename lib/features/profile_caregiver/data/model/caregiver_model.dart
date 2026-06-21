@@ -11,6 +11,8 @@ class CaregiverModel {
   final double completionRate;
   final String avgResponse;
   final String profilePicture;
+  final String experience;
+  final String price;
 
   CaregiverModel({
     required this.name,
@@ -25,33 +27,61 @@ class CaregiverModel {
     required this.completionRate,
     required this.avgResponse,
     this.profilePicture = '',
+    this.experience = '',
+    this.price = '',
   });
 
   factory CaregiverModel.fromApiData({
     required Map<String, dynamic> profile,
     Map<String, dynamic>? wallet,
+    List<Map<String, dynamic>> reviewsList = const [],
+    int completedBookingsCount = 0,
     String govFallback = '',
     String phoneFallback = '',
+    String profilePictureUrl = '',
   }) {
-    String location;
-    final rawAddr = profile['address'];
-    if (rawAddr is String && rawAddr.isNotEmpty) {
-      location = rawAddr;
-    } else if (rawAddr is Map) {
-      location = rawAddr['governorate']?.toString() ??
-          rawAddr['government']?.toString() ??
-          rawAddr['city']?.toString() ??
-          rawAddr['district']?.toString() ??
-          '';
-    } else {
-      location = '';
+    final addr = profile['address'] is Map
+        ? profile['address'] as Map
+        : <dynamic, dynamic>{};
+    final location = addr['governorate']?.toString() ??
+        addr['government']?.toString() ??
+        profile['governorate']?.toString() ??
+        profile['government']?.toString() ??
+        govFallback;
+
+    // Rating: prefer profile fields; fall back to computing from reviews list
+    final reviewCount = ((profile['totalReviewsCount'] ??
+            profile['reviewsCount'] ??
+            profile['numReviews'] ??
+            reviewsList.length) as num)
+        .toInt();
+
+    double avgRating = ((profile['averageRating'] ??
+            profile['avgRating'] ??
+            profile['rating'] ??
+            0) as num)
+        .toDouble();
+    if (avgRating == 0 && reviewsList.isNotEmpty) {
+      final sum = reviewsList.fold<double>(
+        0,
+        (acc, r) =>
+            acc +
+            ((r['overallRating'] ?? r['rating'] ?? 0) as num).toDouble(),
+      );
+      avgRating = sum / reviewsList.length;
     }
-    if (location.isEmpty) {
-      location = profile['governorate']?.toString() ??
-          profile['government']?.toString() ??
-          profile['city']?.toString() ??
-          govFallback;
-    }
+
+    // totalRequests: prefer real completed bookings count from repo
+    final totalRequests = completedBookingsCount > 0
+        ? completedBookingsCount
+        : ((profile['totalBookings'] ??
+                profile['totalRequests'] ??
+                0) as num)
+            .toInt();
+
+    final totalEarnings = wallet != null
+        ? ((wallet['totalEarned'] ?? 0) as num).toDouble()
+        : 0.0;
 
     return CaregiverModel(
       name: profile['full_name']?.toString() ?? '',
@@ -65,13 +95,21 @@ class CaregiverModel {
           phoneFallback,
       email: profile['email']?.toString() ?? '',
       location: location,
-      rating: ((profile['averageRating'] ?? 0) as num).toDouble(),
-      reviews: ((profile['totalReviewsCount'] ?? 0) as num).toInt(),
-      totalRequests: ((profile['totalBookings'] ?? profile['totalRequests'] ?? 0) as num).toInt(),
-      totalEarnings: wallet != null ? ((wallet['totalEarned'] ?? 0) as num).toDouble() : 0,
-      completionRate: ((profile['completionRate'] ?? 0) as num).toDouble(),
+      rating: avgRating,
+      reviews: reviewCount,
+      totalRequests: totalRequests,
+      totalEarnings: totalEarnings,
+      completionRate:
+          ((profile['completionRate'] ?? 0) as num).toDouble(),
       avgResponse: profile['avgResponse']?.toString() ?? '—',
-      profilePicture: profile['profile_picture']?.toString() ?? '',
+      profilePicture: profilePictureUrl.isNotEmpty
+          ? profilePictureUrl
+          : (profile['profile_picture']?.toString() ??
+              profile['profilePicture']?.toString() ??
+              profile['avatar']?.toString() ??
+              ''),
+      experience: profile['experience']?.toString() ?? '',
+      price: profile['price']?.toString() ?? '',
     );
   }
 

@@ -1,3 +1,4 @@
+import 'package:ehtemam_final_project/features/account_settings/ui/widgets/language_card.dart';
 import 'package:ehtemam_final_project/features/account_settings/ui/widgets/settings_title.dart';
 import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart';
@@ -5,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AdminSettingsScreen extends StatefulWidget {
   const AdminSettingsScreen({super.key});
@@ -71,8 +73,7 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
           padding: EdgeInsets.fromLTRB(18, 20, 18, 32),
           children: [
             // ── Title ──
-            Text(
-              'Settings',
+            Text('settings'.tr(),
               style: TextStyle(
                 fontFamily: 'Inter',
                 fontSize: 22.sp,
@@ -123,6 +124,23 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
                             ),
                           ),
                         ],
+                        SizedBox(height: 6.h),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 10.w, vertical: 3.h),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF3A8BD7),
+                            borderRadius: BorderRadius.circular(20.r),
+                          ),
+                          child: Text('super_admin'.tr(),
+                            style: TextStyle(
+                              fontFamily: 'Inter',
+                              fontSize: 10.sp,
+                              fontWeight: FontWeight.w600,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -156,6 +174,13 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
 
             SizedBox(height: 16.h),
 
+            // ── Preferences ──
+            _sectionTitle('PREFERENCES'),
+
+            const LanguageCard(),
+
+            SizedBox(height: 16.h),
+
             // ── Logout ──
             Container(
               height: 50.h,
@@ -172,8 +197,7 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
                   }
                 },
                 icon: Icon(Icons.logout_rounded, color: Colors.red, size: 18.r),
-                label: Text(
-                  'Logout',
+                label: Text('logout'.tr(),
                   style: TextStyle(
                     fontFamily: 'Inter',
                     fontSize: 13.sp,

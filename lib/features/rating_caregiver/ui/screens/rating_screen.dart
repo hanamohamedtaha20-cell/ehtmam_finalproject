@@ -12,6 +12,7 @@ import '../widgets/review_field.dart';
 import '../widgets/section_card.dart';
 import '../widgets/submit_button.dart';
 import '../widgets/user_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RatingGiverScreen extends StatefulWidget {
   final String bookingId;
@@ -44,7 +45,7 @@ class _RatingScreenState extends State<RatingGiverScreen> {
         listener: (context, state) {
           if (state is RatingSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Review submitted successfully!')),
+              SnackBar(content: Text('review_submitted'.tr())),
             );
             Navigator.pop(context);
           } else if (state is RatingFailure) {
@@ -68,8 +69,7 @@ class _RatingScreenState extends State<RatingGiverScreen> {
                     const CustomHeader(),
                     SizedBox(height: 10.h),
                     Center(
-                      child: Text(
-                        "Rate Your Experience",
+                      child: Text('rate_your_experience'.tr(),
                         style: TextStyle(
                           fontFamily: "Arimo",
                           fontWeight: FontWeight.bold,
@@ -80,8 +80,7 @@ class _RatingScreenState extends State<RatingGiverScreen> {
                     ),
                     SizedBox(height: 10.h),
                     Center(
-                      child: Text(
-                        "How was your experience with the client?",
+                      child: Text('how_was_client_exp'.tr(),
                         style: TextStyle(
                           fontFamily: "Arimo",
                           fontSize: 12.sp,
@@ -96,8 +95,7 @@ class _RatingScreenState extends State<RatingGiverScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Overall Rating",
+                          Text('overall_rating'.tr(),
                             style: TextStyle(
                               fontFamily: "Arimo",
                               fontWeight: FontWeight.bold,
@@ -117,8 +115,7 @@ class _RatingScreenState extends State<RatingGiverScreen> {
                           ),
                           SizedBox(height: 4.h),
                           Center(
-                            child: Text(
-                              "Tap to rate",
+                            child: Text('tap_to_rate'.tr(),
                               style: TextStyle(
                                 fontFamily: "Arimo",
                                 fontSize: 11.sp,
@@ -134,8 +131,7 @@ class _RatingScreenState extends State<RatingGiverScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            "Detailed Ratings",
+                          Text('detailed_ratings'.tr(),
                             style: TextStyle(
                               fontFamily: "Arimo",
                               fontWeight: FontWeight.bold,
@@ -191,8 +187,7 @@ class _RatingScreenState extends State<RatingGiverScreen> {
                       ),
                     SizedBox(height: 12.h),
                     Center(
-                      child: Text(
-                        "Your honest feedback helps improve our services",
+                      child: Text('honest_feedback_helps'.tr(),
                         style: TextStyle(
                           fontFamily: "Arimo",
                           fontSize: 11.sp,

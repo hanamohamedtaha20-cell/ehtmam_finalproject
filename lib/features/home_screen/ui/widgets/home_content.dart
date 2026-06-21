@@ -65,6 +65,17 @@ class _HomeContentState extends State<HomeContent> {
     if (mounted) setState(() => _user = UserModel(name: name));
   }
 
+  String _serviceTypeForName(String name) {
+    final lower = name.toLowerCase();
+    if (lower.contains('pet')) return 'Pet Care';
+    if (lower.contains('elderly')) return 'Elderly Care';
+    if (lower.contains('child')) return 'Child Care';
+    if (lower.contains('plant')) return 'Plant Care';
+    if (lower.contains('shopping')) return 'Shopping Assistant';
+    if (lower.contains('nursing') || lower.contains('nurse')) return 'Nursing Assistant';
+    return name;
+  }
+
   Widget getServiceIcon(String serviceName) {
     final name = serviceName.toLowerCase();
 
@@ -160,7 +171,7 @@ class _HomeContentState extends State<HomeContent> {
                 }
                 if (state is HomeSuccess) {
                   if (state.services.isEmpty) {
-                    return Text("No services available");
+                    return Text('no_services'.tr());
                   }
 
                   return Column(
@@ -278,7 +289,7 @@ class _HomeContentState extends State<HomeContent> {
                         page: CreateRequestScreen(
                           serviceId:   service.id,
                           serviceName: service.name,
-                          serviceType: _mapServiceType(service.name),
+                          serviceType: _serviceTypeForName(service.name),
                         ),
                       );
                     }),

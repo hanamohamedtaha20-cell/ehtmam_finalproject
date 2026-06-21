@@ -6,7 +6,7 @@ import 'hc_stat_card.dart';
 class HcStatsGrid extends StatelessWidget {
   final int requestsToday;
   final int earningsThisWeek;
-  final double rating;
+  final String rating;
   final String activeHours;
 
   const HcStatsGrid({
@@ -54,7 +54,7 @@ class HcStatsGrid extends StatelessWidget {
                 child: HcStatCard(
                   icon: Icons.star_rounded,
                   iconColor: const Color(0xFFF5A623),
-                  value: rating.toStringAsFixed(1),
+                  value: rating,
                   label: 'Rating',
                 ),
               ),
@@ -64,7 +64,7 @@ class HcStatsGrid extends StatelessWidget {
                   icon: Icons.schedule_rounded,
                   iconColor: const Color(0xFF4CAF50),
                   value: activeHours,
-                  label: 'Active Hours',
+                  label: 'Completed',
                 ),
               ),
             ],

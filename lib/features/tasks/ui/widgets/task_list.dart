@@ -2,6 +2,7 @@
 import 'package:ehtemam_final_project/features/tasks/ui/widgets/task_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TaskList extends StatelessWidget {
   final List<TaskModel> tasks;
@@ -16,7 +17,7 @@ class TaskList extends StatelessWidget {
 
     if (tasks.isEmpty) {
       return  Center(
-        child: Text("No tasks found", style: TextStyle(fontFamily: "Arimo", color: Colors.grey)),
+        child: Text('no_tasks_found'.tr(), style: TextStyle(fontFamily: "Arimo", color: Colors.grey)),
       );
     }
     return CustomScrollView(

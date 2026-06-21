@@ -18,37 +18,55 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
 
     try {
       final userId = prefs.getString('userId') ?? '';
+      String? apiSpeciality;
 
       if (userId.isNotEmpty) {
         final response = await repo.getUserProfile(userId);
+        debugPrint('ACCOUNT_SETTINGS_RAW_RESPONSE: $response');
 
-        final user = response['data'];
+        // Navigate all possible nested paths
+        final dataVal = response['data'];
+        final dataMap = dataVal is Map ? Map<String, dynamic>.from(dataVal) : null;
+        final userVal = dataMap?['user'];
+        final userMap = userVal is Map ? Map<String, dynamic>.from(userVal) : null;
+        final cgVal   = dataMap?['caregiver'];
+        final cgMap   = cgVal   is Map ? Map<String, dynamic>.from(cgVal)   : null;
 
-        final name = user?['full_name'] ?? user?['fullName'] ?? prefs.getString('user_name') ?? '';
-        final email = user?['email'] ?? prefs.getString('user_email') ?? '';
-        final phone = user?['phoneNumber'] ?? user?['phone'] ?? prefs.getString('user_phone') ?? '';
-        final government = user?['governorate']?.toString()
-            ?? user?['government']?.toString()
+        // Search every possible location — first non-empty wins
+        String? str(dynamic v) => v?.toString().trim();
+        apiSpeciality =
+            str(response['speciality'])
+            ?? str(response['specialty'])
+            ?? str(dataMap?['speciality'])
+            ?? str(dataMap?['specialty'])
+            ?? str(userMap?['speciality'])
+            ?? str(userMap?['specialty'])
+            ?? str(cgMap?['speciality'])
+            ?? str(cgMap?['specialty']);
+
+        if (apiSpeciality != null && apiSpeciality.isEmpty) apiSpeciality = null;
+        debugPrint('SPECIALITY_FROM_API: $apiSpeciality');
+
+        // Pick the best user object for the other profile fields
+        final user = dataMap ?? response;
+
+        final name = user['full_name']?.toString()
+            ?? user['fullName']?.toString()
+            ?? prefs.getString('user_name') ?? '';
+        final email = user['email']?.toString()
+            ?? prefs.getString('user_email') ?? '';
+        final phone = user['phoneNumber']?.toString()
+            ?? user['phone']?.toString()
+            ?? prefs.getString('user_phone') ?? '';
+        final government = user['governorate']?.toString()
+            ?? user['government']?.toString()
             ?? prefs.getString('user_government') ?? '';
-
-        final profileImageUrl = user?['profile_picture']?.toString()
-            ?? user?['profilePicture']?.toString()
-            ?? user?['avatar']?.toString()
+        final profileImageUrl = user['profile_picture']?.toString()
+            ?? user['profilePicture']?.toString()
+            ?? user['avatar']?.toString()
             ?? '';
+
         debugPrint('PROFILE_IMAGE_URL: $profileImageUrl');
-        debugPrint('RAW_GOVERNMENT_FIELDS: governorate=${user?['governorate']} government=${user?['government']} address=${user?['address']}');
-
-        // Extract care field — backend stores it as 'speciality'
-        final careFieldFromApi = user?['speciality']?.toString()
-            ?? user?['specialty']?.toString()
-            ?? user?['careField']?.toString()
-            ?? '';
-        debugPrint('CARE_FIELD_FROM_API: $careFieldFromApi');
-        debugPrint('CARE_FIELDS_FROM_API: ${user?['careFields'] ?? user?['specialities'] ?? ''}');
-
-        final resolvedCareField = careFieldFromApi.isNotEmpty
-            ? careFieldFromApi
-            : (prefs.getString('care_field') ?? '');
 
         await prefs.setString('user_name', name);
         await prefs.setString('user_email', email);
@@ -57,16 +75,21 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
         if (profileImageUrl.isNotEmpty) {
           await prefs.setString('profile_picture_url', profileImageUrl);
         }
-        if (resolvedCareField.isNotEmpty) {
-          await prefs.setString('care_field', resolvedCareField);
+        if (apiSpeciality != null && apiSpeciality.isNotEmpty) {
+          await prefs.setString('speciality', apiSpeciality);
+          await prefs.setString('care_field', apiSpeciality);
         }
       }
-      debugPrint('LOADED NAME => ${prefs.getString('user_name')}');
-      debugPrint('LOADED EMAIL => ${prefs.getString('user_email')}');
-      debugPrint('LOADED PHONE => ${prefs.getString('user_phone')}');
-      debugPrint('LOADED GOV => ${prefs.getString('user_government')}');
-      debugPrint('LOADED CARE_FIELD => ${prefs.getString('care_field')}');
-      debugPrint('LOADED PROFILE_IMAGE_URL => ${prefs.getString('profile_picture_url')}');
+
+      // Resolve final value: API result → 'speciality' pref → 'care_field' pref → 'care_specialization'
+      debugPrint('SPECIALITY_FROM_PREFS: ${prefs.getString('speciality')}');
+      final rawSpeciality = apiSpeciality
+          ?? prefs.getString('speciality')
+          ?? prefs.getString('care_field')
+          ?? prefs.getString('care_specialization')
+          ?? '';
+      final speciality = _toTitleCase(rawSpeciality);
+      debugPrint('STATE_SPECIALITY: $speciality');
 
       if (!isClosed) {
         emit(
@@ -77,7 +100,8 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
             role: prefs.getString('user_role') ?? '',
             government: prefs.getString('user_government') ?? '',
             notifications: prefs.getBool('notifications') ?? false,
-            careField: prefs.getString('care_field') ?? '',
+            careField: speciality,
+            speciality: speciality,
             specialization: prefs.getString('care_specialization') ?? '',
             certificateFileName: prefs.getString('certificate_file_name') ?? '',
             profileImageUrl: prefs.getString('profile_picture_url') ?? '',
@@ -86,6 +110,10 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
         );
       }
     } catch (e) {
+      debugPrint('[AccountSettingsCubit] loadUserData error: $e');
+      final rawSpeciality = prefs.getString('speciality')
+          ?? prefs.getString('care_field')
+          ?? '';
       if (!isClosed) {
         emit(
           state.copyWith(
@@ -95,6 +123,8 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
             role: prefs.getString('user_role') ?? '',
             government: prefs.getString('user_government') ?? '',
             notifications: prefs.getBool('notifications') ?? false,
+            careField: _toTitleCase(rawSpeciality),
+            speciality: _toTitleCase(rawSpeciality),
             isLoading: false,
             error: e.toString(),
           ),
@@ -186,37 +216,29 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
     await prefs.setString('certificate_file_name', certificateFileName);
   }
 
-  /// Deletes the user's account from the backend, clears all local data.
+  /// Deletes the user's account using the role-specific endpoint.
   /// Returns null on success, a friendly error message on failure.
   Future<String?> deleteAccount() async {
     if (!isClosed) emit(state.copyWith(isLoading: true));
 
     final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token') ?? '';
+    final token = prefs.getString('token');
+    final role  = prefs.getString('user_role') ?? '';
 
-    debugPrint('[DeleteAccount] token exists: ${token.isNotEmpty}');
-
-    if (token.isEmpty) {
+    if (token == null || token.isEmpty) {
       if (!isClosed) emit(state.copyWith(isLoading: false));
       return 'You must be logged in to delete your account.';
     }
 
     try {
-      final response = await repo.deleteAccount();
-      debugPrint('[DeleteAccount] response: $response');
-
-      await _clearAllPrefs(prefs);
+      await repo.deleteAccount(role: role);
+      await prefs.clear();
       if (!isClosed) emit(state.copyWith(isLoading: false));
       return null;
     } catch (e) {
-      debugPrint('[DeleteAccount] error: $e');
       if (!isClosed) emit(state.copyWith(isLoading: false));
       return _friendlyDeleteError(e);
     }
-  }
-
-  Future<void> _clearAllPrefs(SharedPreferences prefs) async {
-    await prefs.clear();
   }
 
   String _friendlyDeleteError(Object e) {
@@ -225,8 +247,6 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
       final dynamic dioE = e;
       final resp = dioE.response;
       if (resp != null) {
-        debugPrint('[DeleteAccount] statusCode: ${resp.statusCode}');
-        debugPrint('[DeleteAccount] response data: ${resp.data}');
         final body = resp.data;
         if (body is Map) {
           final msg = body['message'] ?? body['error'] ?? body['msg'];
@@ -236,6 +256,11 @@ class AccountSettingsCubit extends Cubit<AccountSettingsState> {
       }
     } catch (_) {}
     return 'Failed to delete account. Please try again.';
+  }
+
+  String _toTitleCase(String value) {
+    if (value.isEmpty) return value;
+    return value.split(' ').map((w) => w.isEmpty ? w : '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}').join(' ');
   }
 
   Future<void> pickProfileImage() async {

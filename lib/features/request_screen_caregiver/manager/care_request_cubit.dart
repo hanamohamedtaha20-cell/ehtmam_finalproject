@@ -1,5 +1,6 @@
 import 'package:ehtemam_final_project/features/request_screen_caregiver/manager/state/care_request_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../data/repo/Repository.dart';
 
@@ -10,6 +11,14 @@ class CareRequestsCubit extends Cubit<CareRequestsState> {
 
   Future<void> getAllRequests() async {
     if (isClosed) return;
+
+    final prefs = await SharedPreferences.getInstance();
+    final isAvailable = prefs.getBool('caregiver_is_available') ?? true;
+    if (!isAvailable) {
+      if (!isClosed) emit(CareRequestsUnavailable());
+      return;
+    }
+
     emit(CareRequestsLoading());
 
     try {

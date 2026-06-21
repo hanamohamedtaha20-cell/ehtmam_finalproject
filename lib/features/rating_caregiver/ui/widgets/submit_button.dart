@@ -1,6 +1,7 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SubmitButton extends StatelessWidget {
   final VoidCallback onSubmit;
@@ -32,8 +33,7 @@ class SubmitButton extends StatelessWidget {
           children: [
             Icon(Icons.star_rounded, color: Colors.white, size: 20.r),
             SizedBox(width: 8.w),
-            Text(
-              "Submit Review",
+            Text('submit_review'.tr(),
               style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: FontWeight.bold,

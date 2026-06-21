@@ -11,6 +11,7 @@ import 'package:ehtemam_final_project/features/task_progress_user/ui/widgets/tas
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TaskProgressScreen extends StatelessWidget {
   final String bookingId;
@@ -33,8 +34,7 @@ class TaskProgressScreen extends StatelessWidget {
               MaterialPageRoute(builder: (_) => const BookingScreenUser()),
             ),
           ),
-          title: Text(
-            "Task Progress",
+          title: Text('task_progress'.tr(),
             style: TextStyle(
               fontFamily: "Arimo",
               fontWeight: FontWeight.bold,
@@ -46,7 +46,7 @@ class TaskProgressScreen extends StatelessWidget {
             Builder(
               builder: (ctx) => IconButton(
                 icon: const Icon(Icons.refresh, color: Colors.black),
-                tooltip: 'Refresh',
+                tooltip: 'refresh'.tr(),
                 onPressed: () =>
                     ctx.read<TaskProgressCubit>().loadTasks(bookingId),
               ),
@@ -65,15 +65,14 @@ class TaskProgressScreen extends StatelessWidget {
                   children: [
                     const Icon(Icons.error_outline, size: 48, color: Colors.red),
                     SizedBox(height: 12.h),
-                    Text(
-                      "Could not load task progress",
+                    Text('could_not_load_tasks'.tr(),
                       style: TextStyle(fontSize: 14.sp),
                     ),
                     SizedBox(height: 8.h),
                     TextButton(
                       onPressed: () =>
                           context.read<TaskProgressCubit>().loadTasks(bookingId),
-                      child: const Text("Retry"),
+                      child: Text('retry'.tr()),
                     ),
                   ],
                 ),
@@ -503,7 +502,7 @@ class _ExtraTaskCardState extends State<_ExtraTaskCard> {
                             ),
                             padding: EdgeInsets.symmetric(vertical: 10.h),
                           ),
-                          child: const Text('Reject'),
+                          child: Text('reject'.tr()),
                         ),
                       ),
                       SizedBox(width: 12.w),
@@ -518,7 +517,7 @@ class _ExtraTaskCardState extends State<_ExtraTaskCard> {
                             ),
                             padding: EdgeInsets.symmetric(vertical: 10.h),
                           ),
-                          child: const Text('Accept'),
+                          child: Text('accept'.tr()),
                         ),
                       ),
                     ],

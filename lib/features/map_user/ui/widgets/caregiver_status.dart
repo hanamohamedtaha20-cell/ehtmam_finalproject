@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CaregiverStatus extends StatelessWidget {
   final String status;
@@ -46,7 +47,7 @@ class CaregiverStatus extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text("Arriving Soon",
+                Text('arriving_soon'.tr(),
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontWeight: FontWeight.bold,

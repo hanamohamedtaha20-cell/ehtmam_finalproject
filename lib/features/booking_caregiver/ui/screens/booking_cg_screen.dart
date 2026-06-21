@@ -18,6 +18,7 @@ import '../../../../core/widgets/gradient_action_button.dart';
 import '../widgets/client_info.dart';
 import '../widgets/tabs.dart';
 import '../widgets/task_item_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BookingCgScreen extends StatelessWidget {
   final String requestId;
@@ -94,7 +95,7 @@ class _BookingCgViewState extends State<BookingCgView> {
     final price = num.tryParse(priceController.text.trim());
     if (price == null || price <= 0) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter a valid price')),
+        SnackBar(content: Text('enter_valid_price'.tr())),
       );
       return;
     }
@@ -121,7 +122,7 @@ class _BookingCgViewState extends State<BookingCgView> {
     }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Offer sent')),
+      SnackBar(content: Text('offer_sent'.tr())),
     );
     Navigator.pushReplacement(
       context,
@@ -153,7 +154,7 @@ class _BookingCgViewState extends State<BookingCgView> {
                     onPressed: () => context
                         .read<BookingDetailsCubit>()
                         .loadRequestDetails(widget.requestId),
-                    child: Text('Retry'),
+                    child: Text('retry'.tr()),
                   ),
                 ],
               ),
@@ -247,7 +248,7 @@ class _BookingCgViewState extends State<BookingCgView> {
                         booking.tasks.isEmpty
                             ? Padding(
                                 padding: EdgeInsets.all(24.r),
-                                child: Text('No tasks available'),
+                                child: Text('no_tasks_available'.tr()),
                               )
                             : Column(
                                 children: booking.tasks

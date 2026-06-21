@@ -20,6 +20,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
 import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
 import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
@@ -32,8 +33,7 @@ class ProfileScreen extends StatelessWidget {
           child: Center(
             child: Padding(
               padding: EdgeInsets.all(24.r),
-              child: Text(
-                'Please login to view your profile.',
+              child: Text('login_to_view_profile'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey, fontSize: 14.sp),
               ),
@@ -66,13 +66,11 @@ class ProfileScreen extends StatelessWidget {
                         children: [
                           Icon(Icons.lock_outline, size: 64.r, color: Color(0xFF6C63FF)),
                           SizedBox(height: 16.h),
-                          Text(
-                            'Session Expired',
+                          Text('session_expired'.tr(),
                             style: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.bold),
                           ),
                           SizedBox(height: 8.h),
-                          Text(
-                            'Please log in again to view your profile.',
+                          Text('login_again_for_profile'.tr(),
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.grey),
                           ),
@@ -97,7 +95,7 @@ class ProfileScreen extends StatelessWidget {
                                 );
                               }
                             },
-                            child: Text('Log In'),
+                            child: Text('log_in'.tr()),
                           ),
                         ],
                       ),

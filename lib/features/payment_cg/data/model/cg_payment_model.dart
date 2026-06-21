@@ -6,6 +6,11 @@ class CgTransactionModel {
   final double amount;
   final String status;
   final String type;
+  final double grossAmount;
+  final double platformFee;
+  final double netAmount;
+  final String duration;
+  final String location;
 
   CgTransactionModel({
     required this.id,
@@ -15,37 +20,65 @@ class CgTransactionModel {
     required this.amount,
     required this.status,
     this.type = '',
+    this.grossAmount = 0,
+    this.platformFee = 0,
+    this.netAmount = 0,
+    this.duration = '',
+    this.location = '',
   });
 
   factory CgTransactionModel.fromJson(Map<String, dynamic> json) {
-    // client is an object: { "_id": "...", "full_name": "..." }
     final clientObj = json['client'];
     final clientName = clientObj is Map
         ? (clientObj['full_name']?.toString() ?? '')
         : '';
 
-    // serviceName is a top-level string field (not nested under service)
     final serviceType = json['serviceName']?.toString() ??
         (json['service'] is Map
             ? (json['service']['serviceName']?.toString() ?? '')
             : '');
 
-    // date field is createdAt
     final raw = json['createdAt']?.toString() ?? json['date']?.toString() ?? '';
     final date = _formatDate(raw);
 
-    // amount field (not price)
     final amount =
         ((json['amount'] ?? json['price'] ?? 0) as num).toDouble();
 
+    final grossAmount =
+        ((json['grossAmount'] ?? json['amount'] ?? 0) as num).toDouble();
+    final platformFee =
+        ((json['platformFee'] ?? json['platform_fee'] ?? 0) as num).toDouble();
+    final netAmount = ((json['netAmount'] ??
+            json['netEarnings'] ??
+            json['net_earnings'] ??
+            0) as num)
+        .toDouble();
+
+    final bookingObj = json['booking'];
+    final booking =
+        bookingObj is Map ? Map<String, dynamic>.from(bookingObj) : null;
+
+    final duration = json['duration']?.toString() ??
+        booking?['duration']?.toString() ??
+        '';
+    final location = json['location']?.toString() ??
+        booking?['location']?.toString() ??
+        booking?['governorate']?.toString() ??
+        '';
+
     return CgTransactionModel(
-      id:          json['_id']?.toString() ?? '',
-      clientName:  clientName,
+      id: json['_id']?.toString() ?? '',
+      clientName: clientName,
       serviceType: serviceType,
-      date:        date,
-      amount:      amount,
-      status:      json['status']?.toString() ?? 'PENDING',
-      type:        json['type']?.toString() ?? '',
+      date: date,
+      amount: amount,
+      status: json['status']?.toString() ?? 'PENDING',
+      type: json['type']?.toString() ?? '',
+      grossAmount: grossAmount,
+      platformFee: platformFee,
+      netAmount: netAmount,
+      duration: duration,
+      location: location,
     );
   }
 

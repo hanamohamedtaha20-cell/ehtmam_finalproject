@@ -6,6 +6,7 @@ class AccountSettingsState {
 
   final String government;
   final String careField;
+  final String speciality;
   final String specialization;
   final String certificateFileName;
 
@@ -25,6 +26,7 @@ class AccountSettingsState {
 
     this.government = '',
     this.careField = '',
+    this.speciality = '',
     this.specialization = '',
     this.certificateFileName = '',
 
@@ -45,6 +47,7 @@ class AccountSettingsState {
 
     String? government,
     String? careField,
+    String? speciality,
     String? specialization,
     String? certificateFileName,
 
@@ -64,6 +67,7 @@ class AccountSettingsState {
 
       government: government ?? this.government,
       careField: careField ?? this.careField,
+      speciality: speciality ?? this.speciality,
       specialization: specialization ?? this.specialization,
       certificateFileName: certificateFileName ?? this.certificateFileName,
 

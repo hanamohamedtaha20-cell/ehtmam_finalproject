@@ -35,8 +35,7 @@ class ContactInfoCard extends StatelessWidget {
           _InfoRow(icon: Icons.phone_outlined, text: profile.phone, color: AppColors.blue),
            SizedBox(height: 24.h),
           _InfoRow(icon: Icons.email_outlined, text: profile.email, color: AppColors.blue),
-          SizedBox(height: 24.h),
-          _InfoRow(icon: Icons.location_on_outlined, text: profile.location, color: Color(0xFF7F22FE)),
+         
         ],
       ),
     );

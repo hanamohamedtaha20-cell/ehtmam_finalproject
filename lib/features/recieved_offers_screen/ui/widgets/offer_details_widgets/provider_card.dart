@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../manager/provider_details_cubit.dart';
 import '../../../manager/state/provider_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 
@@ -20,7 +21,7 @@ class ProviderCard extends StatelessWidget {
 
         /// Error
         if (state is ProviderError) {
-          return Text("Error");
+          return Text('error'.tr());
         }
 
         /// Success
@@ -159,8 +160,7 @@ class ProviderCard extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "Proposed Price",
+                        Text('proposed_price'.tr(),
                           style: TextStyle(
                             color: Colors.white70,
                             fontSize: 12.sp,
@@ -208,8 +208,7 @@ class ProviderCard extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
-                          Text(
-                            "Location",
+                          Text('location'.tr(),
                             style: TextStyle(
                               color: Colors.white70,
                               fontSize: 12.sp,

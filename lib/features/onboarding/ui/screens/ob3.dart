@@ -7,6 +7,7 @@ import '../../../splash/ui/widgets/next_button.dart';
 import '../widgets/onboarding_indicator.dart';
 import 'ob4.dart';
 import '../../../onboarding/ui/widgets/onboarding_background.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class OnboardingScreen3 extends StatelessWidget {
@@ -67,8 +68,7 @@ class OnboardingScreen3 extends StatelessWidget {
 
                   SizedBox(height: 40.h),
 
-                  Text(
-                    'Verified Providers',
+                  Text('verified_providers'.tr(),
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontFamily: AppFonts.inter,

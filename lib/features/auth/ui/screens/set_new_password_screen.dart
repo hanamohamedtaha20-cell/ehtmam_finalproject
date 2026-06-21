@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/resources/app_text_style.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class SetNewPasswordScreen extends StatelessWidget {
   final String token;
@@ -52,7 +53,7 @@ class _SetNewPasswordBodyState extends State<_SetNewPasswordBody> {
     if (password.isEmpty || confirm.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: const Text('Please fill in both fields.'),
+          content: Text('fill_both_fields'.tr()),
           backgroundColor: Colors.red.shade600,
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
@@ -160,8 +161,7 @@ class _SetNewPasswordBodyState extends State<_SetNewPasswordBody> {
 
                     SizedBox(height: 24.h),
 
-                    Text(
-                      'Set New Password',
+                    Text('set_new_password'.tr(),
                       textAlign: TextAlign.center,
                       style: AppTextStyle.extraBold.copyWith(
                         fontSize: 24.sp,
@@ -186,7 +186,7 @@ class _SetNewPasswordBodyState extends State<_SetNewPasswordBody> {
                     // ── New password ─────────────────────────────────────────
                     AuthTextField(
                       controller: _passwordController,
-                      hintText: 'New password',
+                      hintText: 'new_password'.tr(),
                       prefixIcon: Icons.lock_outline_rounded,
                       obscureText: _obscurePassword,
                       suffixIcon: IconButton(
@@ -207,7 +207,7 @@ class _SetNewPasswordBodyState extends State<_SetNewPasswordBody> {
                     // ── Confirm password ─────────────────────────────────────
                     AuthTextField(
                       controller: _confirmController,
-                      hintText: 'Confirm new password',
+                      hintText: 'confirm_new_password'.tr(),
                       prefixIcon: Icons.lock_outline_rounded,
                       obscureText: _obscureConfirm,
                       suffixIcon: IconButton(

@@ -13,6 +13,7 @@ import 'package:ehtemam_final_project/features/rating_caregiver/ui/widgets/ratin
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RatingScreen extends StatelessWidget {
   final String bookingId;
@@ -142,8 +143,7 @@ class _RatingBodyState extends State<_RatingBody> {
                 const CustomHeader(),
                 SizedBox(height: 10.h),
                 Center(
-                  child: Text(
-                    "Rate Your Experience",
+                  child: Text('rate_your_experience'.tr(),
                     style: TextStyle(
                       fontFamily: "Arimo",
                       fontWeight: FontWeight.bold,
@@ -154,8 +154,7 @@ class _RatingBodyState extends State<_RatingBody> {
                 ),
                 SizedBox(height: 10.h),
                 Center(
-                  child: Text(
-                    "How Was Your Service Experience",
+                  child: Text('how_was_service'.tr(),
                     style: TextStyle(
                       fontFamily: "Arimo",
                       fontSize: 12.sp,
@@ -170,7 +169,7 @@ class _RatingBodyState extends State<_RatingBody> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Overall Rating",
+                      Text('overall_rating'.tr(),
                           style: TextStyle(
                               fontFamily: "Arimo",
                               fontWeight: FontWeight.bold,
@@ -186,7 +185,7 @@ class _RatingBodyState extends State<_RatingBody> {
                       ),
                       SizedBox(height: 4.h),
                       Center(
-                        child: Text("Tap to rate",
+                        child: Text('tap_to_rate'.tr(),
                             style: TextStyle(
                                 fontFamily: "Arimo",
                                 fontSize: 11.sp,
@@ -200,7 +199,7 @@ class _RatingBodyState extends State<_RatingBody> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Detailed Ratings",
+                      Text('detailed_ratings'.tr(),
                           style: TextStyle(
                               fontFamily: "Arimo",
                               fontWeight: FontWeight.bold,
@@ -254,8 +253,7 @@ class _RatingBodyState extends State<_RatingBody> {
                 ),
                 SizedBox(height: 12.h),
                 Center(
-                  child: Text(
-                    "Your honest feedback helps improve our services",
+                  child: Text('honest_feedback_helps'.tr(),
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontSize: 11.sp,

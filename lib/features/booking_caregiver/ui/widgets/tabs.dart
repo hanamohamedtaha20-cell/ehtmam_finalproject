@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BookingTabs extends StatelessWidget {
   final int selectedIndex;
@@ -67,8 +68,7 @@ class BookingTabs extends StatelessWidget {
                         : [],
                   ),
                   child: Center(
-                    child: Text(
-                      'Details',
+                    child: Text('details'.tr(),
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         color: selectedIndex == 0

@@ -16,7 +16,7 @@ class CreateRequestScreen extends StatelessWidget {
     super.key,
     required this.serviceId,
     required this.serviceName,
-    required this.serviceType,
+    this.serviceType = '',
   });
 
   @override

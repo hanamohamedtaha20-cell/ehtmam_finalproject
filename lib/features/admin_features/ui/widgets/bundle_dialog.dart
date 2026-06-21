@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BundleDialog extends StatefulWidget {
   final String title;
@@ -211,7 +212,7 @@ class _BundleDialogState extends State<BundleDialog> {
                                 controller: featureController,
                                 style: TextStyle(fontSize: 11.sp),
                                 decoration: InputDecoration(
-                                  hintText: 'e.g., Priority support',
+                                  hintText: 'eg_priority_support'.tr(),
                                   hintStyle: TextStyle(
                                     color: Color(0xff94A3B8),
                                     fontSize: 10.sp,
@@ -244,8 +245,7 @@ class _BundleDialogState extends State<BundleDialog> {
                             child: ElevatedButton.icon(
                               onPressed: addFeature,
                               icon: Icon(Icons.add, size: 13.r),
-                              label: Text(
-                                'Add',
+                              label: Text('add'.tr(),
                                 style: TextStyle(fontSize: 11.sp),
                               ),
                               style: ElevatedButton.styleFrom(
@@ -276,8 +276,7 @@ class _BundleDialogState extends State<BundleDialog> {
                             color: const Color(0xffF8FAFC),
                             borderRadius: BorderRadius.circular(10.r),
                           ),
-                          child: Text(
-                            'No features added yet. Type a feature and press Add.',
+                          child: Text('no_features_added'.tr(),
                             style: TextStyle(
                               color: Color(0xff94A3B8),
                               fontSize: 9.sp,
@@ -358,8 +357,7 @@ class _BundleDialogState extends State<BundleDialog> {
                                 borderRadius: BorderRadius.circular(10.r),
                               ),
                             ),
-                            child: Text(
-                              'Cancel',
+                            child: Text('cancel'.tr(),
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 11.sp,

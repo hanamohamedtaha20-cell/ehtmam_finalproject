@@ -1,6 +1,7 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ActionButtons extends StatelessWidget {
   final VoidCallback onConfirm;
@@ -25,7 +26,7 @@ class ActionButtons extends StatelessWidget {
                 ],
               ),
               child: Center(
-                child: Text("Cancel",
+                child: Text('cancel'.tr(),
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontWeight: FontWeight.bold,
@@ -50,7 +51,7 @@ class ActionButtons extends StatelessWidget {
                 ],
               ),
               child: Center(
-                child: Text("Confirm",
+                child: Text('confirm'.tr(),
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontWeight: FontWeight.bold,

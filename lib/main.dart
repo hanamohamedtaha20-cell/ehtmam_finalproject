@@ -1,5 +1,7 @@
 ﻿import 'package:app_links/app_links.dart';
 import 'package:ehtemam_final_project/core/network/api_service.dart';
+import 'package:ehtemam_final_project/core/services/local_notification_service.dart';
+import 'package:ehtemam_final_project/core/services/notification_socket_service.dart';
 import 'package:ehtemam_final_project/features/account_settings/data/repo/account_settings_repo.dart';
 import 'package:ehtemam_final_project/features/admin_features/ui/screens/manage_complaints_screen.dart';
 import 'package:ehtemam_final_project/features/auth/data/repo/auth_repo.dart';
@@ -28,7 +30,9 @@ import 'features/admin_users_screen/manager/ad_user_cubit.dart';
 import 'features/bottom_nav_bar/manager/bottom_nav_bar_cubit.dart';
 import 'features/rating/data/repo/rating_repo.dart';
 import 'features/rating/manager/rating_cubit.dart';
-import 'core/navigation/app_navigator.dart';
+import 'package:ehtemam_final_project/features/notifications/ui/screens/notification_screen.dart';
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 Widget _resolveHomeScreen(SharedPreferences prefs) {
   final isLoggedIn = prefs.getBool('is_logged_in') ?? false;
@@ -51,6 +55,19 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   final prefs = await SharedPreferences.getInstance();
+
+  await LocalNotificationService.init();
+  LocalNotificationService.onNotificationTap = (payload) {
+    navigatorKey.currentState?.push(
+      MaterialPageRoute(builder: (_) => const NotificationScreen()),
+    );
+  };
+
+  final token = prefs.getString('token') ?? '';
+  final isLoggedIn = prefs.getBool('is_logged_in') ?? false;
+  if (isLoggedIn && token.isNotEmpty) {
+    NotificationSocketService.instance.connect(token);
+  }
 
   runApp(
     EasyLocalization(
@@ -157,7 +174,7 @@ class _MyAppState extends State<MyApp> {
             locale: context.locale,
             supportedLocales: context.supportedLocales,
             localizationsDelegates: context.localizationDelegates,
-            home: LoginScreen(),
+            home: widget.home,
           ),
         ),
       ),

@@ -7,7 +7,7 @@ class HcState {
   final bool isAvailable;
   final int requestsToday;
   final int earningsThisWeek;
-  final double rating;
+  final String rating;
   final String activeHours;
   final List<CareRequestModel> pendingRequests;
   final List<CareRequestModel> acceptedBookings;
@@ -19,8 +19,8 @@ class HcState {
     this.isAvailable = true,
     this.requestsToday = 0,
     this.earningsThisWeek = 0,
-    this.rating = 4.9,
-    this.activeHours = '0h',
+    this.rating = '--',
+    this.activeHours = '0',
     this.pendingRequests = const [],
     this.acceptedBookings = const [],
   });
@@ -36,7 +36,7 @@ class HcState {
     bool? isAvailable,
     int? requestsToday,
     int? earningsThisWeek,
-    double? rating,
+    String? rating,
     String? activeHours,
     List<CareRequestModel>? pendingRequests,
     List<CareRequestModel>? acceptedBookings,

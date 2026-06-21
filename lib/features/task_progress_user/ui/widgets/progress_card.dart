@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'status_chip.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProgressCard extends StatelessWidget {
   final double progressValue;
@@ -47,8 +48,7 @@ class ProgressCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                "Task Progress",
+              Text('task_progress'.tr(),
                 style: TextStyle(
                   fontFamily: "Arimo",
                   fontWeight: FontWeight.bold,
@@ -59,8 +59,7 @@ class ProgressCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Text(
-                    "Progress",
+                  Text('progress'.tr(),
                     style: TextStyle(
                         fontFamily: "Arimo",
                         fontSize: 13.sp,

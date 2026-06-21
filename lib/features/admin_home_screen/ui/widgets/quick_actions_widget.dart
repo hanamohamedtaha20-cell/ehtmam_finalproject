@@ -5,6 +5,7 @@ import '../../../admin_features/ui/screens/manage_complaints_screen.dart';
 import '../../../admin_features/ui/screens/pending_approvals_screen.dart';
 import '../../../admin_features/ui/screens/view_transactions_screen.dart';
 import '../../model/quick_action_model.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class QuickActionsWidget extends StatelessWidget {
   final List<QuickActionModel> actions;
@@ -64,8 +65,7 @@ class QuickActionsWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            'Quick Actions',
+          Text('quick_actions'.tr(),
             style: TextStyle(
               fontSize: 18.sp,
               fontWeight: FontWeight.w700,

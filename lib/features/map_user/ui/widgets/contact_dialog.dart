@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 void showContactDialog(
   BuildContext context, {
@@ -12,8 +13,7 @@ void showContactDialog(
     builder: (_) => AlertDialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
-      title: Text(
-        "Contact Caregiver",
+      title: Text('contact_caregiver'.tr(),
         style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold),
       ),
       content: Column(
@@ -51,7 +51,7 @@ void showContactDialog(
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: Text("Close",
+          child: Text('close'.tr(),
               style: TextStyle(fontFamily: "Arimo", color: Colors.grey)),
         ),
       ],

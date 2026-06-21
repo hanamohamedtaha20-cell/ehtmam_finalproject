@@ -2,6 +2,7 @@
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'app_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class RequestDescriptionField
     extends StatelessWidget {
@@ -32,8 +33,7 @@ class RequestDescriptionField
 
               SizedBox(width: 6.w),
 
-              Text(
-                "Description",
+              Text('description'.tr(),
 
                 style: TextStyle(
                   fontSize: 14.sp,
@@ -72,7 +72,7 @@ class RequestDescriptionField
 
             decoration: InputDecoration(
               hintText:
-              "Describe what you need...",
+              'describe_your_need'.tr(),
 
               hintStyle: TextStyle(
                 color: Colors.grey.shade500,

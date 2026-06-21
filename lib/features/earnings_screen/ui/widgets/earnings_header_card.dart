@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class EarningsHeaderCard extends StatelessWidget {
   final double totalEarnings;
@@ -43,8 +44,7 @@ class EarningsHeaderCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            "Total Earnings",
+          Text('total_earnings'.tr(),
             style: TextStyle(
               color: Colors.white.withOpacity(0.85),
               fontSize: 12.sp,

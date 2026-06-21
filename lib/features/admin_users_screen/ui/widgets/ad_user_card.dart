@@ -7,6 +7,7 @@ import '../../manager/ad_user_cubit.dart';
 import '../../model/AD_user_model.dart';
 import 'ad_user_tags_widget.dart';
 import 'block_user_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class AdUserCard extends StatelessWidget {
   final AdUserModel user;
@@ -145,17 +146,8 @@ class AdUserCard extends StatelessWidget {
                 ),
               );
             },
-            icon: Icon(
-              user.isBlocked ? Icons.lock_open_rounded : Icons.block,
-              color: user.isBlocked ? Colors.orange : Colors.red,
-              size: 18.r,
-            ),
-            label: Text(
-              user.isBlocked ? 'Unblock User' : 'Block User',
-              style: TextStyle(
-                color: user.isBlocked ? Colors.orange : Colors.red,
-              ),
-            ),
+            icon: Icon(Icons.block, color: Colors.red, size: 18.r),
+            label: Text('block_user'.tr(), style: TextStyle(color: Colors.red)),
           ),
         ],
       ),

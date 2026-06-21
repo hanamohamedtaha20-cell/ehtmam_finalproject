@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProviderNotes extends StatelessWidget {
   final String description;
@@ -16,8 +17,7 @@ class ProviderNotes extends StatelessWidget {
       children: [
 
         /// 🔹 العنوان برّه البوكس
-        Text(
-          "Provider Proposal",
+        Text('provider_proposal'.tr(),
           style: TextStyle(
             fontSize: 14.sp,
             fontWeight: FontWeight.w600,
@@ -47,8 +47,7 @@ class ProviderNotes extends StatelessWidget {
             children: [
 
               /// 🔹 Title جوه الكارد
-              Text(
-                "Provider Notes",
+              Text('provider_notes'.tr(),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.sp,

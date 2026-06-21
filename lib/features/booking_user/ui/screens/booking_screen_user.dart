@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../widgets/booking_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class BookingScreenUser extends StatelessWidget {
@@ -23,8 +24,7 @@ class BookingScreenUser extends StatelessWidget {
           child: Center(
             child: Padding(
               padding: EdgeInsets.all(24.r),
-              child: Text(
-                'Please login to view your bookings.',
+              child: Text('login_to_view_bookings'.tr(),
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey, fontSize: 14.sp),
               ),
@@ -74,7 +74,7 @@ class BookingScreenUser extends StatelessWidget {
                         const Expanded(child: BookingHeader()),
                         IconButton(
                           icon: const Icon(Icons.refresh, color: Colors.black),
-                          tooltip: 'Refresh',
+                          tooltip: 'refresh'.tr(),
                           onPressed: () => context.read<BookingCubitUser>().loadBookings(),
                         ),
                       ],
@@ -88,8 +88,7 @@ class BookingScreenUser extends StatelessWidget {
                     Expanded(
                       child: state.filtered.isEmpty
                           ? Center(
-                              child: Text(
-                                "No bookings found",
+                              child: Text('no_bookings_found'.tr(),
                                 style: TextStyle(
                                   fontFamily: "Arimo",
                                   color: AppColors.textLight,

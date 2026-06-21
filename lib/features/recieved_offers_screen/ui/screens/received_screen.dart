@@ -8,6 +8,7 @@ import '../../manager/state/provider_state.dart';
 import '../widgets/offer_header.dart';
 import '../widgets/offers_list.dart';
 import '../widgets/request_summary_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OffersScreen extends StatefulWidget {
   final String requestId;
@@ -77,7 +78,7 @@ class _OffersScreenState extends State<OffersScreen> with RouteAware {
                     children: [
                       OffersHeader(),
                       SizedBox(height: 80.h),
-                      Center(child: Text('No offers received yet')),
+                      Center(child: Text('no_offers_yet'.tr())),
                     ],
                   ),
                 );
@@ -98,7 +99,7 @@ class _OffersScreenState extends State<OffersScreen> with RouteAware {
                               SizedBox(height: 16.h),
                               ElevatedButton(
                                 onPressed: _refresh,
-                                child: Text('Retry'),
+                                child: Text('retry'.tr()),
                               ),
                             ],
                           ),

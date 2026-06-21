@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class OffersHeader extends StatelessWidget {
   const OffersHeader({super.key});
@@ -17,8 +18,7 @@ class OffersHeader extends StatelessWidget {
               icon:Icon(Icons.arrow_back)
           ),
           SizedBox(width: 10.w),
-          Text(
-            "Received Offers",
+          Text('received_offers'.tr(),
             style: TextStyle(fontWeight: FontWeight.bold),
           ),
         ],

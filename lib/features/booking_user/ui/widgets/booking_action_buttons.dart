@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../data/model/booking_model_user.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class BookingActionButtons extends StatelessWidget {
   final String status;
@@ -77,14 +78,12 @@ class BookingActionButtons extends StatelessWidget {
           GestureDetector(
             onTap: onCancel,
             child: Center(
-              child: Center(
-                child: Text(
-                  "Cancel Booking",
-                  style: TextStyle(
-                    fontFamily: "Arimo",
-                    fontSize: 13.sp,
-                    color: Colors.red,
-                  ),
+            child: Center(
+              child:  Text('cancel_booking'.tr(),
+                style: TextStyle(
+                  fontFamily: "Arimo",
+                  fontSize: 13.sp,
+                  color: Colors.red,
                 ),
               ),
             ),
@@ -130,7 +129,27 @@ class BookingActionButtons extends StatelessWidget {
           ),
         ),
       );
-    }
+    },
+    child: Container(
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 8.h),
+      decoration: BoxDecoration(
+        border: Border.all(color: Color(0xFFFEE685)),
+        borderRadius: BorderRadius.circular(8.r),
+      ),
+      child: Center(
+        child: Text('rate_the_service'.tr(),
+          style: TextStyle(
+            fontFamily: "Arimo",
+            fontSize: 12.sp,
+            fontWeight: FontWeight.bold,
+            color: Color.fromARGB(255, 235, 189, 6),
+          ),
+        ),
+      ),
+    ),
+  );}
+    
 
     if (status == 'cancelled') {
       return Container(
@@ -148,8 +167,7 @@ class BookingActionButtons extends StatelessWidget {
             );
           },
           child: Center(
-            child: Text(
-              "Rebook",
+            child: Text('rebook'.tr(),
               style: TextStyle(
                 fontFamily: "Arimo",
                 fontSize: 12.sp,

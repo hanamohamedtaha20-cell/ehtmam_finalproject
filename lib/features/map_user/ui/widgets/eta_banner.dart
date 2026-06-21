@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ETABanner extends StatelessWidget {
   final String eta;
@@ -35,8 +36,7 @@ class ETABanner extends StatelessWidget {
             children: [
             Icon(Icons.circle, color: Colors.white, size: 10.r),
             SizedBox(width: 3.w),
-              Text(
-                "Live Location Tracking",
+              Text('live_tracking'.tr(),
                 style: TextStyle(
                   color: Colors.white,
                   fontSize: 16.sp,

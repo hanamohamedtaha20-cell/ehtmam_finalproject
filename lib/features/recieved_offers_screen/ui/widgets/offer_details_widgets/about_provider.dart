@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../manager/provider_details_cubit.dart';
 import '../../../manager/state/provider_state.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 
 class AboutProviderCard extends StatelessWidget {
@@ -21,7 +22,7 @@ class AboutProviderCard extends StatelessWidget {
 
         /// 🔹 Error
         if (state is ProviderError) {
-          return Text("Error loading provider data");
+          return Text('error_loading_provider'.tr());
         }
 
         /// 🔹 Success
@@ -32,8 +33,7 @@ class AboutProviderCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
 
-              Text(
-                "About Provider",
+              Text('about_provider'.tr(),
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 14.sp,
@@ -96,7 +96,7 @@ class AboutProviderCard extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(height: 4.h),
-                              Text("Experience",
+                              Text('experience'.tr(),
                                   style: TextStyle(fontSize: 12.sp)),
                             ],
                           ),
@@ -112,7 +112,7 @@ class AboutProviderCard extends StatelessWidget {
                     SizedBox(height: 12.h),
 
                     /// 🔹 Contact
-                    Text("Contact Information",
+                    Text('contact_information'.tr(),
                         style: TextStyle(fontWeight: FontWeight.bold)),
 
                     SizedBox(height: 10.h),

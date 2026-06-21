@@ -7,6 +7,7 @@ import 'start_sharing_button.dart';
 class ClientInfoCard extends StatelessWidget {
   final String name;
   final String serviceType;
+  final double clientRating;
   final String status;
   final String statusSubtitle;
   final bool isSharing;
@@ -16,6 +17,7 @@ class ClientInfoCard extends StatelessWidget {
     super.key,
     required this.name,
     required this.serviceType,
+    this.clientRating = 0,
     required this.status,
     required this.statusSubtitle,
     required this.isSharing,
@@ -36,7 +38,7 @@ class ClientInfoCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClientHeader(name: name, serviceType: serviceType),
+          ClientHeader(name: name, serviceType: serviceType, clientRating: clientRating),
           SizedBox(height: 12.h),
           Divider(),
           SizedBox(height: 8.h),

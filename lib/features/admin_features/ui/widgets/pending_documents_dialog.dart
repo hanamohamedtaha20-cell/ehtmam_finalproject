@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class PendingDocumentsDialog extends StatelessWidget {
   const PendingDocumentsDialog({super.key});
@@ -90,7 +91,7 @@ class PendingDocumentsDialog extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: () {},
                   icon: Icon(Icons.check_circle_outline),
-                  label: Text('Approve'),
+                  label: Text('approve'.tr()),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: const Color(0xff059669),
                     side: BorderSide(color: Color(0xff059669)),
@@ -109,7 +110,7 @@ class PendingDocumentsDialog extends StatelessWidget {
                 child: OutlinedButton.icon(
                   onPressed: () {},
                   icon: Icon(Icons.cancel_outlined),
-                  label: Text('Reject'),
+                  label: Text('reject'.tr()),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.red,
                     side: BorderSide(color: Colors.red),

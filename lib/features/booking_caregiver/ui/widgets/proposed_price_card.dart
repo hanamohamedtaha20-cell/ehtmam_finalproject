@@ -1,5 +1,6 @@
 ﻿import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class ProposedPriceCard extends StatelessWidget {
   final TextEditingController controller;
@@ -115,7 +116,7 @@ class ProposedPriceCard extends StatelessWidget {
                 ),
 
                 hintText:
-                "Enter your price...",
+                'enter_price'.tr(),
 
                 hintStyle: TextStyle(
                   color: Colors.grey.shade400,
@@ -159,8 +160,7 @@ class ProposedPriceCard extends StatelessWidget {
 
                SizedBox(width: 6.w),
 
-              Text(
-                "Notes (Optional)",
+              Text('notes_optional'.tr(),
 
                 style: TextStyle(
                   fontSize: 14.sp,
@@ -204,7 +204,7 @@ class ProposedPriceCard extends StatelessWidget {
                  EdgeInsets.all(16.r),
 
                 hintText:
-                "Add any notes about your offer..",
+                'add_notes'.tr(),
 
                 hintStyle: TextStyle(
                   color: Colors.grey.shade400,

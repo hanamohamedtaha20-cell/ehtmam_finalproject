@@ -122,6 +122,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
   bool isGovernorateEmpty = false;
   bool isTasksEmpty = false;
   bool isBudgetEmpty = false;
+  bool isServiceTypeEmpty = false;
 
   final formKey = GlobalKey<FormState>();
   final descriptionController = TextEditingController();
@@ -163,18 +164,6 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
   }
 
   void submitRequest({required String serviceId, required String serviceType}) {
-    debugPrint('[CreateRequest] serviceId="$serviceId"');
-    debugPrint('SELECTED_SERVICE_TYPE: $serviceType');
-
-    if (serviceId.trim().isEmpty) {
-      emit(CreateRequestError('Service type is missing. Please go back and select a service.'));
-      return;
-    }
-    if (serviceType.trim().isEmpty) {
-      emit(CreateRequestError('Service type is required.'));
-      return;
-    }
-
     bool hasError = false;
 
     if (selectedDate == null) { isDateEmpty = true; hasError = true; }
@@ -182,11 +171,14 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     if (selectedGovernorate == null) { isGovernorateEmpty = true; hasError = true; }
     if (tasks.isEmpty) { isTasksEmpty = true; hasError = true; }
     if (budgetController.text.trim().isEmpty) { isBudgetEmpty = true; hasError = true; }
+    if (serviceType.trim().isEmpty) { isServiceTypeEmpty = true; hasError = true; }
 
     if (hasError) {
       emit(CreateRequestInitial());
       return;
     }
+
+    debugPrint('SELECTED_SERVICE_TYPE: $serviceType');
 
     if (formKey.currentState!.validate()) {
       createRequest(
@@ -200,6 +192,7 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
         notes:    _optionalText(notesController.text),
         budget:   budgetController.text.trim(),
         tasks:    List<String>.from(tasks),
+        serviceType: serviceType,
       );
     }
   }
@@ -219,11 +212,13 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     String? duration,
     String? notes,
     String? budget,
+    String? serviceType,
     List<String> tasks = const [],
   }) async {
     if (isClosed) return;
     emit(CreateRequestLoading());
     try {
+      debugPrint('CREATE_REQUEST_BODY: serviceId=$serviceId, serviceType=$serviceType, budget=$budget, tasks=$tasks');
       await repository.createRequest(
         serviceId:   serviceId,
         serviceType: serviceType,
@@ -231,10 +226,11 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
         date:        date,
         time:        time,
         description: description,
-        duration:    duration,
-        notes:       notes,
-        budget:      budget,
-        tasks:       tasks,
+        duration: duration,
+        notes: notes,
+        budget: budget,
+        serviceType: serviceType,
+        tasks: tasks,
       );
       if (!isClosed) {
         emit(CreateRequestSuccess());

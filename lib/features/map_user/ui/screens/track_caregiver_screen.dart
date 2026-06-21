@@ -9,6 +9,7 @@ import 'package:latlong2/latlong.dart';
 import '../widgets/eta_banner.dart';
 import '../widgets/caregiver_info_card.dart';
 import '../widgets/location_details.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class TrackCaregiverScreen extends StatelessWidget {
   final String caregiverName;
@@ -126,8 +127,7 @@ class _TrackCaregiverBodyState extends State<_TrackCaregiverBody> {
             icon: const Icon(Icons.arrow_back, color: Colors.black),
             onPressed: () => Navigator.pop(context),
           ),
-          title: Text(
-            "Track Caregiver",
+          title: Text('track_caregiver'.tr(),
             style: TextStyle(
               fontFamily: "Arimo",
               fontWeight: FontWeight.bold,

@@ -11,6 +11,7 @@ import 'package:ehtemam_final_project/features/profile_caregiver/ui/widgets/scre
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 class CaregiverScreen extends StatelessWidget {
   const CaregiverScreen({super.key});
@@ -36,13 +37,18 @@ class CaregiverScreen extends StatelessWidget {
                       SizedBox(height: 12.h),
                       ElevatedButton(
                         onPressed: () => context.read<CaregiverCubit>().loadProfile(),
-                        child: const Text('Retry'),
+                        child: Text('retry'.tr()),
                       ),
                     ],
                   ),
                 );
               }
               if (state is! CaregiverLoaded) return const SizedBox.shrink();
+              debugPrint('Caregiver profile picture: ${state.profile.profilePicture}');
+              debugPrint('Caregiver governorate: ${state.profile.location}');
+              debugPrint('Caregiver rating: ${state.profile.rating}');
+              debugPrint('Total requests: ${state.profile.totalRequests}');
+              debugPrint('Total earnings: ${state.profile.totalEarnings}');
               return SingleChildScrollView(
                 padding:  EdgeInsets.all(16.r),
                 child: Column(
@@ -54,8 +60,8 @@ class CaregiverScreen extends StatelessWidget {
                     SizedBox(height: 16.h),
                     ContactInfoCard(profile: state.profile),
                     SizedBox(height: 16.h),
-                    PerformanceCard(profile: state.profile),
-                    SizedBox(height: 16.h),
+                    // PerformanceCard(profile: state.profile),
+                    // SizedBox(height: 16.h),
                     const MenuOptionsCard(),
                     SizedBox(height: 16.h),
                     const LogoutRow(),
