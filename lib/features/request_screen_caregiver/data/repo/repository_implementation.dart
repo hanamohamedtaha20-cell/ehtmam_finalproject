@@ -73,8 +73,8 @@ class CareRequestsRepositoryImpl implements CareRequestsRepository {
             }
             if (fullData != null) {
               var model = CareRequestModel.fromBookingJson(fullData);
-              // If clientName is still empty, client field may be an ID â€” fetch profile
-              if (model.clientName.isEmpty) {
+              // Fetch client profile when name or rating is missing.
+              if (model.clientName.isEmpty || model.clientRating == 0) {
                 final clientField = fullData['client'] ??
                     (fullData['request'] is Map
                         ? fullData['request']['client']
@@ -85,10 +85,18 @@ class CareRequestsRepositoryImpl implements CareRequestsRepository {
                         await apiService.getUserProfile(clientField);
                     final profile = profileRes['data'];
                     if (profile is Map<String, dynamic>) {
-                      model = model.copyWithClientName(
-                        profile['full_name']?.toString() ??
-                            profile['fullName']?.toString() ??
-                            '',
+                      final name = profile['full_name']?.toString() ??
+                          profile['fullName']?.toString() ??
+                          '';
+                      final rating = ((profile['rating'] ??
+                                  profile['averageRating'] ??
+                                  profile['average_rating'] ??
+                                  0) as num)
+                              .toDouble();
+                      debugPrint('[ActiveBookings] client profile: name=$name rating=$rating');
+                      model = model.copyWithClientProfile(
+                        clientName: name.isNotEmpty ? name : null,
+                        clientRating: rating > 0 ? rating : null,
                       );
                     }
                   } catch (_) {}

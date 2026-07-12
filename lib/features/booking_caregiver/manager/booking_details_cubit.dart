@@ -1,5 +1,6 @@
 import 'package:ehtemam_final_project/core/utils/api_error_message.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/manager/state/booking_details_state.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../data/model/booking_details_model.dart';
 import '../data/repo/repo.dart';
@@ -35,6 +36,15 @@ class BookingDetailsCubit extends Cubit<BookingDetailsState> {
 
     try {
       var result = await repository.getBookingDetails(bookingId);
+      // ── LAYER 4 TRACE ──────────────────────────────────────────────────────
+      debugPrint('[Cubit][L4] getBookingDetails returned:');
+      debugPrint('[Cubit][L4]   clientName  = "${result.clientName}"');
+      debugPrint('[Cubit][L4]   phone       = "${result.phone}"');
+      debugPrint('[Cubit][L4]   email       = "${result.email}"');
+      debugPrint('[Cubit][L4]   clientBudget    = ${result.clientBudget}');
+      debugPrint('[Cubit][L4]   caregiverBudget = ${result.caregiverBudget}');
+      debugPrint('[Cubit][L4]   description = "${result.description}"');
+      // ───────────────────────────────────────────────────────────────────────
       try {
         final tasks = await repository.getTasksByBookingId(bookingId);
         result = result.copyWith(tasks: tasks);
@@ -43,6 +53,7 @@ class BookingDetailsCubit extends Cubit<BookingDetailsState> {
         emit(BookingDetailsLoaded(result));
       }
     } catch (e) {
+      debugPrint('[Cubit][L4] ERROR in loadBookingDetails: $e');
       if (!isClosed) {
         emit(BookingDetailsError(e.toString()));
       }

@@ -45,11 +45,11 @@ class CreateRequestBody extends StatelessWidget {
 
           child: Column(
             children: [
-              RequestDescriptionField(
-                controller: context.read<CreateRequestCubit>().descriptionController,
-              ),
+              // RequestDescriptionField(
+              //   controller: context.read<CreateRequestCubit>().descriptionController,
+              // ),
 
-              SizedBox(height: 16.h),
+              // SizedBox(height: 16.h),
 
               DateTimeSection(),
 
@@ -95,7 +95,7 @@ class CreateRequestBody extends StatelessWidget {
               SizedBox(height: 16.h),
 
               AppTextAreaField(
-                title: "Special Requirements",
+                title: "Description",
                 hint: "Any special requirements or notes...",
                 isRequired: false,
                 controller: context.read<CreateRequestCubit>().notesController,

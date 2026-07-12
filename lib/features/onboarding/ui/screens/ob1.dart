@@ -72,13 +72,13 @@ class OnboardingScreen extends StatelessWidget {
                     fontWeight: FontWeight.w400,
                     color: AppColors.cardBlueStart,
 
-                    shadows: [
-                      Shadow(
-                        color: Colors.black12.withOpacity(0.2),
-                        offset: Offset(0, 6),
-                        blurRadius: 2.r//
-                      ),
-                    ],
+                    // shadows: [
+                    //   Shadow(
+                    //     color: Colors.black12.withOpacity(0.2),
+                    //     offset: Offset(0, 6),
+                    //     blurRadius: 2.r//
+                    // ),
+           //  ],
                   ),
                 ),
 

@@ -16,10 +16,13 @@ class BlockProviderDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color  = isBlocking ? Colors.red : Colors.orange;
-    final icon   = isBlocking ? Icons.block : Icons.lock_open_rounded;
-    final title  = isBlocking ? 'Block Provider' : 'Unblock Provider';
-    final action = isBlocking ? 'Block' : 'Unblock';
+    final color      = isBlocking ? Colors.red : Colors.orange;
+    final icon       = isBlocking ? Icons.block : Icons.lock_open_rounded;
+    final titleKey   = isBlocking ? 'block_provider' : 'unblock_provider';
+    final actionKey  = isBlocking ? 'block' : 'unblock';
+    final reasonKey  = isBlocking ? 'reason_for_blocking' : 'reason_for_unblocking';
+    final hintKey    = isBlocking ? 'explain_block_provider' : 'explain_unblock_provider';
+    final noteKey    = isBlocking ? 'block_reason_note_prov' : null;
 
     return Dialog(
       backgroundColor: Colors.white,
@@ -36,7 +39,7 @@ class BlockProviderDialog extends StatelessWidget {
               children: [
                 Icon(icon, color: color),
                 SizedBox(width: 8.w),
-                Text('block_provider'.tr(),
+                Text(titleKey.tr(),
                   style: TextStyle(
                     color: color,
                     fontSize: 20.sp,
@@ -73,7 +76,7 @@ class BlockProviderDialog extends StatelessWidget {
 
             SizedBox(height: 20.h),
 
-            Text('reason_for_blocking'.tr(),
+            Text(reasonKey.tr(),
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 color: Color(0xff111827),
@@ -85,7 +88,7 @@ class BlockProviderDialog extends StatelessWidget {
             TextField(
               maxLines: 4,
               decoration: InputDecoration(
-                hintText: 'explain_block_provider'.tr(),
+                hintText: hintKey.tr(),
                 hintStyle: TextStyle(
                   color: Color(0xff94A3B8),
                   fontSize: 13.sp,
@@ -103,11 +106,12 @@ class BlockProviderDialog extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 12.h),
-
-            Text('block_reason_note_prov'.tr(),
-              style: TextStyle(fontSize: 11.sp, color: Color(0xff64748B)),
-            ),
+            if (noteKey != null) ...[
+              SizedBox(height: 12.h),
+              Text(noteKey.tr(),
+                style: TextStyle(fontSize: 11.sp, color: Color(0xff64748B)),
+              ),
+            ],
 
             SizedBox(height: 20.h),
 
@@ -144,7 +148,7 @@ class BlockProviderDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(13.r),
                         ),
                       ),
-                      child: Text('block'.tr()),
+                      child: Text(actionKey.tr()),
                     ),
                   ),
                 ),

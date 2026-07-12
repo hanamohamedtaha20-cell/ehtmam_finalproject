@@ -189,6 +189,27 @@ class CareRequestModel {
     );
   }
 
+  CareRequestModel copyWithClientProfile({
+    String? clientName,
+    double? clientRating,
+  }) {
+    return CareRequestModel(
+      id: id,
+      status: status,
+      serviceName: serviceName,
+      duration: duration,
+      location: location,
+      date: date,
+      time: time,
+      notes: notes,
+      clientName: clientName ?? this.clientName,
+      clientRating: clientRating ?? this.clientRating,
+      price: price,
+      sourceType: sourceType,
+      bookingId: bookingId,
+    );
+  }
+
   static num _priceFromJson(Map<String, dynamic> json) {
     final offer = json['offer'];
     if (offer is Map<String, dynamic>) {

@@ -138,7 +138,9 @@ class AdUserCard extends StatelessWidget {
                 SnackBar(
                   content: Text(
                     error == null
-                        ? '${user.name} has been ${isBlocked ? 'unblocked' : 'blocked'}'
+                        ? (isBlocked
+                            ? 'user_unblocked_success'.tr()
+                            : 'user_blocked_success'.tr())
                         : 'Failed: $error',
                   ),
                   backgroundColor: error == null ? Colors.green : Colors.red,
@@ -146,8 +148,15 @@ class AdUserCard extends StatelessWidget {
                 ),
               );
             },
-            icon: Icon(Icons.block, color: Colors.red, size: 18.r),
-            label: Text('block_user'.tr(), style: TextStyle(color: Colors.red)),
+            icon: Icon(
+              user.isBlocked ? Icons.lock_open_rounded : Icons.block,
+              color: user.isBlocked ? Colors.orange : Colors.red,
+              size: 18.r,
+            ),
+            label: Text(
+              user.isBlocked ? 'unblock_user'.tr() : 'block_user'.tr(),
+              style: TextStyle(color: user.isBlocked ? Colors.orange : Colors.red),
+            ),
           ),
         ],
       ),

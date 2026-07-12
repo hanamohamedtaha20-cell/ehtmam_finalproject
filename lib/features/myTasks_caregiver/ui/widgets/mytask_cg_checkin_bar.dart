@@ -142,7 +142,7 @@ class MytaskCgCheckinBar extends StatelessWidget {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text('Checkout failed: $err'),
-                                      backgroundColor: Colors.red,
+                                      backgroundColor: Color(0xFF7EC4F0),
                                     ),
                                   );
                                   return;
@@ -214,7 +214,7 @@ class MytaskCgCheckinBar extends StatelessWidget {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text('checked_in_success'.tr()),
-                            backgroundColor: Colors.green,
+                            backgroundColor: Color(0xFF7EC4F0),
                           ),
                         );
                       }

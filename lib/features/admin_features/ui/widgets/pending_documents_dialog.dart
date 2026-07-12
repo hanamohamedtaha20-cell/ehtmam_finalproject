@@ -85,41 +85,7 @@ class PendingDocumentsDialog extends StatelessWidget {
 
               SizedBox(height: 24.h),
 
-              SizedBox(
-                width: double.infinity,
-                height: 48.h,
-                child: OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.check_circle_outline),
-                  label: Text('approve'.tr()),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: const Color(0xff059669),
-                    side: BorderSide(color: Color(0xff059669)),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14.r),
-                    ),
-                  ),
-                ),
-              ),
-
-              SizedBox(height: 12.h),
-
-              SizedBox(
-                width: double.infinity,
-                height: 48.h,
-                child: OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: Icon(Icons.cancel_outlined),
-                  label: Text('reject'.tr()),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: Colors.red,
-                    side: BorderSide(color: Colors.red),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14.r),
-                    ),
-                  ),
-                ),
-              ),
+             
             ],
           ),
         ),

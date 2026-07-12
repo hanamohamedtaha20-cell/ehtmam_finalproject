@@ -17,7 +17,7 @@ class AdProviderCubit extends Cubit<AdProviderState> {
     emit(AdProviderLoading());
     try {
       final providers = await repo.getProviders();
-      _allProviders = providers;
+      _allProviders = providers..sort((a, b) => b.id.compareTo(a.id));
       if (!isClosed) {
         emit(AdProviderLoaded(
           allProviders: _allProviders,

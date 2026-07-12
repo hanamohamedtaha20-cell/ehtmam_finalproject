@@ -179,7 +179,9 @@ class AdProviderCard extends StatelessWidget {
                   SnackBar(
                     content: Text(
                       error == null
-                          ? '${provider.name} has been ${isBlocking ? 'blocked' : 'unblocked'}'
+                          ? (isBlocking
+                              ? 'provider_blocked_success'.tr()
+                              : 'provider_unblocked_success'.tr())
                           : 'Failed: $error',
                     ),
                     backgroundColor: error == null ? Colors.green : Colors.red,
@@ -193,20 +195,12 @@ class AdProviderCard extends StatelessWidget {
                 color: isBlocked ? Colors.orange : Colors.red,
               ),
               label: Text(
-                isBlocked ? 'Unblock Provider' : 'Block Provider',
+                isBlocked ? 'unblock_provider'.tr() : 'block_provider'.tr(),
                 style: TextStyle(
                   color: isBlocked ? Colors.orange : Colors.red,
                   fontSize: 12.sp,
                   fontWeight: FontWeight.w700,
                 ),
-              );
-            },
-            icon: Icon(Icons.block, color: Colors.red, size: 16.r),
-            label: Text('block_provider'.tr(),
-              style: TextStyle(
-                color: Colors.red,
-                fontSize: 12.sp,
-                fontWeight: FontWeight.w700,
               ),
             ),
           ),

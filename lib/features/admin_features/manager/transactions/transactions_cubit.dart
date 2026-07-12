@@ -27,13 +27,13 @@ class TransactionsCubit
       final transactions =
       await apiService.getAllTransactions();
 
-      _allTransactions = transactions;
+      _allTransactions = transactions..sort((a, b) => b.id.compareTo(a.id));
 
       if (!isClosed) {
         emit(
           state.copyWith(
             status: TransactionsStatus.success,
-            transactions: transactions,
+            transactions: _allTransactions,
           ),
         );
       }

@@ -123,7 +123,7 @@ class _StatCard extends StatelessWidget {
               ),
               Text(
                 label,
-                style: TextStyle(fontSize: 11.sp, color: const Color(0xFF6B7280)),
+                style: TextStyle(fontSize: 9.sp, color: const Color(0xFF6B7280)),
               ),
             ],
           ),

@@ -183,7 +183,6 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     if (formKey.currentState!.validate()) {
       createRequest(
         serviceId:   serviceId,
-        serviceType: serviceType,
         governorate: selectedGovernorate!,
         date: '${selectedDate!.year}-${selectedDate!.month.toString().padLeft(2, '0')}-${selectedDate!.day.toString().padLeft(2, '0')}',
         time: '${selectedTime!.hour.toString().padLeft(2, '0')}:${selectedTime!.minute.toString().padLeft(2, '0')}',
@@ -212,7 +211,6 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
     String? duration,
     String? notes,
     String? budget,
-    String? serviceType,
     List<String> tasks = const [],
   }) async {
     if (isClosed) return;
@@ -229,7 +227,6 @@ class CreateRequestCubit extends Cubit<CreateRequestState> {
         duration: duration,
         notes: notes,
         budget: budget,
-        serviceType: serviceType,
         tasks: tasks,
       );
       if (!isClosed) {

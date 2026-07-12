@@ -126,7 +126,7 @@ class _RatingBodyState extends State<_RatingBody> {
                     state.message,
                     style: const TextStyle(color: Colors.white),
                   ),
-                  backgroundColor: const Color(0xffEF4444),
+                  backgroundColor: const Color(0xFF7EC4F0),
                   behavior: SnackBarBehavior.floating,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.r),

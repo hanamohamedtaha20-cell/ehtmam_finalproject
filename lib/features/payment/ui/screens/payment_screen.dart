@@ -20,11 +20,16 @@ class PaymentScreen extends StatefulWidget {
   /// so the backend can locate the task within the correct booking.
   final String? bookingId;
 
+  /// When set (and taskId is null), the Pay button calls processPayment(offerId)
+  /// to deduct the wallet and create the booking for a regular request.
+  final String? offerId;
+
   const PaymentScreen({
     super.key,
     this.taskId,
     this.extraTaskPrice,
     this.bookingId,
+    this.offerId,
   });
 
   @override
@@ -123,12 +128,15 @@ class _PaymentScreenState extends State<PaymentScreen>
                           remainingSessions: state.remainingSessions,
                           onPay: () async {
                             final cubit = context.read<PaymentCubit>();
-                            final error = widget.taskId != null
-                                ? await cubit.payExtraTask(
-                                    widget.taskId!,
-                                    bookingId: widget.bookingId,
-                                  )
-                                : await cubit.payBooking();
+                            final String? error;
+                            if (widget.taskId != null) {
+                              error = await cubit.payExtraTask(
+                                widget.taskId!,
+                                bookingId: widget.bookingId,
+                              );
+                            } else {
+                              error = await cubit.payBooking(widget.offerId ?? '');
+                            }
                             if (!context.mounted) return;
                             if (error != null) {
                               CustomSnackBar.show(context, message: error);

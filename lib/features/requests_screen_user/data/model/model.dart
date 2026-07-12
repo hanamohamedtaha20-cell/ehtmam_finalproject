@@ -85,7 +85,10 @@ class RequestModel {
       status: _formatStatus(statusValue),
       provider: providerName,
       type: _mapStringToRequestType(statusValue),
-      offersCount: _toInt(json['offers_count']), Description: '',
+      offersCount: _toInt(json['offers_count']),
+      Description: json['Description']?.toString() ??
+          json['description']?.toString() ??
+          '',
     );
   }
 

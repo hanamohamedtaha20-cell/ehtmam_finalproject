@@ -90,7 +90,7 @@ class MytaskCgTaskItem extends StatelessWidget {
                             : _isRejected
                                 ? 'This task was rejected by the client.'
                                 : 'Upload photo/video proof before marking as done'),
-                        backgroundColor: Colors.orange,
+                        backgroundColor: Color(0xFF7EC4F0),
                       ),
                     );
                     return;
@@ -99,7 +99,7 @@ class MytaskCgTaskItem extends StatelessWidget {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text('upload_proof_before_done'.tr()),
-                        backgroundColor: Colors.red,
+                        backgroundColor: Color(0xFF7EC4F0),
                       ),
                     );
                     return;
@@ -404,7 +404,7 @@ class MytaskCgTaskItem extends StatelessWidget {
                           content: Text(result.isEmpty
                               ? 'Proof uploaded successfully'
                               : 'Upload failed: $result'),
-                          backgroundColor: result.isEmpty ? Colors.green : Colors.red,
+                          backgroundColor: result.isEmpty ? Color(0xFF7EC4F0) : Color(0xFF7EC4F0),
                         ),
                       );
                     },

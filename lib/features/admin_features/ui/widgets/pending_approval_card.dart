@@ -5,11 +5,15 @@ import 'package:easy_localization/easy_localization.dart';
 class PendingApprovalCard extends StatelessWidget {
   final Map<String, dynamic> provider;
   final VoidCallback onViewDocuments;
+  final VoidCallback? onApprove;
+  final VoidCallback? onReject;
 
   const PendingApprovalCard({
     super.key,
     required this.provider,
     required this.onViewDocuments,
+    this.onApprove,
+    this.onReject,
   });
 
   @override
@@ -209,37 +213,7 @@ class PendingApprovalCard extends StatelessWidget {
           if (isPending) ...[
             SizedBox(height: 12.h),
 
-            SizedBox(
-              width: double.infinity,
-              height: 45.h,
-              child: OutlinedButton.icon(
-                onPressed: onApprove,
-                icon: Icon(Icons.check_circle_outline, size: 17.r),
-                label: Text('approve'.tr()),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: const Color(0xff059669),
-                  side: BorderSide(color: Color(0xff059669)),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12.r),
-                  ),
-                ),
-              ),
-            ),
-
-            SizedBox(height: 10.h),
-
-            SizedBox(
-              width: double.infinity,
-              height: 45.h,
-              child: TextButton.icon(
-                onPressed: onReject,
-                icon: Icon(Icons.cancel_outlined, size: 17.r),
-                label: Text('reject'.tr()),
-                style: TextButton.styleFrom(
-                  foregroundColor: Colors.red,
-                ),
-              ),
-            ),
+        
           ],
         ],
       ),

@@ -45,27 +45,7 @@ class DashboardHeader extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              Container(
-                padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 7.h),
-                decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(.85),
-                  borderRadius: BorderRadius.circular(20.r),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.language, size: 13.r, color: Color(0xff315A7C)),
-                    SizedBox(width: 6.w),
-                    Text(
-                      'ع',
-                      style: TextStyle(
-                        color: Color(0xff315A7C),
-                        fontSize: 12.sp,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+             
             ],
           ),
           SizedBox(height: 6.h),

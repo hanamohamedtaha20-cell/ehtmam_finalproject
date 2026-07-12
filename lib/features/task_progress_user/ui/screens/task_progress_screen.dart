@@ -1,7 +1,5 @@
 import 'package:ehtemam_final_project/features/booking_user/ui/screens/booking_screen_user.dart';
-import 'package:ehtemam_final_project/features/payment/data/repo/payment_repo.dart';
-import 'package:ehtemam_final_project/features/payment/manager/payment_cubit.dart';
-import 'package:ehtemam_final_project/features/payment/ui/screens/payment_screen.dart';
+import 'package:ehtemam_final_project/features/recharge_wallet/ui/screens/recharge_screen.dart';
 import 'package:ehtemam_final_project/features/task_progress_user/data/model/task_progress_model.dart';
 import 'package:ehtemam_final_project/features/task_progress_user/data/repo/task_progress_repo.dart';
 import 'package:ehtemam_final_project/features/task_progress_user/manager/task_progress_cubit.dart';
@@ -286,58 +284,34 @@ class _ExtraTaskCardState extends State<_ExtraTaskCard> {
     final cubit = context.read<TaskProgressCubit>();
 
     if (approve) {
-      // ── BEFORE APPROVE ────────────────────────────────────────────────────
-      debugPrint('TASK_ID: ${widget.task.id}');
-      debugPrint('TASK_STATE: ${widget.task.taskState}');
-      debugPrint('TASK_STATUS: ${widget.task.taskState}');
+      debugPrint('TASK_ID: ${widget.task.id}  price=${widget.task.price}');
 
-      // 1. Call approve — no internal loadTasks so this widget stays mounted.
-      final error = await cubit.approveExtraTask(widget.task.id);
+      final result = await cubit.approveAndPayExtraTask(
+        widget.task.id,
+        bookingId: widget.bookingId,
+        price: widget.task.price,
+      );
       if (!mounted) return;
       setState(() => _isActing = false);
 
-      // ── AFTER APPROVE RESPONSE ────────────────────────────────────────────
-      debugPrint('TASK_ID: ${widget.task.id}');
-      debugPrint('TASK_STATE: ${error == null ? "approve_api_success" : "approve_api_failed"}');
-      debugPrint('TASK_STATUS: ${error ?? "ok"}');
-
-      if (error != null) {
-        _showSnack(error, Colors.red);
+      if (result.isInsufficientFunds) {
+        _showInsufficientFundsDialog(
+          balance: result.walletBalance ?? 0,
+          required: result.requiredAmount ?? widget.task.price,
+        );
         return;
       }
 
-      // 2. Immediately hide buttons (optimistic before refresh).
+      if (result.isError) {
+        _showSnack(result.errorMessage ?? 'Payment failed', Colors.red);
+        return;
+      }
+
+      // Success
       setState(() => _locallyApproved = true);
-      _showSnack('Extra task approved! Proceeding to payment...', Colors.green);
-
-      // 3. Navigate to PaymentScreen.
-      final paid = await Navigator.push<bool>(
-        context,
-        MaterialPageRoute(
-          builder: (_) => BlocProvider(
-            create: (_) => PaymentCubit(PaymentRepo())
-              ..loadData(offerPrice: widget.task.price),
-            child: PaymentScreen(
-              taskId: widget.task.id,
-              extraTaskPrice: widget.task.price,
-              bookingId: widget.bookingId,
-            ),
-          ),
-        ),
-      );
-
-      if (!mounted) return;
-
-      // ── AFTER REFRESH ─────────────────────────────────────────────────────
-      debugPrint('TASK_ID: ${widget.task.id}');
-      debugPrint('TASK_STATE: calling_refresh  paid=$paid');
-      debugPrint('TASK_STATUS: post_payment_${paid == true ? "success" : "dismissed_or_failed"}');
+      _showSnack('extra_task_payment_success'.tr(), Colors.green);
       debugPrint('REFRESHING_TASKS');
       cubit.loadTasks(widget.bookingId);
-
-      if (paid == true) {
-        _showSnack('Additional task payment completed successfully', Colors.green);
-      }
     } else {
       // Reject
       debugPrint('TASK_STATUS: ${widget.task.taskState}');
@@ -367,6 +341,65 @@ class _ExtraTaskCardState extends State<_ExtraTaskCard> {
         backgroundColor: bg,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
+      ),
+    );
+  }
+
+  void _showInsufficientFundsDialog({required double balance, required double required}) {
+    final shortfall = required - balance;
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16.r)),
+        title: Row(
+          children: [
+            Icon(Icons.account_balance_wallet_outlined, color: Colors.orange, size: 22.r),
+            SizedBox(width: 8.w),
+            Text('insufficient_balance'.tr(),
+              style: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.w700),
+            ),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('insufficient_wallet_message'.tr(),
+              style: TextStyle(fontSize: 13.sp, color: Colors.black87),
+            ),
+            SizedBox(height: 12.h),
+            _BalanceRow(label: 'wallet_balance'.tr(),
+                value: 'EGP ${balance.toStringAsFixed(2)}', color: Colors.red),
+            SizedBox(height: 4.h),
+            _BalanceRow(label: 'required_amount'.tr(),
+                value: 'EGP ${required.toStringAsFixed(2)}', color: const Color(0xFF1976D2)),
+            SizedBox(height: 4.h),
+            _BalanceRow(label: 'shortfall'.tr(),
+                value: 'EGP ${shortfall.toStringAsFixed(2)}', color: Colors.orange),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text('cancel'.tr(), style: const TextStyle(color: Colors.grey)),
+          ),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF1976D2),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+            ),
+            icon: Icon(Icons.add, size: 16.r, color: Colors.white),
+            label: Text('top_up_wallet'.tr(), style: const TextStyle(color: Colors.white)),
+            onPressed: () {
+              Navigator.pop(ctx);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const RechargeScreen()),
+              );
+            },
+          ),
+        ],
       ),
     );
   }
@@ -525,6 +558,26 @@ class _ExtraTaskCardState extends State<_ExtraTaskCard> {
           ],
         ],
       ),
+    );
+  }
+}
+
+class _BalanceRow extends StatelessWidget {
+  final String label;
+  final String value;
+  final Color color;
+
+  const _BalanceRow({required this.label, required this.value, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label, style: TextStyle(fontSize: 12.sp, color: Colors.black54)),
+        Text(value,
+            style: TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w700, color: color)),
+      ],
     );
   }
 }

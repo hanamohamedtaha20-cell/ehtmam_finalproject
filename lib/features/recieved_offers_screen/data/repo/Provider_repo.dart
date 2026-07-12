@@ -220,6 +220,22 @@ class ProviderRepository {
     return await _apiService.acceptOfferWithBundle(offerId);
   }
 
+  /// Returns the current user wallet balance, or 0.0 if unavailable.
+  Future<double> getWalletBalance() async {
+    final response = await _apiService.getMyWallet();
+    final raw = response['data'];
+    final walletData = (raw is Map && raw['wallet'] is Map)
+        ? raw['wallet'] as Map
+        : raw is Map
+            ? raw
+            : null;
+    for (final key in ['balance', 'currentBalance', 'current_balance', 'amount']) {
+      final val = walletData?[key];
+      if (val is num) return val.toDouble();
+    }
+    return 0.0;
+  }
+
   List<dynamic> _extractOffers(dynamic data) {
     if (data is List) return data;
 

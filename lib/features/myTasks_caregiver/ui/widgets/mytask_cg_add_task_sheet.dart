@@ -66,7 +66,7 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(message),
-        backgroundColor: Colors.red,
+        backgroundColor: Color(0xFF7EC4F0),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -74,7 +74,7 @@ class _MytaskCgAddTaskSheetState extends State<MytaskCgAddTaskSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return SingleChildScrollView(
       padding: EdgeInsets.only(
         left: 20,
         right: 20,

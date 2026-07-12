@@ -40,7 +40,8 @@ class ComplaintsCubit extends Cubit<ComplaintsState> {
           .whereType<Map>()
           .map((item) =>
               ComplaintModel.fromJson(Map<String, dynamic>.from(item)))
-          .toList();
+          .toList()
+        ..sort((a, b) => b.createdAt.compareTo(a.createdAt));
 
       debugPrint('COMPLAINTS COUNT: ${complaints.length}');
 

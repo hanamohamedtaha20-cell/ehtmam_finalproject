@@ -79,6 +79,10 @@ class PendingApprovalsCubit extends Cubit<PendingApprovalsState> {
         };
       }).toList();
 
+      // Newest first — MongoDB ObjectID first 8 hex chars encode the timestamp
+      providers.sort((a, b) =>
+          (b['id'] as String).compareTo(a['id'] as String));
+
       if (!isClosed) {
         emit(
           state.copyWith(

@@ -8,6 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/network/api_service.dart';
 import '../../manager/ad_provider_cubit.dart';
 import '../../manager/ad_provider_state.dart';
+import '../../model/repo/ad_provider_repository.dart';
 import 'package:easy_localization/easy_localization.dart';
 
 class AdProviderScreen extends StatelessWidget {

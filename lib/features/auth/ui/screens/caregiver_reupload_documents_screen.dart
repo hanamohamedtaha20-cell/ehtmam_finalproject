@@ -41,7 +41,7 @@ class _CaregiverReuploadDocumentsScreenState
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('upload_at_least_one_doc'.tr()),
-          backgroundColor: const Color(0xffEF4444),
+          backgroundColor: const Color(0xFF7EC4F0),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),
@@ -88,7 +88,7 @@ class _CaregiverReuploadDocumentsScreenState
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('failed_submit_docs'.tr()),
-          backgroundColor: const Color(0xffEF4444),
+          backgroundColor: const Color(0xFF7EC4F0),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10.r),

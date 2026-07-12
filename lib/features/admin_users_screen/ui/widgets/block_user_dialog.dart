@@ -17,10 +17,11 @@ class BlockUserDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color  = isBlocking ? Colors.red : Colors.orange;
-    final icon   = isBlocking ? Icons.block : Icons.lock_open_rounded;
-    final title  = isBlocking ? 'Block User' : 'Unblock User';
-    final action = isBlocking ? 'Block User' : 'Unblock User';
+    final color     = isBlocking ? Colors.red : Colors.orange;
+    final icon      = isBlocking ? Icons.block : Icons.lock_open_rounded;
+    final titleKey  = isBlocking ? 'block_user' : 'unblock_user';
+    final reasonKey = isBlocking ? 'reason_for_blocking' : 'reason_for_unblocking';
+    final hintKey   = isBlocking ? 'explain_block_user' : 'explain_unblock_user';
 
     return Dialog(
       backgroundColor: Colors.white,
@@ -37,7 +38,7 @@ class BlockUserDialog extends StatelessWidget {
               children: [
                 Icon(icon, color: color),
                 SizedBox(width: 8.w),
-                Text('block_user'.tr(),
+                Text(titleKey.tr(),
                   style: TextStyle(
                     color: color,
                     fontSize: 20.sp,
@@ -64,7 +65,7 @@ class BlockUserDialog extends StatelessWidget {
 
             SizedBox(height: 20.h),
 
-            Text('reason_for_blocking'.tr(),
+            Text(reasonKey.tr(),
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
 
@@ -73,7 +74,7 @@ class BlockUserDialog extends StatelessWidget {
             TextField(
               maxLines: 4,
               decoration: InputDecoration(
-                hintText: 'explain_block_user'.tr(),
+                hintText: hintKey.tr(),
                 filled: true,
                 fillColor: const Color(0xffE5E7EB),
                 border: OutlineInputBorder(
@@ -83,17 +84,18 @@ class BlockUserDialog extends StatelessWidget {
               ),
             ),
 
-            SizedBox(height: 12.h),
-
-            Text('block_reason_note_user'.tr(),
-              style: TextStyle(fontSize: 11.sp, color: Colors.grey),
-            ),
+            if (isBlocking) ...[
+              SizedBox(height: 12.h),
+              Text('block_reason_note_user'.tr(),
+                style: TextStyle(fontSize: 11.sp, color: Colors.grey),
+              ),
+            ],
 
             SizedBox(height: 20.h),
 
             ActionButtonsRow(
-              firstText: 'Cancel',
-              secondText: action,
+              firstText: 'cancel'.tr(),
+              secondText: titleKey.tr(),
               onFirstTap: () => Navigator.pop(context, false),
               onSecondTap: () => Navigator.pop(context, true),
             ),

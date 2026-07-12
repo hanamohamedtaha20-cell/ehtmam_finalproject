@@ -154,28 +154,6 @@ class _TrackCaregiverBodyState extends State<_TrackCaregiverBody> {
               children: [
                 const ETABanner(eta: "—", distance: "—"),
 
-                if (state is TrackCaregiverError)
-                  Container(
-                    color: Colors.red.shade50,
-                    padding:
-                        EdgeInsets.symmetric(horizontal: 16.w, vertical: 6.h),
-                    child: Row(
-                      children: [
-                        Icon(Icons.wifi_off_rounded,
-                            color: Colors.red.shade700, size: 16.r),
-                        SizedBox(width: 8.w),
-                        Expanded(
-                          child: Text(
-                            state.message,
-                            style: TextStyle(
-                                fontSize: 11.sp,
-                                color: Colors.red.shade700),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-
                 SizedBox(
                   height: 250.h,
                   child: Padding(

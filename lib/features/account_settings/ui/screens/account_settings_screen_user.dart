@@ -10,6 +10,7 @@ import '../../../auth/ui/screens/login_screen.dart';
 import '../../manager/account_settings_cubit.dart';
 import '../../manager/account_settings_state.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:ehtemam_final_project/core/widgets/full_screen_image_page.dart';
 
 class AccountSettingsScreen extends StatefulWidget {
   const AccountSettingsScreen({super.key});
@@ -289,7 +290,6 @@ class _AccountSettingsScreenState extends State<AccountSettingsScreen> {
 
                       sectionTitle('PREFERENCES'),
 
-                      const LanguageCard(),
 
                       sectionTitle('DANGER ZONE', color: Colors.red),
 

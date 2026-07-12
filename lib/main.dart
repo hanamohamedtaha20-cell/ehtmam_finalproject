@@ -6,8 +6,8 @@ import 'package:ehtemam_final_project/features/account_settings/data/repo/accoun
 import 'package:ehtemam_final_project/features/admin_features/ui/screens/manage_complaints_screen.dart';
 import 'package:ehtemam_final_project/features/auth/data/repo/auth_repo.dart';
 import 'package:ehtemam_final_project/features/auth/manager/auth_cubit.dart';
-import 'package:ehtemam_final_project/features/auth/ui/screens/login_screen.dart';
 import 'package:ehtemam_final_project/features/auth/ui/screens/set_new_password_screen.dart';
+import 'package:ehtemam_final_project/features/onboarding/ui/screens/ob1.dart';
 import 'package:ehtemam_final_project/features/bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import 'package:ehtemam_final_project/features/bottom_nav_bar/ui/widget/admin_bottom.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
@@ -34,11 +34,11 @@ import 'package:ehtemam_final_project/features/notifications/ui/screens/notifica
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
-Widget _resolveHomeScreen(SharedPreferences prefs) {
+Widget _resolveNextScreen(SharedPreferences prefs) {
   final isLoggedIn = prefs.getBool('is_logged_in') ?? false;
   final role = prefs.getString('user_role') ?? '';
 
-  if (!isLoggedIn) return const LoginScreen();
+  if (!isLoggedIn) return const OnboardingScreen();
 
   switch (role.toLowerCase()) {
     case 'admin':
@@ -74,7 +74,7 @@ void main() async {
       supportedLocales: [Locale('en'), Locale('ar')],
       path: 'assets/translations',
       fallbackLocale: const Locale('en'),
-      child: MyApp(home: _resolveHomeScreen(prefs)),
+      child: MyApp(home: SplashScreen(nextScreen: _resolveNextScreen(prefs))),
     ),
   );
 }
@@ -174,6 +174,7 @@ class _MyAppState extends State<MyApp> {
             locale: context.locale,
             supportedLocales: context.supportedLocales,
             localizationsDelegates: context.localizationDelegates,
+            theme: ThemeData(scaffoldBackgroundColor: const Color(0xFF4DA8F3)),
             home: widget.home,
           ),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../manager/pending_approvals/pending_approvals_cubit.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -212,8 +213,8 @@ class _PendingDocumentsScreenState extends State<PendingDocumentsScreen> {
                         style: TextStyle(fontWeight: FontWeight.w600),
                       ),
                       SizedBox(height: 12.h),
-                      if (_mentalHealthDocuments.isNotEmpty)
-                        ..._mentalHealthDocuments.map(
+                      if (mhdList.isNotEmpty)
+                        ...mhdList.map(
                           (doc) => Padding(
                             padding: EdgeInsets.only(bottom: 12.h),
                             child: _documentItem(
@@ -223,68 +224,19 @@ class _PendingDocumentsScreenState extends State<PendingDocumentsScreen> {
                           ),
                         )
                       else
-                        _emptyDocumentCard(
+                        _emptyCard(
                           icon: Icons.psychology_outlined,
                           text: 'No mental health document uploaded',
                         ),
 
-                      SizedBox(height: 32.h),
-
-                      // ── Approve / Reject ──────────────────────────────────
-                      if (isPending) ...[
-                        if (_loading)
-                          const Center(child: CircularProgressIndicator())
-                        else ...[
-                          SizedBox(
-                            width: double.infinity,
-                            height: 50.h,
-                            child: ElevatedButton.icon(
-                              onPressed: _handleApprove,
-                              icon: Icon(Icons.check_circle_outline, size: 20.r),
-                              label: Text(
-                                'Approve',
-                                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
-                              ),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: const Color(0xff059669),
-                                foregroundColor: Colors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14.r),
-                                ),
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 12.h),
-                          SizedBox(
-                            width: double.infinity,
-                            height: 50.h,
-                            child: OutlinedButton.icon(
-                              onPressed: _handleReject,
-                              icon: Icon(Icons.cancel_outlined, size: 20.r),
-                              label: Text(
-                                'Reject',
-                                style: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
-                              ),
-                              style: OutlinedButton.styleFrom(
-                                foregroundColor: Colors.red,
-                                side: const BorderSide(color: Colors.red),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14.r),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                        SizedBox(height: 16.h),
-                      ],
+                      SizedBox(height: 16.h),
                     ],
                   ),
                 ),
               ),
             ),
 
-            Container(
+            if (isPending) Container(
               padding: EdgeInsets.fromLTRB(16.w, 12.h, 16.w, 16.h),
               decoration: const BoxDecoration(
                 color: Colors.white,
@@ -299,8 +251,8 @@ class _PendingDocumentsScreenState extends State<PendingDocumentsScreen> {
                     width: double.infinity,
                     height: 50.h,
                     child: OutlinedButton.icon(
-                      onPressed: _isLoading ? null : _handleApprove,
-                      icon: _isApproving
+                      onPressed: _loading ? null : _handleApprove,
+                      icon: _loading
                           ? SizedBox(
                               width: 18.r,
                               height: 18.r,
@@ -337,8 +289,8 @@ class _PendingDocumentsScreenState extends State<PendingDocumentsScreen> {
                   ),
                   SizedBox(height: 4.h),
                   TextButton.icon(
-                    onPressed: _isLoading ? null : _handleReject,
-                    icon: _isRejecting
+                    onPressed: _loading ? null : _handleReject,
+                    icon: _loading
                         ? SizedBox(
                             width: 16.r,
                             height: 16.r,

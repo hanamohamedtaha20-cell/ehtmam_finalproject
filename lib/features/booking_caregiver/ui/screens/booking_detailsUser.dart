@@ -9,6 +9,7 @@ import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/serv
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/description_card.dart';
 import 'package:ehtemam_final_project/features/booking_caregiver/ui/widgets/special_instructions_card.dart';
 import 'package:flutter/material.dart';
+import 'package:ehtemam_final_project/features/bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/booking_details_appbar/booking_details_appbar.dart';
@@ -24,7 +25,7 @@ class BookingDetailsuser extends StatelessWidget {
 
   const BookingDetailsuser({
     super.key,
-    required this.requestId,
+    this.requestId = '',
     this.bookingId = '',
     this.initialTab = 0,
   });
@@ -57,7 +58,7 @@ class BookingCgView extends StatefulWidget {
 
   const BookingCgView({
     super.key,
-    required this.requestId,
+    this.requestId = '',
     this.bookingId = '',
     this.initialTab = 0,
   });
@@ -171,6 +172,16 @@ class _BookingCgViewState extends State<BookingCgView> {
         }
 
         final booking = state.booking;
+        // ── LAYER 5 TRACE ─────────────────────────────────────────────────────
+        debugPrint('[UI][L5] ===== BookingDetailsuser screen =====');
+        debugPrint('[UI][L5] clientName      = "${booking.clientName}"');
+        debugPrint('[UI][L5] phone           = "${booking.phone}"');
+        debugPrint('[UI][L5] email           = "${booking.email}"');
+        debugPrint('[UI][L5] clientBudget    = ${booking.clientBudget}');
+        debugPrint('[UI][L5] caregiverBudget = ${booking.caregiverBudget}');
+        debugPrint('[UI][L5] description     = "${booking.description}"');
+        debugPrint('[UI][L5] full model: ${booking.toJson()}');
+        // ──────────────────────────────────────────────────────────────────────
         final budgetText = booking.clientBudget > 0
             ? '${booking.clientBudget.toStringAsFixed(0)} EGP'
             : '—';
@@ -231,9 +242,9 @@ class _BookingCgViewState extends State<BookingCgView> {
                           building: booking.building,
                         ),
                         SizedBox(height: 16.h),
-                        SpecialInstructionsCard(
-                          instructions: booking.specialInstructions,
-                        ),
+                        // SpecialInstructionsCard(
+                        //   instructions: booking.specialInstructions,
+                        // ),
                         SizedBox(height: 16.h),
                         ClientBudgetCard(amount: budgetText),
                         SizedBox(height: 16.h),

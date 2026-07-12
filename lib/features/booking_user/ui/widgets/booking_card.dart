@@ -1,4 +1,4 @@
-﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/core/resources/app_colors.dart';
 import 'package:ehtemam_final_project/features/booking_user/ui/widgets/booking_status_badge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -9,12 +9,14 @@ import 'package:easy_localization/easy_localization.dart';
 
 class BookingCard extends StatelessWidget {
   final BookingModelUser booking;
-final VoidCallback? onCancel;
+  final VoidCallback? onCancel;
+  final VoidCallback? onTap;
 
   const BookingCard({
     super.key,
     required this.booking,
     this.onCancel,
+    this.onTap,
   });
 
   @override
@@ -35,29 +37,36 @@ final VoidCallback? onCancel;
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(booking.title,
-                      style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 15.sp, color: AppColors.textDark)),
-                  Text(booking.subtitle,
-                      style: TextStyle(fontFamily: "Arimo", fontSize: 12.sp, color: AppColors.textLight)),
-                ],
-              ),
-              BookingStatusBadge(status: booking.status),
-            ],
+          GestureDetector(
+            onTap: onTap,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(booking.title,
+                            style: TextStyle(fontFamily: "Arimo", fontWeight: FontWeight.bold, fontSize: 15.sp, color: AppColors.textDark)),
+                        Text(booking.subtitle,
+                            style: TextStyle(fontFamily: "Arimo", fontSize: 12.sp, color: AppColors.textLight)),
+                      ],
+                    ),
+                    BookingStatusBadge(status: booking.status),
+                  ],
+                ),
+                SizedBox(height: 12.h),
+                BookingInfoRow(icon: Icons.calendar_today_outlined, text: booking.date),
+                SizedBox(height: 6.h),
+                BookingInfoRow(icon: Icons.access_time_outlined, text: booking.time),
+                SizedBox(height: 6.h),
+                BookingInfoRow(icon: Icons.location_on_outlined, text: booking.location),
+              ],
+            ),
           ),
           SizedBox(height: 12.h),
-          BookingInfoRow(icon: Icons.calendar_today_outlined, text: booking.date),
-          SizedBox(height: 6.h),
-          BookingInfoRow(icon: Icons.access_time_outlined, text: booking.time),
-          SizedBox(height: 6.h),
-          BookingInfoRow(icon: Icons.location_on_outlined, text: booking.location),
-          SizedBox(height: 12.h),
-          
           Row(
             children: [
               Text(

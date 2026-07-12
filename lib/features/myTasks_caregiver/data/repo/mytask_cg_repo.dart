@@ -42,7 +42,7 @@ class MytaskCgRepo {
         isCheckedIn = rawCheckIn != null || rawStatus == 'IN_PROGRESS';
         if (rawCheckIn != null) checkInTime = _formatIso(rawCheckIn.toString());
 
-        clientName = _clientNameFrom(data);
+        clientName = await _resolveClientName(data);
 
         final service = data['service'];
         if (service is Map) {
@@ -140,7 +140,7 @@ class MytaskCgRepo {
         }
 
         if (full != null) {
-          if (clientName.isEmpty) clientName = _clientNameFrom(full);
+          if (clientName.isEmpty) clientName = await _resolveClientName(full);
 
           final offer = full['offer'];
           if (offer is Map) {
@@ -222,6 +222,44 @@ class MytaskCgRepo {
             reqClient['fullName']?.toString() ??
             '';
       }
+    }
+    return '';
+  }
+
+  /// Resolves the client name from a booking map.
+  /// First tries the synchronous extraction; if the result is empty (client
+  /// field is a plain String ID), fetches the user profile via API.
+  Future<String> _resolveClientName(Map<String, dynamic> data) async {
+    final name = _clientNameFrom(data);
+    if (name.isNotEmpty) return name;
+
+    // Extract client ID from top-level or inside request sub-object.
+    String clientId = '';
+    final topClient = data['client'];
+    if (topClient is String && topClient.isNotEmpty) {
+      clientId = topClient;
+    } else {
+      final request = data['request'];
+      if (request is Map) {
+        final reqClient = request['client'];
+        if (reqClient is String && reqClient.isNotEmpty) clientId = reqClient;
+      }
+    }
+
+    if (clientId.isEmpty) return '';
+
+    try {
+      final profileRes = await _api.getUserProfile(clientId);
+      final profile = profileRes['data'];
+      if (profile is Map<String, dynamic>) {
+        final resolved = profile['full_name']?.toString() ??
+            profile['fullName']?.toString() ??
+            '';
+        debugPrint('MytaskCgRepo: resolved clientName="$resolved" for id=$clientId');
+        return resolved;
+      }
+    } catch (e) {
+      debugPrint('MytaskCgRepo._resolveClientName failed: $e');
     }
     return '';
   }

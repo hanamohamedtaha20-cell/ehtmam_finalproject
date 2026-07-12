@@ -160,6 +160,10 @@ class AuthCubit extends Cubit<AuthState> {
       await prefs.setString('userId', loginResponse.user.id);
       await prefs.setString('user_phone', loginResponse.user.phone);
       await prefs.setString('caregiver_status', loginResponse.user.status);
+      if (loginResponse.user.profilePicture.isNotEmpty) {
+        await prefs.setString('profile_picture_url', loginResponse.user.profilePicture);
+        debugPrint('LOGIN_PROFILE_PICTURE_SAVED: ${loginResponse.user.profilePicture}');
+      }
       if (loginResponse.user.speciality.isNotEmpty) {
         await prefs.setString('speciality', loginResponse.user.speciality);
         await prefs.setString('care_field', loginResponse.user.speciality);

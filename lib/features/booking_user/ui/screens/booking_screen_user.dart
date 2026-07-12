@@ -1,4 +1,5 @@
 ﻿import 'package:ehtemam_final_project/core/resources/app_colors.dart';
+import 'package:ehtemam_final_project/features/booking_caregiver/ui/screens/booking_detailsUser.dart';
 import 'package:ehtemam_final_project/features/booking_user/data/repo/booking_repo_user.dart';
 import 'package:ehtemam_final_project/features/booking_user/manager/booking_cubit_user.dart';
 import 'package:ehtemam_final_project/features/booking_user/manager/booking_state_user.dart';
@@ -99,12 +100,25 @@ class BookingScreenUser extends StatelessWidget {
                               itemCount: state.filtered.length,
                               separatorBuilder: (_, __) =>
                                   SizedBox(height: 12.h),
-                              itemBuilder: (_, i) => BookingCard(
-                                booking: state.filtered[i],
-                                onCancel: () {
-                                  context.read<BookingCubitUser>().cancelBooking(state.filtered[i].id);
-                                },
-                              ),
+                              itemBuilder: (_, i) {
+                                final booking = state.filtered[i];
+                                return BookingCard(
+                                  booking: booking,
+                                  onCancel: () {
+                                    context.read<BookingCubitUser>().cancelBooking(booking.id);
+                                  },
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => BookingDetailsuser(
+                                          bookingId: booking.id,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              },
                             ),
                     ),
                   ],

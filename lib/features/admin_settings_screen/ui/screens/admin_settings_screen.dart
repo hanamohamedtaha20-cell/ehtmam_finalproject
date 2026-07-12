@@ -175,9 +175,8 @@ class _AdminSettingsScreenState extends State<AdminSettingsScreen> {
             SizedBox(height: 16.h),
 
             // ── Preferences ──
-            _sectionTitle('PREFERENCES'),
+            
 
-            const LanguageCard(),
 
             SizedBox(height: 16.h),
 

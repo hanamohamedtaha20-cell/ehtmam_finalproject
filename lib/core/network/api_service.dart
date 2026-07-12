@@ -426,10 +426,10 @@ class ApiService {
     String? description,
     String? duration,
     String? notes,
-    String? serviceType,
   }) async {
-    debugPrint('SERVICE_TYPE_SENT: $serviceType');
-    final response = await _dio.post(requestEndpoint, data: {
+    debugPrint('[CreateRequest] description sent: "$description"');
+    debugPrint('[CreateRequest] serviceType: $serviceType');
+    final body = {
       'service':     serviceId,
       'governorate': governorate,
       'date':        date,
@@ -440,7 +440,10 @@ class ApiService {
       if (duration    != null && duration.isNotEmpty)    'duration':    duration,
       if (notes       != null && notes.isNotEmpty)       'notes':       notes,
       if (serviceType != null && serviceType.isNotEmpty) 'serviceType': serviceType,
-    });
+    };
+    debugPrint('[CreateRequest] full body keys: ${body.keys.toList()}');
+    final response = await _dio.post(requestEndpoint, data: body);
+    debugPrint('[CreateRequest] response Description: ${response.data?['data']?['Description']}');
     return response.data;
   }
 
@@ -468,6 +471,7 @@ class ApiService {
 
   Future<Map<String, dynamic>> getRequestById(String id) async {
     final response = await _dio.get('$requestEndpoint/$id');
+    debugPrint('[GetRequest] id=$id  Description=${response.data?['data']?['Description']}  keys=${(response.data?['data'] as Map?)?.keys.toList()}');
     return response.data;
   }
 
@@ -529,6 +533,12 @@ class ApiService {
     return response.data;
   }
 
+  Future<Map<String, dynamic>> getOfferById(String offerId) async {
+    final response = await _dio.get('$offerEndpoint/$offerId');
+    debugPrint('[GetOffer] id=$offerId  price=${response.data?['data']?['price']}  keys=${(response.data?['data'] as Map?)?.keys.toList()}');
+    return response.data;
+  }
+
   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
   //  BOOKINGS â€” /booking
   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
@@ -555,6 +565,8 @@ class ApiService {
 
   Future<Map<String, dynamic>> getBookingById(String id) async {
     final response = await _dio.get('$bookingEndpoint/$id');
+    final requestInBooking = response.data?['data']?['request'];
+    debugPrint('[GetBooking] id=$id  requestType=${requestInBooking?.runtimeType}  requestHasDescription=${requestInBooking is Map ? (requestInBooking['Description'] != null || requestInBooking['description'] != null) : 'N/A (not a Map)'}');
     return response.data;
   }
 
@@ -647,29 +659,30 @@ class ApiService {
   }
 
   /// Charges the user wallet for a caregiver-added extra task that was approved.
-  /// POST /payment/pay-extra-task/{taskId}
+  /// Uses POST /payment/pay-booking-wallet (the confirmed working wallet endpoint).
+  /// The body includes extraTaskId + bookingId + amount so the backend can scope
+  /// the charge to this specific extra task if it supports it.
   Future<Map<String, dynamic>> payExtraTask(
     String taskId, {
     String? bookingId,
+    double? amount,
   }) async {
-    const path = '/payment/pay-extra-task';
-    final url = '$path/$taskId';
-    final body = <String, dynamic>{};
-    if (bookingId != null && bookingId.isNotEmpty)
-      body['bookingId'] = bookingId;
-    debugPrint('PAYMENT REQUEST URL: $baseUrl$url');
-    debugPrint('PAYMENT REQUEST BODY: $body');
+    const url = payBookingWalletEndpoint; // '/payment/pay-booking-wallet'
+    final body = <String, dynamic>{
+      'extraTaskId': taskId,
+    };
+    if (bookingId != null && bookingId.isNotEmpty) body['bookingId'] = bookingId;
+    if (amount != null) body['amount'] = amount;
+    debugPrint('[ExtraTask] PAY URL: ${_dio.options.baseUrl}$url');
+    debugPrint('[ExtraTask] PAY BODY: $body');
     try {
-      final response = await _dio.post(
-        url,
-        data: body.isNotEmpty ? body : null,
-      );
-      debugPrint('PAYMENT RESPONSE STATUS: ${response.statusCode}');
-      debugPrint('PAYMENT RESPONSE: ${response.data}');
+      final response = await _dio.post(url, data: body);
+      debugPrint('[ExtraTask] PAY STATUS: ${response.statusCode}');
+      debugPrint('[ExtraTask] PAY RESPONSE: ${response.data}');
       return Map<String, dynamic>.from(response.data as Map);
     } on DioException catch (e) {
-      debugPrint('PAYMENT ERROR STATUS: ${e.response?.statusCode}');
-      debugPrint('PAYMENT ERROR BODY: ${e.response?.data}');
+      debugPrint('[ExtraTask] PAY ERROR STATUS: ${e.response?.statusCode}');
+      debugPrint('[ExtraTask] PAY ERROR BODY: ${e.response?.data}');
       rethrow;
     }
   }

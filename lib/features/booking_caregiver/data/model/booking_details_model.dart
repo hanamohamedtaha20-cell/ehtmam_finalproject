@@ -80,21 +80,34 @@ class BookingDetailsModel {
     // Effective "request" sub-object: explicit param wins, then nested paths.
     final req = requestMap ?? rootRequest ?? dataRequest;
 
-    debugPrint('DESCRIPTION_ROOT: ${root['Description']}');
-    debugPrint('DESCRIPTION_LOWER_ROOT: ${root['description']}');
-    debugPrint('DESCRIPTION_REQUEST: ${req?['Description']}');
-    debugPrint('DESCRIPTION_REQUEST_LOWER: ${req?['description']}');
+    debugPrint('[$context] root keys: ${root.keys.toList()}');
+    if (req != null) debugPrint('[$context] req keys: ${req.keys.toList()}');
 
-    // All search paths in priority order (matches task requirements):
+    // Try every realistic field name the backend might use, at both the
+    // booking root level and the nested request level.
     final candidates = <String?>[
-      root['Description']?.toString(),          // json['Description']
-      root['description']?.toString(),          // json['description']
-      dataMap?['Description']?.toString(),      // json['data']['Description']
-      dataMap?['description']?.toString(),      // json['data']['description']
-      dataRequest?['Description']?.toString(),  // json['data']['request']['Description']
-      dataRequest?['description']?.toString(),  // json['data']['request']['description']
-      req?['Description']?.toString(),          // json['request']['Description']
-      req?['description']?.toString(),          // json['request']['description']
+      // ── booking root ───────────────────────────────────────────────────────
+      root['Description']?.toString(),
+      root['description']?.toString(),
+      root['notes']?.toString(),
+      root['message']?.toString(),
+      root['details']?.toString(),
+      root['desc']?.toString(),
+      root['serviceDescription']?.toString(),
+      root['bookingDescription']?.toString(),
+      root['additionalInfo']?.toString(),
+      root['info']?.toString(),
+      // ── request sub-object ─────────────────────────────────────────────────
+      req?['Description']?.toString(),
+      req?['description']?.toString(),
+      req?['notes']?.toString(),
+      req?['message']?.toString(),
+      req?['details']?.toString(),
+      req?['desc']?.toString(),
+      req?['serviceDescription']?.toString(),
+      req?['bookingDescription']?.toString(),
+      req?['additionalInfo']?.toString(),
+      req?['info']?.toString(),
     ];
 
     for (final v in candidates) {
@@ -104,7 +117,7 @@ class BookingDetailsModel {
       }
     }
 
-    debugPrint('[$context] DESCRIPTION_RESOLVED: <empty — check backend field name>');
+    debugPrint('[$context] DESCRIPTION_RESOLVED: <empty>  root-keys=${root.keys.toList()}  req-keys=${req?.keys.toList()}');
     return '';
   }
 
@@ -181,6 +194,13 @@ class BookingDetailsModel {
     final offer = json['offer'];
     final client = request is Map ? request['client'] : null;
 
+    // ── LAYER 3 TRACE ─────────────────────────────────────────────────────────
+    debugPrint('[BookingModel][L3] request type: ${request?.runtimeType}');
+    debugPrint('[BookingModel][L3] client type: ${client?.runtimeType}  value: $client');
+    debugPrint('[BookingModel][L3] offer type: ${offer?.runtimeType}  value: $offer');
+    debugPrint('[BookingModel][L3] request.budget: ${request is Map ? request['budget'] : 'N/A (request is not Map)'}');
+    // ─────────────────────────────────────────────────────────────────────────
+
     String serviceName = '';
     if (service is Map<String, dynamic>) {
       serviceName = service['serviceName']?.toString() ?? '';
@@ -196,6 +216,10 @@ class BookingDetailsModel {
       phone = client['phoneNumber']?.toString() ??
           client['phone']?.toString() ??
           client['phone_number']?.toString() ??
+          client['mobile']?.toString() ??
+          client['mobileNumber']?.toString() ??
+          client['mobile_number']?.toString() ??
+          client['contact']?.toString() ??
           '';
       email = client['email']?.toString() ?? '';
       clientProfilePicture = client['profile_picture']?.toString() ??
@@ -204,20 +228,16 @@ class BookingDetailsModel {
           '';
       clientRating =
           ((client['rating'] ?? client['averageRating'] ?? 0) as num).toDouble();
+      debugPrint('[BookingModel][L3] client parsed → name=$clientName  phone=$phone  email=$email');
+      debugPrint('[BookingModel][L3] client keys: ${client.keys.toList()}');
+    } else {
+      debugPrint('[BookingModel][L3] client is NOT Map<String,dynamic> — phone/name will be empty. type=${client?.runtimeType}  value=$client');
     }
 
     final statusValue =
         (json['bookingStatus'] ?? json['status'] ?? 'PENDING').toString();
 
-    final offerPrice = offer is Map ? offer['price'] : null;
-    final selectedOffer = json['selectedOffer'];
-    final selectedOfferPrice = selectedOffer is Map ? selectedOffer['price'] : null;
-    final price = _parsePrice(offerPrice) ??
-        _parsePrice(json['finalPrice']) ??
-        _parsePrice(selectedOfferPrice) ??
-        _parsePrice(json['caregiverBudget']) ??
-        _parsePrice(json['price']) ??
-        0.0;
+    final price = _extractCaregiverBudget(json, offer: offer);
 
     debugPrint('[BookingModel] offer sub-object: $offer');
 
@@ -240,6 +260,11 @@ class BookingDetailsModel {
     }
 
     debugPrint('CAREGIVER_BUDGET_VALUE: $price');
+
+    final clientBudgetParsed = request is Map ? (_parsePrice(request['budget']) ?? 0.0) : 0.0;
+    debugPrint('[BookingModel][L3] clientBudget resolved: $clientBudgetParsed  (from request.budget=${request is Map ? request['budget'] : 'N/A'})');
+    debugPrint('[BookingModel][L3] caregiverBudget resolved: $price');
+    debugPrint('[BookingModel][L3] phone resolved: $phone  clientName resolved: $clientName');
 
     // Normalise the request sub-object so _extractDescription can search it.
     final reqMap = request is Map<String, dynamic>
@@ -285,10 +310,38 @@ class BookingDetailsModel {
       offerDescription: offerDescription,
       specialInstructions:
           request is Map ? (request['notes']?.toString() ?? '') : '',
-      clientBudget: price,
+      clientBudget: clientBudgetParsed,
       caregiverBudget: price,
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'id': id,
+        'requestId': requestId,
+        'displayId': displayId,
+        'status': status,
+        'statusLabel': statusLabel,
+        'clientName': clientName,
+        'phone': phone,
+        'email': email,
+        'rating': rating,
+        'clientProfilePicture': clientProfilePicture,
+        'serviceType': serviceType,
+        'petType': petType,
+        'duration': duration,
+        'date': date,
+        'time': time,
+        'location': location,
+        'governorate': governorate,
+        'street': street,
+        'building': building,
+        'description': description,
+        'offerDescription': offerDescription,
+        'specialInstructions': specialInstructions,
+        'clientBudget': clientBudget,
+        'caregiverBudget': caregiverBudget,
+        'tasksCount': tasks.length,
+      };
 
   BookingDetailsModel copyWith({
     String? clientName,
@@ -298,6 +351,7 @@ class BookingDetailsModel {
     String? clientProfilePicture,
     String? street,
     String? building,
+    double? caregiverBudget,
     List<TaskModel>? tasks,
   }) {
     return BookingDetailsModel(
@@ -324,7 +378,7 @@ class BookingDetailsModel {
       offerDescription: offerDescription,
       specialInstructions: specialInstructions,
       clientBudget: clientBudget,
-      caregiverBudget: caregiverBudget,
+      caregiverBudget: caregiverBudget ?? this.caregiverBudget,
       tasks: tasks ?? this.tasks,
     );
   }
@@ -345,6 +399,63 @@ class BookingDetailsModel {
   static String _shortId(String id) {
     if (id.length <= 8) return 'BK$id';
     return 'BK${id.substring(id.length - 5).toUpperCase()}';
+  }
+
+  /// Extracts the amount the user actually paid, excluding platform fees.
+  /// Checks every known field name the backend might use, in priority order.
+  static double _extractCaregiverBudget(
+    Map<String, dynamic> json, {
+    dynamic offer,
+  }) {
+    final req = json['request'];
+    final payment = json['payment'];
+    final transaction = json['transaction'];
+    final selectedOffer = json['selectedOffer'];
+    final acceptedOffer = json['acceptedOffer'];
+    final caregiverOffer = json['caregiverOffer'];
+
+    debugPrint('[BudgetDebug] booking amount       = ${json['amount']}');
+    debugPrint('[BudgetDebug] paidAmount            = ${json['paidAmount']}');
+    debugPrint('[BudgetDebug] paymentAmount         = ${json['paymentAmount']}');
+    debugPrint('[BudgetDebug] bookingAmount         = ${json['bookingAmount']}');
+    debugPrint('[BudgetDebug] finalPrice            = ${json['finalPrice']}');
+    debugPrint('[BudgetDebug] caregiverBudget       = ${json['caregiverBudget']}');
+    debugPrint('[BudgetDebug] price                 = ${json['price']}');
+    debugPrint('[BudgetDebug] offerPrice            = ${json['offerPrice']}');
+    debugPrint('[BudgetDebug] totalAmount           = ${json['totalAmount']}');
+    debugPrint('[BudgetDebug] agreedPrice           = ${json['agreedPrice']}');
+    debugPrint('[BudgetDebug] acceptedPrice         = ${json['acceptedPrice']}');
+    debugPrint('[BudgetDebug] offer type            = ${offer?.runtimeType}  value=$offer');
+    debugPrint('[BudgetDebug] offer.price           = ${offer is Map ? offer['price'] : 'N/A'}');
+    debugPrint('[BudgetDebug] offer.amount          = ${offer is Map ? offer['amount'] : 'N/A'}');
+    debugPrint('[BudgetDebug] selectedOffer.price   = ${selectedOffer is Map ? selectedOffer['price'] : 'N/A'}');
+    debugPrint('[BudgetDebug] acceptedOffer.price   = ${acceptedOffer is Map ? acceptedOffer['price'] : (acceptedOffer is num ? acceptedOffer : 'N/A')}');
+    debugPrint('[BudgetDebug] caregiverOffer.price  = ${caregiverOffer is Map ? caregiverOffer['price'] : (caregiverOffer is num ? caregiverOffer : 'N/A')}');
+    debugPrint('[BudgetDebug] request.budget        = ${req is Map ? req['budget'] : 'N/A'}');
+    debugPrint('[BudgetDebug] payment.amount        = ${payment is Map ? payment['amount'] : 'N/A'}');
+    debugPrint('[BudgetDebug] transaction.amount    = ${transaction is Map ? transaction['amount'] : 'N/A'}');
+
+    final result = _parsePrice(json['amount']) ??
+        _parsePrice(json['paidAmount']) ??
+        _parsePrice(json['paymentAmount']) ??
+        _parsePrice(json['bookingAmount']) ??
+        _parsePrice(json['finalPrice']) ??
+        _parsePrice(offer is Map ? (offer['price'] ?? offer['amount'] ?? offer['offerPrice'] ?? offer['agreedPrice']) : null) ??
+        _parsePrice(selectedOffer is Map ? (selectedOffer['price'] ?? selectedOffer['amount']) : null) ??
+        _parsePrice(acceptedOffer is Map ? (acceptedOffer['price'] ?? acceptedOffer['amount']) : (acceptedOffer is num ? acceptedOffer : null)) ??
+        _parsePrice(caregiverOffer is Map ? (caregiverOffer['price'] ?? caregiverOffer['amount']) : (caregiverOffer is num ? caregiverOffer : null)) ??
+        _parsePrice(json['caregiverBudget']) ??
+        _parsePrice(json['price']) ??
+        _parsePrice(json['offerPrice']) ??
+        _parsePrice(json['totalAmount']) ??
+        _parsePrice(json['agreedPrice']) ??
+        _parsePrice(json['acceptedPrice']) ??
+        _parsePrice(payment is Map ? payment['amount'] : null) ??
+        _parsePrice(transaction is Map ? transaction['amount'] : null) ??
+        0.0;
+
+    debugPrint('[BudgetDebug] final caregiverBudget = $result');
+    return result;
   }
 
   static String _formatStatus(String status) {

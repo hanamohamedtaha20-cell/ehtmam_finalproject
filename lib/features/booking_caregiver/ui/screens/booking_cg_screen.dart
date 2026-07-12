@@ -226,9 +226,9 @@ class _BookingCgViewState extends State<BookingCgView> {
                           building: booking.building,
                         ),
                         SizedBox(height: 16.h),
-                        SpecialInstructionsCard(
-                          instructions: booking.specialInstructions,
-                        ),
+                        // SpecialInstructionsCard(
+                        //   instructions: booking.specialInstructions,
+                        // ),
                         SizedBox(height: 16.h),
                         ClientBudgetCard(amount: budgetText),
                         SizedBox(height: 16.h),

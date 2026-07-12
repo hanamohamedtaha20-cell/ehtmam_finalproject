@@ -1,4 +1,4 @@
-﻿import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
+import 'package:ehtemam_final_project/core/resources/custom_snack_bar.dart';
 import 'package:ehtemam_final_project/core/utils/api_error_message.dart';
 import 'package:ehtemam_final_project/features/home_screen/data/model/active_bundle_model.dart';
 import 'package:ehtemam_final_project/features/home_screen/ui/screens/home_screen.dart';
@@ -11,7 +11,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// â”€â”€â”€ helpers â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── helpers ──────────────────────────────────────────────────────────────────
 
 int _toInt(dynamic v) {
   if (v is int) return v;
@@ -20,16 +20,10 @@ int _toInt(dynamic v) {
   return 0;
 }
 
-double _toDouble(dynamic v) {
-  if (v is double) return v;
-  if (v is num) return v.toDouble();
-  if (v is String) return double.tryParse(v) ?? 0.0;
-  return 0.0;
-}
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Public entry-point â€” called from OfferDetailsScreen
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────────────────────────
+// Public entry-point — called from OfferDetailsScreen
+// ─────────────────────────────────────────────────────────────────────────────
 
 Future<void> acceptOffer({
   required BuildContext context,
@@ -51,7 +45,7 @@ Future<void> acceptOffer({
   debugPrint('USER_ID: $userId');
   debugPrint('OFFER_ID: $offerId');
 
-  // â”€â”€ Silent bundle check â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Silent bundle check ──────────────────────────────────────────────────
   ActiveBundleModel? activeBundle;
   try {
     activeBundle = await repository.getActiveBundle();
@@ -64,7 +58,7 @@ Future<void> acceptOffer({
 
   if (!context.mounted) return;
 
-  // â”€â”€ Route based on bundle availability â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Route based on bundle availability ─────────────────────────────────
   if (activeBundle != null) {
     final useBundle = await _showBundleDialog(context, activeBundle, offerPrice);
     if (useBundle == null) return; // user dismissed
@@ -82,7 +76,7 @@ Future<void> acceptOffer({
       );
       return;
     }
-    // useBundle == false â†’ fall through to wallet
+    // useBundle == false → fall through to wallet
   }
 
   await _acceptWithWallet(
@@ -96,10 +90,10 @@ Future<void> acceptOffer({
   );
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────────────────────────
 // Bundle confirmation dialog
-// Returns true â†’ use bundle | false â†’ use wallet | null â†’ dismissed
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// Returns true → use bundle | false → use wallet | null → dismissed
+// ─────────────────────────────────────────────────────────────────────────────
 
 Future<bool?> _showBundleDialog(
   BuildContext context,
@@ -216,9 +210,9 @@ Future<bool?> _showBundleDialog(
   );
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Accept with bundle session
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────────────────────────
+// Accept with bundle session — auto-deduct, no manual payment step
+// ─────────────────────────────────────────────────────────────────────────────
 
 Future<void> _acceptWithBundle({
   required BuildContext context,
@@ -240,47 +234,19 @@ Future<void> _acceptWithBundle({
     final response = await repository.acceptOfferWithBundle(offerId);
 
     final data = response['data'];
-    final paymentMethod =
-        data is Map ? (data['paymentMethod']?.toString() ?? 'bundle') : 'bundle';
-
-    // Extract bundle discount fields from backend response
-    final rawOriginal = data is Map ? data['originalPrice'] : null;
-    final rawDiscount = data is Map ? data['discountAmount'] : null;
-    final rawFinal    = data is Map ? data['finalPrice'] : null;
     final rawSessions = data is Map ? data['remainingSessions'] : null;
-    final rawBundleId = data is Map
-        ? (data['bundleUsed']?.toString() ?? data['bundleId']?.toString())
-        : null;
-
-    final originalPrice = _toDouble(rawOriginal) > 0
-        ? _toDouble(rawOriginal)
-        : (offerPrice ?? 0);
-    final discountAmount = _toDouble(rawDiscount);
-    final finalPrice = _toDouble(rawFinal) > 0
-        ? _toDouble(rawFinal)
-        : (originalPrice - discountAmount);
-    final bundleUsedId = (rawBundleId?.isNotEmpty == true)
-        ? rawBundleId!
-        : activeBundle.id;
     final remainingSessions = rawSessions != null
         ? (_toInt(rawSessions) > 0
             ? _toInt(rawSessions)
             : activeBundle.remainingSessions - 1)
         : (activeBundle.remainingSessions - 1);
-    final walletDeducted = data is Map ? (data['walletDeducted'] == true) : discountAmount < originalPrice;
 
-    debugPrint('PAYMENT_METHOD_USED: $paymentMethod');
-    debugPrint('WALLET_DEDUCTED: $walletDeducted');
-    debugPrint('ACTIVE_BUNDLE: $bundleUsedId');
-    debugPrint('ORIGINAL_PRICE: $originalPrice');
-    debugPrint('DISCOUNT_AMOUNT: $discountAmount');
-    debugPrint('FINAL_PRICE: $finalPrice');
+    debugPrint('PAYMENT_METHOD_USED: bundle');
     debugPrint('REMAINING_BUNDLE_SESSIONS: $remainingSessions');
     debugPrint('BACKEND_RESPONSE: $response');
 
     final bookingId = await repository.findBookingForAcceptedOffer(
         offerId, requestId: requestId);
-
     if (bookingId.isNotEmpty) {
       await prefs.setString('bookingId', bookingId);
     } else {
@@ -296,29 +262,15 @@ Future<void> _acceptWithBundle({
     }
 
     if (!context.mounted) return;
-
-    final paymentDone = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (_) => PaymentCubit(PaymentRepo())
-            ..loadData(
-              offerPrice: finalPrice,
-              originalPrice: originalPrice,
-              discountAmount: discountAmount,
-              bundleUsed: bundleUsedId,
-              remainingSessions: remainingSessions,
-            ),
-          child: const PaymentScreen(),
-        ),
-      ),
+    CustomSnackBar.show(
+      context,
+      message: 'Booking confirmed! 1 bundle session used. '
+          '$remainingSessions session(s) remaining.',
     );
-
-    if (paymentDone == true && context.mounted) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const HomeScreen(initialIndex: 2)),
-        (_) => false,
-      );
-    }
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const HomeScreen(initialIndex: 2)),
+      (_) => false,
+    );
   } catch (e) {
     if (context.mounted) {
       Navigator.pop(context);
@@ -327,14 +279,9 @@ Future<void> _acceptWithBundle({
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Bundle success dialog â€” pops true when user taps "Go to Bookings"
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-
-
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
-// Normal wallet flow (original behaviour, unchanged)
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────────────────────────
+// Accept with wallet — navigate to PaymentScreen; user manually confirms payment
+// ─────────────────────────────────────────────────────────────────────────────
 
 Future<void> _acceptWithWallet({
   required BuildContext context,
@@ -345,88 +292,50 @@ Future<void> _acceptWithWallet({
   required double? offerPrice,
   required bool popOnSuccess,
 }) async {
-  showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (_) => const Center(child: CircularProgressIndicator()),
+  if (popOnSuccess && context.mounted && Navigator.canPop(context)) {
+    Navigator.pop(context);
+  }
+
+  if (!context.mounted) return;
+
+  // Navigate to PaymentScreen; the user explicitly presses Pay there,
+  // which calls processPayment(offerId) → deducts wallet + creates booking.
+  final paid = await Navigator.of(context).push<bool>(
+    MaterialPageRoute(
+      builder: (_) => BlocProvider(
+        create: (_) => PaymentCubit(PaymentRepo())
+          ..loadData(offerPrice: offerPrice),
+        child: PaymentScreen(
+          offerId: offerId,
+        ),
+      ),
+    ),
   );
 
-  try {
-    final response = await repository.acceptOffer(offerId, requestId: requestId);
+  if (!context.mounted) return;
 
-    // Extract discount fields — backend may return them even for wallet payments
-    final data = response['data'];
-    final rawOriginal  = data is Map ? data['originalPrice']  : null;
-    final rawDiscount  = data is Map ? data['discountAmount']  : null;
-    final rawFinal     = data is Map ? data['finalPrice']      : null;
-    final rawBundleId  = data is Map ? data['bundleUsed']?.toString() : null;
-    final rawSessions  = data is Map ? data['remainingSessions'] : null;
-
-    final origPrice    = _toDouble(rawOriginal) > 0 ? _toDouble(rawOriginal) : (offerPrice ?? 0);
-    final discount     = _toDouble(rawDiscount);
-    final finalPrice   = _toDouble(rawFinal) > 0 ? _toDouble(rawFinal) : (offerPrice ?? origPrice);
-    final bundleUsedId = (rawBundleId?.isNotEmpty == true) ? rawBundleId : null;
-    final sessionsLeft = rawSessions != null ? _toInt(rawSessions) : 0;
-
-    debugPrint('PAYMENT_METHOD_USED: wallet');
-    debugPrint('ACTIVE_BUNDLE: ${bundleUsedId ?? "none"}');
-    debugPrint('ORIGINAL_PRICE: $origPrice');
-    debugPrint('DISCOUNT_AMOUNT: $discount');
-    debugPrint('FINAL_PRICE: $finalPrice');
-    debugPrint('REMAINING_BUNDLE_SESSIONS: $sessionsLeft');
-
+  if (paid == true) {
+    // Save identifiers for downstream screens.
+    await prefs.setString('acceptedOfferId', offerId.trim());
     final bookingId = await repository.findBookingForAcceptedOffer(
         offerId, requestId: requestId);
-
     if (bookingId.isNotEmpty) {
       await prefs.setString('bookingId', bookingId);
     } else {
       await prefs.remove('bookingId');
     }
-    await prefs.setString('acceptedOfferId', offerId.trim());
 
     if (!context.mounted) return;
-    Navigator.pop(context);
-
-    if (popOnSuccess && Navigator.canPop(context)) {
-      Navigator.pop(context);
-    }
-
-    if (!context.mounted) return;
-
-    final paymentDone = await Navigator.of(context).push<bool>(
-      MaterialPageRoute(
-        builder: (_) => BlocProvider(
-          create: (_) => PaymentCubit(PaymentRepo())
-            ..loadData(
-              offerPrice: finalPrice,
-              originalPrice: origPrice,
-              discountAmount: discount,
-              bundleUsed: bundleUsedId,
-              remainingSessions: sessionsLeft,
-            ),
-          child: const PaymentScreen(),
-        ),
-      ),
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (_) => const HomeScreen(initialIndex: 2)),
+      (_) => false,
     );
-
-    if (paymentDone == true && context.mounted) {
-      Navigator.of(context).pushAndRemoveUntil(
-        MaterialPageRoute(builder: (_) => const HomeScreen(initialIndex: 2)),
-        (_) => false,
-      );
-    }
-  } catch (e) {
-    if (context.mounted) {
-      Navigator.pop(context);
-      CustomSnackBar.show(context, message: apiErrorMessage(e));
-    }
   }
 }
 
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────────────────────────
 // Shared UI widgets
-// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ─────────────────────────────────────────────────────────────────────────────
 
 class _InfoRow {
   final IconData icon;

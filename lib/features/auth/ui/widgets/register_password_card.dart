@@ -48,7 +48,7 @@ class _ResetPasswordCardBodyState extends State<_ResetPasswordCardBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('enter_email_address'.tr()),
-          backgroundColor: Colors.red.shade600,
+          backgroundColor: Color(0xFF7EC4F0),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
         ),
@@ -60,7 +60,7 @@ class _ResetPasswordCardBodyState extends State<_ResetPasswordCardBody> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('enter_valid_email'.tr()),
-          backgroundColor: Colors.red.shade600,
+          backgroundColor: Color(0xFF7EC4F0),
           behavior: SnackBarBehavior.floating,
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
         ),
@@ -79,7 +79,7 @@ class _ResetPasswordCardBodyState extends State<_ResetPasswordCardBody> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
-              backgroundColor: Colors.green.shade600,
+              backgroundColor: const Color(0xFF7EC4F0),
               behavior: SnackBarBehavior.floating,
               duration: const Duration(seconds: 4),
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
@@ -95,7 +95,7 @@ class _ResetPasswordCardBodyState extends State<_ResetPasswordCardBody> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
               content: Text(state.message),
-              backgroundColor: Colors.red.shade600,
+              backgroundColor: const Color(0xFF7EC4F0),
               behavior: SnackBarBehavior.floating,
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.r)),
             ),

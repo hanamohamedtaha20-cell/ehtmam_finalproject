@@ -107,11 +107,17 @@ class PaymentCubit extends Cubit<PaymentState> {
     }
   }
 
-  // Payment was already processed by the backend when the offer was accepted.
-  // This screen is a confirmation summary — nothing left to charge.
-  Future<String?> payBooking() async {
+  /// Processes payment for a regular booking offer.
+  /// Calls processPayment(offerId) which deducts wallet + creates booking server-side.
+  Future<String?> payBooking(String offerId) async {
     if (state is! PaymentLoaded) return 'Payment data is not ready';
-    return null;
+    if (offerId.trim().isEmpty) return 'Offer ID is missing';
+    try {
+      await repo.processOfferPayment(offerId.trim());
+      return null;
+    } catch (e) {
+      return apiErrorMessage(e);
+    }
   }
 
   /// Charges the user's wallet for a caregiver-added extra task.

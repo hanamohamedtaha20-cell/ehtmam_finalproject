@@ -5,12 +5,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../manager/splash_cubit.dart';
 import '../../manager/splash_state.dart';
 import '../../../../core/resources/app_text_style.dart';
-import '../../../onboarding/ui/screens/ob1.dart';
 import '../widgets/splash_background.dart';
 import '../widgets/splash_logo.dart';
 
 class SplashScreen extends StatefulWidget {
-  const SplashScreen({super.key});
+  final Widget nextScreen;
+
+  const SplashScreen({super.key, required this.nextScreen});
 
   @override
   State<SplashScreen> createState() => _SplashScreenState();
@@ -26,6 +27,8 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     super.initState();
+
+    print('🔥 SPLASH OPENED');
 
     _controller = AnimationController(
       vsync: this,
@@ -50,30 +53,40 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     Future.microtask(() {
+      if (!mounted) return;
+      print('⏳ SPLASH TIMER STARTED');
       context.read<SplashCubit>().startSplashTimer();
     });
   }
 
   @override
   void dispose() {
+    print('🛑 SPLASH DISPOSED');
     _controller.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    print('🎨 SPLASH BUILD');
+
     return BlocListener<SplashCubit, SplashState>(
       listener: (context, state) {
+        print('👂 SPLASH STATE navigate = ${state.navigate}');
+
         if (state.navigate) {
+          print('➡️ SPLASH NAVIGATING TO NEXT SCREEN');
+
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (_) => const OnboardingScreen(),
+              builder: (_) => widget.nextScreen,
             ),
           );
         }
       },
       child: Scaffold(
+        backgroundColor: const Color(0xFF4DA8F3),
         body: SplashBackground(
           child: SafeArea(
             child: Padding(
@@ -83,18 +96,17 @@ class _SplashScreenState extends State<SplashScreen>
               ),
               child: Column(
                 children: [
-                  Spacer(),
-
+                  const Spacer(),
                   FadeTransition(
                     opacity: logoAnim,
                     child: ScaleTransition(
                       scale: logoAnim,
-                      child: Center(child: SplashLogo()),
+                      child: const Center(
+                        child: SplashLogo(),
+                      ),
                     ),
                   ),
-
                   SizedBox(height: 45.h),
-
                   FadeTransition(
                     opacity: textAnim,
                     child: ScaleTransition(
@@ -111,7 +123,7 @@ class _SplashScreenState extends State<SplashScreen>
                           shadows: [
                             Shadow(
                               color: Colors.black.withValues(alpha: 0.25),
-                              offset: Offset(0, 4),
+                              offset: const Offset(0, 4),
                               blurRadius: 4,
                             ),
                           ],
@@ -119,11 +131,8 @@ class _SplashScreenState extends State<SplashScreen>
                       ),
                     ),
                   ),
-
                   SizedBox(height: 26.h),
-
-                  Spacer(),
-
+                  const Spacer(),
                   SizedBox(height: 30.h),
                 ],
               ),

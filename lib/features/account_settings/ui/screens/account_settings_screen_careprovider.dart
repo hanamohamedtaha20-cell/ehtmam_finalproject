@@ -85,7 +85,7 @@ class _CareProviderAccountSettingsScreenState
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
                     content: Text(error),
-                    backgroundColor: const Color(0xFFF04438),
+                    backgroundColor: const Color(0xFF7EC4F0),
                     behavior: SnackBarBehavior.floating,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
@@ -635,7 +635,6 @@ class _CareProviderAccountSettingsScreenState
                               ]),
                               sectionTitle(context, 'PREFERENCES'),
 
-                              const LanguageCard(),
 
                               sectionTitle(
                                 context,

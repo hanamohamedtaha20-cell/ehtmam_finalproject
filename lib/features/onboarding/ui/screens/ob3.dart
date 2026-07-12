@@ -96,14 +96,6 @@ class OnboardingScreen3 extends StatelessWidget {
                       fontWeight: FontWeight.w400,
                       color: Color(0xFF1D4987),
                       height: 1.70.h,
-
-                      shadows:  [
-                        Shadow(
-                          color: Color(0x40000000),
-                          offset: Offset(0, 4),
-                          blurRadius: 4.r,
-                        ),
-                      ],
                     ),
                   ),
 

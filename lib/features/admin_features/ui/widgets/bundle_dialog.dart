@@ -75,11 +75,14 @@ class _BundleDialogState extends State<BundleDialog> {
   @override
   Widget build(BuildContext context) {
     return Dialog(
-      insetPadding: EdgeInsets.symmetric(horizontal: 34.w),
+      insetPadding: EdgeInsets.symmetric(horizontal: 34.w, vertical: 24.h),
       backgroundColor: Colors.transparent,
       child: Container(
         width: double.infinity,
-        constraints: const BoxConstraints(maxWidth: 360),
+        constraints: BoxConstraints(
+          maxWidth: 360,
+          maxHeight: MediaQuery.of(context).size.height * 0.85,
+        ),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(18.r),
@@ -87,6 +90,7 @@ class _BundleDialogState extends State<BundleDialog> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
+            // ── Fixed header ───────────────────────────────────────────────
             Container(
               height: 44.h,
               padding: EdgeInsets.symmetric(horizontal: 16.w),
@@ -121,9 +125,11 @@ class _BundleDialogState extends State<BundleDialog> {
               ),
             ),
 
-            Padding(
-              padding: EdgeInsets.fromLTRB(14, 14, 14, 14),
-              child: Column(
+            // ── Scrollable form body ───────────────────────────────────────
+            Flexible(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.fromLTRB(14, 14, 14, 14),
+                child: Column(
                 children: [
                   _field(
                     controller: widget.bundleNameController,
@@ -395,6 +401,7 @@ class _BundleDialogState extends State<BundleDialog> {
                 ],
               ),
             ),
+          ),         // Flexible
           ],
         ),
       ),

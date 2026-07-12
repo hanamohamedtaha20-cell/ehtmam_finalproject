@@ -25,6 +25,12 @@ class PaymentRepo {
     return await _api.payBookingFromWallet(bookingId);
   }
 
+  /// Accepts the offer AND deducts wallet in one call.
+  /// Used when the user manually confirms payment from PaymentScreen.
+  Future<Map<String, dynamic>> processOfferPayment(String offerId) async {
+    return await _api.processPayment(offerId);
+  }
+
   Future<Map<String, dynamic>> payBundle(String bundleId) async {
     return await _api.payBundle(bundleId);
   }

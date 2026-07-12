@@ -12,7 +12,6 @@ abstract class CreateRequestRemoteDatasource {
     String? duration,
     String? notes,
     String? budget,
-    String? serviceType,
     List<String> tasks = const [],
   });
 }
@@ -33,13 +32,11 @@ class CreateRequestRemoteDatasourceImpl implements CreateRequestRemoteDatasource
     String? duration,
     String? notes,
     String? budget,
-    String? serviceType,
     List<String> tasks = const [],
   }) async {
     debugPrint('SERVICE_TYPE_SENT: $serviceType');
     await apiService.createRequest(
       serviceId:   serviceId,
-      serviceType: serviceType,
       governorate: governorate,
       date:        date,
       time:        time,

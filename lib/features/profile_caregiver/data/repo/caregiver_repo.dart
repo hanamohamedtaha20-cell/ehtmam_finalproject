@@ -18,15 +18,16 @@ class CaregiverRepo {
     int completedBookingsCount = 0;
 
     if (userId.isNotEmpty) {
-      // Fetch profile, wallet, reviews, bookings in parallel
+      // Fetch profile, caregiver data, wallet, reviews, bookings in parallel
       final results = await Future.wait([
         _api.getUserProfile(userId).catchError((_) => <String, dynamic>{}),
+        _api.getCaregiverById(userId).catchError((_) => <String, dynamic>{}),
         _api.getMyWallet().catchError((_) => <String, dynamic>{}),
         _api.getMyReviews().catchError((_) => <String, dynamic>{}),
         _api.getMyBookings().catchError((_) => <String, dynamic>{}),
       ]);
 
-      // ── Profile ──────────────────────────────────────────────────────────
+      // ── Profile (user log) ───────────────────────────────────────────────
       final profileRes = results[0];
       final profileRaw = profileRes['data'];
       if (profileRaw is Map<String, dynamic>) {
@@ -36,13 +37,29 @@ class CaregiverRepo {
       }
       debugPrint('CAREGIVER_PROFILE_RAW: $profile');
 
+      // ── Caregiver-specific data (has profile_picture) ────────────────────
+      final caregiverRes = results[1];
+      final caregiverRaw = caregiverRes['data'];
+      final caregiverData = caregiverRaw is Map<String, dynamic>
+          ? caregiverRaw
+          : (caregiverRes.isNotEmpty ? caregiverRes : <String, dynamic>{});
+      debugPrint('CAREGIVER_DATA_RAW: $caregiverData');
+      debugPrint('RAW profile_picture (caregiver): ${caregiverData['profile_picture']}');
+      // Merge: caregiver endpoint fields take priority for picture, specialty
+      if (caregiverData.isNotEmpty) {
+        profile = {...caregiverData, ...profile};
+        // Caregiver endpoint's profile_picture is more reliable — keep it
+        final cgPic = caregiverData['profile_picture']?.toString() ?? '';
+        if (cgPic.isNotEmpty) profile['profile_picture'] = cgPic;
+      }
+
       // ── Wallet ───────────────────────────────────────────────────────────
-      final walletRes = results[1];
+      final walletRes = results[2];
       final walletRaw = walletRes['data'];
       if (walletRaw is Map<String, dynamic>) walletData = walletRaw;
 
       // ── Reviews ──────────────────────────────────────────────────────────
-      final reviewsRes = results[2];
+      final reviewsRes = results[3];
       debugPrint('CAREGIVER_REVIEWS_RAW: $reviewsRes');
       final dataVal = reviewsRes['data'] ??
           reviewsRes['reviews'] ??
@@ -59,7 +76,7 @@ class CaregiverRepo {
       debugPrint('CAREGIVER_REVIEWS_COUNT: ${reviewsList.length}');
 
       // ── Bookings: count completed ────────────────────────────────────────
-      final bookingsRes = results[3];
+      final bookingsRes = results[4];
       final bookingsRaw = bookingsRes['data'] ?? bookingsRes;
       final bookingsList = bookingsRaw is List
           ? bookingsRaw
@@ -75,6 +92,8 @@ class CaregiverRepo {
     }
 
     if (profile.isEmpty) {
+      final savedPicture = prefs.getString('profile_picture_url') ?? '';
+      debugPrint('MODEL profilePicture (from prefs fallback): $savedPicture');
       return CaregiverModel.fromPrefs(
         name: prefs.getString('user_name') ?? '',
         email: prefs.getString('user_email') ?? '',
@@ -83,6 +102,7 @@ class CaregiverRepo {
         specialty: prefs.getString('care_field') ??
             prefs.getString('care_specialization') ??
             '',
+        profilePicture: savedPicture,
       );
     }
 
@@ -90,9 +110,10 @@ class CaregiverRepo {
     final rawPicture = profile['profile_picture']?.toString() ??
         profile['profilePicture']?.toString() ??
         profile['avatar']?.toString() ??
+        prefs.getString('profile_picture_url') ??
         '';
     final pictureUrl = _resolveUrl(rawPicture);
-    debugPrint('Caregiver profile picture: $pictureUrl');
+    debugPrint('MODEL profilePicture: $pictureUrl');
     debugPrint('Caregiver governorate: ${profile['governorate']}');
     debugPrint('Caregiver rating: ${profile['averageRating']}');
 

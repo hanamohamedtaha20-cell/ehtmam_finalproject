@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'package:ehtemam_final_project/features/bottom_nav_bar/ui/caregiver_buttom_nav_bar.dart';
 import '../widgets/custom_header.dart';
 import '../widgets/rating_row.dart';
 import '../widgets/rating_stars.dart';
@@ -47,7 +48,13 @@ class _RatingScreenState extends State<RatingGiverScreen> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('review_submitted'.tr())),
             );
-            Navigator.pop(context);
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => const CareGiverBottomNavScreen(),
+                ),
+                (route) => false,
+              );
           } else if (state is RatingFailure) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text(state.message)),
